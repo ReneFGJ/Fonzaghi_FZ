@@ -8,17 +8,19 @@
 	 * @package System
 	 * @subpackage Database connection
     */
+    
+	/* Noshow Errors */
+	$debug = 0;
+	if (file_exists('debug.txt')) { $debug1 = 0; $debug2 = 255; } 	
+	
+	ini_set('display_errors', $debug1);
+	ini_set('error_reporting', $debug2);
+	    
     if (!isset($include)) { $include = '_include/'; }
 	else { $include .= '_include/'; }
 
     ob_start();
 	session_start();
-
-	/* Noshow Errors */
-	$debug = 7; 	
-	
-	ini_set('display_errors', $debug);
-	ini_set('error_reporting', $debug);
 	
 	/* Path Directory */
 	$path_info = trim($_SERVER['PATH_INFO']);
@@ -51,7 +53,7 @@
 		}	
 	
 	/* Data base */
-	$filename = "_db/db_mysql_".$ip.".php";
+	$filename = $include."../_db/db_mysql_".$ip.".php";
 	if (file_exists($filename))
 		{
 			require($filename);
