@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require('cab.php');
 
 require("../_class/_class_cadastro_pre.php");
@@ -15,13 +15,20 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 
-$cp = $pre->cp_00();
+echo '<table width="100%"> <TR valign="top"><TD width="430">';
+require("pre_cad_menu.php");
+echo '<td>';
+
+/* Dados CP01 */
+$cp = $pre->cp_01();
 $tela = $form->editar($cp,'');
 
 if ($form->saved > 0)
 	{
-		redirecina('pre_cad_01.php');
+		redirecina('pre_cad_02.php');
 	} else {
 		echo $tela;
 	}
+
+echo '</table>';
 ?>

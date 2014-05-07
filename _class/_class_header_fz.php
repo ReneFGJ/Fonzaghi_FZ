@@ -3,18 +3,18 @@ class header
 	{
 	var $charcod = "UTF-8";
 	/* var $charcod = "ISO-8859-1"; */
-	var $title = 'Brapci';
-	var $google_id = 'UA-12712904-10';
-	var $login_api = '';
+	var $title = '';
+	var $google_id = ''; /* Ex: UA-12712904-10 */
+	var $login_api = '';	
 	
 	function head()
 		{
-		global $LANG, $http;
+		global $LANG, $http, $style_add;
 		$cr = chr(13).chr(10);
 		$pth = $this->path;
 		
 		header ('Content-type: text/html; charset='.$this->charcod);
-		//$sx .= ''.$cr;
+	
 		$sx .= '<head>'.$cr;
     	$sx .= '<META HTTP-EQUIV=Refresh CONTENT="3600; URL='.$http.'logout.php">'.$cr;
 		$sx .= '<meta http-equiv="Content-Type" content="text/html; charset='.$this->charcod.'" />';
@@ -27,6 +27,12 @@ class header
 		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css');
 		for ($r=0;$r < count($style);$r++)
 				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style[$r].'">'.$cr; }
+
+		/* Style Additional */
+		if (isset($style_add)) {
+		for ($r=0;$r < count($style_add);$r++)
+				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style_add[$r].'">'.$cr; }
+		}
 
 		/* Java script */
 		$js = array('jquery.js'); 
@@ -50,8 +56,8 @@ class header
 
 			  ga('create', '".$this->google_id."', 'pucpr.br');
   			ga('send', 'pageview');
-			</script>		
-			";
+		</script>		
+		";
 		
 		$LANG='pt_BR';
 		return($sx);
