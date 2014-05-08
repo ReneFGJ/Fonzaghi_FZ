@@ -34,6 +34,12 @@ if ($form->saved > 0)
 
 echo '</td></tr></table>';
 echo '<script>
-				$("#div1_new").toggleClass("textmenu");
-	</script>';
+		$("#div1_new").toggleClass("textmenu");
+		
+		jQuery(function($){
+	   		$("#dd4").mask("9.999.999-9");
+		});
+		
+</script>
+';		
 ?>
