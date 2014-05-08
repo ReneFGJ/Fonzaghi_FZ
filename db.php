@@ -10,7 +10,7 @@
     */
     
 	/* Noshow Errors */
-	$debug = 0; $debug1 = 0; $debug2 = 0;
+	$debug = 0;
 	if (file_exists('debug.txt')) { $debug1 = 0; $debug2 = 255; } 	
 	
 	ini_set('display_errors', $debug1);
@@ -18,10 +18,6 @@
 	    
     if (!isset($include)) { $include = '_include/'; }
 	else { $include .= '_include/'; }
-	
-	/* Valida diretorios */	
-	if (!is_file($include.'/dir.php')) { $include = '../_include/_include/'; }
-	if (!is_file($include.'/dir.php')) { $include = '../../_include/_include/'; }
 
     ob_start();
 	session_start();
@@ -39,11 +35,13 @@
 	
 	$charset = 'utf-8';
 	header('Content-Type: text/html; charset='.$charset);
+	
 	/* Include */
-	require($include.'_class_char.php');
-	require($include.'sisdoc_sql.php');
 	require($include.'_class_msg.php');
-
+	require($include.'_class_char.php');		
+	require($include.'sisdoc_sql.php');	
+	
+	
 	/* Leituras das Variaveis dd0 a dd99 (POST/GET) */
 	$vars = array_merge($_GET, $_POST);
 	$acao = troca($vars['acao'],"'",'´');
@@ -55,15 +53,12 @@
 		}	
 	
 	/* Data base */
-	$filename = "_db/db_mysql_".$ip.".php";
-	if (!file_exists($filename)) { $filename = '../'.$filename; }
+	$filename = $include."../_db/db_mysql_".$ip.".php";
 	if (file_exists($filename))
 		{
 			require($filename);
 
-		} else {
-			echo 'NOT FOUND '.$filename;
-			exit;		
+		} else {		
 			if ($install != 1) 
 				{
 				redireciona('__install/index.php');

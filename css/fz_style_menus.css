@@ -79,9 +79,10 @@ text-align:left;
 .textmenu{
 font-family:"Roboto Thin";
 font-size:36px;
-color:#666;
+color: #EEE;
 text-align:left;
 padding:20px;
+background-color:rgb(10,10,10)
 }
 /*
 - Cabeçalho dos relatorio
