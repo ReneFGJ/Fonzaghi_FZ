@@ -95,7 +95,8 @@ text-align:left;
 .bg10 { background-color:rgb(150,150,250); }
 .bg10:hover { background-color:rgb(10,10,10); color: #EEE; }
 
-
+.bg11 { background-color:rgb(140,140,250); }
+.bg11:hover { background-color:rgb(10,10,10); color: #EEE; }
 
 .textmenu{
 font-family:"Roboto Thin";
