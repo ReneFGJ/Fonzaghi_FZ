@@ -19,13 +19,7 @@ float:inherit;
 
 /* Icone da barra de formulario de consulta - cadastro */
 #consult{
-	background:url(imagens/consult.png);
-	background-repeat:no-repeat;
-	width:380px;
-	height:71px;
-	left:20px;
-	top:20px;
-	z-index:4;
+	z-index:100;
 	position:relative;
 }
 
@@ -211,18 +205,6 @@ font-family:"Roboto Thin";
 font-size:12px;
 text-align:left;
 color:#333;	
-}
-
-.radial-progress {
-  .circle {
-    .shadow {
-      width: @circle-size;
-      height: @circle-size;
-      position: absolute;
-      border-radius: 50%;
-      box-shadow: @shadow inset;
-    }
-  }
 }
 
 
