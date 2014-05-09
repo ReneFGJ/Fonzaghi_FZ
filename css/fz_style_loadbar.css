@@ -21,12 +21,12 @@ $backColor: #2f3439
  * ------------------------------------- */
 .progress-radial {
   float: left;
-  margin-right: 30px;
-  position: relative;
+  margin-right: 10px;
+  position: static;
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  border: 2px solid #2f3439;
+  border: 2px solid #61c2d0;
   background-color: tomato;
   z-index: 100;
 }
@@ -35,15 +35,17 @@ $backColor: #2f3439
  * Optional centered circle w/text
  * ------------------------------------- */
 .progress-radial .overlay {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background-color: #e0e0e0	;
-  background-image: url('../img/consult.png');
+  position: static;
+  width: 80px;
+  height: 80px;
+  background-size:80px 80px;
+  background-repeat:no-repeat;
+  background-image:  url('../img/consult.png');
   border-radius: 50%;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-left: 10px;
+  margin-top: 10px;
   text-align: center;
   line-height: 60px;
   font-size: 16px;
+
 }

@@ -1,3 +1,45 @@
-.aa{
+body 
+	{
+		font-family: RobotoThin;
+	}
 	
-}
+
+.lt0
+	{
+		font-size: 11px;
+	}
+.lt1
+	{
+		font-size: 13px;
+	}
+.lt2
+	{
+		font-size: 15px;
+	}
+.lt3
+	{
+		font-size: 17px;
+	}
+	
+.form_text
+	{
+		font-family: RobotoThin;
+		font-size: 15px;
+		border: 1px solid #808080;
+	}
+.form_text:active
+	{
+		border: 1px solid #8080FF;
+	}
+	
+.form_text_area
+	{
+		font-family: RobotoThin;
+		font-size: 15px;
+		border: 1px solid #808080;	
+	}
+.form_text:active
+	{
+		border: 1px solid #8080FF;
+	}
+		

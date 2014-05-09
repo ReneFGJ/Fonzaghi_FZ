@@ -1,8 +1,13 @@
 <?php
 class progress
 	{
+		
+	var $agl=0;
+		
 	function radial($agl)
 		{
+			if(trim(round($agl))==0){ $agl=$this->agl; }
+				
 			$angulo = ($agl % 100) * 3.6;
 			if (($angulo == 0) and ($agl > 0)) { $angulo = 360; }
 			if ($angulo == 100) { $angulo = 360; }
@@ -11,9 +16,9 @@ class progress
 				{
 					$correcao_x = 90;
 					$correcao_y = $angulo + 90;
-					$cor = '#2f3439';
+					$cor = '#FFFFFF';
 				} else {
-					$cor = '#ff6347';
+					$cor = '#61c2d0';
 					$correcao_x = $angulo - 270;
 					$correcao_y = 270;					
 				}
@@ -27,7 +32,7 @@ class progress
 						'deg, '.$cor.' 50%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0)), 
 						linear-gradient('.
 						$correcao_y.
-						'deg, #ff6347 50%, #2f3439 50%, #2f3439);';
+						'deg, #61c2d0 50%, #FFFFFF 50%, #FFFFFF);';
 			$sx = 
 			'
 			<div class="progress-radial" style="'.$style.'">
