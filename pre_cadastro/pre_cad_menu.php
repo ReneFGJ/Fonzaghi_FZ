@@ -1,3 +1,12 @@
+<?
+require('../_class/_class_progress.php');
+$pg = new progress;
+for ($r=0;$r <= 100; $r=$r+5)
+	{
+		echo $pg->radial($r);
+	}
+?>
+
 <div id="corpo">     
  		 <div id="head"> 
         	<div id="consult" class="txtconsult"> CONSULTORA<br />
