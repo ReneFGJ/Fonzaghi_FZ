@@ -1,8 +1,12 @@
 <?php
 class progress
-	{
-		
-	var $agl=0;
+	{	
+	var $agl;
+	
+	function __construct()
+		{
+			$this->agl = 0;
+		}
 		
 	function radial($agl)
 		{
