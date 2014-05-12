@@ -24,9 +24,11 @@ $tela = $form->editar($cp,'');
 
 if ($form->saved > 0)
 	{
-		
-		redirecina('pre_cad_03.php');
+		$pg = '03';
+		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); }
+		redirecina('pre_cad_'.$pg.'.php');
 	} else {
+		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); redirecina('pre_cad_'.$pg.'.php'); }
 		echo $tela;
 	}
 

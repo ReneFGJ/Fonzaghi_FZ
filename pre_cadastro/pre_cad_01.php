@@ -27,8 +27,11 @@ $tela = $form->editar($cp,'');
 
 if ($form->saved > 0)
 	{
-		redirecina('pre_cad_02.php');
+		$pg = '02';
+		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); }
+		redirecina('pre_cad_'.$pg.'.php');
 	} else {
+		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); redirecina('pre_cad_'.$pg.'.php'); }
 		echo $tela;
 	}
 
@@ -38,8 +41,7 @@ echo '<script>
 		
 		jQuery(function($){
 	   		$("#dd4").mask("9.999.999-9");
-		});
-		
+		});		
 </script>
 ';		
 ?>
