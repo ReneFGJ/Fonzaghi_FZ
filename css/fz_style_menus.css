@@ -288,5 +288,17 @@ text-align:left;
 color:#333;	
 }
 
+.radial-progress {
+  .circle {
+    .shadow {
+      width: @circle-size;
+      height: @circle-size;
+      position: absolute;
+      border-radius: 50%;
+      box-shadow: @shadow inset;
+    }
+  }
+}
+
 
 

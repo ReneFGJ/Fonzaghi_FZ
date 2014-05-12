@@ -13,7 +13,7 @@ $form->class_string = 'precad_form_string';
 $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
-
+$_SESSION['angulo'] = 80;
 
 echo '<table width="100%">
 		<tr valign="top">

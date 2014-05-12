@@ -1,18 +1,23 @@
+<?
+require('../_class/_class_progress.php');
+$pg = new progress;
+$pg->agl = $_SESSION['angulo'];
+?>
+
 <div id="corpo">     
- 		 <div id="head"> 
-        	<div id="consult" class="txtconsult"> CONSULTORA<br />
-			<h3> MARIA DA SILVA FERREIRA FONZAGHI</h3> </div>
+ 		 <div id="head">
+ 		 	<table  id="consult" class="txtconsult">
+ 		 		<tr><td><?=$pg->radial();?></td><td><h3> MARIA DA SILVA FERREIRA FONZAGHI</h3></td></tr>
+ 		 		<tr><td>CONSULTORA</td><td></td></tr>
+ 		 	</table> 
         </div>    	
-        
-    	<div id="div1_new" class="textmenu_new bg1" style="display:none;"> DADOS PESSOAIS </div>
-    	<div id="div2_new" class="textmenu_new bg2" style="display:none;"> ENDEREÇO </div>
+        <div id="div1_new" class="textmenu_new bg1" style="display:none;"> DADOS PESSOAIS </div>
+    	<div id="div2_new" class="textmenu_new bg2" style="display:none;"> ENDEREǇO </div>
         <div id="div3_new" class="textmenu_new bg3" style="display:none;"> ESTADO CIVIL </div>
         <div id="div4_new" class="textmenu_new bg4" style="display:none;"> PROFISSIONAL </div>
         <div id="div5_new" class="textmenu_new bg5" style="display:none;"> REFERÊNCIAS </div>
-     
-        <input type="submit" class="precad_form_submit" value="Enviar">
-       
-    </div>
+        <div><input type="submit" class="precad_form_submit" value="Enviar"></div>
+</div>
 
 <script>
 $(document).ready(function(){
