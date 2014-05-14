@@ -10,18 +10,18 @@
  */
  
 #corpo{
-height:auto;
-width:500px;
-background:#FFF;
-position:absolute;
-float:inherit;	
+	height:auto;
+	width:500px;
+	background:#FFF;
+	position:absolute;
+	float:inherit;	
 }
 
 /* Icone da barra de formulario de consulta - cadastro */
 #consult{
 	background:url(imagens/consult.png);
 	background-repeat:no-repeat;
-	width:380px;
+	width:360px;
 	height:71px;
 	left:20px;
 	top:20px;
@@ -37,34 +37,34 @@ float:inherit;
 }	
 
 .txtconsult{
-font-family:"Roboto Condensed", "Roboto Thin";
-font-size:12px;
-padding-left:100px;
-text-align:left;
+	font-family:"Roboto Condensed", "Roboto Thin";
+	font-size:12px;
+	padding-left:100px;
+	text-align:left;
 }
 
 .txtnomecons{
-font-family:"Roboto Condensed", "Roboto Thin";
-font-size:24px;
-padding-left:100px;
-text-align:left;	
+	font-family:"Roboto Condensed", "Roboto Thin";
+	font-size:24px;
+	padding-left:100px;
+	text-align:left;	
 }
 
 
 /* Menu de navegação do cabelhado de cadastro de cliente */
 .textmenu_new {
-	width:460px;
+	width:440px;
 	height:50px;
 	float:left;	
 	font-family:"Roboto Thin";
 	color:#111;
+	padding-left:20px;
 	font-size:36px;
 	
 }
 
 /* Cores padrão do Degrade */
 .bg1 	{ background-color:rgb(250,250,250);
-
 			border-radius: 7px;
 			-webkit-border-radius: 7px;
 			-moz-border-radius: 7px;
@@ -72,6 +72,14 @@ text-align:left;
 			-o-border-radius: 7px;	
 	 }
 .bg1:hover { background-color:#5C7FC4; color:#FFF; }
+
+/*circulo para seta */
+.circle1 {
+	height:100px;
+	width:100px;
+	background:#0FC;
+	border-radius:50px;
+}
 
 .bg2 { background-color:rgb(240,240,250);
 			border-radius: 7px;
@@ -172,11 +180,12 @@ text-align:left;
 .bg12:hover { background-color:#5C7FC4; color:#FFF; }
 
 .textmenu{
-font-family:"Roboto Thin";
-font-size:36px;
+font-family:"Roboto Condensed";
+font-size:38px;
 color: #EEE;
 text-align:left;
 padding:5px;
+padding-left:20px;
 left:50px;
 background-color:#62C2D0;
 }
@@ -228,7 +237,7 @@ h7{
 	color:#F00;
 	font-size:36px;
 }
-
+/*
 #btn{
 	height:20px;
 	width:40px;
@@ -237,8 +246,20 @@ h7{
 	top:10px;
 	right:10px;	
 }
-
+*/
+/*
 .btn_enviar {
+	
+			background-color:#62C2D0;
+			border-radius: 7px;
+			-webkit-border-radius: 7px;
+			-moz-border-radius: 7px;
+			-ms-border-radius: 7px;
+			-o-border-radius: 7px;
+			font-family:"Roboto Condensed", "Roboto Thin";
+			font-size:18px;	
+	
+	
 	font-size:18px;
 	font-family:"Roboto Condensed", "Roboto Thin";
 	font-weight:normal;
@@ -259,20 +280,26 @@ h7{
 	-webkit-box-shadow:inset 1px 1px 0px 0px #bee2f9;
 	-moz-box-shadow:inset 1px 1px 0px 0px #bee2f9;
 	box-shadow:inset 1px 1px 0px 0px #bee2f9;
+	
 }
 
 .btn_enviar:hover {
-	background:-moz-linear-gradient( center top, #468ccf 5%, #63b8ee 100% );
-	background:-ms-linear-gradient( top, #468ccf 5%, #63b8ee 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#468ccf', endColorstr='#63b8ee');
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(5%, #468ccf), color-stop(100%, #63b8ee) );
-	background-color:#468ccf;
-	}
+			background-color:#09F;
+			border-radius: 7px;
+			-webkit-border-radius: 7px;
+			-moz-border-radius: 7px;
+			-ms-border-radius: 7px;
+			-o-border-radius: 7px;
+			font-family:"Roboto Condensed", "Roboto Thin";
+			font-size:18px;	
+			
+}
 
 .btn_enviar:active {
 position:relative;
 top:1px;
 }
+*/
 
 .form_nome{
 font-family:"Roboto Thin";
