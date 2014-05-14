@@ -53,7 +53,7 @@
 		}	
 	
 	/* Data base */
-	$filename = $include."../_db/db_mysql_".$ip.".php";
+	$filename = $include."../../_db/db_mysql_".$ip.".php";
 	if (file_exists($filename))
 		{
 			require($filename);

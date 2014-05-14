@@ -1,6 +1,8 @@
 ﻿<?php
 require('cab.php');
 
+/*Classe ACP está sendo utilizada na classe cadastro_pre*/
+require("../_class/_class_acp.php");
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 
@@ -22,13 +24,16 @@ if($pre->validaCPF($cpf))
 {
 	if ($form->saved > 0)
 		{
-			redirecina('pre_cad_01.php');
+			if ($pre->cadastar_cpf($dd[1]))
+				{
+					redirecina('pre_cad_01.php');
+				}
 		} else {
 			echo $tela;
 		}
 }else{
 	echo $tela;
-	echo '<h1>CPF inválido!</h1>';
+	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	
 
 echo '

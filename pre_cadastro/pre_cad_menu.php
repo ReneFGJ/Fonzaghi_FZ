@@ -2,6 +2,9 @@
 require('../_class/_class_progress.php');
 $pg = new progress;
 $pg->agl = $_SESSION['angulo'];
+
+echo date("Ymd H:i:s");
+echo '<BR>------->'.$dd[92];
 ?>
 
 <div id="corpo">     
@@ -29,5 +32,20 @@ $(document).ready(function(){
     $("#div5_new").fadeIn(2500);	
 
 });
+
+$( "#div1_new" ).click(function() { save('1'); });
+$( "#div2_new" ).click(function() { save('2'); });
+$( "#div3_new" ).click(function() { save('3'); });
+$( "#div4_new" ).click(function() { save('4'); });
+$( "#div5_new" ).click(function() { save('5'); });
+
+function save(page)
+	{
+		var str_to_append = '<input type="hidden" name="acao" id="acao" value="save"><input type="hidden" name="dd92" id="dd92" value="'+page+'">';
+		$("#formulario").append(str_to_append)
+		$( "#formulario" ).submit();		
+	}
+	
+
 </script>
 
