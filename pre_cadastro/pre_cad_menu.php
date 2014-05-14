@@ -13,13 +13,15 @@ echo '<BR>------->'.$dd[92];
  		 		<tr><td class="radial_position"><?=$pg->radial();?></td><td class="radial_name"> MARIA DA SILVA FERREIRA FONZAGHI</td></tr>
  		 		
  		 	</table> 
-        </div>    	
-        <div id="div1_new" class="textmenu_new bg1 " style="display:none;"> DADOS PESSOAIS <a class="circle1"></a></div>
-    	<div id="div2_new" class="textmenu_new bg2" style="display:none;"> ENDEREǇO <a class="circle1"></a></div>
+        </div>   
+        <a class="linha"></a> 	
+        <div id="div1_new" class="textmenu_new bg1 " style="display:none;" > DADOS PESSOAIS <a class="circle1"></a></div>
+    	<div id="div2_new" class="textmenu_new bg2" style="display:none;"> ENDEREÇO <a class="circle1"></a></div>
         <div id="div3_new" class="textmenu_new bg3" style="display:none;"> ESTADO CIVIL <a class="circle1"></a></div>
         <div id="div4_new" class="textmenu_new bg4" style="display:none;"> PROFISSIONAL <a class="circle1"></a></div>
         <div id="div5_new" class="textmenu_new bg5" style="display:none;"> REFERÊNCIAS <a class="circle1"></a></div>
         <div><input type="submit" class="precad_form_submit" value="Enviar"></div>
+        
 </div>
 
 <script>
