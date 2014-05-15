@@ -9,7 +9,9 @@ class acp
 	var $acp_senha = '';
 	var $acp_service = '';
 	var $acp_solicitante = '';
-	
+	var $acp_nome = '';
+	var $acp_nasc = '';
+	var $acp_mae = '';
 	  
 	/*  CD Crédito Direto 
 		CP Crédito Pessoal 
@@ -19,7 +21,6 @@ class acp
 		OU Outros
 	 */
 	var $tipo_credito = 'CP';
-	
 	var $atualizado;
 	var $result;
 	var $registrado;
@@ -52,13 +53,14 @@ class acp
 			echo '<BR>Score:'.$score;
 			
 			/* Nome */
-			$nome = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-250-NOME'};
-			$nasc = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-250-NASCIMENTO'};
-			$mae  = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-251-MAE'};
+			$this->acp_nome = $nome = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-250-NOME'};
+			$this->acp_nasc = $nasc = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-250-NASCIMENTO'};
+			$this->acp_mae  = $mae  = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-251-MAE'};
 			echo '<h2>'.$nome.'</h2>';
 			echo '<UL>';
 			echo '<LI>'.$mae.'</li>';
-			echo '<LI>'.stodbr($nasc).'</li>';
+			//echo '<LI>'.stodbr($nasc).'</li>';
+			echo '<LI>'.$nasc.'</li>';
 			echo '</ul>';
 			
 			/* Consulta */
@@ -105,7 +107,7 @@ class acp
 			$log = 'AUTO';
 			
 			$servico = $this->acp_service;
-			echo $sql = "insert into consulta_acp
+			echo '<br>'.$sql = "insert into consulta_acp
 						(
 							c_data, c_cpf, c_texto,
 							c_log, c_ativo, c_hora, 
@@ -200,7 +202,7 @@ class acp
 			$cpf = strzero(sonumero($cpf),11);
 			$ok = $this->last_consulta($cpf);
 			if ($forced==1) { $ok = 0; }
-			echo '==--==>'.$forced.'--'.$ok.'--TEL:'.$tel;
+			echo '<br>==--==>'.$forced.'--'.$ok.'--TEL:'.$tel;
 			if ($ok == 0)
 				{
 					$this->consulta_curl($cpf,$tel);
@@ -211,7 +213,7 @@ class acp
         }          
      function last_consulta($cpf)
      	{
-     		$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
+     		echo '<br>'.$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data
      		";
      		$rlt = db_query($sql);

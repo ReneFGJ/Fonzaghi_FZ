@@ -51,6 +51,7 @@ class cadastro_pre
 				{
 					$acp = new acp;
 					$acp ->consulta($cpf,0,'');
+					$acp->mostra_consulta($cpf);
 					$this->inserir_cpf($cpf);
 				}
 			$this->setar_session($this->cliente);
