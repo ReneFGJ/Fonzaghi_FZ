@@ -8,7 +8,7 @@ class progress
 			$this->agl = 0;
 		}
 		
-	function radial($agl)
+	function radial($agl=0)
 		{
 			if(trim(round($agl))==0){ $agl=$this->agl; }
 				

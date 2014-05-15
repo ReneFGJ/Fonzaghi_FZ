@@ -44,19 +44,17 @@ class cadastro_pre
 		
 	}
 	
-	function cadastar_cpf($cpf='')
+	function cadastrar_cpf($cpf='')
 		{
-			if (!($this->existe_cpf($cpf)))
+			$this->cliente = $this->recupera_codigo_pelo_cpf($cpf); 
+			if ($this->cliente == 0)
 				{
 					$acp = new acp;
-					$acp ->consulta_curl($cpf);
+					$acp ->consulta($cpf,0,'');
 					$this->inserir_cpf($cpf);
-					
 				}
-			$cliente = $this->recupera_codigo_pelo_cpf($cpf);
-			
-			$this->setar_session($cliente);
-			return($cliente);				
+			$this->setar_session($this->cliente);
+			return($this->cliente);				
 		}
 		
 	function setar_session($cliente)
@@ -88,12 +86,17 @@ class cadastro_pre
 		
 	}
 	
-	function inserir_cpf($cpf='')
+	function inserir_cpf($cpf='',$seq='00')
 		{
-			$sql = "insert into ".$this->tabela." 
-						() 
-						values 
-						()";
+			$date = date('Ymd');
+			echo $sql = "insert into ".$this->tabela." 
+					('pes_cliente_seq','pes_cpf','pes_data',
+					  'pes_lastupdate', 'pes_status')
+					values 
+					('$seq','$cpf', $date,
+					  $date,'@'
+					)";
+			$rlt = db_query($sql);
 			$this->updatex();
 			
 			return($this->recupera_codigo_pelo_cpf($cpf));
@@ -102,27 +105,19 @@ class cadastro_pre
 	function recupera_codigo_pelo_cpf($cpf='')
 		{
 			$sql = "select * from ".$this->tabela." where pes_cpf = '".$cpf."'";
-			echo $sql;
-			$this->cpf = $line['pes_cpf'];
-			$this->cliente = $line['pes_cliente'];
-			$this->nome = $line['pes_nome'];
-			$this->line = $line;
-			return($line['pes_cliente']);
-		}
-	function existe_cpf($cpf='')
-		{
-			$sql = "select * from ".$this->tabela." 
-					where pes_cpf = '".$cpf."'";
-			$rlt = db_query($sql);
 			if($line = db_read($rlt))
 			{
-				/*Existe cpf*/
-				return(1);
+				$this->cpf = $line['pes_cpf'];
+				$this->cliente = $line['pes_cliente'];
+				$this->nome = $line['pes_nome'];
+				$this->line = $line;
+				return($line['pes_cliente']);
 			}else{
-				/*Não existe cpf*/
 				return(0);
-			}		
-		}	
+			}	
+			
+			
+		}
 		
 	function cp_00()
 		{
@@ -282,7 +277,7 @@ class cadastro_pre
                 return false;
             }
         }
- 
+ 		$this->cpf = $cpf;
         return true;
     }
 }

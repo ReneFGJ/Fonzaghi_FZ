@@ -3,7 +3,7 @@ require('cab.php');
 
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
-
+require('../_class/_class_acp.php');
 require($include.'_class_form.php');
 $form = new form;
 
@@ -18,11 +18,17 @@ $form->class_memo = 'precad_form';
 $cp = $pre->cp_00();
 $tela = $form->editar($cp,'');
 $cpf = $dd[2];
+
+$cpf = ereg_replace('[^0-9]', '', $cpf);
+$cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+
 if($pre->validaCPF($cpf))
 {
+	
+	$pre->cadastrar_cpf($cpf);
 	if ($form->saved > 0)
 		{
-			redirecina('pre_cad_01.php');
+			//redirecina('pre_cad_01.php');
 		} else {
 			echo $tela;
 		}

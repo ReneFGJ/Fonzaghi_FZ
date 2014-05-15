@@ -2,9 +2,10 @@
 require('../_class/_class_progress.php');
 $pg = new progress;
 $pg->agl = $_SESSION['angulo'];
+require('../_class/_class_acp.php');
 
-echo date("Ymd H:i:s");
-echo '<BR>------->'.$dd[92];
+//echo date("Ymd H:i:s");
+//echo '<BR>------->'.$dd[92];
 ?>
 
 <div id="corpo">     

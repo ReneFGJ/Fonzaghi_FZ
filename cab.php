@@ -11,6 +11,7 @@
 
 require("db.php");
 require("_class/_class_header_fz.php");
+require("_include/sisdoc_debug.php");
 $hd = new header;
 
 echo $hd->cab();

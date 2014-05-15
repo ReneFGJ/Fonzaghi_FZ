@@ -74,7 +74,7 @@ class acp
 	function consulta_curl($cpf,$tel='')
 		{
 			 
-
+			echo $cpf;
 			$postXML = $this->SPCA_XML($cpf,$tel);
 			
 			$flt = fopen('acp.xml','w+');
@@ -100,11 +100,12 @@ class acp
 	
 	function salva_consulta($cpf,$result)
 		{
-			$data = date("Ymd");
-			$hora = date("H:i");
+			$data = date('Ymd');
+			$hora = date('H:i');
 			$log = 'AUTO';
+			
 			$servico = $this->acp_service;
-			$sql = "insert into consulta_acp
+			echo $sql = "insert into consulta_acp
 						(
 							c_data, c_cpf, c_texto,
 							c_log, c_ativo, c_hora, 
@@ -194,7 +195,7 @@ class acp
     function consulta($cpf,$forced=0,$tel='')
         {
 			global $base_name,$base_server,$base_host,$base_user;
-			require("../db_informsystem.php");
+			require("../../_db/db_informsystem.php");
 
 			$cpf = strzero(sonumero($cpf),11);
 			$ok = $this->last_consulta($cpf);
