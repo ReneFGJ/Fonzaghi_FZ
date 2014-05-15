@@ -22,6 +22,28 @@ class cadastro_pre
 	
 	var $class_include = '../';
 	
+	function __contruct()
+	{
+		$_SESSION['CODIGO'];
+		$_SESSION['NOME'];
+		$_SESSION['CPF'];
+		$_SESSION['MAE'];
+		$_SESSION['PAI'];
+		$_SESSION['NASCIMENTO'];
+		$_SESSION['NATURALIDADE'];
+		$_SESSION['AVAL_STA'];
+		$_SESSION['AVAL_COD'];
+		$_SESSION['RG'];
+		$_SESSION['CEP'];
+		$_SESSION['RUA'];
+		$_SESSION['NUMERO'];
+		$_SESSION['BAIRRO'];
+		$_SESSION['CIDADE'];
+		$_SESSION['ESTADO'];
+		$_SESSION['COMPLEMENTO'];
+		
+	}
+	
 	function cadastar_cpf($cpf='')
 		{
 			if (!($this->existe_cpf($cpf)))
@@ -33,14 +55,38 @@ class cadastro_pre
 				}
 			$cliente = $this->recupera_codigo_pelo_cpf($cpf);
 			
-			$this->setar_session($this->cpf,$cliente);
+			$this->setar_session($cliente);
 			return($cliente);				
 		}
 		
-	function setar_session()
+	function setar_session($cliente)
 	{
+			$_SESSION['CLIENTE'] = $this->line['pes_cliente'];
+			$_SESSION['SEQUENCIA'] = $this->line['pes_cliente_seq'];
+			$_SESSION['NOME'] = $this->line['pes_nome'];
+			$_SESSION['CPF'] = $this->line['pes_cpf'];
+			$_SESSION['MAE'] = $this->line['pes_mae'];
+			$_SESSION['PAI'] = $this->line['pes_pai'];
+			$_SESSION['NASCIMENTO'] = $this->line['pes_nascimento'];
+			$_SESSION['NATURALIDADE'] = $this->line['pes_naturalidade'];
+			$_SESSION['AVAL_STA'] = $this->line['pes_avalista'];
+			$_SESSION['AVAL_COD'] = $this->line['pes_avalista_cod'];
+			$_SESSION['RG'] = $this->line['pes_rg'];
+			$_SESSION['CEP'] = $this->line['pes_cep'];
+			$_SESSION['RUA'] = $this->line1['pes_rua'];
+			$_SESSION['NUMERO'] = $this->line1['pes_cliente'];
+			$_SESSION['BAIRRO'] = $this->line1['pes_cliente'];
+			$_SESSION['CIDADE'] = $this->line1['pes_cliente'];
+			$_SESSION['ESTADO'] = $this->line1['pes_cliente'];
+			$_SESSION['COMPLEMENTO'] = $this->line['pes_cliente'];
+		
 		
 	}	
+	
+	function setar_session_endereco()
+	{
+		
+	}
 	
 	function inserir_cpf($cpf='')
 		{
