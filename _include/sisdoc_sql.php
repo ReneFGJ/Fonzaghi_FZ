@@ -87,9 +87,11 @@ function db_connect()
 	{
 	global $base_host, $base_port, $base_name ,$base_user, $base_pass, $base, $conn;
 	$RST = '';
+	
 	if ($base=='pgsql')
 		{
 		$conn = "host=".$base_host." port=".$base_port." dbname=".$base_name." user=".$base_user." password=".$base_pass."";
+		echo '<br>'.$conn.'<br>';
 		$db = pg_connect($conn);
 		}
 		
@@ -119,22 +121,24 @@ function db_query($rlt)
 	{
 	global $base,$debug,$sql_query;	
 	$sql_query = $rlt;
-
 //	if (strlen($debug) > 0) { echo '<HR>'.$rlt; }
 	////////////////////////////// PostGre
 	if ($base=='pgsql')
-		{ 
+		{
+			echo "<br>-------------AQUI----------------<br>"; 
 		if (strlen($debug) > 0) { $xxx = pg_query($rlt) or die($rlt . pg_email_erro($rlt) ); } else
 		{ $xxx = pg_query($rlt) or die('Erro de base <BR>' . pg_email_erro($rlt)); }
 		}
 	////////////////////////////// MySQL
 	if ($base=='mysql')
 		{
+			echo "<br>-------------AQUI2----------------<br>";
 		if (strlen($debug) > 0) { $xxx = mysql_query($rlt) or die(mysql_error() . '<BR>'.$rlt); }
 		else {  $xxx = mysql_query($rlt) or die('Erro de base'); }
 		}
 	if ($base=='mssql')
 		{
+			echo "<br>-------------AQUI3----------------<br>";
 		$rlt = sql_convert($rlt);
 		$sql_query = $rlt;
 		if (strlen($debug) > 0)  { $xxx = mssql_query($rlt) or die(pg_error(). '<BR>'.$rlt); } else
@@ -143,6 +147,8 @@ function db_query($rlt)
 		 
 	if ($base=='sybase')
 		{ $xxx = sybase_query($rlt) or die(pg_error(). '<BR>'.$rlt); }
+		
+		echo "<br>----++".$base."=".$xxx."=--------AQUI 555000000----------------<br>";
 	return $xxx;
 	}
 	

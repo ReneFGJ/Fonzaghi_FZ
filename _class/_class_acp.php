@@ -35,16 +35,27 @@ class acp
 	
 	function mostra_consulta($cpf,$tel='')
 		{
-     		$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
+			global $base_name,$base_server,$base_host,$base_user,$base;
+			require("../../_db/db_informsystem.php");
+			echo '<br>base_name:'.$base_name;
+			echo '<br>base_server:'.$base_server;
+			echo '<br>base_host:'.$base_host;
+			echo '<br>base_user:'.$base_user;
+			echo '<br>base:'.$base;
+			echo '<br>base_port:'.$base_port;
+     		echo '<br>'.$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data desc limit 1
      		";
      		$rlt = db_query($sql);
 			
 			if ($line = db_read($rlt))
 				{
+					echo '<br>======================================================================</br>';
+					print_r($line);
 					$xmlc = $line['c_texto'];
 					$xml=simplexml_load_string($xmlc);
 				}
+				
 			echo '<HR>';
 			echo 'SPC:'.$xml->{'RESPOSTA'}->{'RESPOSTA-RETORNO'}->{'STATUS-RESPOSTA'};
 			
@@ -75,8 +86,6 @@ class acp
 	
 	function consulta_curl($cpf,$tel='')
 		{
-			 
-			echo $cpf;
 			$postXML = $this->SPCA_XML($cpf,$tel);
 			
 			$flt = fopen('acp.xml','w+');
@@ -187,6 +196,7 @@ class acp
             return $cont;
         }
     }
+	
     function le_http()
         {
             echo '<HR>';
@@ -202,7 +212,7 @@ class acp
 			$cpf = strzero(sonumero($cpf),11);
 			$ok = $this->last_consulta($cpf);
 			if ($forced==1) { $ok = 0; }
-			echo '<br>==--==>'.$forced.'--'.$ok.'--TEL:'.$tel;
+			echo '<br>-->'.$forced.'--'.$ok.'--TEL:('.$tel.')';
 			if ($ok == 0)
 				{
 					$this->consulta_curl($cpf,$tel);
@@ -210,7 +220,8 @@ class acp
 					echo '<BR>Consulta realizada em: '.$this->atualizado;
 				}
 			return(1);			            
-        }          
+        }   
+		       
      function last_consulta($cpf)
      	{
      		echo '<br>'.$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 

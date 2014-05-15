@@ -78,8 +78,6 @@ class cadastro_pre
 			$_SESSION['CIDADE'] = $this->line1['pes_cliente'];
 			$_SESSION['ESTADO'] = $this->line1['pes_cliente'];
 			$_SESSION['COMPLEMENTO'] = $this->line['pes_cliente'];
-		
-		
 	}	
 	
 	function setar_session_endereco()
@@ -116,8 +114,6 @@ class cadastro_pre
 			}else{
 				return(0);
 			}	
-			
-			
 		}
 		
 	function cp_00()
