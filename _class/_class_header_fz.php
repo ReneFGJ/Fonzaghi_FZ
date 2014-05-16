@@ -69,5 +69,34 @@ class header
 			$sx .= $this->api_google;
 			return($sx);
 		}
+	function banner()
+	{
+		$sx = '
+		<script src="//www.google.com/jsapi" type="text/javascript"></script>
+    	<script src="//www.google.com/uds/solutions/slideshow/gfslideshow.js"
+            type="text/javascript"></script>
+		
+		<script>
+		
+		 google.load("feeds", "1");
+	    
+		    function OnLoad() {
+		      var feed  = "http://dlc0421.googlepages.com/gfss.rss";
+		      var options = {
+		        displayTime:500,
+		        transistionTime:200,
+		        scaleImages:true,
+		        fullControlPanel : true
+		      };
+		      var ss = new GFslideShow(feed, "picasaSlideshow", options);
+		    }
+		    
+		    google.setOnLoadCallback(OnLoad);
+			</script>
+	';
+		$sx .= '<div id="picasaSlideshow" class="gslideshow" style=" width:  500px;
+        height: 500px;"><div class="feed-loading">Loading...</div></div>';
+		return($sx);
+	}	
 	}
 ?>

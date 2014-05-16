@@ -13,7 +13,7 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $cp = $pre->cp_00();
-
+echo "<center>";
 $tela = $form->editar($cp,'');
 $cpf = $dd[2];
 $cpf = ereg_replace('[^0-9]', '', $cpf);
@@ -28,15 +28,14 @@ if($pre->validaCPF($cpf))
 			//echo '<br>=========='.$acp->acp_mae;
 			redirecina('pre_cad_01.php');
 		} else {
+			echo $hd->banner();
 			echo $tela;
 		}
 }else{
+	echo $hd->banner();
 	echo $tela;
 	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	
-echo '--------------<pre>';
-print_r($_SESSION);
-echo '---------------</pre>';
 
 echo '
 <script>
