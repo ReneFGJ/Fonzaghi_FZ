@@ -25,13 +25,13 @@ $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
 if($pre->validaCPF($cpf))
 {
 	
-	//$pre->cadastrar_cpf($cpf);
+	$pre->cadastrar_cpf($cpf);
 	if ($form->saved > 0)
 		{
 			//echo '<br>=========='.$acp->acp_nome;
 			//echo '<br>=========='.$acp->acp_nasc;
 			//echo '<br>=========='.$acp->acp_mae;
-			redirecina('pre_cad_01.php');
+			//redirecina('pre_cad_01.php');
 		} else {
 			echo $tela;
 		}

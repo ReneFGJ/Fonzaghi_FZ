@@ -20,7 +20,7 @@ class cadastro_pre
 	var $cliente;
 	var $nome;
 	
-	var $class_include = '../';
+	var $class_include = '../../';
 	
 	function __contruct()
 	{
@@ -87,10 +87,21 @@ class cadastro_pre
 	
 	function inserir_cpf($cpf='',$seq='00')
 		{
+			global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+			require($this->class_include."_db/db_mysql_10.1.1.220.php");
+			echo '<br>base_name:'.$base_name;
+			echo '<br>base_server:'.$base_server;
+			echo '<br>base_host:'.$base_host;
+			echo '<br>base_user:'.$base_user;
+			echo '<br>base:'.$base;
+			echo '<br>base_port:'.$base_port;
+			echo '<br>conn:'.$conn;
+     		
+			
 			$date = date('Ymd');
 			echo $sql = "insert into ".$this->tabela." 
-					('pes_cliente_seq','pes_cpf','pes_data',
-					  'pes_lastupdate', 'pes_status')
+					(pes_cliente_seq,pes_cpf,pes_data,
+					  pes_lastupdate, pes_status)
 					values 
 					('$seq','$cpf', $date,
 					  $date,'@'
@@ -103,6 +114,17 @@ class cadastro_pre
 		}
 	function recupera_codigo_pelo_cpf($cpf='')
 		{
+			global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+			require($this->class_include."_db/db_mysql_10.1.1.220.php");
+			echo '<br>base_name:'.$base_name;
+			echo '<br>base_server:'.$base_server;
+			echo '<br>base_host:'.$base_host;
+			echo '<br>base_user:'.$base_user;
+			echo '<br>base:'.$base;
+			echo '<br>base_port:'.$base_port;
+			echo '<br>conn:'.$conn;
+     		
+			
 			$sql = "select * from ".$this->tabela." where pes_cpf = '".$cpf."'";
 			if($line = db_read($rlt))
 			{
@@ -219,7 +241,16 @@ class cadastro_pre
 		
 	function updatex()
 	{
-		global $base;
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		echo '<br>base_name:'.$base_name;
+		echo '<br>base_server:'.$base_server;
+		echo '<br>base_host:'.$base_host;
+		echo '<br>base_user:'.$base_user;
+		echo '<br>base:'.$base;
+		echo '<br>base_port:'.$base_port;
+		echo '<br>conn:'.$conn;
+     		
 		$c = 'pes';
 		$c1 = 'id_'.$c;
 		$c2 = $c.'_cliente';

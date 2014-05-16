@@ -37,13 +37,7 @@ class acp
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base;
 			require("../../_db/db_informsystem.php");
-			echo '<br>base_name:'.$base_name;
-			echo '<br>base_server:'.$base_server;
-			echo '<br>base_host:'.$base_host;
-			echo '<br>base_user:'.$base_user;
-			echo '<br>base:'.$base;
-			echo '<br>base_port:'.$base_port;
-     		echo '<br>'.$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
+			$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data desc limit 1
      		";
      		$rlt = db_query($sql);
