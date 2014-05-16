@@ -69,7 +69,7 @@ class header
 			$sx .= $this->api_google;
 			return($sx);
 		}
-	function banner()
+	function banner($url_rss='',$width=200,$height=200)
 	{
 		$sx = '
 		<script src="//www.google.com/jsapi" type="text/javascript"></script>
@@ -81,7 +81,7 @@ class header
 		 google.load("feeds", "1");
 	    
 		    function OnLoad() {
-		      var feed  = "http://dlc0421.googlepages.com/gfss.rss";
+		      var feed  = "'.$url_rss.'";
 		      var options = {
 		        displayTime:500,
 		        transistionTime:200,
@@ -94,8 +94,8 @@ class header
 		    google.setOnLoadCallback(OnLoad);
 			</script>
 	';
-		$sx .= '<div id="picasaSlideshow" class="gslideshow" style=" width:  500px;
-        height: 500px;"><div class="feed-loading">Loading...</div></div>';
+		$sx .= '<div id="picasaSlideshow" class="gslideshow" style=" width:  '.$width.'px;
+        height: '.$height.'px;"><div class="feed-loading">Loading...</div></div>';
 		return($sx);
 	}	
 	}

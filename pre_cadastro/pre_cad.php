@@ -28,11 +28,11 @@ if($pre->validaCPF($cpf))
 			//echo '<br>=========='.$acp->acp_mae;
 			redirecina('pre_cad_01.php');
 		} else {
-			echo $hd->banner();
+			echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
 			echo $tela;
 		}
 }else{
-	echo $hd->banner();
+	echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
 	echo $tela;
 	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	
