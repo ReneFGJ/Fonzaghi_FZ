@@ -69,6 +69,9 @@ class header
 			$sx .= $this->api_google;
 			return($sx);
 		}
+		
+	/* Necessita de um site que gere RSS (ex. Flick)
+	 * */	
 	function banner($url_rss='',$width=200,$height=200)
 	{
 		$sx = '
