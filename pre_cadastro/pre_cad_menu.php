@@ -3,6 +3,12 @@ require('../_class/_class_progress.php');
 $pg = new progress;
 $pg->agl = $_SESSION['angulo'];
 require('../_class/_class_acp.php');
+echo '--------------<pre>';
+print_r($_SESSION);
+echo '---------------</pre>';
+
+
+
 
 //echo date("Ymd H:i:s");
 //echo '<BR>------->'.$dd[92];

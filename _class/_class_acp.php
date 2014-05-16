@@ -12,7 +12,7 @@ class acp
 	var $acp_nome = '';
 	var $acp_nasc = '';
 	var $acp_mae = '';
-	  
+	var $tela = '';  
 	/*  CD Crédito Direto 
 		CP Crédito Pessoal 
 		CV Crédito de veículos 
@@ -44,38 +44,36 @@ class acp
 			
 			if ($line = db_read($rlt))
 				{
-					echo '<br>======================================================================</br>';
-					print_r($line);
 					$xmlc = $line['c_texto'];
 					$xml=simplexml_load_string($xmlc);
 				}
 				
-			echo '<HR>';
-			echo 'SPC:'.$xml->{'RESPOSTA'}->{'RESPOSTA-RETORNO'}->{'STATUS-RESPOSTA'};
+			$this->tela .=  '<HR>';
+			$this->tela .= 'SPC:'.$xml->{'RESPOSTA'}->{'RESPOSTA-RETORNO'}->{'STATUS-RESPOSTA'};
 			
 			/* Score */
 			$score = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-SCORE'}->{'SCORE-600-DADOS'}->{'SCORE-600-DADOSR'}->{'SCORE-600-SCORE'};
-			echo '<BR>Score:'.$score;
+			$this->tela .= '<BR>Score:'.$score;
 			
 			/* Nome */
 			$this->acp_nome = $nome = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-250-NOME'};
 			$this->acp_nasc = $nasc = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-250-NASCIMENTO'};
 			$this->acp_mae  = $mae  = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'}->{'CHQ-250-DADOS'}->{'CHQ-251-MAE'};
-			echo '<h2>'.$nome.'</h2>';
-			echo '<UL>';
-			echo '<LI>'.$mae.'</li>';
-			//echo '<LI>'.stodbr($nasc).'</li>';
-			echo '<LI>'.$nasc.'</li>';
-			echo '</ul>';
+			$this->tela .= '<h2>'.$nome.'</h2>';
+			$this->tela .= '<UL>';
+			$this->tela .= '<LI>'.$mae.'</li>';
+			//$this->tela .= '<LI>'.stodbr($nasc).'</li>';
+			$this->tela .= '<LI>'.$nasc.'</li>';
+			$this->tela .= '</ul>';
 			
 			/* Consulta */
 			$nd = $xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-240-MENSAGEM'}->{'CHQ-240-TEXTO'};
-			echo '<UL><LI>Resultado:'.$nd.'</LI></UL>';
+			$this->tela .= '<UL><LI>Resultado:'.$nd.'</LI></UL>';
 			
-			echo '<HR>';
-			echo '<PRE>';
-			print_r($xml);
-			echo '</PRE>';			
+			$this->tela .= '<HR>';
+			$this->tela .= '<PRE>';
+			$this->tela .= $xml;
+			$this->tela .= '</PRE>';			
 		}
 	
 	function consulta_curl($cpf,$tel='')
@@ -85,7 +83,7 @@ class acp
 			$flt = fopen('acp.xml','w+');
 			fwrite($flt,$postXML);
 			fclose($flt);
-			echo '<A HREF="acp.xml" target="_blank">XML</A>';
+			$this->tela .= '<A HREF="acp.xml" target="_blank">XML</A>';
 			
 			$soap_do = curl_init($this->xml_link);
 			curl_setopt($soap_do, CURLOPT_URL,            $this->xml_link );   
@@ -97,8 +95,8 @@ class acp
 			
 			$result = curl_exec($soap_do);
 			$err = curl_error($soap_do); 
-			echo '<font color="red">'.$err.'</font><BR>';
-			echo '<BR>Consulta realizada';
+			$this->tela .= '<font color="red">'.$err.'</font><BR>';
+			$this->tela .= '<BR>Consulta realizada';
 			
 			$this->salva_consulta($cpf,$result);
 		}
@@ -110,7 +108,7 @@ class acp
 			$log = 'AUTO';
 			
 			$servico = $this->acp_service;
-			echo '<br>'.$sql = "insert into consulta_acp
+			$sql = "insert into consulta_acp
 						(
 							c_data, c_cpf, c_texto,
 							c_log, c_ativo, c_hora, 
@@ -193,9 +191,9 @@ class acp
 	
     function le_http()
         {
-            echo '<HR>';
-            echo $this->getcontent("csr.consultaacp.com.br", "2462", "/");
-            echo '<HR>';
+            $this->tela .= '<HR>';
+            $this->tela .= $this->getcontent("csr.consultaacp.com.br", "2462", "/");
+            $this->tela .= '<HR>';
         }
         
     function consulta($cpf,$forced=0,$tel='')
@@ -206,19 +204,19 @@ class acp
 			$cpf = strzero(sonumero($cpf),11);
 			$ok = $this->last_consulta($cpf);
 			if ($forced==1) { $ok = 0; }
-			echo '<br>-->'.$forced.'--'.$ok.'--TEL:('.$tel.')';
+			$this->tela .= '<br>-->'.$forced.'--'.$ok.'--TEL:('.$tel.')';
 			if ($ok == 0)
 				{
 					$this->consulta_curl($cpf,$tel);
 				} else {
-					echo '<BR>Consulta realizada em: '.$this->atualizado;
+					$this->tela .= '<BR>Consulta realizada em: '.$this->atualizado;
 				}
 			return(1);			            
         }   
 		       
      function last_consulta($cpf)
      	{
-     		echo '<br>'.$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
+     		$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data
      		";
      		$rlt = db_query($sql);

@@ -8,12 +8,10 @@
   * @package Layout
   * @subpackage header
  */
-
 require("db.php");
 require("_class/_class_header_fz.php");
-
 $hd = new header;
-
 echo $hd->cab();
+
 
 ?>

@@ -1,7 +1,5 @@
 <?php
 require("cab.php");
-
-
 echo 'OK';
 /* journal page */
 ?>

@@ -52,7 +52,7 @@ class cadastro_pre
 					$acp = new acp;
 					$acp ->consulta($cpf,0,'');
 					$acp->mostra_consulta($cpf);
-					$this->inserir_cpf($cpf);
+					//$this->inserir_cpf($cpf);
 				}
 			$this->setar_session($this->cliente);
 			return($this->cliente);				
@@ -89,6 +89,7 @@ class cadastro_pre
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base,$conn;
 			require($this->class_include."_db/db_mysql_10.1.1.220.php");
+			/*
 			echo '<br>base_name:'.$base_name;
 			echo '<br>base_server:'.$base_server;
 			echo '<br>base_host:'.$base_host;
@@ -96,10 +97,10 @@ class cadastro_pre
 			echo '<br>base:'.$base;
 			echo '<br>base_port:'.$base_port;
 			echo '<br>conn:'.$conn;
-     		
+     		*/
 			
 			$date = date('Ymd');
-			echo $sql = "insert into ".$this->tabela." 
+			$sql = "insert into ".$this->tabela." 
 					(pes_cliente_seq,pes_cpf,pes_data,
 					  pes_lastupdate, pes_status)
 					values 
@@ -116,6 +117,7 @@ class cadastro_pre
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base,$conn;
 			require($this->class_include."_db/db_mysql_10.1.1.220.php");
+			/*
 			echo '<br>base_name:'.$base_name;
 			echo '<br>base_server:'.$base_server;
 			echo '<br>base_host:'.$base_host;
@@ -123,7 +125,7 @@ class cadastro_pre
 			echo '<br>base:'.$base;
 			echo '<br>base_port:'.$base_port;
 			echo '<br>conn:'.$conn;
-     		
+     		*/
 			
 			$sql = "select * from ".$this->tabela." where pes_cpf = '".$cpf."'";
 			if($line = db_read($rlt))
@@ -243,6 +245,7 @@ class cadastro_pre
 	{
 		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
 		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		/*
 		echo '<br>base_name:'.$base_name;
 		echo '<br>base_server:'.$base_server;
 		echo '<br>base_host:'.$base_host;
@@ -250,7 +253,7 @@ class cadastro_pre
 		echo '<br>base:'.$base;
 		echo '<br>base_port:'.$base_port;
 		echo '<br>conn:'.$conn;
-     		
+     	*/	
 		$c = 'pes';
 		$c1 = 'id_'.$c;
 		$c2 = $c.'_cliente';

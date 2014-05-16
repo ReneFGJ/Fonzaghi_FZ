@@ -40,6 +40,7 @@
 	require($include.'_class_msg.php');
 	require($include.'_class_char.php');		
 	require($include.'sisdoc_sql.php');	
+	require($include.'sisdoc_debug.php');
 	
 	
 	/* Leituras das Variaveis dd0 a dd99 (POST/GET) */
