@@ -20,7 +20,7 @@ $cpf = ereg_replace('[^0-9]', '', $cpf);
 $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
 if($pre->validaCPF($cpf))
 {
-	$pre->cadastrar_cpf($cpf);
+	//$pre->cadastrar_cpf($cpf);
 	if ($form->saved > 0)
 		{
 			//echo '<br>=========='.$acp->acp_nome;

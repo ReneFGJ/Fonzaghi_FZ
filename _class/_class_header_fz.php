@@ -1,4 +1,14 @@
 <?php
+    /**
+     * Header Fz
+	 * @author Rene Faustino Gabriel Junior <renefgj@gmail.com> (Analista-Desenvolvedor)
+	 * @copyright Copyright (c) 2014 - sisDOC.com.br
+	 * @access public
+     * @version v.0.14.21
+	 * @package _class
+	 * @subpackage _class_header_fz.php
+    */
+
 class header
 	{
 	var $charcod = "UTF-8";

@@ -1,9 +1,13 @@
 <?php
-/* PRE Cadastro
- * 
- * 
- * 
- */
+   /**
+     * Pré-Cadastro
+	 * @author Willian Fellipe Laynes <willianlaynes@hotmail.com>(Analista-Desenvolvedor)
+  	 * @copyright Copyright (c) 2014 - sisDOC.com.br
+	 * @access public
+     * @version v.0.14.21
+	 * @package _class
+	 * @subpackage _class_cadastro_pre.php
+    */
 
 class cadastro_pre
 	{
@@ -52,7 +56,7 @@ class cadastro_pre
 					$acp = new acp;
 					$acp ->consulta($cpf,0,'');
 					$acp->mostra_consulta($cpf);
-					//$this->inserir_cpf($cpf);
+					$this->inserir_cpf($cpf);
 				}
 			$this->setar_session($this->cliente);
 			return($this->cliente);				
