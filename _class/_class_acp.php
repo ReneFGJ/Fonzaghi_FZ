@@ -22,6 +22,7 @@ class acp
 	var $acp_nome = '';
 	var $acp_nasc = '';
 	var $acp_mae = '';
+	var $line = '';
 	var $tela = '';  
 	/*  CD Crédito Direto 
 		CP Crédito Pessoal 
@@ -153,8 +154,8 @@ class acp
  			$sx .= '<S-CNPJ/>'.$cr; 
  			$sx .= '<S-NASCIMENTO/>'.$cr;
 			$sx .= '<S-NOME></S-NOME>'.$cr;
-			$sx .= '<S-DDD-1>041</S-DDD-1>'.$cr;
-			$sx .= '<S-TELEFONE-1>'.$tel.'</S-TELEFONE-1>'.$cr;
+			//$sx .= '<S-DDD-1>041</S-DDD-1>'.$cr;
+			//$sx .= '<S-TELEFONE-1>'.$tel.'</S-TELEFONE-1>'.$cr;
 			$sx .= '<S-VALOR>0</S-VALOR>'.$cr;
 			$sx .= '<S-TIPO-CREDITO>'.$this->tipo_credito.'</S-TIPO-CREDITO>'.$cr; 
 			/*

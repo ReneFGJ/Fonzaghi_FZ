@@ -4,6 +4,7 @@ require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 require('../_class/_class_acp.php');
 require('../_include/_class_form.php');
+
 $form = new form;
 $form->required_message = 0;
 $form->required_message_post = 0;
@@ -20,19 +21,20 @@ $cpf = ereg_replace('[^0-9]', '', $cpf);
 $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
 if($pre->validaCPF($cpf))
 {
-	//$pre->cadastrar_cpf($cpf);
+	$pre->cadastrar_cpf($cpf);
 	if ($form->saved > 0)
 		{
-			//echo '<br>=========='.$acp->acp_nome;
-			//echo '<br>=========='.$acp->acp_nasc;
-			//echo '<br>=========='.$acp->acp_mae;
+			echo '<br>=========='.$acp->acp_nome;
+			echo '<br>=========='.$acp->acp_nasc;
+			echo '<br>=========='.$acp->acp_mae;
 			redirecina('pre_cad_01.php');
 		} else {
 			echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
 			echo $tela;
 		}
 }else{
-	echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
+//	echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
+	echo $hd->banner("/fz/rss/rss_aniversariantes.php?dd0=.rss",500,500);	
 	echo $tela;
 	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	

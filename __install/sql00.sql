@@ -40,7 +40,6 @@ CREATE TABLE cad_endereco (
 
 CREATE TABLE cad_pessoa (
   id_pes SERIAL NOT NULL,
-  pes_codigo CHAR(7) ,
   pes_cliente CHAR(7) ,
   pes_cliente_seq CHAR(2) DEFAULT '00',
   pes_nome CHAR(100) ,

@@ -19,32 +19,34 @@ class cadastro_pre
 	var $tabela_complemento 	= 'cad_complemento';	
 	var $tabela_telefone 		= 'cad_telefone';	
 	
-	var $id;
-	var $cpf;
-	var $cliente;
-	var $nome;
+	var $id='';
+	var $cpf='';
+	var $cliente='';
+	var $nome='';
+	var $mae='';
+	var $nasc='';
 	
 	var $class_include = '../../';
 	
 	function __contruct()
 	{
-		$_SESSION['CODIGO'];
-		$_SESSION['NOME'];
-		$_SESSION['CPF'];
-		$_SESSION['MAE'];
-		$_SESSION['PAI'];
-		$_SESSION['NASCIMENTO'];
-		$_SESSION['NATURALIDADE'];
-		$_SESSION['AVAL_STA'];
-		$_SESSION['AVAL_COD'];
-		$_SESSION['RG'];
-		$_SESSION['CEP'];
-		$_SESSION['RUA'];
-		$_SESSION['NUMERO'];
-		$_SESSION['BAIRRO'];
-		$_SESSION['CIDADE'];
-		$_SESSION['ESTADO'];
-		$_SESSION['COMPLEMENTO'];
+		$_SESSION['CODIGO']='';
+		$_SESSION['NOME']='';
+		$_SESSION['CPF']='';
+		$_SESSION['MAE']='';
+		$_SESSION['PAI']='';
+		$_SESSION['NASCIMENTO']='';
+		$_SESSION['NATURALIDADE']='';
+		$_SESSION['AVAL_STA']='';
+		$_SESSION['AVAL_COD']='';
+		$_SESSION['RG']='';
+		$_SESSION['CEP']='';
+		$_SESSION['RUA']='';
+		$_SESSION['NUMERO']='';
+		$_SESSION['BAIRRO']='';
+		$_SESSION['CIDADE']='';
+		$_SESSION['ESTADO']='';
+		$_SESSION['COMPLEMENTO']='';
 		
 	}
 	
@@ -56,7 +58,10 @@ class cadastro_pre
 					$acp = new acp;
 					$acp ->consulta($cpf,0,'');
 					$acp->mostra_consulta($cpf);
-					$this->inserir_cpf($cpf);
+					$this->nome  = $acp->acp_nome;
+					$this->nasc = $acp->acp_nasc;
+					$this->mae  = $acp->acp_mae;
+					$this->inserir_cpf($cpf,'');
 				}
 			$this->setar_session($this->cliente);
 			return($this->cliente);				
@@ -70,20 +75,49 @@ class cadastro_pre
 			$_SESSION['CPF'] = $this->line['pes_cpf'];
 			$_SESSION['MAE'] = $this->line['pes_mae'];
 			$_SESSION['PAI'] = $this->line['pes_pai'];
-			$_SESSION['NASCIMENTO'] = $this->line['pes_nascimento'];
+			$_SESSION['NASCIMENTO'] = $this->line['pes_nasc'];
 			$_SESSION['NATURALIDADE'] = $this->line['pes_naturalidade'];
 			$_SESSION['AVAL_STA'] = $this->line['pes_avalista'];
 			$_SESSION['AVAL_COD'] = $this->line['pes_avalista_cod'];
 			$_SESSION['RG'] = $this->line['pes_rg'];
-			$_SESSION['CEP'] = $this->line['pes_cep'];
-			$_SESSION['RUA'] = $this->line1['pes_rua'];
-			$_SESSION['NUMERO'] = $this->line1['pes_cliente'];
-			$_SESSION['BAIRRO'] = $this->line1['pes_cliente'];
-			$_SESSION['CIDADE'] = $this->line1['pes_cliente'];
-			$_SESSION['ESTADO'] = $this->line1['pes_cliente'];
-			$_SESSION['COMPLEMENTO'] = $this->line['pes_cliente'];
+			$_SESSION['GENERO'] = $this->line['pes_genero'];
+			
 	}	
+	function setar_form_por_session()
+	{
+		global $dd;
+		
+			$dd[0] = $_SESSION['CLIENTE'];
+			$dd[1] = $_SESSION['NOME'];
+			$dd[2] = stodbr($_SESSION['NASCIMENTO']);
+			$dd[3] = $_SESSION['NATURALIDADE'];
+			$dd[4] = $_SESSION['RG'];
+			$dd[5] = $_SESSION['GENERO'];
+			$dd[6] = $_SESSION['PAI'];
+			$dd[7] = $_SESSION['MAE'];
+			$dd[8] = $_SESSION['AVAL_STA'];
+			$dd[9] = $_SESSION['AVAL_COD'];
+			
+		return (1);
+	}
 	
+	function setar_form_por_session()
+	{
+		global $dd;
+		
+			$dd[0] = $_SESSION['CLIENTE'];
+			$dd[1] = $_SESSION['NOME'];
+			$dd[2] = stodbr($_SESSION['NASCIMENTO']);
+			$dd[3] = $_SESSION['NATURALIDADE'];
+			$dd[4] = $_SESSION['RG'];
+			$dd[5] = $_SESSION['GENERO'];
+			$dd[6] = $_SESSION['PAI'];
+			$dd[7] = $_SESSION['MAE'];
+			$dd[8] = $_SESSION['AVAL_STA'];
+			$dd[9] = $_SESSION['AVAL_COD'];
+			
+		return (1);
+	}
 	function setar_session_endereco()
 	{
 		
@@ -93,23 +127,16 @@ class cadastro_pre
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base,$conn;
 			require($this->class_include."_db/db_mysql_10.1.1.220.php");
-			/*
-			echo '<br>base_name:'.$base_name;
-			echo '<br>base_server:'.$base_server;
-			echo '<br>base_host:'.$base_host;
-			echo '<br>base_user:'.$base_user;
-			echo '<br>base:'.$base;
-			echo '<br>base_port:'.$base_port;
-			echo '<br>conn:'.$conn;
-     		*/
-			
 			$date = date('Ymd');
+			if(strlen(trim($this->nome))>0){ $set1 .= ', pes_nome'; $set2 .= ",'$this->nome'";	};
+			if(strlen(trim($this->nasc))>0){ $set1 .= ', pes_nasc'; $set2 .= ",'$this->nasc'";	};
+			if(strlen(trim($this->mae))>0){ $set1 .= ', pes_mae'; $set2 .= ",'$this->mae'";	};
 			$sql = "insert into ".$this->tabela." 
 					(pes_cliente_seq,pes_cpf,pes_data,
-					  pes_lastupdate, pes_status)
+					  pes_lastupdate, pes_status $set1)
 					values 
-					('$seq','$cpf', $date,
-					  $date,'@'
+					('".$seq."','$cpf', ".$date.",
+					  ".$date.",'@' ".$set2."
 					)";
 			$rlt = db_query($sql);
 			$this->updatex();
@@ -117,21 +144,28 @@ class cadastro_pre
 			return($this->recupera_codigo_pelo_cpf($cpf));
 					
 		}
+		
+	function updatex()
+	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		
+		$c = 'pes';
+		$c1 = 'id_'.$c;
+		$c2 = $c.'_cliente';
+		$c3 = 6;
+		$sql = "update ".$this->tabela." set $c2 = '7' || lpad($c1,$c3,0)  where  ($c2='' or $c2 is null )";
+		$rlt = db_query($sql);
+ 		return(0);
+	}		
+		
 	function recupera_codigo_pelo_cpf($cpf='')
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base,$conn;
 			require($this->class_include."_db/db_mysql_10.1.1.220.php");
-			/*
-			echo '<br>base_name:'.$base_name;
-			echo '<br>base_server:'.$base_server;
-			echo '<br>base_host:'.$base_host;
-			echo '<br>base_user:'.$base_user;
-			echo '<br>base:'.$base;
-			echo '<br>base_port:'.$base_port;
-			echo '<br>conn:'.$conn;
-     		*/
-			
+		
 			$sql = "select * from ".$this->tabela." where pes_cpf = '".$cpf."'";
+			$rlt = db_query($sql);
 			if($line = db_read($rlt))
 			{
 				$this->cpf = $line['pes_cpf'];
@@ -245,78 +279,55 @@ class cadastro_pre
 			
 		}
 		
-	function updatex()
-	{
-		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
-		require($this->class_include."_db/db_mysql_10.1.1.220.php");
-		/*
-		echo '<br>base_name:'.$base_name;
-		echo '<br>base_server:'.$base_server;
-		echo '<br>base_host:'.$base_host;
-		echo '<br>base_user:'.$base_user;
-		echo '<br>base:'.$base;
-		echo '<br>base_port:'.$base_port;
-		echo '<br>conn:'.$conn;
-     	*/	
-		$c = 'pes';
-		$c1 = 'id_'.$c;
-		$c2 = $c.'_cliente';
-		$c3 = 5;
-		$c3 = $c.'_data';
-		$sql = "update ".$this->tabela." set $c2 = lpad($c1,$c3,0) where $c2='' ";
-		if ($base=='pgsql') { $sql = "update ".$this->tabela." set $c2 = trim(to_char(id_".$c.",'".strzero(0,$c3)."')), $c4 =".date('Ymd')." where $c2='' "; }
-		$sql = "update ".$this->tabela." set $c2 = trim(to_char(id_".$c.",'70".strzero(0,$c3)."')), $c4 =".date('Ymd'); 
-		$rlt = db_query($sql);
-		return(0);
-	}		
+	
 			
 	function validaCPF($cpf = null) 
 	{
-    // Verifica se um número foi informado
-    if(empty($cpf)) {
-        return false;
-    }
- 
-    // Elimina possivel mascara
-    $cpf = ereg_replace('[^0-9]', '', $cpf);
-    $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
-     
-    // Verifica se o numero de digitos informados é igual a 11 
-    if (strlen($cpf) != 11) {
-        return false;
-    }
-    // Verifica se nenhuma das sequências invalidas abaixo 
-    // foi digitada. Caso afirmativo, retorna falso
-    else if ($cpf == '00000000000' || 
-        $cpf == '11111111111' || 
-        $cpf == '22222222222' || 
-        $cpf == '33333333333' || 
-        $cpf == '44444444444' || 
-        $cpf == '55555555555' || 
-        $cpf == '66666666666' || 
-        $cpf == '77777777777' || 
-        $cpf == '88888888888' || 
-        $cpf == '99999999999') {
-        return false;
-     // Calcula os digitos verificadores para verificar se o
-     // CPF é válido
-     } else {   
-         
-        for ($t = 9; $t < 11; $t++) {
-             
-            for ($d = 0, $c = 0; $c < $t; $c++) {
-                $d += $cpf{$c} * (($t + 1) - $c);
-            }
-            $d = ((10 * $d) % 11) % 10;
-            if ($cpf{$c} != $d) {
-                return false;
-            }
-        }
- 		$this->cpf = $cpf;
+	    // Verifica se um número foi informado
+	    if(empty($cpf)) {
+	        return false;
+	    }
+	 
+	    // Elimina possivel mascara
+	    $cpf = ereg_replace('[^0-9]', '', $cpf);
+	    $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+	     
+	    // Verifica se o numero de digitos informados é igual a 11 
+	    if (strlen($cpf) != 11) {
+	        return false;
+	    }
+	    // Verifica se nenhuma das sequências invalidas abaixo 
+	    // foi digitada. Caso afirmativo, retorna falso
+	    else if ($cpf == '00000000000' || 
+	        $cpf == '11111111111' || 
+	        $cpf == '22222222222' || 
+	        $cpf == '33333333333' || 
+	        $cpf == '44444444444' || 
+	        $cpf == '55555555555' || 
+	        $cpf == '66666666666' || 
+	        $cpf == '77777777777' || 
+	        $cpf == '88888888888' || 
+	        $cpf == '99999999999') {
+	        return false;
+	     // Calcula os digitos verificadores para verificar se o
+	     // CPF é válido
+	     } else {   
+	         
+	        for ($t = 9; $t < 11; $t++) 
+	        {
+	            for ($d = 0, $c = 0; $c < $t; $c++) 
+	            {
+	                $d += $cpf{$c} * (($t + 1) - $c);
+	            }
+	            $d = ((10 * $d) % 11) % 10;
+	            if ($cpf{$c} != $d) 
+	            {
+	                return false;
+	            }
+	        }
+	 	$this->cpf = $cpf;
         return true;
-    }
-}
-		
-		
+    	}
 	}
+}
 ?>

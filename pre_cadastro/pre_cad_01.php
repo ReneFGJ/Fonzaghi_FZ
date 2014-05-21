@@ -1,6 +1,6 @@
 <?php
 require('cab.php');
-
+require('../_include/sisdoc_data.php');
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 
@@ -21,9 +21,11 @@ echo '<table width="100%">
 			require("pre_cad_menu.php");
 echo '<td width="50%">';
 
+$pre->setar_form_por_session();
 /* Dados CP01 */
 $cp = $pre->cp_01();
 $tela = $form->editar($cp,'');
+
 
 if ($form->saved > 0)
 	{
