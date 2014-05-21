@@ -2,9 +2,13 @@
 	{
 		font-family: RobotoThin, Arial, Helvetica, sans-serif;
 		font-size: 12px;
+<<<<<<< HEAD
+		
+=======
 		background:#FCFCFC;
 		border:#0FC;
 
+>>>>>>> 6a7ec7d41402824bb3e202ff5de849ca44576d6d
 	}
 	
 .precad_form_string
@@ -21,6 +25,7 @@
   		-o-border-radius: 7px;	
 		
 	}
+	
 	
 /* focus campos cor azul */	
 .precad_form_string:focus
@@ -39,16 +44,16 @@
   		-o-box-shadow: 3px 3px 7px 0px #000000;	
   		*/
 	}
-	
+
 .precad_form_submit	
 	{
 		width: 130px;
 		height: 40px;
-		font-family: RobotoThin, Arial, Helvetica, sans-serif;
-		font-size:24px;
 		border-radius: 7px;
 		background-color:#4aacba;
-	
+		font-family: RobotoThin, Arial, Helvetica, sans-serif;
+		font-size:24px;	
+		color:#FFF;	
 		/*
   		-webkit-border-radius: 7px;
   		-moz-border-radius: 7px;

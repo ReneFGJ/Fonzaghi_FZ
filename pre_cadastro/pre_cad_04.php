@@ -15,11 +15,13 @@ $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $_SESSION['angulo'] = 60;
 
+echo '<br><br><br>';
 echo '<table width="100%">
 		<tr valign="top">
 			<td width="50%">';
 			require("pre_cad_menu.php");
 echo '<td width="50%">';
+echo '<div id="cad04" style="width:1px" >';
 
 /* Dados CP04 */
 $cp = $pre->cp_04();
@@ -38,5 +40,11 @@ if ($form->saved > 0)
 echo '</td></tr></table>';
 echo '<script>
 				$("#div4_new").toggleClass("textmenu");
+		
+				$( "#cl4" ).addClass( "circle4a" );
+				
+				$("#cad04").animate({
+				width:"100%"
+			  },400);
 	</script>';
 ?>

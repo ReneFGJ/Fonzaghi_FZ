@@ -8,7 +8,7 @@
 	 * @package _class
 	 * @subpackage _class_cadastro_pre.php
     */
-
+require_once('../_include/sisdoc_data.php');
 class cadastro_pre
 	{
 		
@@ -30,24 +30,11 @@ class cadastro_pre
 	
 	function __contruct()
 	{
-		$_SESSION['CODIGO']='';
-		$_SESSION['NOME']='';
-		$_SESSION['CPF']='';
-		$_SESSION['MAE']='';
-		$_SESSION['PAI']='';
-		$_SESSION['NASCIMENTO']='';
-		$_SESSION['NATURALIDADE']='';
-		$_SESSION['AVAL_STA']='';
-		$_SESSION['AVAL_COD']='';
-		$_SESSION['RG']='';
-		$_SESSION['CEP']='';
-		$_SESSION['RUA']='';
-		$_SESSION['NUMERO']='';
-		$_SESSION['BAIRRO']='';
-		$_SESSION['CIDADE']='';
-		$_SESSION['ESTADO']='';
-		$_SESSION['COMPLEMENTO']='';
-		
+		$_SESSION['ID_PG1']='';
+		$_SESSION['ID_PG2']='';
+		$_SESSION['ID_PG3']='';
+		$_SESSION['ID_PG4']='';
+		$_SESSION['ID_PG5']='';
 	}
 	
 	function cadastrar_cpf($cpf='')
@@ -61,12 +48,12 @@ class cadastro_pre
 					$this->nome  = $acp->acp_nome;
 					$this->nasc = $acp->acp_nasc;
 					$this->mae  = $acp->acp_mae;
-					$this->inserir_cpf($cpf,'');
+					$this->inserir_cpf($cpf);
 				}
-			$this->setar_session($this->cliente);
+			//$this->setar_session($this->cliente);
 			return($this->cliente);				
 		}
-		
+	/*	
 	function setar_session($cliente)
 	{
 			$_SESSION['CLIENTE'] = $this->line['pes_cliente'];
@@ -81,8 +68,12 @@ class cadastro_pre
 			$_SESSION['AVAL_COD'] = $this->line['pes_avalista_cod'];
 			$_SESSION['RG'] = $this->line['pes_rg'];
 			$_SESSION['GENERO'] = $this->line['pes_genero'];
+			return (1);
 			
-	}	
+	}
+	 * 
+	 */
+	 	
 	function setar_form_por_session()
 	{
 		global $dd;
@@ -101,23 +92,6 @@ class cadastro_pre
 		return (1);
 	}
 	
-	function setar_form_por_session()
-	{
-		global $dd;
-		
-			$dd[0] = $_SESSION['CLIENTE'];
-			$dd[1] = $_SESSION['NOME'];
-			$dd[2] = stodbr($_SESSION['NASCIMENTO']);
-			$dd[3] = $_SESSION['NATURALIDADE'];
-			$dd[4] = $_SESSION['RG'];
-			$dd[5] = $_SESSION['GENERO'];
-			$dd[6] = $_SESSION['PAI'];
-			$dd[7] = $_SESSION['MAE'];
-			$dd[8] = $_SESSION['AVAL_STA'];
-			$dd[9] = $_SESSION['AVAL_COD'];
-			
-		return (1);
-	}
 	function setar_session_endereco()
 	{
 		
@@ -131,7 +105,7 @@ class cadastro_pre
 			if(strlen(trim($this->nome))>0){ $set1 .= ', pes_nome'; $set2 .= ",'$this->nome'";	};
 			if(strlen(trim($this->nasc))>0){ $set1 .= ', pes_nasc'; $set2 .= ",'$this->nasc'";	};
 			if(strlen(trim($this->mae))>0){ $set1 .= ', pes_mae'; $set2 .= ",'$this->mae'";	};
-			$sql = "insert into ".$this->tabela." 
+			echo $sql = "insert into ".$this->tabela." 
 					(pes_cliente_seq,pes_cpf,pes_data,
 					  pes_lastupdate, pes_status $set1)
 					values 
@@ -140,7 +114,7 @@ class cadastro_pre
 					)";
 			$rlt = db_query($sql);
 			$this->updatex();
-			
+			//exit;
 			return($this->recupera_codigo_pelo_cpf($cpf));
 					
 		}
@@ -154,7 +128,7 @@ class cadastro_pre
 		$c1 = 'id_'.$c;
 		$c2 = $c.'_cliente';
 		$c3 = 6;
-		$sql = "update ".$this->tabela." set $c2 = '7' || lpad($c1,$c3,0)  where  ($c2='' or $c2 is null )";
+		$sql = "update ".$this->tabela." set $c2 = concat('7', lpad($c1,$c3,0))  where  ($c2='' or $c2 is null )";
 		$rlt = db_query($sql);
  		return(0);
 	}		
@@ -168,6 +142,7 @@ class cadastro_pre
 			$rlt = db_query($sql);
 			if($line = db_read($rlt))
 			{
+				$this->id = $line['id_pes'];
 				$this->cpf = $line['pes_cpf'];
 				$this->cliente = $line['pes_cliente'];
 				$this->nome = $line['pes_nome'];
@@ -192,7 +167,7 @@ class cadastro_pre
 		{
 			$cp = array();
 			array_push($cp,array('$H8','id_pes','',False,True));
-			array_push($cp,array('$S100','pes_nome','NOME COMPLETO',TRUE,True));
+			array_push($cp,array('$S100','pes_nome','NOME COMPLETO',True,True));
 			array_push($cp,array('$D8','pes_nasc','DATA NASCIMENTO',TRUE,True));
 			array_push($cp,array('$S30','pes_naturalidade','NATURALIDADE',TRUE,True));
 			array_push($cp,array('$S15','pes_rg','RG',TRUE,True));	
@@ -202,9 +177,9 @@ class cadastro_pre
 			array_push($cp,array('$O : '.utf8_encode("&S:SIM&N:NÃO"),'pes_avalista','POSSUI AVALISTA?',TRUE,True));
 			array_push($cp,array('$S7','pes_avalista_cod',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
-			array_push($cp,array('$H7','pes_cliente_seq','',False,True));
-			array_push($cp,array('$H1','pes_status','',False,True));
-			array_push($cp,array('$H11','pes_lastupdate','',False,True));
+			//array_push($cp,array('$H7','pes_cliente_seq','',True,True));
+			//array_push($cp,array('$H1','pes_status','',True,True));
+			//array_push($cp,array('$H11','pes_lastupdate','',True,True));
 			return($cp);
 		
 		}
@@ -276,10 +251,7 @@ class cadastro_pre
 			array_push($cp,array('$S7','',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
 			return($cp);
-			
 		}
-		
-	
 			
 	function validaCPF($cpf = null) 
 	{

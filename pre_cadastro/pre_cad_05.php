@@ -14,12 +14,13 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $_SESSION['angulo'] = 80;
-
+echo '<br><br><br>';
 echo '<table width="100%">
 		<tr valign="top">
 			<td width="50%">';
 			require("pre_cad_menu.php");
 echo '<td width="50%">';
+echo '<div id="cad05" style="width:1px" >';
 
 /* Dados CP05 */
 $cp = $pre->cp_05();
@@ -38,5 +39,11 @@ if ($form->saved > 0)
 echo '</td></tr></table>';
 echo '<script>
 				$("#div5_new").toggleClass("textmenu");
+
+				$( "#cl5" ).addClass( "circle5a" );
+				
+				$("#cad05").animate({
+				width:"100%"
+			  },400);
 	</script>';
 ?>

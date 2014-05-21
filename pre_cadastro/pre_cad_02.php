@@ -13,11 +13,13 @@ $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 
 $_SESSION['angulo'] = 20;
+echo '<br><br><br>';
 echo '<table width="100%">
 		<tr valign="top">
 			<td width="50%">';
 			require("pre_cad_menu.php");
 echo '<td width="50%">';
+echo '<div id="cad02" style="width:1px" >';
 /* Dados CP02 */
 $cp = $pre->cp_02();
 $tela = $form->editar($cp,'');
@@ -41,6 +43,13 @@ echo '
 	jQuery(function($){
    		$("#dd1").mask("99.999-999");
 	});
+	
+	
+	$( "#cl2" ).addClass( "circle2a" );
+	
+	$("#cad02").animate({
+				width:"100%"
+			  },400);
 </script>
 ';		
 		

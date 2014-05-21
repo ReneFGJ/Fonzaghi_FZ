@@ -4,7 +4,6 @@ require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 require('../_class/_class_acp.php');
 require('../_include/_class_form.php');
-
 $form = new form;
 $form->required_message = 0;
 $form->required_message_post = 0;
@@ -24,17 +23,15 @@ if($pre->validaCPF($cpf))
 	$pre->cadastrar_cpf($cpf);
 	if ($form->saved > 0)
 		{
-			echo '<br>=========='.$acp->acp_nome;
-			echo '<br>=========='.$acp->acp_nasc;
-			echo '<br>=========='.$acp->acp_mae;
-			redirecina('pre_cad_01.php');
+			$_SESSION['ID_PG1'] = $pre->id;
+			$_SESSION['nome'] = $pre->nome;
+			redirecina('pre_cad_01.php?dd0='.$pre->id);
 		} else {
 			echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
 			echo $tela;
 		}
 }else{
-//	echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
-	echo $hd->banner("/fz/rss/rss_aniversariantes.php?dd0=.rss",500,500);	
+	echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
 	echo $tela;
 	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	
