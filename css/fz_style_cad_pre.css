@@ -63,8 +63,13 @@
 				
 	}
 
-.precad_form_buttom
+.precad_tr:nth-child(even) 
 	{
-		
+	  	background-color: rgb(98, 194, 208);
+	}
+
+.precad_tr:nth-child(odd) 
+	{
+  		background-color: #FCFCFC;
 	}	
 

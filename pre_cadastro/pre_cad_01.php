@@ -16,6 +16,7 @@ $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $_SESSION['angulo'] = 0;
 
+echo $_SESSION['pre_aba_aberta'];
 echo '<table width="100%">
 		<tr class="corpo"  valign="top">
 			<td width="30%">';

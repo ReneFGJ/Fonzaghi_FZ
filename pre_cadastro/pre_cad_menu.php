@@ -4,7 +4,7 @@ $pg = new progress;
 $pg->agl = $_SESSION['angulo'];
 require('../_class/_class_acp.php');
 
-
+echo $_SESSION['pre_aba_aberta'];
 
 ?>
 <div id="corpo"> 

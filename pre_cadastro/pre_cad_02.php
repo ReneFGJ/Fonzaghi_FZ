@@ -18,6 +18,7 @@ echo '<table width="100%">
 			<td width="30%">';
 			require("pre_cad_menu.php");
 echo '<td class="corpo" width="70%" align="right">';
+echo $pre->gerar_abas_auxiliares('PRINCIPAL','../pre_cadastro/pre_cad_01.php',0,0);
 echo '<div id="cad02" style="width:1px" >';
 /* Dados CP02 */
 $cp = $pre->cp_02();

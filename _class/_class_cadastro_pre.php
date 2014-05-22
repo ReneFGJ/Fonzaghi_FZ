@@ -346,7 +346,7 @@ class cadastro_pre
 
 	function gerar_abas_auxiliares($principal = '',$principal_url='',$endereco = '1',$telefone='1')
 	{
-		
+		/*
 		$onclick = 'onclick="newxy2(';
 		$onclick .= chr(39).$principal_url.chr(39);
 		$onclick .= ',800,400);"';
@@ -358,16 +358,87 @@ class cadastro_pre
 		$onclick2 = 'onclick="newxy2(';
 		$onclick2 .= chr(39).'pre_cad_endereco.php'.chr(39);
 		$onclick2 .= ',800,400);"';
-								
+		*/						
 		$sx .= '<div class="cab_banner_abas">';
-		$sx .= '<div class="cab_banner_buttom" '.$onclick.'>'.$principal.'</div>';
-		if($endereco=='1'){	$sx .= '<div class="cab_banner_buttom" '.$onclick2.'>ENDERECO</div>';}
-		if($telefone=='1'){	$sx .= '<div class="cab_banner_buttom" '.$onclick1.'>TELEFONE</div>';}
+		$sx .= '<div id="pre_aba1" class="cab_banner_buttom" '.$onclick.'>'.$principal.'</div>';
+		if($endereco=='1'){	$sx .= '<div id="pre_aba2" class="cab_banner_buttom" '.$onclick2.'>ENDERECO</div>';}
+		if($telefone=='1'){	$sx .= '<div id="pre_aba3" class="cab_banner_buttom" '.$onclick1.'>TELEFONE</div>';}
 		$sx .= '</div>';
+		echo '<script>
+		alert("aqui");
+			$( "#pre_aba1" ).click(function() {
+				alert("aqui");
+				$("#pre_aba1").show();
+				$("#pre_aba1").animate({ width:"50%" },400);
+				$("#pre_aba2").hide();
+				$("#pre_aba3").hide();
+				
+				/*session.setAttribute(pre_principal, "pre_aba_aberta"); */
+				location.reload();
+			});
+			
+			$( "#pre_aba2" ).click(function() {
+				alert("aqui");
+				$("#pre_aba2").show();
+				$("#pre_aba2").animate({ width:"50%" },400);
+				$("#pre_aba3").hide();
+				$("#pre_aba1").hide();
+				
+				/*session.setAttribute(pre_telefone,"pre_aba_aberta");*/
+				location.reload();
+			});
+			
+			$( "#pre_aba3" ).click(function() {
+				alert("aqui");
+				$("#pre_aba3").show();
+				$("#pre_aba3").animate({ width:"50%" },400);
+				$("#pre_aba1").hide();
+				$("#pre_aba2").hide();
+				alert("aqui");
+				/*session.setAttribute(pre_endereco,"pre_aba_aberta");*/
+				location.reload();
+			});
+			
+			
+			</script>';
 		
+				
 		return($sx);
 	}
 	
+	function listar_contatos ()
+	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		$sql = "select * from cad_contato
+				where con_status='@'
+				order by con_data,con_lastcall
+				";
+		$rlt = db_query($sql);
+		$sx ='<div width="100%">';
+		$sx .= '<table width="95%"><tr>
+					<td width="100px" align="center">Data</td>
+					<td width="100px" align="center">Ultimo contato</td>
+					<td width="100px" align="center">Contato</td>
+					</tr>';
+		while($line = db_read($rlt))
+		{
+			$sx .= '<tr class="precad_tr"><td width="100px" align="center">'.stodbr($line['con_data']).'</td>
+						<td width="100px" align="center">'.stodbr($line['con_lastcall']).'</td>
+						<td width="100px" align="center">'.$line['con_nome'].'</td>
+					</tr>';			
+		}
+		$sx .='</table>';
+		$sx .='</div>';
+
+		return($sx);
+	}
+	
+	function checklist_cadastro()
+	{
+		
+		return($sx);
+	}
 		
 	
 }

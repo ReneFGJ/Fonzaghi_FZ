@@ -13,7 +13,7 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $cp = $pre->cp_00();
-echo "<center>";
+echo '<center><div id="corpo">';
 $tela = $form->editar($cp,'');
 $cpf = $dd[2];
 $cpf = ereg_replace('[^0-9]', '', $cpf);
@@ -27,15 +27,21 @@ if($pre->validaCPF($cpf))
 			$_SESSION['nome'] = $pre->nome;
 			redirecina('pre_cad_01.php?dd0='.$pre->id);
 		} else {
-			echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
-			echo $tela;
+			echo '<div></div>
+			
+				<div>'.$pre->listar_contatos().'</div>
+				<div>'.$tela.'</div>';
+					
+			
 		}
 }else{
-	echo $hd->banner("http://dlc0421.googlepages.com/gfss.rss",500,500);
-	echo $tela;
+	echo '	<div >---------------------</div>
+			<div>'.$pre->listar_contatos().'</div>
+			<div>'.$tela.'</div>';
+				
 	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	
-
+echo '</div>';
 echo '
 <script>
 	jQuery(function($){

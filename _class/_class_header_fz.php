@@ -125,7 +125,7 @@ class header
 	
 	function cab_banner()
 	{
-		$sx ='<div class="cab_banner">-------------------</div>';
+		$sx ='<div class="cab_banner"></div>';
 		return($sx);
 	}
 	
