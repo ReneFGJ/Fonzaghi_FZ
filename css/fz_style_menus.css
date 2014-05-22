@@ -12,10 +12,10 @@
  
 #corpo{
 	height:auto;
-	width:500px;
+	width:100%;
 	background:#FFF;
-	position:absolute;
-	float:inherit;	
+	position:relative;
+	float:left;	
 }
 
 #head{
@@ -24,6 +24,57 @@
 	background:#FFF;
 	position:relative;
 }	
+
+.cab_banner{
+	height:80px;
+	width:100%;
+	background:rgb(98, 194, 208);
+	position:relative;
+}
+
+.cab_banner_abas{
+	vertical-align:top;
+	height:30px;
+	width:100%;
+	border:solid 4px rgb(98, 194, 208);
+	background:rgb(98, 194, 208);
+	position:relative;
+	text-align:center;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright:0px;
+	-moz-border-radius-bottomleft:20px;
+	-moz-border-radius-bottomright:20px;
+	-webkit-border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-webkit-border-bottom-left-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+}
+
+.cab_banner_buttom{
+	
+	height:30px;
+	width:20%;
+	position:relative;
+	float:left;
+	border:solid 0px rgb(98, 194, 208);
+	background:#FFFFFF;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-topright:0px;
+	-moz-border-radius-bottomleft:20px;
+	-moz-border-radius-bottomright:20px;
+	-webkit-border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-webkit-border-bottom-left-radius:20px;
+	-webkit-border-bottom-right-radius:20px;
+	border-top-left-radius:0px;
+	border-top-right-radius:0px;
+	border-bottom-left-radius:20px;
+	border-bottom-right-radius:20px;
+}
 
 .txtconsult{
 	width:400px;

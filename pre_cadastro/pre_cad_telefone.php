@@ -12,18 +12,18 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 
-$cp = $pre->cp_05();
+$cp = $pre->cp_telefone();
 $tela = $form->editar($cp,'');
 
 if ($form->saved > 0)
 	{
 		echo $hd->retornar_para_pagina_principal();
 	}else{
-		echo $tela;
+		echo '<table><tr>';
+		echo '<td valign="top" width="50%"><h2>Cadastro de telefones</h2>'.$tela.'</td>';
+		echo '<td valign="top" width="50%"><h2>Relacao de telefones</h2></td>';
+		echo '</tr></table>';
 	}
-	
-
-
 echo '<script>
 				$("#div3_new").toggleClass("textmenu");
 				

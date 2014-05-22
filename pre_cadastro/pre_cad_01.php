@@ -15,12 +15,13 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $_SESSION['angulo'] = 0;
-echo '<br><br><br>';
+
 echo '<table width="100%">
-		<tr valign="top">
-			<td width="50%">';
+		<tr class="corpo"  valign="top">
+			<td width="30%">';
 			require("pre_cad_menu.php");
-echo '<td width="50%" align="left">';
+echo '<td class="corpo" width="70%" align="right">';
+echo $pre->gerar_abas_auxiliares('PRINCIPAL','../pre_cadastro/pre_cad_01.php',1,1);
 echo '<div id="cad01" style="width:1px" >';
 /* Dados CP01 */
 $cp = $pre->cp_01();
@@ -43,7 +44,6 @@ if ($form->saved > 0)
 		echo $tela;
 	}
 echo '</div>';
-echo $pre->gerar_abas_auxiliares(1,1);
 echo '</td></tr></table>';
 
 echo '<script>
@@ -53,7 +53,7 @@ echo '<script>
 	   		$("#dd4").mask("9.999.999-9");
 		});	
 		$( "#cl1" ).addClass( "circle1a" );
-		$("#cad01").animate({ width:"100%" },400);
+		$("#cad01").animate({ width:"50%" },400);
 </script>
 ';	
 

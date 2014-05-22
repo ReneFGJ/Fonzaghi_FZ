@@ -14,12 +14,12 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $_SESSION['angulo'] = 80;
-echo '<br><br><br>';
 echo '<table width="100%">
-		<tr valign="top">
-			<td width="50%">';
+		<tr class="corpo"  valign="top">
+			<td width="30%">';
 			require("pre_cad_menu.php");
-echo '<td width="50%">';
+echo '<td class="corpo" width="70%" align="right">';
+
 echo '<div id="cad05" style="width:1px" >';
 
 /* Dados CP05 */

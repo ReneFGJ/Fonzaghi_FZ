@@ -12,7 +12,7 @@ require("db.php");
 require("_class/_class_header_fz.php");
 $hd = new header;
 echo $hd->cab();
-
+echo $hd->cab_banner();
 global $cr;
 $cr = chr(13).chr(10);
 

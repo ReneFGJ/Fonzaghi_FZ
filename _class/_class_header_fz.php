@@ -122,6 +122,13 @@ class header
 		echo $sx;
   		return(true);
 	}
+	
+	function cab_banner()
+	{
+		$sx ='<div class="cab_banner">-------------------</div>';
+		return($sx);
+	}
+	
 			
 }
 ?>

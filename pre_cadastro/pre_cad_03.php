@@ -13,12 +13,13 @@ $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 
 $_SESSION['angulo'] = 40;
-echo '<br><br><br>';
 echo '<table width="100%">
-		<tr valign="top">
-			<td width="50%">';
+		<tr class="corpo"  valign="top">
+			<td width="30%">';
 			require("pre_cad_menu.php");
-echo '<td width="50%">';
+echo '<td class="corpo" width="70%" align="right">';
+
+echo $pre->gerar_abas_auxiliares('PRINCIPAL','pre_cad_03.php',0,1);
 echo '<div id="cad03" style="width:1px" >';
 
 /* Dados CP03 */
@@ -36,7 +37,6 @@ if ($form->saved > 0)
 	}
 
 echo '</div>';
-echo $pre->gerar_abas_auxiliares(0,1);
 echo '</td></tr></table>';
 echo '<script>
 				$("#div3_new").toggleClass("textmenu");

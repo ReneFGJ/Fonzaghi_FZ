@@ -237,29 +237,45 @@ class cadastro_pre
 			return($cp);
 			
 		}
-	
 	function cp_04()
 		{
 			$cp = array();
-			/*
 			array_push($cp,array('$H8','','',False,True));
-			array_push($cp,array('$S100','','NOME COMPLETO',TRUE,True));
-			array_push($cp,array('$D8','','DATA NASCIMENTO',TRUE,True));
-			array_push($cp,array('$S30','','NATURALIDADE',TRUE,True));
-			array_push($cp,array('$S15','','RG',TRUE,True));	
-			array_push($cp,array('$O : &M:MASCULINO&F:FEMININO','','GENERO',TRUE,True));
-			array_push($cp,array('$S100','','NOME DO PAI',TRUE,True));
-			array_push($cp,array('$S100','',utf8_encode('NOME DA MÃE'),TRUE,True));
-			array_push($cp,array('$O : '.utf8_encode("&P:PRIMÁRIO&S:SECUNDÁRIO"),'','AVALISTA',TRUE,True));
-			array_push($cp,array('$S7','',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
+			return($cp);
+			
+		}
+	
+	function cp_05()
+		{
+			$cp = array();
+			array_push($cp,array('$H8','','',False,True));
+			return($cp);
+			
+		}
+	
+	function cp_telefone()
+		{
+			$cp = array();
+			
+			array_push($cp,array('$H8','id_tel','',False,True));
+			
+			array_push($cp,array('$S3','tel_ddd','DDD',TRUE,True));
+			array_push($cp,array('$S9','tel_numero','NUMERO',TRUE,True));	
+			array_push($cp,array('$O : &C:CELULAR&R:RESIDENCIAL&E:COMERCIAL','tel_tipo','TIPO',TRUE,True));
+			array_push($cp,array('$O : &1:SIM&1:NAO','tel_validado','VALIDADO?',TRUE,True));
+			array_push($cp,array('$O : &1:SIM&1:NAO','tel_status','STATUS',TRUE,True));
+			
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
-			 * 
-			 */
+			
+			array_push($cp,array('$H7','tel_cliente','',True,True));
+			array_push($cp,array('$H3','tel_cliente_seq','',True,True));
+			array_push($cp,array('$H11','tel_data','',TRUE,True));
+			 
 			return($cp);
 			
 		}			
 	
-	function cp_05()
+	function cp_endereco()
 		{
 			$cp = array();
 			/*
@@ -328,20 +344,25 @@ class cadastro_pre
     	}
 	}
 
-	function gerar_abas_auxiliares($endereco = '1',$telefone='1')
+	function gerar_abas_auxiliares($principal = '',$principal_url='',$endereco = '1',$telefone='1')
 	{
+		
+		$onclick = 'onclick="newxy2(';
+		$onclick .= chr(39).$principal_url.chr(39);
+		$onclick .= ',800,400);"';
 		
 		$onclick1 = 'onclick="newxy2(';
 		$onclick1 .= chr(39).'pre_cad_telefone.php'.chr(39);
-		$onclick1 .= ',600,600);"';
+		$onclick1 .= ',800,400);"';
 		
 		$onclick2 = 'onclick="newxy2(';
 		$onclick2 .= chr(39).'pre_cad_endereco.php'.chr(39);
-		$onclick2 .= ',600,600);"';
+		$onclick2 .= ',800,400);"';
 								
-		$sx .= '<div class="precad_form_aba">';
-		if($endereco=='1'){	$sx .= '<a class="precad_form_buttom" '.$onclick2.'>ENDERECO</a>';}
-		if($telefone=='1'){	$sx .= '<a class="precad_form_buttom" '.$onclick1.'>TELEFONE</a>';}
+		$sx .= '<div class="cab_banner_abas">';
+		$sx .= '<div class="cab_banner_buttom" '.$onclick.'>'.$principal.'</div>';
+		if($endereco=='1'){	$sx .= '<div class="cab_banner_buttom" '.$onclick2.'>ENDERECO</div>';}
+		if($telefone=='1'){	$sx .= '<div class="cab_banner_buttom" '.$onclick1.'>TELEFONE</div>';}
 		$sx .= '</div>';
 		
 		return($sx);

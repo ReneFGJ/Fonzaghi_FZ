@@ -12,7 +12,7 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 
-$cp = $pre->cp_04();
+$cp = $pre->cp_endereco();
 $tela = $form->editar($cp,'');
 
 if ($form->saved > 0)
