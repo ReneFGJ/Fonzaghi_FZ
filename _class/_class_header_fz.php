@@ -110,6 +110,18 @@ class header
 		$sx .= '<div id="picasaSlideshow" class="gslideshow" style=" width:  '.$width.'px;
         height: '.$height.'px;"><div class="feed-loading">Loading...</div></div>';
 		return($sx);
-	}	
 	}
+	
+	function retornar_para_pagina_principal()
+	{
+		global $cr;
+		$sx ='<script>';
+		$sx .='opener.location.reload();';
+  		$sx .='window.close();';
+		$sx .='</script>';
+		echo $sx;
+  		return(true);
+	}
+			
+}
 ?>
