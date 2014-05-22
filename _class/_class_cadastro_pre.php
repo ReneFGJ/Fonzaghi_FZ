@@ -9,6 +9,8 @@
 	 * @subpackage _class_cadastro_pre.php
     */
 require_once('../_include/sisdoc_data.php');
+require_once('../_include/sisdoc_windows.php');
+
 class cadastro_pre
 	{
 		
@@ -187,15 +189,30 @@ class cadastro_pre
 	function cp_02()
 		{
 			$cp = array();
-			array_push($cp,array('$H8','','',False,True));
-			array_push($cp,array('$S11','','CEP',TRUE,True));
-			array_push($cp,array('$S100','','RUA',TRUE,True));
-			array_push($cp,array('$S10','',utf8_encode('NÚMERO'),TRUE,True));
-			array_push($cp,array('$S30','','BAIRRO',TRUE,True));
-			array_push($cp,array('$S30','','CIDADE',TRUE,True));
-			array_push($cp,array('$UF','','ESTADO',TRUE,True));
-			array_push($cp,array('$S30','','COMPLEMENTO',TRUE,True));
+			array_push($cp,array('$H8','id_cmp','',False,True));
+			array_push($cp,array('$S8','cmp_salario','SALARIO',TRUE,True));
+			array_push($cp,array('$S8','cmp_salario_complementar','SALARIO COMPLEMENTAR',TRUE,True));
+			array_push($cp,array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL','cmp_estado_civil','ESTADO CIVIL',TRUE,True));
+			array_push($cp,array('$S2','cmp_estado_civil_tempo','TEMPO ESTADO CIVIL',TRUE,True));
+			array_push($cp,array('$S30','cmp_profissao','PROFISSAO',TRUE,True));
+			array_push($cp,array('$S2','cmp_experiencia_vendas','TEMPO EXP. VENDAS',TRUE,True));
+			array_push($cp,array('$S8','cmp_valor_aluguel','VALOR ALUGUEL',TRUE,True));
+			array_push($cp,array('$S2','cmp_imovel_tempo','TEMPO IMOVEL',TRUE,True));
+			array_push($cp,array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS','cmp_propaganda','PROPAGANDA 1',TRUE,True));
+			array_push($cp,array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS','cmp_propaganda2','PROPAGANDA 2',TRUE,True));
+			
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
+			
+			array_push($cp,array('$H8','cmp_cliente','',TRUE,True));
+			array_push($cp,array('$H8','cmp_cliente_seq','',TRUE,True));
+			array_push($cp,array('$H8','cmp_log','',TRUE,True));
+			array_push($cp,array('$H8','cmp_data','',TRUE,True));
+			array_push($cp,array('$H8','cmp_lastupdate_log','',TRUE,True));
+			array_push($cp,array('$H8','cmp_lastupdate','',TRUE,True));
+			array_push($cp,array('$H8','cmp_status','',TRUE,True));
+			
+			
+			
 			return($cp);
 			
 		}
@@ -203,17 +220,20 @@ class cadastro_pre
 	function cp_03()
 		{
 			$cp = array();
-			array_push($cp,array('$H8','','',False,True));
-			array_push($cp,array('$S100','','NOME COMPLETO',TRUE,True));
-			array_push($cp,array('$D8','','DATA NASCIMENTO',TRUE,True));
-			array_push($cp,array('$S30','','NATURALIDADE',TRUE,True));
-			array_push($cp,array('$S15','','RG',TRUE,True));	
-			array_push($cp,array('$O : &M:MASCULINO&F:FEMININO','','GENERO',TRUE,True));
-			array_push($cp,array('$S100','','NOME DO PAI',TRUE,True));
-			array_push($cp,array('$S100','',utf8_encode('NOME DA MÃE'),TRUE,True));
-			array_push($cp,array('$O : '.utf8_encode("&P:PRIMÁRIO&S:SECUNDÁRIO"),'','AVALISTA',TRUE,True));
-			array_push($cp,array('$S7','',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
+			array_push($cp,array('$H8','id_ref','',False,True));
+			array_push($cp,array('$S30','ref_nome','NOME',TRUE,True));
+			array_push($cp,array('$S15','ref_cep','CEP',TRUE,True));	
+			array_push($cp,array('$T50:10','ref_observacao','OBSERVACOES',TRUE,True));
+			array_push($cp,array('$S8','ref_grau','GRAU',TRUE,True));
+			array_push($cp,array('$S7','ref_status','STATUS',TRUE,True));
+			array_push($cp,array('$S7','ref_ativo','ATIVO',TRUE,True));
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
+			
+			array_push($cp,array('$H7','ref_cliente','',TRUE,True));
+			array_push($cp,array('$H3','ref_cliente_seq','',TRUE,True));
+			array_push($cp,array('$H11','ref_data','',TRUE,True));	
+			
+			
 			return($cp);
 			
 		}
@@ -221,6 +241,7 @@ class cadastro_pre
 	function cp_04()
 		{
 			$cp = array();
+			/*
 			array_push($cp,array('$H8','','',False,True));
 			array_push($cp,array('$S100','','NOME COMPLETO',TRUE,True));
 			array_push($cp,array('$D8','','DATA NASCIMENTO',TRUE,True));
@@ -232,6 +253,8 @@ class cadastro_pre
 			array_push($cp,array('$O : '.utf8_encode("&P:PRIMÁRIO&S:SECUNDÁRIO"),'','AVALISTA',TRUE,True));
 			array_push($cp,array('$S7','',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
+			 * 
+			 */
 			return($cp);
 			
 		}			
@@ -239,6 +262,7 @@ class cadastro_pre
 	function cp_05()
 		{
 			$cp = array();
+			/*
 			array_push($cp,array('$H8','','',False,True));
 			array_push($cp,array('$S100','','NOME COMPLETO',TRUE,True));
 			array_push($cp,array('$D8','','DATA NASCIMENTO',TRUE,True));
@@ -250,6 +274,8 @@ class cadastro_pre
 			array_push($cp,array('$O : '.utf8_encode("&P:PRIMÁRIO&S:SECUNDÁRIO"),'','AVALISTA',TRUE,True));
 			array_push($cp,array('$S7','',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
+			 * 
+			 */
 			return($cp);
 		}
 			
@@ -301,5 +327,27 @@ class cadastro_pre
         return true;
     	}
 	}
+
+	function gerar_abas_auxiliares($endereco = '1',$telefone='1')
+	{
+		
+		$onclick1 = 'onclick="newxy2(';
+		$onclick1 .= chr(39).'pre_cad_telefone.php'.chr(39);
+		$onclick1 .= ',600,600);"';
+		
+		$onclick2 = 'onclick="newxy2(';
+		$onclick2 .= chr(39).'pre_cad_endereco.php'.chr(39);
+		$onclick2 .= ',600,600);"';
+								
+		$sx .= '<div class="precad_form_aba">';
+		if($endereco=='1'){	$sx .= '<a class="precad_form_buttom" '.$onclick2.'>ENDERECO</a>';}
+		if($telefone=='1'){	$sx .= '<a class="precad_form_buttom" '.$onclick1.'>TELEFONE</a>';}
+		$sx .= '</div>';
+		
+		return($sx);
+	}
+	
+		
+	
 }
 ?>

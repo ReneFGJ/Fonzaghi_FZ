@@ -20,10 +20,10 @@ require('../_class/_class_acp.php');
  		 	</table> 
         </div>    
         <div id="div1_new" class="textmenu_new bg1" > DADOS PESSOAIS <a id="cl1" class="circle1"></a></div>
-    	<div id="div2_new" class="textmenu_new bg2" > ENDEREÇO <a id="cl2"  class="circle2"></a></div>
-        <div id="div3_new" class="textmenu_new bg3" > ESTADO CIVIL <a id="cl3"  class="circle3"></a></div>
-        <div id="div4_new" class="textmenu_new bg4" > PROFISSIONAL <a id="cl4"  class="circle4"></a></div>
-        <div id="div5_new" class="textmenu_new bg5" > REFERÊNCIAS <a id="cl5"  class="circle5"></a></div>
+    	<div id="div2_new" class="textmenu_new bg2" > COMPLEMENTO <a id="cl2"  class="circle2"></a></div>
+        <div id="div3_new" class="textmenu_new bg3" > REFERÊNCIAS <a id="cl3"  class="circle3"></a></div>
+        <div id="div4_new" class="textmenu_new bg4" > MENU 4 <a id="cl4"  class="circle4"></a></div>
+        <div id="div5_new" class="textmenu_new bg5" > MENU 5 <a id="cl5"  class="circle5"></a></div>
         <div> <input type="submit" class="precad_form_submit" value="Enviar" > </div> 
         </td> <td class="linha">
 </div> </td> </tr> </table>

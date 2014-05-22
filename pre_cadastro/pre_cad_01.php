@@ -20,7 +20,7 @@ echo '<table width="100%">
 		<tr valign="top">
 			<td width="50%">';
 			require("pre_cad_menu.php");
-echo '<td width="50%">';
+echo '<td width="50%" align="left">';
 echo '<div id="cad01" style="width:1px" >';
 /* Dados CP01 */
 $cp = $pre->cp_01();
@@ -43,7 +43,9 @@ if ($form->saved > 0)
 		echo $tela;
 	}
 echo '</div>';
+echo $pre->gerar_abas_auxiliares(1,1);
 echo '</td></tr></table>';
+
 echo '<script>
 		$("#div1_new").toggleClass("textmenu");
 		
@@ -51,11 +53,7 @@ echo '<script>
 	   		$("#dd4").mask("9.999.999-9");
 		});	
 		$( "#cl1" ).addClass( "circle1a" );
-		
-
-		$("#cad01").animate({
-				width:"100%"
-			  },400);
+		$("#cad01").animate({ width:"100%" },400);
 </script>
 ';	
 

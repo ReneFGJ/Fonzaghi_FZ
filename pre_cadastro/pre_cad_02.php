@@ -18,7 +18,7 @@ echo '<table width="100%">
 		<tr valign="top">
 			<td width="50%">';
 			require("pre_cad_menu.php");
-echo '<td width="50%">';
+echo '<td width="50%" align="left">';
 echo '<div id="cad02" style="width:1px" >';
 /* Dados CP02 */
 $cp = $pre->cp_02();
@@ -36,17 +36,9 @@ if ($form->saved > 0)
 
 echo '</td></tr></table>';
 echo '<script>
-				$("#div2_new").toggleClass("textmenu");
-	</script>';
-echo '
-<script>
-	jQuery(function($){
-   		$("#dd1").mask("99.999-999");
-	});
-	
+	$("#div2_new").toggleClass("textmenu");
 	
 	$( "#cl2" ).addClass( "circle2a" );
-	
 	$("#cad02").animate({
 				width:"100%"
 			  },400);

@@ -13,7 +13,7 @@ require("_class/_class_header_fz.php");
 $hd = new header;
 echo $hd->cab();
 
-
-
+global $cr;
+$cr = chr(13).chr(10);
 
 ?>

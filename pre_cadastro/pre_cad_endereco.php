@@ -12,32 +12,18 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 
-$_SESSION['angulo'] = 40;
-echo '<br><br><br>';
-echo '<table width="100%">
-		<tr valign="top">
-			<td width="50%">';
-			require("pre_cad_menu.php");
-echo '<td width="50%">';
-echo '<div id="cad03" style="width:1px" >';
-
-/* Dados CP03 */
-$cp = $pre->cp_03();
+$cp = $pre->cp_04();
 $tela = $form->editar($cp,'');
 
 if ($form->saved > 0)
 	{
-		$pg = '04';
-		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); }
-		redirecina('pre_cad_'.$pg.'.php');
-	} else {
-		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); redirecina('pre_cad_'.$pg.'.php'); }
+		echo $hd->retornar_para_pagina_principal();
+	}else{
 		echo $tela;
 	}
+	
 
-echo '</div>';
-echo $pre->gerar_abas_auxiliares(0,1);
-echo '</td></tr></table>';
+
 echo '<script>
 				$("#div3_new").toggleClass("textmenu");
 				
