@@ -39,20 +39,20 @@ if($pre->validaCPF($cpf))
 	echo '<table>	
 				<tr><td>
 					<div align="center" width="30%" style="position:relative; float:left">
-						<img width="270px" src="../img/imgboxcad.png">
-						<div style="width:270px; height:300px;background:#E7E7E7"></div>
+						<img width="300px" src="../img/imgboxinfo.png">
+						<div style="width:300px; height:300px;background:#E7E7E7"></div>
 					</div>
-				</td>
+				</td><td width="20px"></td>
 				<td>
 					<div align="center" width="30%" style="position:relative; float:left">
-						<img width="270px" src="../img/imgboxcad.png">
-						<div style="width:270px; height:300px;background:#E7E7E7">'.$pre->listar_contatos().'</div>
+						<img width="300px" src="../img/imgboxcont.png">
+						<div style="width:300px; height:300px;background:#E7E7E7">'.$pre->listar_contatos().'</div>
 					</div>
-				</td>
+				</td><td width="20px"></td>
 				<td>
 					<div  align="center" width="30%" style="position:relative; float:left">
-						<img width="270px" src="../img/imgboxcad.png">
-						<div style="width:270px; height:300px;background:#E7E7E7">'.$tela.'</div>
+						<img width="300px" src="../img/imgboxcad.png">
+						<div style="width:300px; height:300px;background:#E7E7E7">'.$tela.'</div>
 					</div>
 				</td></tr></table>
 			';
