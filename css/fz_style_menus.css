@@ -82,7 +82,7 @@
 }
 
 .txtnomecons{
-	font-family:"Roboto Condensed", "Roboto Thin";
+	font-family:"RobotoThin", "RobotoThin";
 	font-size:24px;
 	padding-left:100px;
 	text-align:left;	
@@ -94,7 +94,7 @@
 	width:400px;
 	height:50px;
 	float:left;	
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#111;
 	padding-left:20px;
 	font-size:36px;
@@ -131,7 +131,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -150,7 +150,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -169,7 +169,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -186,7 +186,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -203,7 +203,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -220,7 +220,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -237,7 +237,7 @@
 	position:relative;
 	float:right;
 	text-align:center;
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -261,7 +261,7 @@
 	z-index:101;
 	left:100px;
 	bottom:5px;	
-	font-family:"Roboto Condensed", "Roboto Thin";
+	font-family:"RobotoThin", "RobotoThin";
 	font-size:24px;
 	padding-left:150px;
 	text-align:left;
@@ -377,7 +377,7 @@
 .bg12:hover { background-color:#5C7FC4; color:#FFF; }
 
 .textmenu{
-	font-family:"Roboto Condensed";
+	font-family:"RobotoThin";
 	font-size:38px;
 	color: #EEE;
 	text-align:left;
@@ -390,13 +390,13 @@
 - Cabeçalho dos relatorio
 */
 h1{
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#333;
 	font-size:36px;
 }
 
 h2{
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#666;
 	font-size:24px;
 }
@@ -406,31 +406,31 @@ h2{
 - Nome das instituições / empresas no pedido
 */
 h3{
-	font-family:"Roboto Condensed", "Roboto Thin";
+	font-family:"RobotoThin", "RobotoThin";
 	color:#666;
 	font-size:18px;	
 }
 
 h4{
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#666;
 	font-size:16px;
 }
 
 h5{
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#999;
 	font-size:12px;
 }
 
 h6{
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#F00;
 	font-size:10px;
 }
 
 h7{
-	font-family:"Roboto Thin";
+	font-family:"RobotoThin";
 	color:#F00;
 	font-size:36px;
 }
@@ -453,12 +453,12 @@ h7{
 			-moz-border-radius: 7px;
 			-ms-border-radius: 7px;
 			-o-border-radius: 7px;
-			font-family:"Roboto Condensed", "Roboto Thin";
+			font-family:"RobotoThin", "RobotoThin";
 			font-size:18px;	
 	
 	
 	font-size:18px;
-	font-family:"Roboto Condensed", "Roboto Thin";
+	font-family:"RobotoThin", "RobotoThin";
 	font-weight:normal;
 	-moz-border-radius:8px;
 	-webkit-border-radius:8px;
@@ -487,7 +487,7 @@ h7{
 			-moz-border-radius: 7px;
 			-ms-border-radius: 7px;
 			-o-border-radius: 7px;
-			font-family:"Roboto Condensed", "Roboto Thin";
+			font-family:"RobotoThin", "RobotoThin";
 			font-size:18px;	
 			
 }
@@ -499,14 +499,14 @@ top:1px;
 */
 
 .form_nome{
-font-family:"Roboto Thin";
+font-family:"RobotoThin";
 font-size:14px;
 text-align:right;
 color:#333;
 }
 
 .form_imput{
-font-family:"Roboto Thin";
+font-family:"RobotoThin";
 font-size:12px;
 text-align:left;
 color:#333;	
