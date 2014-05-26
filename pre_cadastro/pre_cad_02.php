@@ -17,9 +17,8 @@ echo '<table width="100%">
 		<tr class="corpo"  valign="top">
 			<td width="30%">';
 			require("pre_cad_menu.php");
-echo '<td class="corpo" width="70%" align="right">';
-echo $pre->gerar_abas_auxiliares('PRINCIPAL','../pre_cadastro/pre_cad_01.php',0,0);
-echo '<div id="cad02" style="width:1px" >';
+echo '<td class="corpo" width="70%">';
+echo '<div id="cad02" style="width:0px" >';
 /* Dados CP02 */
 $cp = $pre->cp_02();
 $tela = $form->editar($cp,'');
@@ -41,7 +40,7 @@ echo '<script>
 	$( "#cl2" ).addClass( "circle2a" );
 	$("#cad02").animate({
 				width:"100%"
-			  },400);
+			  },600);
 </script>
 ';		
 		

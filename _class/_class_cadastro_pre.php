@@ -8,8 +8,8 @@
 	 * @package _class
 	 * @subpackage _class_cadastro_pre.php
     */
-require_once('../_include/sisdoc_data.php');
-require_once('../_include/sisdoc_windows.php');
+require_once('../../include/sisdoc_data.php');
+require_once('../../include/sisdoc_windows.php');
 
 class cadastro_pre
 	{
@@ -28,6 +28,20 @@ class cadastro_pre
 	var $mae='';
 	var $nasc='';
 	
+	/**Em processo cadastro(geral BD)*/						var $tt_geral_Z = 0;
+	/**Aprovados(geral BD)*/								var $tt_geral_A = 0;
+	/**Em analise(geral BD)*/								var $tt_geral_T = 0;
+	/**Para correcao(geral BD)*/							var $tt_geral_C = 0;
+	/**Recusados(geral BD)*/								var $tt_geral_R = 0;
+	/**Aprovados que nunca pegaram produtos(geral BD)*/		var $tt_geral_S = 0;
+	
+	/**Em cadastro(mensal BD)*/								var $tt_mensal_Z = 0;
+	/**Aprovados(mensal BD)*/								var $tt_mensal_A = 0;
+	/**Em analise(mensal BD)*/								var $tt_mensal_T = 0;
+	/**Para correção(mensal BD)*/							var $tt_mensal_C = 0;
+	/**Recusados(mensal BD)*/								var $tt_mensal_R = 0;
+	/**Aprovados que nunca pegaram produtos(mensal BD)*/	var $tt_mensal_S = 0;
+	
 	var $class_include = '../../';
 	
 	function __contruct()
@@ -37,6 +51,7 @@ class cadastro_pre
 		$_SESSION['ID_PG3']='';
 		$_SESSION['ID_PG4']='';
 		$_SESSION['ID_PG5']='';
+		
 	}
 	
 	function cadastrar_cpf($cpf='')
@@ -55,27 +70,7 @@ class cadastro_pre
 			//$this->setar_session($this->cliente);
 			return($this->cliente);				
 		}
-	/*	
-	function setar_session($cliente)
-	{
-			$_SESSION['CLIENTE'] = $this->line['pes_cliente'];
-			$_SESSION['SEQUENCIA'] = $this->line['pes_cliente_seq'];
-			$_SESSION['NOME'] = $this->line['pes_nome'];
-			$_SESSION['CPF'] = $this->line['pes_cpf'];
-			$_SESSION['MAE'] = $this->line['pes_mae'];
-			$_SESSION['PAI'] = $this->line['pes_pai'];
-			$_SESSION['NASCIMENTO'] = $this->line['pes_nasc'];
-			$_SESSION['NATURALIDADE'] = $this->line['pes_naturalidade'];
-			$_SESSION['AVAL_STA'] = $this->line['pes_avalista'];
-			$_SESSION['AVAL_COD'] = $this->line['pes_avalista_cod'];
-			$_SESSION['RG'] = $this->line['pes_rg'];
-			$_SESSION['GENERO'] = $this->line['pes_genero'];
-			return (1);
-			
-	}
-	 * 
-	 */
-	 	
+		 	
 	function setar_form_por_session()
 	{
 		global $dd;
@@ -92,11 +87,6 @@ class cadastro_pre
 			$dd[9] = $_SESSION['AVAL_COD'];
 			
 		return (1);
-	}
-	
-	function setar_session_endereco()
-	{
-		
 	}
 	
 	function inserir_cpf($cpf='',$seq='00')
@@ -211,8 +201,6 @@ class cadastro_pre
 			array_push($cp,array('$H8','cmp_lastupdate','',TRUE,True));
 			array_push($cp,array('$H8','cmp_status','',TRUE,True));
 			
-			
-			
 			return($cp);
 			
 		}
@@ -233,10 +221,9 @@ class cadastro_pre
 			array_push($cp,array('$H3','ref_cliente_seq','',TRUE,True));
 			array_push($cp,array('$H11','ref_data','',TRUE,True));	
 			
-			
 			return($cp);
-			
 		}
+		
 	function cp_04()
 		{
 			$cp = array();
@@ -258,19 +245,15 @@ class cadastro_pre
 			$cp = array();
 			
 			array_push($cp,array('$H8','id_tel','',False,True));
-			
 			array_push($cp,array('$S3','tel_ddd','DDD',TRUE,True));
 			array_push($cp,array('$S9','tel_numero','NUMERO',TRUE,True));	
 			array_push($cp,array('$O : &C:CELULAR&R:RESIDENCIAL&E:COMERCIAL','tel_tipo','TIPO',TRUE,True));
 			array_push($cp,array('$O : &1:SIM&1:NAO','tel_validado','VALIDADO?',TRUE,True));
 			array_push($cp,array('$O : &1:SIM&1:NAO','tel_status','STATUS',TRUE,True));
-			
 			array_push($cp,array('$B8','','Salvar >>>',False,True));
-			
 			array_push($cp,array('$H7','tel_cliente','',True,True));
 			array_push($cp,array('$H3','tel_cliente_seq','',True,True));
 			array_push($cp,array('$H11','tel_data','',TRUE,True));
-			 
 			return($cp);
 			
 		}			
@@ -344,68 +327,6 @@ class cadastro_pre
     	}
 	}
 
-	function gerar_abas_auxiliares($principal = '',$principal_url='',$endereco = '1',$telefone='1')
-	{
-		/*
-		$onclick = 'onclick="newxy2(';
-		$onclick .= chr(39).$principal_url.chr(39);
-		$onclick .= ',800,400);"';
-		
-		$onclick1 = 'onclick="newxy2(';
-		$onclick1 .= chr(39).'pre_cad_telefone.php'.chr(39);
-		$onclick1 .= ',800,400);"';
-		
-		$onclick2 = 'onclick="newxy2(';
-		$onclick2 .= chr(39).'pre_cad_endereco.php'.chr(39);
-		$onclick2 .= ',800,400);"';
-		*/						
-		$sx .= '<div class="cab_banner_abas">';
-		$sx .= '<div id="pre_aba1" class="cab_banner_buttom" '.$onclick.'>'.$principal.'</div>';
-		if($endereco=='1'){	$sx .= '<div id="pre_aba2" class="cab_banner_buttom" '.$onclick2.'>ENDERECO</div>';}
-		if($telefone=='1'){	$sx .= '<div id="pre_aba3" class="cab_banner_buttom" '.$onclick1.'>TELEFONE</div>';}
-		$sx .= '</div>';
-		echo '<script>
-		alert("aqui");
-			$( "#pre_aba1" ).click(function() {
-				alert("aqui");
-				$("#pre_aba1").show();
-				$("#pre_aba1").animate({ width:"50%" },400);
-				$("#pre_aba2").hide();
-				$("#pre_aba3").hide();
-				
-				/*session.setAttribute(pre_principal, "pre_aba_aberta"); */
-				location.reload();
-			});
-			
-			$( "#pre_aba2" ).click(function() {
-				alert("aqui");
-				$("#pre_aba2").show();
-				$("#pre_aba2").animate({ width:"50%" },400);
-				$("#pre_aba3").hide();
-				$("#pre_aba1").hide();
-				
-				/*session.setAttribute(pre_telefone,"pre_aba_aberta");*/
-				location.reload();
-			});
-			
-			$( "#pre_aba3" ).click(function() {
-				alert("aqui");
-				$("#pre_aba3").show();
-				$("#pre_aba3").animate({ width:"50%" },400);
-				$("#pre_aba1").hide();
-				$("#pre_aba2").hide();
-				alert("aqui");
-				/*session.setAttribute(pre_endereco,"pre_aba_aberta");*/
-				location.reload();
-			});
-			
-			
-			</script>';
-		
-				
-		return($sx);
-	}
-	
 	function listar_contatos ()
 	{
 		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
@@ -434,8 +355,85 @@ class cadastro_pre
 		return($sx);
 	}
 	
-	function checklist_cadastro()
+	function calcular_total_status_geral()
 	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		 $sql = 'select pes_status, count(pes_status)  as tt
+				from cad_pessoa
+				group by pes_status
+		';
+		$rlt = db_query($sql);
+		while($line = db_read($rlt))
+		{
+			$ttx = $line['tt'];
+			switch ($line['pes_status']) 
+			{
+				case '@':	$this->tt_geral_Z = $ttx;/*em cadastro*/	break;
+				case 'A':	$this->tt_geral_A = $ttx;/*aprovados*/  	break;
+				case 'T':	$this->tt_geral_T = $ttx;/*em analise*/ 	break;
+				case 'C':	$this->tt_geral_C = $ttx;/*para correção*/	break;
+				case 'R':	$this->tt_geral_R = $ttx;/*recusados*/		break;	
+				default:												break;
+			}
+		}
+		return(1);
+	}
+
+	function calcular_total_status_mensal($ano='',$mes='')
+	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		if(strlen(trim($data))==0)
+		{
+			$ano = date('Y');
+			$mes = date('m');
+		}
+		
+		 $sql = 'select pes_status, count(pes_status) as tt
+				from cad_pessoa
+				where pes_lastupdate>'.$ano.$mes.'00 and
+					  pes_lastupdate<'.$ano.$mes.'99
+				group by pes_status
+		';
+		$rlt = db_query($sql);
+		$ttx = '';
+		while($line = db_read($rlt))
+		{
+			$ttx = $line['tt'];
+			switch ($line['pes_status']) 
+			{
+				case '@':	$this->tt_mensal_Z = $ttx;/*em cadastro*/	break;
+				case 'A':	$this->tt_mensal_A = $ttx;/*aprovados*/  	break;
+				case 'T':	$this->tt_mensal_T = $ttx;/*em analise*/ 	break;
+				case 'C':	$this->tt_mensal_C = $ttx;/*para correção*/	break;
+				case 'R':	$this->tt_mensal_R = $ttx;/*recusados*/		break;	
+				default:												break;
+			}
+		}
+		return(1);
+	}
+	
+	function gerar_tabela_tela_inicial()
+	{
+		$this->calcular_total_status_geral();
+		$this->calcular_total_status_mensal();
+		$sx = '<table class="cab_banner_table"><tr class="cab_banner_tr_th">
+				<th class="cab_banner_th">Em processo de cadastro</td>
+				<th class="cab_banner_th">Aprovados sem mostruarios</td>
+				<th class="cab_banner_th">Para correcao</td>
+				<th class="cab_banner_th">Em analise</td>
+				<th class="cab_banner_th">Total de cadastros recusados mensal</td>
+				<th class="cab_banner_th">Total de cadastros aprovados mensal</td>
+			   </tr><tr class="cab_banner_tr_td">
+				<td class="cab_banner_td">'.$this->tt_geral_Z.'</td>
+				<td class="cab_banner_td">'.$this->tt_geral_S.'</td>
+				<td class="cab_banner_td">'.$this->tt_geral_C.'</td>
+				<td class="cab_banner_td">'.$this->tt_geral_T.'</td>
+				<td class="cab_banner_td">'.$this->tt_mensal_R.'</td>
+				<td class="cab_banner_td">'.$this->tt_mensal_A.'</td>				
+				</tr></table>';
+		
 		
 		return($sx);
 	}

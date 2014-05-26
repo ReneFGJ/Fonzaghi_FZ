@@ -17,10 +17,8 @@ echo '<table width="100%">
 		<tr class="corpo"  valign="top">
 			<td width="30%">';
 			require("pre_cad_menu.php");
-echo '<td class="corpo" width="70%" align="right">';
-
-echo $pre->gerar_abas_auxiliares('PRINCIPAL','pre_cad_03.php',0,1);
-echo '<div id="cad03" style="width:1px" >';
+echo '<td class="corpo" width="70%">';
+echo '<div id="cad03" style="width:0px" >';
 
 /* Dados CP03 */
 $cp = $pre->cp_03();
@@ -45,6 +43,6 @@ echo '<script>
 				
 				$("#cad03").animate({
 				width:"100%"
-			  },400);
+			  },600);
 	</script>';
 ?>

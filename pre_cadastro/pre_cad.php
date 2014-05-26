@@ -13,11 +13,13 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $cp = $pre->cp_00();
-echo '<center><div id="corpo">';
 $tela = $form->editar($cp,'');
 $cpf = $dd[2];
 $cpf = ereg_replace('[^0-9]', '', $cpf);
 $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
+echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
+echo '<center><div id="corpo">';
+
 if($pre->validaCPF($cpf))
 {
 	$pre->cadastrar_cpf($cpf);
@@ -27,17 +29,33 @@ if($pre->validaCPF($cpf))
 			$_SESSION['nome'] = $pre->nome;
 			redirecina('pre_cad_01.php?dd0='.$pre->id);
 		} else {
-			echo '<div></div>
-			
-				<div>'.$pre->listar_contatos().'</div>
-				<div>'.$tela.'</div>';
+			echo '	<div >'.$pre->gerar_tabela_tela_inicial().'</div>
+					<div>'.$pre->listar_contatos().'</div>
+					<div>'.$tela.'</div>';
 					
 			
 		}
 }else{
-	echo '	<div >---------------------</div>
-			<div>'.$pre->listar_contatos().'</div>
-			<div>'.$tela.'</div>';
+	echo '<table>	
+				<tr><td>
+					<div align="center" width="30%" style="position:relative; float:left">
+						<img width="270px" src="../img/imgboxcad.png">
+						<div style="width:270px; height:300px;background:#E7E7E7"></div>
+					</div>
+				</td>
+				<td>
+					<div align="center" width="30%" style="position:relative; float:left">
+						<img width="270px" src="../img/imgboxcad.png">
+						<div style="width:270px; height:300px;background:#E7E7E7">'.$pre->listar_contatos().'</div>
+					</div>
+				</td>
+				<td>
+					<div  align="center" width="30%" style="position:relative; float:left">
+						<img width="270px" src="../img/imgboxcad.png">
+						<div style="width:270px; height:300px;background:#E7E7E7">'.$tela.'</div>
+					</div>
+				</td></tr></table>
+			';
 				
 	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
 }	

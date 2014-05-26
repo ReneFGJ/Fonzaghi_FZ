@@ -123,9 +123,9 @@ class header
   		return(true);
 	}
 	
-	function cab_banner()
+	function cab_banner($conteudo='')
 	{
-		$sx ='<div class="cab_banner"></div>';
+		$sx ='<div class="cab_banner"><table><tr><td width="15%"></td><td align="right" width="85%">'.$conteudo.'</td></tr></table></div>';
 		return($sx);
 	}
 	
