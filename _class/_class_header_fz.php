@@ -34,7 +34,7 @@ class header
 		$sx .= '<link rel="stylesheet" href="'.$http.'css/style_cabecalho.css">'.$cr;
 
 		/* Style */
-		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css');
+		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css','fz_style_ballon.css');
 		for ($r=0;$r < count($style);$r++)
 				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style[$r].'">'.$cr; }
 
@@ -74,15 +74,7 @@ class header
 		return($sx);
 		}
 		
-	function show($tela='')
-		{
-			$sx = '';
-			$sx .= '<div class="balloon" id="onkey" style="z-index:1000;">';
-			$sx .= '<div class="arrow"></div>';
-			$sx .= $tela;
-			$sx .= '</div>';
-			return($sx);
-		}
+	
 			
 	function cab()
 		{
@@ -136,9 +128,19 @@ class header
 	
 	function cab_banner($conteudo='')
 	{
-		$sx ='<div class="cab_banner"><table><tr><td width="15%" style="position:realtive; float:left">'.$this->short().'</td><td  style="position:realtive; float:left" align="left" width="85%">'.$conteudo.'</td></tr></table></div>';
+		$sx ='<div class="cab_banner"><table><tr><td width="15%">'.$this->short().'</td><td  width="85%">'.$conteudo.'</td></tr></table></div>';
 		return($sx);
 	}
+
+	function show($tela='')
+		{
+			$sx = '';
+			$sx .= '<div class="balloon" id="onkey" style="z-index:1000;">';
+			$sx .= '<div class="arrow"></div>';
+			$sx .= $tela;
+			$sx .= '</div>';
+			return($sx);
+		}
 
 	function short()
 		{
@@ -154,9 +156,7 @@ class header
 			$cab = '<table width="99%" border=0><TR valign="top">';
 			$foot = '</table>';
 			
-			$sx .= $this->show($cab.'<td align="left">'.
-							  $basic
-							  );
+			$sx .= $this->show($cab.'<td align="left">'.$basic.'</td></tr></table>');
 			$sx .=  '
 			<script language="JavaScript" src="../js/shortcut.js"></script>
 			<script>

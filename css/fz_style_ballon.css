@@ -1,0 +1,28 @@
+#onkey {  
+    background: #E0E0E0;
+    border-radius: 4px;  
+    -moz-border-radius: 4px;  
+    -webkit-border-radius: 4px;  
+  
+    padding: 20px; 
+    left: -900px; 
+    top: 90px;
+    position: absolute;  
+    font-size: 12px;  
+ 
+    text-align: justify;  
+    color: #3a3a3a; 
+    border: 1px solid #202020;
+}  
+  
+#onkey .arrow {  
+    border-color: transparent #111111 transparent transparent;  
+    border-style: solid;  
+    border-width: 10px;  
+    display: block;  
+    height: 0;  
+    left: -18px;  
+    position: absolute;  
+    top: 20px;  
+    width: 0;  
+}  
