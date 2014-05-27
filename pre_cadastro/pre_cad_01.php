@@ -15,7 +15,7 @@ $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 $_SESSION['angulo'] = 0;
-
+echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
 echo $_SESSION['pre_aba_aberta'];
 echo '<table width="100%">
 		<tr class="corpo"  valign="top">

@@ -73,6 +73,17 @@ class header
 		$LANG='pt_BR';
 		return($sx);
 		}
+		
+	function show($tela='')
+		{
+			$sx = '';
+			$sx .= '<div class="balloon" id="onkey" style="z-index:1000;">';
+			$sx .= '<div class="arrow"></div>';
+			$sx .= $tela;
+			$sx .= '</div>';
+			return($sx);
+		}
+			
 	function cab()
 		{
 			$sx = $this->head();
@@ -125,9 +136,79 @@ class header
 	
 	function cab_banner($conteudo='')
 	{
-		$sx ='<div class="cab_banner"><table><tr><td width="15%"></td><td align="right" width="85%">'.$conteudo.'</td></tr></table></div>';
+		$sx ='<div class="cab_banner"><table><tr><td width="15%" style="position:realtive; float:left">'.$this->short().'</td><td  style="position:realtive; float:left" align="left" width="85%">'.$conteudo.'</td></tr></table></div>';
 		return($sx);
 	}
+
+	function short()
+		{
+			global $user,$perfil,$http;
+	
+			$sx .= '<div id="shortkey" class="left">';
+			$sx .= '<img src="'.$http.'img/icone_shortcut.png" height="75" border=0 align="left" alt="atalho de acesso" title="atalho de acesso">';
+			$sx .= '</div>'.chr(13);
+			
+			$basic = $this->menus_basic();
+			$basic = 'Sistemas<BR>'.$basic.'<BR>';
+			
+			$cab = '<table width="99%" border=0><TR valign="top">';
+			$foot = '</table>';
+			
+			$sx .= $this->show($cab.'<td align="left">'.
+							  $basic
+							  );
+			$sx .=  '
+			<script language="JavaScript" src="../js/shortcut.js"></script>
+			<script>
+					$("#shortkey").click(function() {
+						var lf = $("#onkey").offset().left;
+						if (lf > 0) 
+							{ lp = "-900px"; } 
+							else 
+							{ lp = "50px"; }			
+						$("#onkey").animate({ left: lp });
+					});
+					</script>
+			';
+			$sx.='<script>
+					shortcut.add("CTRL+0", function() {
+						var lf = $("#onkey").offset().left;
+						if (lf > 0) 
+							{ lp = "-900px"; } 
+							else 
+							{ lp = "50px"; }			
+						$("#onkey").animate({ left: lp });
+					});
+					</script>';
+			return($sx);
+		}
+	function menus_basic()
+		{
+			global $http;
+			$link = array('','','','','','','','','','');
+			$title = array('Consultoras','','','');
+			$link[0] = $http.'consultora.php';
+			for ($r=0;$r <= 0;$r++)
+				{
+				$xlink = trim($link[$r]);
+				$xlinka = '';
+				if (strlen($xlink) > 0)
+					{
+						$xlink = '<A HREF="'.$link[$r].'">';
+						$xlinka = '</A>';
+					}
+				$sx .= $xlink;
+				$sx .= ' <img src="'.$http.'img/icone_p_'.$r.'a.png" height="45" border=0 
+							onmouseover="$(this).attr(\'src\',\''.$http.'img/icone_p_'.$r.'.png\');" 
+							onmouseout="$(this).attr(\'src\',\''.$http.'img/icone_p_'.$r.'a.png\');"
+							title = "'.$title[$r].'"
+							>';
+				$sx .= $xlinka;							
+				}
+			
+			return($sx);
+	
+		}		
 	
 			
 }
