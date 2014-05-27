@@ -19,7 +19,7 @@ $cpf = ereg_replace('[^0-9]', '', $cpf);
 $cpf = str_pad($cpf, 11, '0', STR_PAD_LEFT);
 echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
 echo '<center><div id="corpo">';
-
+exit;
 if($pre->validaCPF($cpf))
 {
 	$pre->cadastrar_cpf($cpf);
