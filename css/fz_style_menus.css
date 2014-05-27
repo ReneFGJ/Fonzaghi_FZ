@@ -127,7 +127,7 @@
 }
 
 .txtnomecons{
-	font-family:"RobotoThin", "RobotoThin";
+	font-family:"Roboto Condensed", "Roboto Thin";
 	font-size:24px;
 	padding-left:100px;
 	text-align:left;	
@@ -139,7 +139,7 @@
 	width:400px;
 	height:50px;
 	float:left;	
-	font-family:"RobotoThin";
+	font-family:"Nexa Light";
 	color:#111;
 	padding-left:20px;
 	font-size:36px;
@@ -422,7 +422,7 @@
 .bg12:hover { background-color:#5C7FC4; color:#FFF; }
 
 .textmenu{
-	font-family:"RobotoThin";
+	font-family:"Nexa Bold";
 	font-size:38px;
 	color: #EEE;
 	text-align:left;
@@ -481,14 +481,14 @@ h7{
 }
 
 .form_nome{
-font-family:"RobotoThin";
+font-family:"Nexa Light";
 font-size:14px;
 text-align:right;
 color:#333;
 }
 
 .form_imput{
-font-family:"RobotoThin";
+font-family:"Nexa Light";
 font-size:12px;
 text-align:left;
 color:#333;	
