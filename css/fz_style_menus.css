@@ -121,13 +121,21 @@
 	border-bottom-right-radius:20px;
 }
 
+.btn_home{
+	background-image:url(../img/home.png);
+	background-repeat:no-repeat;
+	width:103px;
+	height:102px;
+	
+}
+
 .txtconsult{
 	width:400px;
 	height:100px;
 }
 
 .txtnomecons{
-	font-family:"Roboto Condensed", "Roboto Thin";
+	font-family:"Nexa Bold", "Nexa Light";
 	font-size:24px;
 	padding-left:100px;
 	text-align:left;	
@@ -140,11 +148,37 @@
 	height:50px;
 	float:left;	
 	font-family:"Nexa Light";
-	color:#111;
+	color:#666;
 	padding-left:20px;
 	font-size:36px;
 	vertical-align:middle;
 	top:20px;
+}
+
+.textmenu{
+	font-family:"Nexa Bold";
+	font-size:38px;
+	color:#999;
+	text-align:left;
+	padding:5px;
+	padding-left:20px;
+	left:50px;
+	background-color:#62C2D0;
+}
+
+.msg_errorimage{
+	background-image:url(../img/alerterror.png);
+	background-repeat:no-repeat;
+	width:46px;
+	height:47px;
+	
+}
+.msg_errortext{
+	width:100px;
+	height:46px;
+	color:#F00;
+	text-align:center;
+	
 }
 .linha {
 	width:15px;
@@ -175,8 +209,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -194,8 +226,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -213,8 +243,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -230,8 +258,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -247,8 +273,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -264,8 +288,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -281,8 +303,6 @@
 	z-index:101;
 	position:relative;
 	float:right;
-	text-align:center;
-	font-family:"RobotoThin";
 	right:5px;
 	top:3px;
 	border-image-width:50%;
@@ -306,7 +326,7 @@
 	z-index:101;
 	left:100px;
 	bottom:5px;	
-	font-family:"RobotoThin", "RobotoThin";
+	font-family:"Nexa Bold", "Nexa Light";
 	font-size:24px;
 	padding-left:150px;
 	text-align:left;
@@ -421,16 +441,6 @@
  }
 .bg12:hover { background-color:#5C7FC4; color:#FFF; }
 
-.textmenu{
-	font-family:"Nexa Bold";
-	font-size:38px;
-	color: #EEE;
-	text-align:left;
-	padding:5px;
-	padding-left:20px;
-	left:50px;
-	background-color:#62C2D0;
-}
 /*
 - Cabeçalho dos relatorio
 */
