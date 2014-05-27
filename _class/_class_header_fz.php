@@ -28,8 +28,7 @@ class header
 		$sx .= '<head>'.$cr;
     	$sx .= '<META HTTP-EQUIV=Refresh CONTENT="3600; URL='.$http.'logout.php">'.$cr;
 		$sx .= '<meta http-equiv="Content-Type" content="text/html; charset='.$this->charcod.'" />';
-		$sx .= '<meta name="google-site-verification" content="VZpzNVBfl5kOEtr9Upjmed96smfsO9p4N79DZT38toA" />'.$cr;		
-        $sx .= '<meta name="description" content="">'.$cr;
+		$sx .= '<meta name="description" content="">'.$cr;
         $sx .= '<link rel="shortcut icon" type="image/x-icon" href="'.$http.'favicon.ico" />'.$cr;
 		$sx .= '<link rel="stylesheet" href="'.$http.'css/style_cabecalho.css">'.$cr;
 
@@ -57,18 +56,6 @@ class header
     	$sx .= '<script language="JavaScript" type="text/javascript" src="'.$http.'js/jquery.maskedinput.js"></script>'.$cr;
     	$sx .= '<title>'.$this->title.'</title>'.$cr;
 		$sx .= '</head>';
-		
-		$sx .= "
-		<script>
-  			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-			  ga('create', '".$this->google_id."', 'pucpr.br');
-  			ga('send', 'pageview');
-		</script>		
-		";
 		
 		$LANG='pt_BR';
 		return($sx);
@@ -128,10 +115,15 @@ class header
 	
 	function cab_banner($conteudo='')
 	{
-		$sx ='<div class="cab_banner"><table><tr><td width="15%">'.$this->short().'</td><td  width="85%">'.$conteudo.'</td></tr></table></div>';
+		$sx ='<div class="cab_banner"><table><tr><td width="15%">'.$this->short().'</td><td  width="85%">'.$conteudo.'</td><td>'.$this->home().'</td></tr></table></div>';
 		return($sx);
 	}
-
+	function home()
+	{
+		global $http;
+		$sx = '<a href="'.$http.'pre_cadastro/pre_cad.php" ><img src="'.$http.'img/home.png" height="75"></a>';
+		return($sx);	
+	}
 	function show($tela='')
 		{
 			$sx = '';
@@ -186,9 +178,9 @@ class header
 		{
 			global $http;
 			$link = array('','','','','','','','','','');
-			$title = array('Consultoras','','','');
-			$link[0] = $http.'consultora.php';
-			for ($r=0;$r <= 0;$r++)
+			$title = array('teste1','teste2','teste3','teste4');
+			$link = array($http.'consultora.php',$http.'consultora.php',$http.'consultora.php',$http.'consultora.php');
+			for ($r=0;$r < count($title);$r++)
 				{
 				$xlink = trim($link[$r]);
 				$xlinka = '';
@@ -198,9 +190,9 @@ class header
 						$xlinka = '</A>';
 					}
 				$sx .= $xlink;
-				$sx .= ' <img src="'.$http.'img/icone_p_'.$r.'a.png" height="45" border=0 
-							onmouseover="$(this).attr(\'src\',\''.$http.'img/icone_p_'.$r.'.png\');" 
-							onmouseout="$(this).attr(\'src\',\''.$http.'img/icone_p_'.$r.'a.png\');"
+				$sx .= ' <img src="'.$http.'img/icone_fz_basic'.$r.'a.png" height="45" border=0 
+							onmouseover="$(this).attr(\'src\',\''.$http.'img/icone_fz_basic'.$r.'.png\');" 
+							onmouseout="$(this).attr(\'src\',\''.$http.'img/icone_fz_basic'.$r.'a.png\');"
 							title = "'.$title[$r].'"
 							>';
 				$sx .= $xlinka;							

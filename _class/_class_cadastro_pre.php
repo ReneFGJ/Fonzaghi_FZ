@@ -52,7 +52,6 @@ class cadastro_pre
 		$_SESSION['ID_PG3']='';
 		$_SESSION['ID_PG4']='';
 		$_SESSION['ID_PG5']='';
-		echo "<br><br><br>--------------------------------------------fdfdfd<br><br>";
 		$this->pesquisa_aprovados_sem_mostruario();
 	}
 	
@@ -454,7 +453,9 @@ class cadastro_pre
 					where 	kh_cliente='".$cliente."' 
 			";
 			$rlt = db_query($sql);
-			if($line = db_read($rlt)){ return(1); }
+			if($line = db_read($rlt)){
+				 return(1); 
+			}
 		}
 		return(0);
 	}	
@@ -493,6 +494,7 @@ class cadastro_pre
 				where id_pes=".$id."
 		";
 		$rlt = db_query($sql);
+		db_read($rlt);
 		return(1);
 	}
 	
