@@ -10,6 +10,7 @@
     */
 require_once('../../include/sisdoc_data.php');
 require_once('../../include/sisdoc_windows.php');
+require_once('../../include/sisdoc_lojas.php');
 
 class cadastro_pre
 	{
@@ -51,7 +52,8 @@ class cadastro_pre
 		$_SESSION['ID_PG3']='';
 		$_SESSION['ID_PG4']='';
 		$_SESSION['ID_PG5']='';
-		
+		echo "<br><br><br>--------------------------------------------fdfdfd<br><br>";
+		$this->pesquisa_aprovados_sem_mostruario();
 	}
 	
 	function cadastrar_cpf($cpf='')
@@ -416,6 +418,7 @@ class cadastro_pre
 	
 	function gerar_tabela_tela_inicial()
 	{
+		$this->pesquisa_aprovados_sem_mostruario();
 		$this->calcular_total_status_geral();
 		$this->calcular_total_status_mensal();
 		$sx = '<table class="cab_banner_table"><tr class="cab_banner_tr_th">
@@ -437,7 +440,61 @@ class cadastro_pre
 		
 		return($sx);
 	}
+	/**
+	 * Caso tenha mostruario em alguma loja retorna '1' se não retorna '0'
+	 */
+	function verificar_sem_tem_mostruario($cliente)
+	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn,$setlj;
+		setlj();
+		for ($i=0; $i < count($setlj[3]); $i++) 
+		{  
+			require($this->class_include.'_db/'.$setlj[3][$i]);
+			$sql = "select * from kits_consignado
+					where 	kh_cliente='".$cliente."' 
+			";
+			$rlt = db_query($sql);
+			if($line = db_read($rlt)){ return(1); }
+		}
+		return(0);
+	}	
+	
+	function pesquisa_aprovados_sem_mostruario()
+	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
+		$sql = "select * from ".$this->tabela."
+				where pes_mostruario = 0 and 
+					  pes_status = 'A'
+		";
+		$rlt = db_query($sql);
+		while ($line = db_read($rlt)) 
+		{
+			$id = $line['id_pes'];
+			$cliente = $line['pes_cliente'];
+			if($this->verificar_sem_tem_mostruario($cliente))
+			{
+				$this->atualiza_status_mostruario($id);
+			}else{
+				++$this->tt_geral_S;
+			}
+		}
+		return(1);
+	}
+	
+	/*Seta com 1 pes_mostruario*/
+	function atualiza_status_mostruario($id)
+	{
+		global $base_name,$base_server,$base_host,$base_user,$base,$conn;
+		require($this->class_include."_db/db_mysql_10.1.1.220.php");
 		
+		$sql = "update ".$this->tabela." 
+				set  pes_mostruario=1
+				where id_pes=".$id."
+		";
+		$rlt = db_query($sql);
+		return(1);
+	}
 	
 }
 ?>

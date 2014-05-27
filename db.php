@@ -11,6 +11,7 @@
     
 	/* Noshow Errors */
 	$debug = 0;
+	date_default_timezone_set('Etc/GMT+2');
 	if (file_exists('debug.txt')) { $debug1 = 0; $debug2 = 255; } 	
 	
 	ini_set('display_errors', $debug1);
@@ -42,7 +43,9 @@
 	require($include.'sisdoc_sql.php');	
 	require($include.'sisdoc_debug.php');
 	
-	
+	global $cnn,$conn;
+	//echo '<br><br>'.$cnn;
+	//echo '<br><br>'.$conn;
 	/* Leituras das Variaveis dd0 a dd99 (POST/GET) */
 	$vars = array_merge($_GET, $_POST);
 	$acao = troca($vars['acao'],"'",'´');
