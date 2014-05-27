@@ -36,6 +36,7 @@ if($pre->validaCPF($cpf))
 			
 		}
 }else{
+	if (strlen($acao) > 0) { $msgx = '<div class="msg_error">CPF inválido!</div>'; }
 	echo '<table>	
 				<tr><td>
 					<div align="center" width="30%" style="position:relative; float:left">
@@ -52,12 +53,12 @@ if($pre->validaCPF($cpf))
 				<td>
 					<div  align="center" width="30%" style="position:relative; float:left">
 						<img width="300px" src="../img/imgboxcad.png">
-						<div style="width:300px; height:300px;background:#E7E7E7">'.$tela.'</div>
+						<div style="width:300px; height:300px;background:#E7E7E7">'.$tela.$msgx.'</div>
 					</div>
 				</td></tr></table>
 			';
 				
-	if (strlen($acao) > 0) { echo '<h1>CPF inválido!</h1>'; }
+	
 }	
 echo '</div>';
 echo '
