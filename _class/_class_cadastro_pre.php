@@ -66,7 +66,7 @@ class cadastro_pre {
 
 	function cadastrar_cpf($cpf = '') {
 		$this -> cliente = $this -> recupera_codigo_pelo_cpf($cpf);
-		if ($this -> cliente == 0) {
+		if (round($this -> cliente) == 0) {
 			$acp = new acp;
 			$acp -> consulta($cpf, 0, '');
 			$acp -> mostra_consulta($cpf);
@@ -75,7 +75,6 @@ class cadastro_pre {
 			$this -> mae = $acp -> acp_mae;
 			$this -> inserir_cpf($cpf);
 		}
-		//$this->setar_session($this->cliente);
 		return ($this -> cliente);
 	}
 
@@ -155,12 +154,10 @@ class cadastro_pre {
 
 	function cp_00() {
 		$cp = array();
-		array_push($cp, array('$H8', '', '', False, True));
-		array_push($cp, array('$M', 'pes_cpf', 'CPF', False, True));
-		array_push($cp, array('$S15', '', '', TRUE, True));
-		array_push($cp, array('$M', 'pes_nome', 'NOME', False, True));
-		array_push($cp, array('$S15', '', '', TRUE, True));
-		array_push($cp, array('$B8', '', 'Consultar', False, True));
+		/*0*/array_push($cp, array('$H8', '', '', False, True));
+		/*1*/array_push($cp, array('$M', 'pes_cpf', 'CPF', False, True));
+		/*2*/array_push($cp, array('$S15', '', '', TRUE, True));
+		/*3*/array_push($cp, array('$B8', '', 'Consultar', False, True));
 		return ($cp);
 	}
 
@@ -426,11 +423,11 @@ class cadastro_pre {
 	}
 
 	function gerar_tabela_tela_inicial() {
-		
-		$this->calcular_total_status_geral();
-		$this->calcular_total_status_mensal();
-		$this->pesquisa_aprovados_sem_mostruario();
-		
+
+		$this -> calcular_total_status_geral();
+		$this -> calcular_total_status_mensal();
+		$this -> pesquisa_aprovados_sem_mostruario();
+
 		$sx = '<table class="cab_banner_table"><tr class="cab_banner_tr_th">
 				<th class="cab_banner_th">Em processo de cadastro</td>
 				<th class="cab_banner_th">Aprovados sem mostruarios</td>
@@ -473,21 +470,21 @@ class cadastro_pre {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
 		/* Busca DB */
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
-		
+
 		$sql = "select * from " . $this -> tabela . "
 				where pes_mostruario = 0 and 
 					  pes_status = 'A'
 		";
-		
+
 		$arlt = db_query($sql);
-		
-		$ln = array();		
+
+		$ln = array();
 		while ($line = db_read($arlt)) {
-			array_push($ln,$line);	}
-		
+			array_push($ln, $line);
+		}
+
 		/* ROLL */
-		for ($r=0;$r < count($ln);$r++)
-			{
+		for ($r = 0; $r < count($ln); $r++) {
 			$line = $ln[$r];
 			$id = $line['id_pes'];
 			$cliente = $line['pes_cliente'];
@@ -512,6 +509,55 @@ class cadastro_pre {
 		$rlt = db_query($sql);
 		db_read($rlt);
 		return (1);
+	}
+
+	function autocomplete($dd) {
+		$sx = /*'<script>
+		
+				var options, a;
+				jQuery(function($){
+						options = { lookup:['.$this->carregar_tags_nome_autocomplete().']};
+						a = $("#'.$dd.'").autocomplete(options);
+					}); 
+				  </script>';*/
+				  $sx = "
+				  <script> 	
+				 	var a = $('#dd4').autocomplete({
+					minChars:2,
+					maxHeight:400,
+					width:300,
+					source: [ 'c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby' ],
+					zIndex: 9999,
+					deferRequestBy: 0, //miliseconds
+					params: { country:'Yes' }, //aditional parameters
+					noCache: true, //default is false, set to true to disable caching
+					// callback function:
+					onSelect: function(value, data){ alert('You selected: ' + value + ', ' + data); },
+					// local autosugest options:
+					lookup: ['January', 'February', 'March', 'April', 'May'] //local lookup values
+					});
+					
+					</script>
+					";
+				  
+				
+		return($sx);		  
+	}
+
+	function carregar_tags_nome_autocomplete() {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn,$cr;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+
+		$sql = "select * from " . $this -> tabela;
+		$rlt = db_query($sql);
+		while ($line = db_read($rlt)) {
+			if (strlen(trim($sx)) > 0) {
+				$sx .= ",";
+			}
+			$sx .= '"'.$line['pes_nome'].'"';
+		}
+		return($sx);
+
 	}
 
 }

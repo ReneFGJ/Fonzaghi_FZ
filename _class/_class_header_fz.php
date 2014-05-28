@@ -30,8 +30,7 @@ class header
 		$sx .= '<meta http-equiv="Content-Type" content="text/html; charset='.$this->charcod.'" />';
 		$sx .= '<meta name="description" content="">'.$cr;
         $sx .= '<link rel="shortcut icon" type="image/x-icon" href="'.$http.'favicon.ico" />'.$cr;
-		$sx .= '<link rel="stylesheet" href="'.$http.'css/style_cabecalho.css">'.$cr;
-
+		
 		/* Style */
 		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css','fz_style_ballon.css');
 		for ($r=0;$r < count($style);$r++)
@@ -44,17 +43,10 @@ class header
 		}
 
 		/* Java script */
-		$js = array('jquery.js'); 
+		$js = array('jquery-1.7.1.js','jquery.maskedinput.js','jquery.autocomplete.js'); 
 		for ($r=0;$r < count($js);$r++)
-			{ $sx .= '<script type="text/javascript" src="js/'.$js[$r].'"></script>'.$cr; }
-
-
-		/* Icone */
-		$sx .= '<link rel="shortcut icon" href="http://www.brapci.inf.br/favicon.png" />'.$cr;
-			
-		$sx .= '<script language="JavaScript" type="text/javascript" src="'.$http.'js/jquery-1.7.1.js"></script>'.$cr;
-    	$sx .= '<script language="JavaScript" type="text/javascript" src="'.$http.'js/jquery.maskedinput.js"></script>'.$cr;
-    	$sx .= '<title>'.$this->title.'</title>'.$cr;
+			{ $sx .= '<script type="text/javascript" src="'.$http.'js/'.$js[$r].'"></script>'.$cr; }
+		$sx .= '<title>'.$this->title.'</title>'.$cr;
 		$sx .= '</head>';
 		
 		$LANG='pt_BR';

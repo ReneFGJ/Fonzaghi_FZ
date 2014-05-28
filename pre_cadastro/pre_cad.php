@@ -29,9 +29,26 @@ if($pre->validaCPF($cpf))
 			$_SESSION['nome'] = $pre->nome;
 			redirecina('pre_cad_01.php?dd0='.$pre->id);
 		} else {
-			echo '	<div >'.$pre->gerar_tabela_tela_inicial().'</div>
-					<div>'.$pre->listar_contatos().'</div>
-					<div>'.$tela.'</div>';
+			echo '<table>	
+				<tr><td>
+					<div align="center" width="30%" style="position:relative; float:left">
+						<img width="300px" src="../img/imgboxinfo.png">
+						<div style="width:300px; height:300px;background:#E7E7E7"></div>
+					</div>
+				</td><td width="20px"></td>
+				<td>
+					<div align="center" width="30%" style="position:relative; float:left">
+						<img width="300px" src="../img/imgboxcont.png">
+						<div style="width:300px; height:300px;background:#E7E7E7">'.$pre->listar_contatos().'</div>
+					</div>
+				</td><td width="20px"></td>
+				<td>
+					<div  align="center" width="30%" style="position:relative; float:left">
+						<img width="300px" src="../img/imgboxcad.png">
+						<div style="width:300px; height:300px;background:#E7E7E7">'.$tela.$msgx.'</div>
+					</div>
+				</td></tr></table>
+			';
 					
 			
 		}
@@ -57,8 +74,6 @@ if($pre->validaCPF($cpf))
 					</div>
 				</td></tr></table>
 			';
-				
-	
 }	
 echo '</div>';
 echo '
@@ -67,5 +82,8 @@ echo '
    		$("#dd2").mask("999.999.999-99");
 	});
 </script>
-';	
+';
+echo '<label for="dd4">Select a programming language: </label>
+		<input id="dd4">';
+echo $pre->autocomplete('dd4');	
 ?>
