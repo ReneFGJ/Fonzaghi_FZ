@@ -160,7 +160,7 @@ class cadastro_pre {
 		array_push($cp, array('$S15', '', '', TRUE, True));
 		array_push($cp, array('$M', 'pes_nome', 'NOME', False, True));
 		array_push($cp, array('$S15', '', '', TRUE, True));
-		array_push($cp, array('$B8', '', 'Consultar >>>', False, True));
+		array_push($cp, array('$B8', '', 'Consultar', False, True));
 		return ($cp);
 	}
 
@@ -176,7 +176,7 @@ class cadastro_pre {
 		array_push($cp, array('$S100', 'pes_mae', utf8_encode('NOME DA MÃE'), TRUE, True));
 		array_push($cp, array('$O : ' . utf8_encode("&S:SIM&N:NÃO"), 'pes_avalista', 'POSSUI AVALISTA?', TRUE, True));
 		array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), TRUE, True));
-		array_push($cp, array('$B8', '', 'Salvar >>>', False, True));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 		//array_push($cp,array('$H7','pes_cliente_seq','',True,True));
 		//array_push($cp,array('$H1','pes_status','',True,True));
 		//array_push($cp,array('$H11','pes_lastupdate','',True,True));
@@ -198,7 +198,7 @@ class cadastro_pre {
 		array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
 		array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
 
-		array_push($cp, array('$B8', '', 'Salvar >>>', False, True));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 
 		array_push($cp, array('$H8', 'cmp_cliente', '', TRUE, True));
 		array_push($cp, array('$H8', 'cmp_cliente_seq', '', TRUE, True));
@@ -221,7 +221,7 @@ class cadastro_pre {
 		array_push($cp, array('$S8', 'ref_grau', 'GRAU', TRUE, True));
 		array_push($cp, array('$S7', 'ref_status', 'STATUS', TRUE, True));
 		array_push($cp, array('$S7', 'ref_ativo', 'ATIVO', TRUE, True));
-		array_push($cp, array('$B8', '', 'Salvar >>>', False, True));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 
 		array_push($cp, array('$H7', 'ref_cliente', '', TRUE, True));
 		array_push($cp, array('$H3', 'ref_cliente_seq', '', TRUE, True));
@@ -253,7 +253,7 @@ class cadastro_pre {
 		array_push($cp, array('$O : &C:CELULAR&R:RESIDENCIAL&E:COMERCIAL', 'tel_tipo', 'TIPO', TRUE, True));
 		array_push($cp, array('$O : &1:SIM&1:NAO', 'tel_validado', 'VALIDADO?', TRUE, True));
 		array_push($cp, array('$O : &1:SIM&1:NAO', 'tel_status', 'STATUS', TRUE, True));
-		array_push($cp, array('$B8', '', 'Salvar >>>', False, True));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 		array_push($cp, array('$H7', 'tel_cliente', '', True, True));
 		array_push($cp, array('$H3', 'tel_cliente_seq', '', True, True));
 		array_push($cp, array('$H11', 'tel_data', '', TRUE, True));

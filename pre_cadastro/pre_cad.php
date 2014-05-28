@@ -36,7 +36,7 @@ if($pre->validaCPF($cpf))
 			
 		}
 }else{
-	if (strlen($acao) > 0) { $msgx = '<div class="msg_errorimage"></div><div class="msg_errortext"> CPF inválido! </div>'; }
+	if (strlen($acao) > 0) { $msgx = '<div class="msg_errorimage"></div><div class="msg_errortext"> CPF INVÁLIDO! </div>'; }
 	echo '<table>	
 				<tr><td>
 					<div align="center" width="30%" style="position:relative; float:left">
