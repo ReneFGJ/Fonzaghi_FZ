@@ -109,7 +109,7 @@ class cadastro_pre {
 		if (strlen(trim($this -> mae)) > 0) { $set1 .= ', pes_mae';
 			$set2 .= ",'$this->mae'";
 		};
-		echo $sql = "insert into " . $this -> tabela . " 
+		$sql = "insert into " . $this -> tabela . " 
 					(pes_cliente_seq,pes_cpf,pes_data,
 					  pes_lastupdate, pes_status $set1)
 					values 
@@ -118,7 +118,6 @@ class cadastro_pre {
 					)";
 		$rlt = db_query($sql);
 		$this -> updatex();
-		//exit;
 		return ($this -> recupera_codigo_pelo_cpf($cpf));
 
 	}
@@ -158,6 +157,8 @@ class cadastro_pre {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, True));
 		array_push($cp, array('$M', 'pes_cpf', 'CPF', False, True));
+		array_push($cp, array('$S15', '', '', TRUE, True));
+		array_push($cp, array('$M', 'pes_nome', 'NOME', False, True));
 		array_push($cp, array('$S15', '', '', TRUE, True));
 		array_push($cp, array('$B8', '', 'Consultar >>>', False, True));
 		return ($cp);
