@@ -513,14 +513,14 @@ class cadastro_pre {
 
 	function autocomplete($dd) {
 		$sx = /*'<script>
-		
-				var options, a;
-				jQuery(function($){
-						options = { lookup:['.$this->carregar_tags_nome_autocomplete().']};
-						a = $("#'.$dd.'").autocomplete(options);
-					}); 
-				  </script>';*/
-				  $sx = "
+
+		 var options, a;
+		 jQuery(function($){
+		 options = { lookup:['.$this->carregar_tags_nome_autocomplete().']};
+		 a = $("#'.$dd.'").autocomplete(options);
+		 });
+		 </script>';*/
+		$sx = "
 				  <script> 	
 				 	var a = $('#dd4').autocomplete({
 					minChars:2,
@@ -539,13 +539,12 @@ class cadastro_pre {
 					
 					</script>
 					";
-				  
-				
-		return($sx);		  
+
+		return ($sx);
 	}
 
 	function carregar_tags_nome_autocomplete() {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn,$cr;
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 
 		$sql = "select * from " . $this -> tabela;
@@ -554,18 +553,28 @@ class cadastro_pre {
 			if (strlen(trim($sx)) > 0) {
 				$sx .= ",";
 			}
-			$sx .= '"'.$line['pes_nome'].'"';
+			$sx .= '"' . $line['pes_nome'] . '"';
 		}
-		return($sx);
+		return ($sx);
 
 	}
-	
-	function bloqueiar_campos($id,$vlr){
-			
-		if(strlen(trim($vlr))>0){
-			echo "<script>$('#".$id."').attr('disabled', true);</script>";	
+
+	function bloquiar_campos($id, $vlr) {
+
+		if (strlen(trim($vlr)) > 0) {
+			echo "<script>$('#" . $id . "').attr('disabled', true);</script>";
 		}
-		return(1); 
+		return (1);
+	}
+
+	function inserir_log($cliente,$data,$login,$acao,$status_registro) {
+		$sql = "INSERT INTO cad_pessoa_log
+					(log_cliente, log_data, log_login, log_acao, log_status_registro) 
+				VALUES 
+					('$cliente',$data,'$login','$acao','$status_registro')
+			";
+		$rlt = db_query($sql);
+		return (1);
 	}
 
 }

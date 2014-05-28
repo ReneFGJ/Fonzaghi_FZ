@@ -93,6 +93,16 @@ CREATE TABLE cad_telefone (
   PRIMARY KEY(id_tel)
 );
 
+CREATE TABLE cad_pessoa_log (
+  id_log int(11) NOT NULL AUTO_INCREMENT,
+  log_cliente varchar(7) DEFAULT NULL COMMENT 'Código do cliente',
+  log_data int(11) DEFAULT NULL COMMENT 'Data de lançamento',
+  log_login varchar(15) DEFAULT NULL COMMENT 'Login de quem efetuou o registro.',
+  log_acao varchar(100) DEFAULT NULL COMMENT 'Descrição da ação realizada.',
+  log_status_registro varchar(1) DEFAULT NULL COMMENT 'Status do lançamento que gerou o registro.(@,A,T,C,R)',
+  log_status int(1) DEFAULT '1' COMMENT 'Ativo- 1 ou inativo - 0',
+  PRIMARY KEY (id_log)
+)
 
 
 
