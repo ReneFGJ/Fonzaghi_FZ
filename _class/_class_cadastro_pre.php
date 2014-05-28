@@ -559,7 +559,7 @@ class cadastro_pre {
 
 	}
 
-	function bloquiar_campos($id, $vlr) {
+	function bloquear_campos($id, $vlr) {
 
 		if (strlen(trim($vlr)) > 0) {
 			echo "<script>$('#" . $id . "').attr('disabled', true);</script>";

@@ -56,7 +56,7 @@ echo '<script>
 		$("#cad01").animate({ left:"50%",width:"100%" },600);
 </script>
 ';
-$pre->bloquiar_campos('dd1',$dd[1]);
+$pre->bloquear_campos('dd1',$dd[1]);
 	
 
 	
