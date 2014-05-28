@@ -1,7 +1,8 @@
 .precad_form
 	{
-		font-family:"Nexa Light", Arial, Helvetica, sans-serif;
-		font-size: 12px;
+		font-family:"Nexa Light";
+		font-size: 10px;
+		left:5px;
 <<<<<<< HEAD
 		
 =======
@@ -13,7 +14,7 @@
 	
 .precad_form_string
 	{
-		font-family: RobotoThin, Arial, Helvetica, sans-serif;
+		font-family:"Nexa Light";
 		font-size: 30px;
 		border: 1px solid #E0E0E0;	
 		border-left: 1px solid #E0E0E0;
@@ -51,9 +52,10 @@
 		height: 40px;
 		border-radius: 7px;
 		background-color:#4aacba;
-		font-family:"Nexa Light", Arial, Helvetica, sans-serif;
+		font-family:"Nexa Light";
 		font-size:24px;	
 		color:#FFF;	
+		
 		/*
   		-webkit-border-radius: 7px;
   		-moz-border-radius: 7px;

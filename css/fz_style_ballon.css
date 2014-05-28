@@ -1,5 +1,6 @@
+/* menu lateral */
 #onkey {  
-    background: #E0E0E0;
+  	background:#F8F8F8;
     border-radius: 4px;  
     -moz-border-radius: 4px;  
     -webkit-border-radius: 4px;  
@@ -12,7 +13,7 @@
  
     text-align: justify;  
     color: #3a3a3a; 
-    border: 1px solid #202020;
+    border:2px solid #62C2D0;
 }  
   
 #onkey .arrow {  
