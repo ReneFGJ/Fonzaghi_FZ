@@ -559,6 +559,14 @@ class cadastro_pre {
 		return($sx);
 
 	}
+	
+	function bloqueiar_campos($id,$vlr){
+			
+		if(strlen(trim($vlr))>0){
+			echo "<script>$('#".$id."').attr('disabled', true);</script>";	
+		}
+		return(1); 
+	}
 
 }
 ?>

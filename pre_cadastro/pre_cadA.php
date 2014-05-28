@@ -33,19 +33,19 @@ if($pre->validaCPF($cpf))
 				<tr><td>
 					<div align="center" width="30%" style="position:relative; float:left">
 						<img width="300px" src="../img/imgboxinfo.png">
-						<div style="width:300px; height:300px;background:#E7E7E7"></div>
+						<div class="box_cont"></div>
 					</div>
 				</td><td width="20px"></td>
 				<td>
 					<div align="center" width="30%" style="position:relative; float:left">
 						<img width="300px" src="../img/imgboxcont.png">
-						<div style="width:300px; height:300px;background:#E7E7E7">'.$pre->listar_contatos().'</div>
+						<div  class="box_cont">'.$pre->listar_contatos().'</div>
 					</div>
 				</td><td width="20px"></td>
 				<td>
 					<div  align="center" width="30%" style="position:relative; float:left">
 						<img width="300px" src="../img/imgboxcad.png">
-						<div style="width:300px; height:300px;background:#E7E7E7">'.$tela.$msgx.'</div>
+						<div  class="box_cont">'.$tela.$msgx.'</div>
 					</div>
 				</td></tr></table>
 			';

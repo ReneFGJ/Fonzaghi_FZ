@@ -113,7 +113,7 @@ class header
 	function home()
 	{
 		global $http;
-		$sx = '<a href="'.$http.'pre_cadastro/pre_cad.php" ><img src="'.$http.'img/home.png" height="75"></a>';
+		$sx = '<a href="'.$http.'pre_cadastro/pre_cadA.php" ><img src="'.$http.'img/home.png" height="75"></a>';
 		return($sx);	
 	}
 	function show($tela='')
@@ -171,7 +171,7 @@ class header
 			global $http;
 			$link = array('','','','','','','','','','');
 			$title = array('teste1','teste2','teste3','teste4');
-			$link = array($http.'consultora.php',$http.'consultora.php',$http.'consultora.php',$http.'consultora.php');
+			$link = array($http.'pre_cadastro/pre_cadA.php',$http.'pre_cadastro/pre_cadB.php',$http.'pre_cadastro/pre_cadC.php',$http.'pre_cadastro/pre_cadD.php');
 			for ($r=0;$r < count($title);$r++)
 				{
 				$xlink = trim($link[$r]);
