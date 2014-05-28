@@ -20,6 +20,7 @@ class cadastro_pre {
 	var $tabela_endereco = 'cad_endereco';
 	var $tabela_complemento = 'cad_complemento';
 	var $tabela_telefone = 'cad_telefone';
+	var $tabela_contato = 'cad_contato';
 
 	var $id = '';
 	var $cpf = '';
@@ -27,6 +28,8 @@ class cadastro_pre {
 	var $nome = '';
 	var $mae = '';
 	var $nasc = '';
+	
+	var $line_contato = '';
 
 	/**Em processo cadastro(geral BD)*/
 	var $tt_geral_Z = 0;
@@ -328,9 +331,12 @@ class cadastro_pre {
 					<td width="100px" align="center">Contato</td>
 					</tr>';
 		while ($line = db_read($rlt)) {
-			$sx .= '<tr class="precad_tr"><td width="100px" align="center">' . stodbr($line['con_data']) . '</td>
-						<td width="100px" align="center">' . stodbr($line['con_lastcall']) . '</td>
-						<td width="100px" align="center">' . $line['con_nome'] . '</td>
+			global $http;
+			$link = '<a href="'.$http.'pre_cadastro/pre_cadB.php?dd0='.$line['id_con'].'">';
+			$sx .= '<tr class="precad_tr">
+						<td width="100px" align="center">' .$link. stodbr($line['con_data']) . '</a></td>
+						<td width="100px" align="center"">' .$link. stodbr($line['con_lastcall']) . '</a></td>
+						<td width="100px" align="center">' .$link. $line['con_nome'] . '</a></td>
 					</tr>';
 		}
 		$sx .= '</table>';
@@ -568,6 +574,8 @@ class cadastro_pre {
 	}
 
 	function inserir_log($cliente,$data,$login,$acao,$status_registro) {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 		$sql = "INSERT INTO cad_pessoa_log
 					(log_cliente, log_data, log_login, log_acao, log_status_registro) 
 				VALUES 
@@ -575,6 +583,34 @@ class cadastro_pre {
 			";
 		$rlt = db_query($sql);
 		return (1);
+	}
+	
+	function le_contato($id){
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		$sql = "select * from ".$this->tabela_contato." where id_con=$id";
+		$rlt = db_query($sql);
+		if ($line = db_read($rlt)) {
+			$this -> line_contato = $line;
+			return(1);
+		}else{
+			return(0);	
+		} 	
+	}
+	
+	function mostrar_contato($id){
+		$this->le_contato($id);
+		$sx .= '<table>';
+		$sx .= '<tr><td>Contato</td><td>'.$this -> line_contato['con_nome'].'</td></tr>';
+		$sx .= '<tr><td>Telefone 1</td><td>('.$this -> line_contato['con_ddd'].')'.$this -> line_contato['con_numero'].'</td></tr>';
+		$sx .= '<tr><td>Telefone 2</td><td>('.$this -> line_contato['con_ddd2'].')'.$this -> line_contato['con_numero2'].'</td></tr>';
+		$sx .= '<tr><td>E-mail 1</td><td>'.$this -> line_contato['con_email'].'</td></tr>';
+		$sx .= '<tr><td>E-mail 2</td><td>'.$this -> line_contato['con_email2'].'</td></tr>';
+		$sx .= '<tr><td>Propaganda</td><td>'.$this -> line_contato['con_propaganda'].'</td></tr>';
+		$sx .= '<tr><td>Observações</td><td>'.$this -> line_contato['con_observacao'].'</td></tr>';
+		$sx .= '</table>';
+		
+		return($sx);
 	}
 
 }
