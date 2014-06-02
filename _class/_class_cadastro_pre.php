@@ -14,6 +14,8 @@ require_once ('../../include/sisdoc_lojas.php');
 
 class cadastro_pre {
 
+	var $js = '';
+
 	var $tabela = 'cad_pessoa';
 	var $tabela_referencia = 'cad_referencia';
 	var $tabela_referencia_tipo = 'cad_referencia_tipo';
@@ -28,7 +30,7 @@ class cadastro_pre {
 	var $nome = '';
 	var $mae = '';
 	var $nasc = '';
-	
+
 	var $line_contato = '';
 
 	/**Em processo cadastro(geral BD)*/
@@ -66,7 +68,13 @@ class cadastro_pre {
 		$_SESSION['ID_PG4'] = '';
 		$_SESSION['ID_PG5'] = '';
 	}
-
+	function gerar_js(){
+		$sx = '<script>';
+		$sx .= $this->js;
+		$sx .='</script>';
+			
+		return($sx);
+	}
 	function cadastrar_cpf($cpf = '') {
 		$this -> cliente = $this -> recupera_codigo_pelo_cpf($cpf);
 		if (round($this -> cliente) == 0) {
@@ -332,11 +340,11 @@ class cadastro_pre {
 					</tr>';
 		while ($line = db_read($rlt)) {
 			global $http;
-			$link = '<a href="'.$http.'pre_cadastro/pre_cadB.php?dd0='.$line['id_con'].'">';
+			$link = '<a href="' . $http . 'pre_cadastro/pre_cadA.php?dd70=' . $line['id_con'] . '">';
 			$sx .= '<tr class="precad_tr">
-						<td width="100px" align="center">' .$link. stodbr($line['con_data']) . '</a></td>
-						<td width="100px" align="center"">' .$link. stodbr($line['con_lastcall']) . '</a></td>
-						<td width="100px" align="center">' .$link. $line['con_nome'] . '</a></td>
+						<td width="100px" align="center">' . $link . stodbr($line['con_data']) . '</a></td>
+						<td width="100px" align="center"">' . $link . stodbr($line['con_lastcall']) . '</a></td>
+						<td width="100px" align="center">' . $link . $line['con_nome'] . '</a></td>
 					</tr>';
 		}
 		$sx .= '</table>';
@@ -573,7 +581,7 @@ class cadastro_pre {
 		return (1);
 	}
 
-	function inserir_log($cliente,$data,$login,$acao,$status_registro) {
+	function inserir_log($cliente, $data, $login, $acao, $status_registro) {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 		$sql = "INSERT INTO cad_pessoa_log
@@ -584,33 +592,61 @@ class cadastro_pre {
 		$rlt = db_query($sql);
 		return (1);
 	}
-	
-	function le_contato($id){
+
+	function le_contato($id) {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
-		$sql = "select * from ".$this->tabela_contato." where id_con=$id";
+		$sql = "select * from " . $this -> tabela_contato . " where id_con=$id";
 		$rlt = db_query($sql);
 		if ($line = db_read($rlt)) {
 			$this -> line_contato = $line;
-			return(1);
-		}else{
-			return(0);	
-		} 	
+			return (1);
+		} else {
+			return (0);
+		}
 	}
-	
-	function mostrar_contato($id){
-		$this->le_contato($id);
+
+	function mostrar_contato($id) {
+		$this -> le_contato($id);
 		$sx .= '<table>';
-		$sx .= '<tr><td>Contato</td><td>'.$this -> line_contato['con_nome'].'</td></tr>';
-		$sx .= '<tr><td>Telefone 1</td><td>('.$this -> line_contato['con_ddd'].')'.$this -> line_contato['con_numero'].'</td></tr>';
-		$sx .= '<tr><td>Telefone 2</td><td>('.$this -> line_contato['con_ddd2'].')'.$this -> line_contato['con_numero2'].'</td></tr>';
-		$sx .= '<tr><td>E-mail 1</td><td>'.$this -> line_contato['con_email'].'</td></tr>';
-		$sx .= '<tr><td>E-mail 2</td><td>'.$this -> line_contato['con_email2'].'</td></tr>';
-		$sx .= '<tr><td>Propaganda</td><td>'.$this -> line_contato['con_propaganda'].'</td></tr>';
-		$sx .= '<tr><td>Observações</td><td>'.$this -> line_contato['con_observacao'].'</td></tr>';
+		$sx .= '<tr><td>Contato</td><td>' . $this -> line_contato['con_nome'] . '</td></tr>';
+		$sx .= '<tr><td>Telefone 1</td><td>(' . $this -> line_contato['con_ddd'] . ')' . $this -> line_contato['con_numero'] . '</td></tr>';
+		$sx .= '<tr><td>Telefone 2</td><td>(' . $this -> line_contato['con_ddd2'] . ')' . $this -> line_contato['con_numero2'] . '</td></tr>';
+		$sx .= '<tr><td>E-mail 1</td><td>' . $this -> line_contato['con_email'] . '</td></tr>';
+		$sx .= '<tr><td>E-mail 2</td><td>' . $this -> line_contato['con_email2'] . '</td></tr>';
+		$sx .= '<tr><td>Propaganda</td><td>' . $this -> line_contato['con_propaganda'] . '</td></tr>';
+		$sx .= '<tr><td>Observações</td><td>' . $this -> line_contato['con_observacao'] . '</td></tr>';
 		$sx .= '</table>';
+
+		return ($sx);
+	}
+
+	function gerar_painel_de_acoes() {
+		$ac = array();
+		array_push($ac, array('@', 'Nao atende'));
+		array_push($ac, array('R', 'Recusado'));
+		array_push($ac, array('B', 'Ja Cadastrado'));
+		array_push($ac, array('X', 'Cancelar'));
 		
-		return($sx);
+		for ($i = 0; $i < count($ac); $i++) {
+			
+			$js = ' onclick="atualiza_acoes(\''.$ac[$i][0].'\')" ';
+			$link = '<a class="bt_acoes" href="#" '.$js.'>';
+			$sx .= '<div style="float:left;">' . $link . $ac[$i][1] . '</a></div>';
+		}
+		$this->js .= '
+		function atualiza_acoes(acao)
+						{
+							$.ajax({
+								type: "POST",
+								url: "pre_cad_ajax.php",
+								data: { dd1: acao }
+								}).done(function( data ) {$("#pre_acao").html( data ); });
+						}
+		';
+
+		
+		return ($sx);
 	}
 
 }

@@ -15,12 +15,31 @@ $form->class_memo = 'precad_form';
 $id = $dd[0];
 echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
 echo '<center><div id="corpo">';
-echo $pre->listar_contatos();
-echo '<div id="corpo_cont">';
-if(strlen(trim($id))>0){
-	echo $pre->mostrar_contato($id);
-}	
+echo '<table>	
+				<tr><td>
+					<div id="painel1" align="center" width="30%" style="position:relative; float:left">
+						<img width="300px" src="../img/imgboxinfo.png">
+						<div class="box_cont"></div>
+					</div>
+				</td><td width="20px"></td>
+				<td>
+					<div id="painel2"  align="center" width="30%" style="position:relative; float:left">
+						<img width="300px" src="../img/imgboxcont.png">
+						<div  class="box_cont">'.$pre->listar_contatos().'</div>
+					</div>
+				</td><td width="20px"></td>
+				<td>
+					<div  id="painel3" align="center" width="30%" style="position:relative; float:left">
+						<img width="300px" src="../img/imgboxcad.png">
+						<div  class="box_cont">'.$pre->mostrar_contato($id).'</div>
+					</div>
+				</td></tr></table>
+			';
 echo '</div>';
 echo '</div>';
-	
 ?>
+
+
+ 
+	
+
