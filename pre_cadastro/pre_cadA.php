@@ -26,10 +26,9 @@ if (strlen(trim($id_cont)) == 0) {
 	$tx1 = $tela;
 } else {
 	$tx = $pre -> mostrar_contato($id_cont);
-	$tx .= $pre -> gerar_painel_de_acoes();
+	$tx .='<div class="bt_acoes_box">'.$pre -> gerar_painel_de_acoes($id_cont,'WILLIAN').'</div>';
 	$tx1 = $tela;
 }
-
 if ($pre -> validaCPF($cpf)) {
 	$pre -> cadastrar_cpf($cpf);
 	if ($form -> saved > 0) {

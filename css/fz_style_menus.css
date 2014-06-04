@@ -34,21 +34,15 @@
 
 .bt_acoes {
 	font-family: "Nexa Light";
+	color:#FFFFFF;
 	font-size: 24px;
+	width: 50%;
+	text-align:center;
 	text-decoration:none;
-	left:5px;
-	height: 320px;
-	width: 100%;
 	background: rgb(74, 172, 186);
 	position: relative;
-	border: 3px solid #62C2D0;
+	border: 1px solid #62C2D0;
 	border-top-color: #F8F8F8;
-	-moz-border-radius-bottomleft: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-webkit-border-bottom-left-radius: 10px;
-	-webkit-border-bottom-right-radius: 10px;
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
 }
 
 .bt_acoes:link {
@@ -58,12 +52,21 @@
 	color: #FFFFFF;
 }/* visited link */
 .bt_acoes:hover {
-	color: #FFFFFF;
-	background: #62C2F0;
+	color:#4d4d4d;
+	background:#e46a5d;
+	cursor: hand;
+	border: 1px solid #4d4d4d;
+	border-top-color: #e46a5d;
 }/* mouse over link */
 .bt_acoes:active {
 	color: #FFFFFF;
 }/* selected link */
+
+.bt_acoes_box {
+	position: relative;
+	width: 100%;
+	
+}
 
 .cab_banner {
 	height: 80px;
@@ -87,20 +90,7 @@
 	background: #F8F8F8;
 	position: relative;
 	text-align: center;
-	/*
-	 -moz-border-radius-topleft: 0px;
-	 -moz-border-radius-topright:0px;
-	 -moz-border-radius-bottomleft:20px;
-	 -moz-border-radius-bottomright:20px;
-	 -webkit-border-top-left-radius:0px;
-	 -webkit-border-top-right-radius:0px;
-	 -webkit-border-bottom-left-radius:20px;
-	 -webkit-border-bottom-right-radius:20px;
-	 border-top-left-radius:0px;
-	 border-top-right-radius:0px;
-	 border-bottom-left-radius:20px;
-	 border-bottom-right-radius:20px;
-	 */
+	
 }
 
 .cab_banner_tr_th {
@@ -136,20 +126,7 @@
 	background: rgb(98, 194, 208);
 	position: relative;
 	text-align: center;
-	/*
-	 -moz-border-radius-topleft: 0px;
-	 -moz-border-radius-topright:0px;
-	 -moz-border-radius-bottomleft:20px;
-	 -moz-border-radius-bottomright:20px;
-	 -webkit-border-top-left-radius:0px;
-	 -webkit-border-top-right-radius:0px;
-	 -webkit-border-bottom-left-radius:20px;
-	 -webkit-border-bottom-right-radius:20px;
-	 border-top-left-radius:0px;
-	 border-top-right-radius:0px;
-	 border-bottom-left-radius:20px;
-	 border-bottom-right-radius:20px;
-	 */
+	
 }
 
 .cab_banner_buttom {
@@ -179,6 +156,7 @@
 	width: 300px;
 	height: 300px;
 	background: #E7E7E7;
+	vertical-align:bottom;
 	-moz-border-radius-topleft: 10px;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-bottomleft: 10px;

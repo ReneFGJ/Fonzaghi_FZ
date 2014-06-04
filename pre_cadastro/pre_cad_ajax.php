@@ -1,22 +1,28 @@
 <?php
 $include = '../';
-require('cab.php');
+require ('cab.php');
+$id = trim($dd[0]);
 $verb = trim($dd[1]);
-require("../_class/_class_cadastro_pre.php");
+$log = trim($dd[2]);
+
+require ("../_class/_class_cadastro_pre.php");
 $prex = new cadastro_pre;
-switch ($verb)
-{
-	case '@':
-		echo '@@@@@@@@@@@@@';
-		break;	
-	case 'R':
-		echo 'RRRRRRRRRRRRRRRRR';
+switch ($verb) {
+	case '@' :
+		$prex -> atualiza_status_contatos($id, '@', $log);
+		$hd->retornar_para_pagina_principal();		
 		break;
-	case 'B':
-		echo 'BBBBBBBBBBBBBBBB';
-		break;	
-	case 'X':
-		echo 'XXXXXXXXXXXXXXXXX';
-		break;		
+	case 'R' :
+		$prex -> atualiza_status_contatos($id, 'R', $log);
+		$hd->retornar_para_pagina_principal();
+		break;
+	case 'B' :
+		$prex -> atualiza_status_contatos($id, 'B', $log);
+		$hd->retornar_para_pagina_principal();
+		break;
+	case 'X' :
+		$prex -> atualiza_status_contatos($id, 'X', $log);
+		$hd->retornar_para_pagina_principal();
+		break;
 }
 ?>

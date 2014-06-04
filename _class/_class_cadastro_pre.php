@@ -173,6 +173,7 @@ class cadastro_pre {
 	}
 
 	function cp_01() {
+		global $dd;
 		$cp = array();
 		array_push($cp, array('$H8', 'id_pes', '', False, True));
 		array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
@@ -621,32 +622,52 @@ class cadastro_pre {
 		return ($sx);
 	}
 
-	function gerar_painel_de_acoes() {
+	function gerar_painel_de_acoes($id,$log) {
 		$ac = array();
 		array_push($ac, array('@', 'Nao atende'));
 		array_push($ac, array('R', 'Recusado'));
 		array_push($ac, array('B', 'Ja Cadastrado'));
 		array_push($ac, array('X', 'Cancelar'));
-		
+		$sx .= '<div class="bt_acoes_box">';
+		$l=0;
+		$sx = '<table>';
 		for ($i = 0; $i < count($ac); $i++) {
-			
-			$js = ' onclick="atualiza_acoes(\''.$ac[$i][0].'\')" ';
-			$link = '<a class="bt_acoes" href="#" '.$js.'>';
-			$sx .= '<div style="float:left;">' . $link . $ac[$i][1] . '</a></div>';
+			if($l==0){
+				$js = ' onclick="atualiza_acoes('.$id.',\''.$ac[$i][0].'\',\''.$log.'\')" ';
+				$sx .= '<tr><td class="bt_acoes" href="#" '.$js.'>'. $ac[$i][1].'</td>';
+				$l++;
+			}else{
+				$js = ' onclick="atualiza_acoes('.$id.',\''.$ac[$i][0].'\',\''.$log.'\')" ';
+				$sx .= '<td class="bt_acoes" href="#" '.$js.'>'. $ac[$i][1].'</td></tr>';
+				$l=0;
+			}
 		}
+		$sx .= '</table>';	
 		$this->js .= '
-		function atualiza_acoes(acao)
+		function atualiza_acoes(id,acao,log)
 						{
 							$.ajax({
 								type: "POST",
 								url: "pre_cad_ajax.php",
-								data: { dd1: acao }
+								data: { dd0:id, dd1: acao, dd2:log }
 								}).done(function( data ) {$("#pre_acao").html( data ); });
 						}
 		';
-
-		
 		return ($sx);
+	}
+	
+	function atualiza_status_contatos($id,$st,$log){
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr, $user;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		$sql = "update ".$this->tabela_contato." 
+				set con_status='$st', 
+					con_lastupdate_log='$log',
+					con_lastupdate=".date('Ymd')."
+				where id_con=$id					
+				";
+		$rlt = db_query($sql);
+		
+		return(1);
 	}
 
 }
