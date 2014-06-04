@@ -90,23 +90,6 @@ class cadastro_pre {
 		return ($this -> cliente);
 	}
 
-	function setar_form_por_session() {
-		global $dd;
-
-		$dd[0] = $_SESSION['CLIENTE'];
-		$dd[1] = $_SESSION['NOME'];
-		$dd[2] = stodbr($_SESSION['NASCIMENTO']);
-		$dd[3] = $_SESSION['NATURALIDADE'];
-		$dd[4] = $_SESSION['RG'];
-		$dd[5] = $_SESSION['GENERO'];
-		$dd[6] = $_SESSION['PAI'];
-		$dd[7] = $_SESSION['MAE'];
-		$dd[8] = $_SESSION['AVAL_STA'];
-		$dd[9] = $_SESSION['AVAL_COD'];
-
-		return (1);
-	}
-
 	function inserir_cpf($cpf = '', $seq = '00') {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
@@ -174,18 +157,17 @@ class cadastro_pre {
 	}
 
 	function cp_01() {
-		global $dd;
 		$cp = array();
 		array_push($cp, array('$S8', 'id_pes', 'ID', False, True));
 		array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
-		array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', TRUE, True));
-		array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', TRUE, True));
-		array_push($cp, array('$S15', 'pes_rg', 'RG', TRUE, True));
-		array_push($cp, array('$O : &M:MASCULINO&F:FEMININO', 'pes_genero', 'GENERO', TRUE, True));
-		array_push($cp, array('$S100', 'pes_pai', 'NOME DO PAI', TRUE, True));
-		array_push($cp, array('$S100', 'pes_mae', utf8_encode('NOME DA MÃE'), TRUE, True));
-		array_push($cp, array('$O : ' . utf8_encode("&S:SIM&N:NÃO"), 'pes_avalista', 'POSSUI AVALISTA?', TRUE, True));
-		array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), TRUE, True));
+		array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', True, True));
+		array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', True, True));
+		array_push($cp, array('$S15', 'pes_rg', 'RG', True, True));
+		array_push($cp, array('$O : &M:MASCULINO&F:FEMININO', 'pes_genero', 'GENERO', True, True));
+		array_push($cp, array('$S100', 'pes_pai', 'NOME DO PAI', True, True));
+		array_push($cp, array('$S100', 'pes_mae', utf8_encode('NOME DA MÃE'), True, True));
+		array_push($cp, array('$O : ' . utf8_encode("&S:SIM&N:NÃO"), 'pes_avalista', 'POSSUI AVALISTA?', True, True));
+		array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), True, True));
 		array_push($cp, array('$B8', '', 'Salvar', False, True));
 		//array_push($cp,array('$H7','pes_cliente_seq','',True,True));
 		//array_push($cp,array('$H1','pes_status','',True,True));

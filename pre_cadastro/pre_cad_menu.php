@@ -38,9 +38,11 @@ $( "#div5_new" ).click(function(){ save('5'); });
 
 function save(page)
 	{
-		var str_to_append = '<input type="hidden" name="acao" id="acao" value="save"><input type="hidden" name="dd92" id="dd92" value="'+page+'">';
-		$("#formulario").append(str_to_append);
 		$("#formulario").submit();
 	}
 </script>
+<?
+echo '<HR>'.$acao.'<HR>';
+print_r($dd);
+?>
 

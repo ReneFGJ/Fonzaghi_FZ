@@ -1,12 +1,10 @@
 <?php
-
+ 
 require('cab.php');
 require("../_class/_class_cadastro_pre.php");
-$dd[0] = $_SESSION['PG1_DD1'];
 $pre = new cadastro_pre;
-require($include.'_class_form.php');
+require('../../include/_class_form.php');
 $form = new form;
-
 $form->required_message = 0;
 $form->required_message_post = 0;
 $form->class_string = 'precad_form_string';
@@ -25,7 +23,9 @@ echo '<td class="corpo" width="70%">';
 echo '<div id="cad01" style="width:0px">';
 /* Dados CP01 */
 $cp = $pre->cp_01();
-$tela = $form->editar($cp,'');
+require ("../../_db/db_mysql_10.1.1.220.php");
+$dd[0] = $_SESSION['PG1_DD0'];
+$tela = $form->editar($cp,$pre->tabela);
 if ($form->saved > 0)
 	{
 		$pg = '02';
@@ -34,6 +34,7 @@ if ($form->saved > 0)
 			 $pg = strzero($dd[92],2); 
 		}
 		redirecina('pre_cad_'.$pg.'.php');
+		exit;
 	} else {
 		$pg = '02';
 		if (strlen($dd[92]) > 0) 
@@ -57,7 +58,9 @@ echo '<script>
 </script>
 ';
 $pre->bloquear_campos('dd0',$dd[0]);
-$pre->bloquear_campos('dd1',$dd[1]);
+//$pre->bloquear_campos('dd1',$dd[1]);
+echo '<br>('.$dd[0].')';
+echo '<br>('.$pre->tabela.')';
 echo '<pre>';
 print_r($dd);
 echo '</pre>';

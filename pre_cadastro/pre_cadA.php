@@ -4,7 +4,7 @@ require ("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 $pre -> zerar_sessions_auxiliar();
 require ('../_class/_class_acp.php');
-require ('../_include/_class_form.php');
+require ('../../include/_class_form.php');
 $form = new form;
 $form -> required_message = 0;
 $form -> required_message_post = 0;
