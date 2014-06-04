@@ -2,6 +2,7 @@
 require ('cab.php');
 require ("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
+$pre -> zerar_sessions_auxiliar();
 require ('../_class/_class_acp.php');
 require ('../_include/_class_form.php');
 $form = new form;
@@ -32,9 +33,9 @@ if (strlen(trim($id_cont)) == 0) {
 if ($pre -> validaCPF($cpf)) {
 	$pre -> cadastrar_cpf($cpf);
 	if ($form -> saved > 0) {
-		$_SESSION['ID_PG1'] = $pre -> id;
+		$_SESSION['PG1_DD0'] = $pre -> id;
 		$_SESSION['nome'] = $pre -> nome;
-		redirecina('pre_cad_01.php?dd0=' . $pre -> id);
+		redirecina('pre_cad_01.php');
 	} else {
 		echo '<table>	
 				<tr><td>

@@ -61,13 +61,14 @@ class cadastro_pre {
 
 	var $class_include = '../../';
 
-	function __contruct() {
-		$_SESSION['ID_PG1'] = '';
-		$_SESSION['ID_PG2'] = '';
-		$_SESSION['ID_PG3'] = '';
-		$_SESSION['ID_PG4'] = '';
-		$_SESSION['ID_PG5'] = '';
+	function zerar_sessions_auxiliar(){
+		$_SESSION['PG01_DD0'] = '';
+		$_SESSION['PG02_DD0'] = '';
+		$_SESSION['PG03_DD0'] = '';
+		$_SESSION['PG04_DD0'] = '';
+		$_SESSION['PG05_DD0'] = '';
 	}
+	
 	function gerar_js(){
 		$sx = '<script>';
 		$sx .= $this->js;
@@ -175,7 +176,7 @@ class cadastro_pre {
 	function cp_01() {
 		global $dd;
 		$cp = array();
-		array_push($cp, array('$H8', 'id_pes', '', False, True));
+		array_push($cp, array('$S8', 'id_pes', 'ID', False, True));
 		array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
 		array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', TRUE, True));
 		array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', TRUE, True));

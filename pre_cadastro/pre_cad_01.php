@@ -2,7 +2,7 @@
 
 require('cab.php');
 require("../_class/_class_cadastro_pre.php");
-
+$dd[0] = $_SESSION['PG1_DD1'];
 $pre = new cadastro_pre;
 require($include.'_class_form.php');
 $form = new form;
@@ -56,8 +56,10 @@ echo '<script>
 		$("#cad01").animate({ left:"50%",width:"100%" },600);
 </script>
 ';
+$pre->bloquear_campos('dd0',$dd[0]);
 $pre->bloquear_campos('dd1',$dd[1]);
-	
-
+echo '<pre>';
+print_r($dd);
+echo '</pre>';
 	
 ?>
