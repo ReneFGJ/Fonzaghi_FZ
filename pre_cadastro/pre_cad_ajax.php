@@ -24,5 +24,6 @@ switch ($verb) {
 		$prex -> atualiza_status_contatos($id, 'X', $log);
 		$hd->retornar_para_pagina_principal();
 		break;
+	
 }
 ?>

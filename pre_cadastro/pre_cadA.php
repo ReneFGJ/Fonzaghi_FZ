@@ -34,6 +34,7 @@ if ($pre -> validaCPF($cpf)) {
 	$pre -> cadastrar_cpf($cpf);
 	if ($form -> saved > 0) {
 		$_SESSION['PG1_DD0'] = $pre -> id;
+		$_SESSION['PG2_DD0'] = $pre -> id_cmp;
 		$_SESSION['nome'] = $pre -> nome;
 		redirecina('pre_cad_01.php');
 	} else {
@@ -97,6 +98,4 @@ echo '
 	});
 </script>
 ';
-
-echo $pre -> autocomplete('dd4');
 ?>

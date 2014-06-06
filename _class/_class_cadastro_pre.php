@@ -4,7 +4,7 @@
  * @author Willian Fellipe Laynes <willianlaynes@hotmail.com>(Analista-Desenvolvedor)
  * @copyright Copyright (c) 2014 - sisDOC.com.br
  * @access public
- * @version v.0.14.21
+ * @version v.0.14.23
  * @package _class
  * @subpackage _class_cadastro_pre.php
  */
@@ -27,9 +27,14 @@ class cadastro_pre {
 	var $id = '';
 	var $cpf = '';
 	var $cliente = '';
+	var $seq = '';
 	var $nome = '';
 	var $mae = '';
 	var $nasc = '';
+	var $line = '';
+
+	var $id_cmp = '';
+	var $line_cmp = '';
 
 	var $line_contato = '';
 
@@ -61,23 +66,23 @@ class cadastro_pre {
 
 	var $class_include = '../../';
 
-	function zerar_sessions_auxiliar(){
+	function zerar_sessions_auxiliar() {
 		$_SESSION['PG01_DD0'] = '';
 		$_SESSION['PG02_DD0'] = '';
 		$_SESSION['PG03_DD0'] = '';
-		$_SESSION['PG04_DD0'] = '';
-		$_SESSION['PG05_DD0'] = '';
 	}
-	
-	function gerar_js(){
+
+	function gerar_js() {
 		$sx = '<script>';
-		$sx .= $this->js;
-		$sx .='</script>';
-			
-		return($sx);
+		$sx .= $this -> js;
+		$sx .= '</script>';
+
+		return ($sx);
 	}
+
 	function cadastrar_cpf($cpf = '') {
-		$this -> cliente = $this -> recupera_codigo_pelo_cpf($cpf);
+		$this -> recupera_codigo_pelo_cpf($cpf);
+		$this -> recuperar_codigo_complemento();
 		if (round($this -> cliente) == 0) {
 			$acp = new acp;
 			$acp -> consulta($cpf, 0, '');
@@ -86,12 +91,13 @@ class cadastro_pre {
 			$this -> nasc = $acp -> acp_nasc;
 			$this -> mae = $acp -> acp_mae;
 			$this -> inserir_cpf($cpf);
+			$this -> inserir_complemento();
 		}
 		return ($this -> cliente);
 	}
 
 	function inserir_cpf($cpf = '', $seq = '00') {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $user;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 		$date = date('Ymd');
 		if (strlen(trim($this -> nome)) > 0) { $set1 .= ', pes_nome';
@@ -105,15 +111,91 @@ class cadastro_pre {
 		};
 		$sql = "insert into " . $this -> tabela . " 
 					(pes_cliente_seq,pes_cpf,pes_data,
-					  pes_lastupdate, pes_status $set1)
+					  pes_status, pes_log, $set1)
 					values 
-					('" . $seq . "','$cpf', " . $date . ",
-					  " . $date . ",'@' " . $set2 . "
+					('$seq','$cpf', $date,
+					  '@', '$user->user_log' ,$set2 
 					)";
 		$rlt = db_query($sql);
 		$this -> updatex();
 		return ($this -> recupera_codigo_pelo_cpf($cpf));
 
+	}
+
+	function recupera_codigo_pelo_cpf($cpf = '') {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+
+		$sql = "select * from " . $this -> tabela . " where pes_cpf = '" . $cpf . "'";
+		$rlt = db_query($sql);
+		if ($line = db_read($rlt)) {
+			$this -> id = $line['id_pes'];
+			$this -> cpf = $line['pes_cpf'];
+			$this -> cliente = $line['pes_cliente'];
+			$this -> nome = $line['pes_nome'];
+			$this -> seq = $line['pes_cliente_seq'];
+			$this -> line = $line;
+			return ($line['pes_cliente']);
+		} else {
+			return (0);
+		}
+	}
+
+	function recupera_dados_pelo_codigo($cliente='',$seq='') {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		if(strlen(trim($cliente))>0){ $this->cliente = $cliente; }
+		if(strlen(trim($seq))>0){ $this->seq = $seq; }
+		
+		$sql = "select * from $this -> tabela  
+				where pes_cliente = '$this->cliente' and 
+					  pes_cliente_seq = '$this->seq'";
+		$rlt = db_query($sql);
+		if ($line = db_read($rlt)) {
+			$this -> id = $line['id_pes'];
+			$this -> cpf = $line['pes_cpf'];
+			$this -> cliente = $line['pes_cliente'];
+			$this -> nome = $line['pes_nome'];
+			$this -> seq = $line['pes_cliente_seq'];
+			$this -> line = $line;
+			return ($line['pes_cliente']);
+		} else {
+			return (0);
+		}
+	}
+
+	function inserir_complemento() {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $user;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		$sql = "INSERT INTO " . $this -> tabela_complemento . "
+		(	
+			cmp_cliente, cmp_cliente_seq, cmp_log, 
+			cmp_data, cmp_status
+		)VALUES(
+			'$this->cliente' , '$this->seq', '$user->user_log', 
+			" . date('Ymd') . ", 'A'
+		)
+		";
+		$rlt = db_query($sql);
+		return ($this -> recuperar_codigo_complemento());
+	}
+
+	function recuperar_codigo_complemento() {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		$sql = "select * from $this->tabela_complemento
+				where cmp_cliente = '$this->cliente' and cmp_cliente_seq='$this->seq' 
+		";
+		$rlt = db_query($sql);
+		if ($line = db_read($rlt)) {
+			$this -> id_cmp = $line['id_cmp'];
+			$this -> line_cmp = $line;
+		} else {
+			if ((strlen(trim($this -> cliente)) > 0) and (strlen(trim($this -> seq)) > 0)) {
+				$this -> inserir_complemento();
+			}
+		}
+		return ($this -> id_cmp);
 	}
 
 	function updatex() {
@@ -129,24 +211,6 @@ class cadastro_pre {
 		return (0);
 	}
 
-	function recupera_codigo_pelo_cpf($cpf = '') {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
-		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
-
-		$sql = "select * from " . $this -> tabela . " where pes_cpf = '" . $cpf . "'";
-		$rlt = db_query($sql);
-		if ($line = db_read($rlt)) {
-			$this -> id = $line['id_pes'];
-			$this -> cpf = $line['pes_cpf'];
-			$this -> cliente = $line['pes_cliente'];
-			$this -> nome = $line['pes_nome'];
-			$this -> line = $line;
-			return ($line['pes_cliente']);
-		} else {
-			return (0);
-		}
-	}
-
 	function cp_00() {
 		$cp = array();
 		/*0*/array_push($cp, array('$H8', '', '', False, True));
@@ -158,48 +222,40 @@ class cadastro_pre {
 
 	function cp_01() {
 		$cp = array();
-		array_push($cp, array('$S8', 'id_pes', 'ID', False, True));
-		array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
-		array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', True, True));
-		array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', True, True));
-		array_push($cp, array('$S15', 'pes_rg', 'RG', True, True));
-		array_push($cp, array('$O : &M:MASCULINO&F:FEMININO', 'pes_genero', 'GENERO', True, True));
-		array_push($cp, array('$S100', 'pes_pai', 'NOME DO PAI', True, True));
-		array_push($cp, array('$S100', 'pes_mae', utf8_encode('NOME DA MÃE'), True, True));
-		array_push($cp, array('$O : ' . utf8_encode("&S:SIM&N:NÃO"), 'pes_avalista', 'POSSUI AVALISTA?', True, True));
-		array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), True, True));
-		array_push($cp, array('$B8', '', 'Salvar', False, True));
-		//array_push($cp,array('$H7','pes_cliente_seq','',True,True));
-		//array_push($cp,array('$H1','pes_status','',True,True));
-		//array_push($cp,array('$H11','pes_lastupdate','',True,True));
+		/*0*/array_push($cp, array('$S8', 'id_pes', 'ID', False, True));
+		/*1*/array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
+		/*2*/array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', True, True));
+		/*3*/array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', True, True));
+		/*4*/array_push($cp, array('$S15', 'pes_rg', 'RG', True, True));
+		/*5*/array_push($cp, array('$O : &M:MASCULINO&F:FEMININO', 'pes_genero', 'GENERO', True, True));
+		/*6*/array_push($cp, array('$S100', 'pes_pai', 'NOME DO PAI', True, True));
+		/*7*/array_push($cp, array('$S100', 'pes_mae', utf8_encode('NOME DA MÃE'), True, True));
+		/*8*/array_push($cp, array('$O : ' . utf8_encode("&S:SIM&N:NÃO"), 'pes_avalista', 'POSSUI AVALISTA?', True, True));
+		/*9*/array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), True, True));
+		/*10*/array_push($cp, array('$B8', '', 'Salvar', False, True));
+		
+		/*11*/array_push($cp, array('$H15', 'pes_lastupdate_log', '', True, True));
+		/*12*/array_push($cp, array('$H11', 'pes_lastupdate', '', True, True));
 		return ($cp);
-
 	}
 
 	function cp_02() {
 		$cp = array();
-		array_push($cp, array('$H8', 'id_cmp', '', False, True));
-		array_push($cp, array('$S8', 'cmp_salario', 'SALARIO', TRUE, True));
-		array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALARIO COMPLEMENTAR', TRUE, True));
-		array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
-		array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
-		array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
-		array_push($cp, array('$S2', 'cmp_experiencia_vendas', 'TEMPO EXP. VENDAS', TRUE, True));
-		array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
-		array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
-		array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
-		array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
-
-		array_push($cp, array('$B8', '', 'Salvar', False, True));
-
-		array_push($cp, array('$H8', 'cmp_cliente', '', TRUE, True));
-		array_push($cp, array('$H8', 'cmp_cliente_seq', '', TRUE, True));
-		array_push($cp, array('$H8', 'cmp_log', '', TRUE, True));
-		array_push($cp, array('$H8', 'cmp_data', '', TRUE, True));
-		array_push($cp, array('$H8', 'cmp_lastupdate_log', '', TRUE, True));
-		array_push($cp, array('$H8', 'cmp_lastupdate', '', TRUE, True));
-		array_push($cp, array('$H8', 'cmp_status', '', TRUE, True));
-
+		/*dd0*/array_push($cp, array('$S8', 'id_cmp', '', False, True));
+		/*dd1*/array_push($cp, array('$S8', 'cmp_salario', 'SALARIO', TRUE, True));
+		/*dd2*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALARIO COMPLEMENTAR', TRUE, True));
+		/*dd3*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
+		/*dd4*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
+		/*dd5*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
+		/*dd6*/array_push($cp, array('$S2', 'cmp_experiencia_vendas', 'TEMPO EXP. VENDAS', TRUE, True));
+		/*dd7*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
+		/*dd8*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
+		/*dd8*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
+		/*dd9*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
+		/*dd10*/array_push($cp, array('$B8', '', 'Salvar', False, True));
+		
+		/*dd12*/array_push($cp, array('$H15', 'cmp_lastupdate_log', 'log', TRUE, True));
+		/*dd13*/array_push($cp, array('$H11', 'cmp_lastupdate', 'data log', TRUE, True));
 		return ($cp);
 
 	}
@@ -509,39 +565,7 @@ class cadastro_pre {
 		return (1);
 	}
 
-	function autocomplete($dd) {
-		$sx = /*'<script>
-
-		 var options, a;
-		 jQuery(function($){
-		 options = { lookup:['.$this->carregar_tags_nome_autocomplete().']};
-		 a = $("#'.$dd.'").autocomplete(options);
-		 });
-		 </script>';*/
-		$sx = "
-				  <script> 	
-				 	var a = $('#dd4').autocomplete({
-					minChars:2,
-					maxHeight:400,
-					width:300,
-					source: [ 'c++', 'java', 'php', 'coldfusion', 'javascript', 'asp', 'ruby' ],
-					zIndex: 9999,
-					deferRequestBy: 0, //miliseconds
-					params: { country:'Yes' }, //aditional parameters
-					noCache: true, //default is false, set to true to disable caching
-					// callback function:
-					onSelect: function(value, data){ alert('You selected: ' + value + ', ' + data); },
-					// local autosugest options:
-					lookup: ['January', 'February', 'March', 'April', 'May'] //local lookup values
-					});
-					
-					</script>
-					";
-
-		return ($sx);
-	}
-
-	function carregar_tags_nome_autocomplete() {
+		function carregar_tags_nome_autocomplete() {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 
@@ -605,28 +629,28 @@ class cadastro_pre {
 		return ($sx);
 	}
 
-	function gerar_painel_de_acoes($id,$log) {
+	function gerar_painel_de_acoes($id, $log) {
 		$ac = array();
 		array_push($ac, array('@', 'Nao atende'));
 		array_push($ac, array('R', 'Recusado'));
 		array_push($ac, array('B', 'Ja Cadastrado'));
 		array_push($ac, array('X', 'Cancelar'));
 		$sx .= '<div class="bt_acoes_box">';
-		$l=0;
+		$l = 0;
 		$sx = '<table>';
 		for ($i = 0; $i < count($ac); $i++) {
-			if($l==0){
-				$js = ' onclick="atualiza_acoes('.$id.',\''.$ac[$i][0].'\',\''.$log.'\')" ';
-				$sx .= '<tr><td class="bt_acoes" href="#" '.$js.'>'. $ac[$i][1].'</td>';
+			if ($l == 0) {
+				$js = ' onclick="atualiza_acoes(' . $id . ',\'' . $ac[$i][0] . '\',\'' . $log . '\')" ';
+				$sx .= '<tr><td class="bt_acoes" href="#" ' . $js . '>' . $ac[$i][1] . '</td>';
 				$l++;
-			}else{
-				$js = ' onclick="atualiza_acoes('.$id.',\''.$ac[$i][0].'\',\''.$log.'\')" ';
-				$sx .= '<td class="bt_acoes" href="#" '.$js.'>'. $ac[$i][1].'</td></tr>';
-				$l=0;
+			} else {
+				$js = ' onclick="atualiza_acoes(' . $id . ',\'' . $ac[$i][0] . '\',\'' . $log . '\')" ';
+				$sx .= '<td class="bt_acoes" href="#" ' . $js . '>' . $ac[$i][1] . '</td></tr>';
+				$l = 0;
 			}
 		}
-		$sx .= '</table>';	
-		$this->js .= '
+		$sx .= '</table>';
+		$this -> js .= '
 		function atualiza_acoes(id,acao,log)
 						{
 							$.ajax({
@@ -638,19 +662,19 @@ class cadastro_pre {
 		';
 		return ($sx);
 	}
-	
-	function atualiza_status_contatos($id,$st,$log){
+
+	function atualiza_status_contatos($id, $st, $log) {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr, $user;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
-		$sql = "update ".$this->tabela_contato." 
+		$sql = "update " . $this -> tabela_contato . " 
 				set con_status='$st', 
 					con_lastupdate_log='$log',
-					con_lastupdate=".date('Ymd')."
+					con_lastupdate=" . date('Ymd') . "
 				where id_con=$id					
 				";
 		$rlt = db_query($sql);
-		
-		return(1);
+
+		return (1);
 	}
 
 }

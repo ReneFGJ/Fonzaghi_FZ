@@ -9,7 +9,7 @@
 	 * @subpackage _class_header_fz.php
     */
 
-class header
+class header 
 	{
 	var $charcod = "UTF-8";
 	/* var $charcod = "ISO-8859-1"; */

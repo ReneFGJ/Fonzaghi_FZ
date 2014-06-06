@@ -3,7 +3,7 @@ require('cab.php');
 
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
-require($include.'_class_form.php');
+require('../../include/_class_form.php');
 $form = new form;
 $form->required_message = 0;
 $form->required_message_post = 0;
@@ -24,14 +24,11 @@ echo '<div id="cad03" style="width:0px" >';
 /* Dados CP03 */
 $cp = $pre->cp_03();
 $tela = $form->editar($cp,'');
-
 if ($form->saved > 0)
 	{
-		$pg = '04';
-		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); }
+		$pg = 'resumo';
 		redirecina('pre_cad_'.$pg.'.php');
 	} else {
-		if (strlen($dd[92]) > 0) { $pg = strzero($dd[92],2); redirecina('pre_cad_'.$pg.'.php'); }
 		echo $tela;
 	}
 
@@ -46,4 +43,5 @@ echo '<script>
 				width:"100%"
 			  },600);
 	</script>';
+$pre->bloquear_campos('dd0',$dd[0]);	
 ?>

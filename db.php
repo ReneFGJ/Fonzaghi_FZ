@@ -17,12 +17,14 @@
 	ini_set('display_errors', $debug1);
 	ini_set('error_reporting', $debug2);
 	    
-    if (!isset($include)) { $include = '_include/'; }
-	else { $include .= '_include/'; }
+    if (!isset($include)) { $include = 'include/'; }
+	else { $include .= 'include/'; }
+	if (!isset($include_db)) { $include_db = '_db/'; }
+	else { $include_db .= '_db/'; }
 
     ob_start();
 	session_start();
-	
+
 	/* Path Directory */
 	$path_info = trim($_SERVER['PATH_INFO']);
 	
@@ -30,19 +32,19 @@
 	header("Expires: 0");
 	header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 	header("Cache-Control: private",false);	
-	
+
     $ip = $_SERVER['SERVER_ADDR'];
 	if ($ip == '::1') { $ip = '127.0.0.1'; }
 	
 	$charset = 'utf-8';
 	header('Content-Type: text/html; charset='.$charset);
-	
 	/* Include */
-	require($include.'_class_msg.php');
-	require($include.'_class_char.php');		
 	require($include.'sisdoc_sql.php');	
 	require($include.'sisdoc_debug.php');
-	
+	require($include.'_class_msg.php');
+	require($include.'_class_char.php');		
+
+
 	global $cnn,$conn;
 	//echo '<br><br>'.$cnn;
 	//echo '<br><br>'.$conn;
@@ -57,7 +59,7 @@
 		}	
 	
 	/* Data base */
-	$filename = $include."../../_db/db_mysql_".$ip.".php";
+	$filename = $include_db."db_mysql_".$ip.".php";
 	if (file_exists($filename))
 		{
 			require($filename);
