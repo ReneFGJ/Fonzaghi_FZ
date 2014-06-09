@@ -65,6 +65,12 @@ class cadastro_pre {
 	var $tt_mensal_S = 0;
 
 	var $class_include = '../../';
+	
+	function lista_telefone()
+		{
+			$sql = "select * from telefone";
+			echo $sql;
+		}
 
 	function zerar_sessions_auxiliar() {
 		$_SESSION['PG01_DD0'] = '';
@@ -211,6 +217,32 @@ class cadastro_pre {
 		return (0);
 	}
 
+	function cp_fone()
+		{
+		$cp = array();			
+		/*0*/array_push($cp, array('$H8', '', '', False, True));
+		/*1*/array_push($cp, array('$H8', '', '', False, True));
+		/*2*/array_push($cp, array('$H8', '', '', False, True));
+		/*4*/array_push($cp, array('$S15', '', 'Telefone', TRUE, True));
+		/*5*/array_push($cp, array('$S15', '', 'Numero', False, True));
+		/*7*/array_push($cp, array('$O : &C:Celular&F:Fixo','', 'Tipo', False, True));
+			
+			return($cp);
+		}
+		
+	function cp_endereco()
+		{
+		$cp = array();			
+		/*0*/array_push($cp, array('$H8', '', '', False, True));
+		/*1*/array_push($cp, array('$H8', '', '', False, True));
+		/*2*/array_push($cp, array('$H8', '', '', False, True));
+		/*4*/array_push($cp, array('$S10', '', 'CEP', TRUE, True));
+		/*5*/array_push($cp, array('$S15', '', 'Rua', False, True));
+			
+			return($cp);
+		}
+		
+
 	function cp_00() {
 		$cp = array();
 		/*0*/array_push($cp, array('$H8', '', '', False, True));
@@ -223,7 +255,7 @@ class cadastro_pre {
 	function cp_01() {
 		$cp = array();
 		/*0*/array_push($cp, array('$S8', 'id_pes', 'ID', False, True));
-		/*1*/array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
+		/*1*/array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, False));
 		/*2*/array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', True, True));
 		/*3*/array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', True, True));
 		/*4*/array_push($cp, array('$S15', 'pes_rg', 'RG', True, True));
@@ -263,6 +295,15 @@ class cadastro_pre {
 	function cp_03() {
 		$cp = array();
 		array_push($cp, array('$H8', 'id_ref', '', False, True));
+		array_push($cp, array('$AJAX:ajax_telefone', '', 'TELEFONE', False, True));
+		array_push($cp, array('$AJAX:ajax_endereco', '', 'ENDERECO', False, True));
+
+		return ($cp);
+	}
+
+	function cp_03_old() {
+		$cp = array();
+		array_push($cp, array('$H8', 'id_ref', '', False, True));
 		array_push($cp, array('$S30', 'ref_nome', 'NOME', TRUE, True));
 		array_push($cp, array('$S15', 'ref_cep', 'CEP', TRUE, True));
 		array_push($cp, array('$T50:10', 'ref_observacao', 'OBSERVACOES', TRUE, True));
@@ -277,7 +318,6 @@ class cadastro_pre {
 
 		return ($cp);
 	}
-
 	function cp_04() {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, True));
@@ -307,25 +347,6 @@ class cadastro_pre {
 		array_push($cp, array('$H11', 'tel_data', '', TRUE, True));
 		return ($cp);
 
-	}
-
-	function cp_endereco() {
-		$cp = array();
-		/*
-		 array_push($cp,array('$H8','','',False,True));
-		 array_push($cp,array('$S100','','NOME COMPLETO',TRUE,True));
-		 array_push($cp,array('$D8','','DATA NASCIMENTO',TRUE,True));
-		 array_push($cp,array('$S30','','NATURALIDADE',TRUE,True));
-		 array_push($cp,array('$S15','','RG',TRUE,True));
-		 array_push($cp,array('$O : &M:MASCULINO&F:FEMININO','','GENERO',TRUE,True));
-		 array_push($cp,array('$S100','','NOME DO PAI',TRUE,True));
-		 array_push($cp,array('$S100','',utf8_encode('NOME DA MÃE'),TRUE,True));
-		 array_push($cp,array('$O : '.utf8_encode("&P:PRIMÁRIO&S:SECUNDÁRIO"),'','AVALISTA',TRUE,True));
-		 array_push($cp,array('$S7','',utf8_encode('CÓDIGO AVALISTA'),TRUE,True));
-		 array_push($cp,array('$B8','','Salvar >>>',False,True));
-		 *
-		 */
-		return ($cp);
 	}
 
 	function validaCPF($cpf = null) {

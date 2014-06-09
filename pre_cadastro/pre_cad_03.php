@@ -1,6 +1,6 @@
 <?php
 require('cab.php');
-
+require($include.'sisdoc_debug.php');
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 require('../../include/_class_form.php');
@@ -11,6 +11,7 @@ $form->class_string = 'precad_form_string';
 $form->class_button_submit = 'precad_form_submit';
 $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
+$form->class_select = 'precad_select';
 
 $_SESSION['angulo'] = 40;
 echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
