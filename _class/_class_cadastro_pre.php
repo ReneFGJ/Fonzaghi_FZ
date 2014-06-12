@@ -117,10 +117,10 @@ class cadastro_pre {
 		};
 		$sql = "insert into " . $this -> tabela . " 
 					(pes_cliente_seq,pes_cpf,pes_data,
-					  pes_status, pes_log, $set1)
+					  pes_status, pes_log $set1)
 					values 
 					('$seq','$cpf', $date,
-					  '@', '$user->user_log' ,$set2 
+					  '@', '$user->user_log' $set2 
 					)";
 		$rlt = db_query($sql);
 		$this -> updatex();
@@ -152,10 +152,11 @@ class cadastro_pre {
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 		if(strlen(trim($cliente))>0){ $this->cliente = $cliente; }
 		if(strlen(trim($seq))>0){ $this->seq = $seq; }
-		
-		$sql = "select * from $this -> tabela  
-				where pes_cliente = '$this->cliente' and 
-					  pes_cliente_seq = '$this->seq'";
+		$sql = "select * from ".$this -> tabela."  
+				where pes_cliente ='".$this->cliente."' and 
+					  pes_cliente_seq = '".$this->seq."'
+				";
+					  
 		$rlt = db_query($sql);
 		if ($line = db_read($rlt)) {
 			$this -> id = $line['id_pes'];
@@ -279,15 +280,16 @@ class cadastro_pre {
 		/*dd3*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
 		/*dd4*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
 		/*dd5*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
-		/*dd6*/array_push($cp, array('$S2', 'cmp_experiencia_vendas', 'TEMPO EXP. VENDAS', TRUE, True));
-		/*dd7*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
-		/*dd8*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
-		/*dd8*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
-		/*dd9*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
-		/*dd10*/array_push($cp, array('$B8', '', 'Salvar', False, True));
+		/*dd6*/array_push($cp, array('$S30', 'cmp_emprego_tempo', 'TEMPO DE PROFISSAO', TRUE, True));
+		/*dd7*/array_push($cp, array('$S2', 'cmp_experiencia_vendas', 'TEMPO EXP. VENDAS', TRUE, True));
+		/*dd8*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
+		/*dd9*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
+		/*dd10*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
+		/*dd11*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
+		/*dd12*/array_push($cp, array('$B8', '', 'Salvar', False, True));
 		
-		/*dd12*/array_push($cp, array('$H15', 'cmp_lastupdate_log', 'log', TRUE, True));
-		/*dd13*/array_push($cp, array('$H11', 'cmp_lastupdate', 'data log', TRUE, True));
+		/*dd13*/array_push($cp, array('$H15', 'cmp_lastupdate_log', 'log', TRUE, True));
+		/*dd14*/array_push($cp, array('$H11', 'cmp_lastupdate', 'data log', TRUE, True));
 		return ($cp);
 
 	}

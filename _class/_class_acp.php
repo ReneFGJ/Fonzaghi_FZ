@@ -38,6 +38,9 @@ class acp
 	var $xml;
 	var $restricoesSCP;
 	var $restricoesCHQ;
+	var $TTrestricoesSCP=0;
+	var $TTrestricoesCHQ=0;
+	var $TTrestricoes_vlr=0;
 	
 	function __construct()
 	{
@@ -91,7 +94,7 @@ class acp
 			$this->tela .= $xml;
 			$this->tela .= '</PRE>';			
 		}
-
+	
 	function carregar_dados_SPC_125_DEBITO(){
 		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-SPC'}->{'SPC-122-DADOS'}->{'SPC-125-DEBITO'};
 		$r = array();
@@ -100,26 +103,38 @@ class acp
 			$vlr = $k->{'SPC-125-VALOR'};
 			$inf = $k->{'SPC-125-INFORMANTE'};
 			array_push($r,array($ocr, $vlr, $inf)); 
+			$this->TTrestricoes_vlr += $vlr;
+			$this->TTrestricoesSCP++;
 		}
 		$this -> restricoesSPC = $r;
 		return(1);
 	}
 
 	function carregar_dados_CHQ_242_CCF_BACEN(){
-		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'}->{'CHQ-250-SINTESE-PF'};
+		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'};
 		$r = array();
-		print_r($xml_r);
-		
 		foreach ($xml_r as $k) {
-			echo '<br>'.$ocr = $k->{'CHQ-242-ULTIMO12'};
-			echo '<br>'.$bc = $k->{'CHQ-242-BANCO'};
-			echo '<br>'.$ag = $k->{'CHQ-242-AGENCIA'};
-			echo '<br>'.$doc = $k->{'CHQ-242-DOCUMENTO'};
-			array_push($r,array($ocr, $bc, $ag, $doc)); 
+			$k = $k->{'CHQ-242-DEVOLUCAO'}->{'CHQ-242-CCF-BACEN'};
+			if($k){
+				$ocr = $k->{'CHQ-242-ULTIMO12'};
+				$bc = $k->{'CHQ-242-BANCO'};
+				$ag = $k->{'CHQ-242-AGENCIA'};
+				$doc = $k->{'CHQ-242-DOCUMENTO'};
+				array_push($r,array($ocr, $bc, $ag, $doc));
+				$this->TTrestricoesCHQ++;
+			} 
 		}
 		 
 		$this -> restricoesCHQ = $r;
     	return(1);
+	}
+	
+	function calcular_restricoes($cpf){
+		$this->mostra_consulta($cpf);
+		$this->carregar_dados_CHQ_242_CCF_BACEN();
+		$this->carregar_dados_SPC_125_DEBITO();
+		$this->TTrestricoes = $this->TTrestricoesCHQ + $this->TTrestricoesSCP; 
+		return(1);
 	}
 	
 	function consulta_curl($cpf,$tel='')
