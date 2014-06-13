@@ -98,34 +98,37 @@ class acp
 	function carregar_dados_SPC_125_DEBITO(){
 		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-SPC'}->{'SPC-122-DADOS'}->{'SPC-125-DEBITO'};
 		$r = array();
-		foreach ($xml_r as $k) {
-			$ocr = $k->{'SPC-125-OCORRENCIA'};
-			$vlr = $k->{'SPC-125-VALOR'};
-			$inf = $k->{'SPC-125-INFORMANTE'};
-			array_push($r,array($ocr, $vlr, $inf)); 
-			$this->TTrestricoes_vlr += $vlr;
-			$this->TTrestricoesSCP++;
-		}
-		$this -> restricoesSPC = $r;
+		if (isset($xml_r)) {
+			foreach ($xml_r as $k) {
+				$ocr = $k->{'SPC-125-OCORRENCIA'};
+				$vlr = $k->{'SPC-125-VALOR'};
+				$inf = $k->{'SPC-125-INFORMANTE'};
+				array_push($r,array($ocr, $vlr, $inf)); 
+				$this->TTrestricoes_vlr += $vlr;
+				$this->TTrestricoesSCP++;
+			}
+			$this -> restricoesSPC = $r;
+		}	
 		return(1);
 	}
 
 	function carregar_dados_CHQ_242_CCF_BACEN(){
 		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'};
 		$r = array();
-		foreach ($xml_r as $k) {
-			$k = $k->{'CHQ-242-DEVOLUCAO'}->{'CHQ-242-CCF-BACEN'};
-			if($k){
-				$ocr = $k->{'CHQ-242-ULTIMO12'};
-				$bc = $k->{'CHQ-242-BANCO'};
-				$ag = $k->{'CHQ-242-AGENCIA'};
-				$doc = $k->{'CHQ-242-DOCUMENTO'};
-				array_push($r,array($ocr, $bc, $ag, $doc));
-				$this->TTrestricoesCHQ++;
-			} 
-		}
-		 
-		$this -> restricoesCHQ = $r;
+		if (isset($xml_r)) {
+			foreach ($xml_r as $k) {
+				$k = $k->{'CHQ-242-DEVOLUCAO'}->{'CHQ-242-CCF-BACEN'};
+				if($k){
+					$ocr = $k->{'CHQ-242-ULTIMO12'};
+					$bc = $k->{'CHQ-242-BANCO'};
+					$ag = $k->{'CHQ-242-AGENCIA'};
+					$doc = $k->{'CHQ-242-DOCUMENTO'};
+					array_push($r,array($ocr, $bc, $ag, $doc));
+					$this->TTrestricoesCHQ++;
+				} 
+			}
+			$this -> restricoesCHQ = $r;
+		}	
     	return(1);
 	}
 	

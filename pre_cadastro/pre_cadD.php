@@ -15,13 +15,14 @@ $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
 echo '<center><div id="corpo">-----';
-$pre -> obter_dados('7000038','00');
+$pre -> obter_dados('7000039','00');
 echo '<div align="left">';
-print_r($pre);
+//print_r($pre);
 echo '</div>';
 $pre ->calcular_pontuacao();
 echo '<br>Pontuacao';
 echo '<br>('.$pre ->TTpontos;
 echo ')</div>';
+echo $pre->mostrar_relatorio();
 	
 ?>
