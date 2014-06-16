@@ -1,6 +1,6 @@
 <?php
 /**
- * Pré-Cadastro Analise
+ * Pré-Cadastro Analise - extend da classe cadastro_pre
  * @author Willian Fellipe Laynes <willianlaynes@hotmail.com>(Analista-Desenvolvedor)
  * @copyright Copyright (c) 2014 - sisDOC.com.br
  * @access public
@@ -11,35 +11,60 @@
 require_once ('_class_cadastro_pre.php');
 
 class cadastro_pre_analise extends cadastro_pre {
+	/**CPF da consultora. @name $cpf */
 	var $cpf = '';
+	/**Idade da consultora. @name $idade */
 	var $idade = '';
+	/**Genêro da consultora. @name $genero */
 	var $genero = '';
+	/**Se é avalista proprio ou não. @name $avalista */
 	var $avalista = '';
+	/**Código do avalista, caso não possua avalista recebera seu próprio código. @name $avalista_cod */
 	var $avalista_cod = '';
+	/**Distância da moradia da consultora em relção a Fonzaghi. @name $dist_moradia */
 	var $dist_moradia = '';
-	var $TTrestricoes_vlr = '';
-	var $TTrestricoes = '';
+	/**Patrimônio da consultora. @name $patrimonio */
 	var $patrimonio = '';
+	/**Renda familiar soma do salário com outros complementos. @name $renda_familiar */
 	var $renda_familiar = 0;
+	/**Experiência em vendas. @name $xp_vendas */
 	var $xp_vendas = 0;
+	/**Estado civil da consultora. @name $estado_civil */
 	var $estado_civil = '';
+	/**Referencias da consultora. @name $referencia */
 	var $referencia = '';
+	/**Tempo de união em anos. @name $tempo_uniao */
 	var $tempo_uniao = 0;
+	/**Tempo de moradia em anos. @name $tempo_moradia */
 	var $tempo_moradia = 0;
+	/**Tempo de emprego no atual emprego. @name $tempo_emprego */
 	var $tempo_emprego = 0;
+	/**Valor total das restrições. @name $TTrestricoes_vlr */
+	var $TTrestricoes_vlr = '';
+	/**Total de restrições CHQs e SPCs. @name $TTrestricoes */
+	var $TTrestricoes = '';
+	/**Total dos pontos calculados segundo criterios de avalição. @name $TTpontos */
 	var $TTpontos = 0;
-	/*Latitude e longitude Fonzaghi*/
+	/**Latitude da Fonzaghi para ser utilizado no calculo da distância. @name $latF*/ 
 	var $latF = -25.427985;
+	/**Longitude da Fonzaghi para ser utilizado no calculo da distância. @name $longF*/
 	var $longF = -49.27563;
-	/*Latitude e longitude Consultora*/
+	/**Latitude da Consultora para ser utilizado no calculo da distância. @name $latC*/
 	var $latC = 0;
+	/**Longitude da Consultora para ser utilizado no calculo da distância. @name $longC*/
 	var $longC = 0;
+	/**Pesos utilizados no calculo dos pontos. @name $pesos */
 	var $pesos = array();
-
+	/**
+	 * Construtor seta os pesos a serem utilizados pelos métodos que calculam as pontuações
+	 */
 	function __construct() {
-		$this -> pesos = array(1,1,1,1,1,1,1,1,1,1,1);
+		$this -> pesos = array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 	}
-
+	/**
+	 * Seta atributos do objeto pelo código do cliente e sequencia
+	 */
+	 
 	function obter_dados($cliente = '', $seq = '') {
 		if (strlen($cliente) > 0) {
 			$this -> cliente = $cliente;
@@ -56,7 +81,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> avalista_cod = $this -> line['pes_avalista_cod'];
 		$this -> dist_moradia = $this -> calcular_distancia();
 		$this -> patrimonio = '';
-		$this -> renda_familiar = $this->line_cmp['cmp_salario']+$this->line_cmp['cmp_salario_complementar'];
+		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar'];
 		$this -> xp_vendas = $this -> line_cmp['cmp_experiencia_vendas'];
 		$this -> estado_civil = $this -> line_cmp['cmp_estado_civil'];
 		$this -> referencia = '';
@@ -105,6 +130,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		if ($p1LO == 0) {
 			$p1LO = $this -> longC;
 		}
+		//raio
 		$r = 6371.0;
 
 		$p1LA = $p1LA * pi() / 180.0;
@@ -119,13 +145,17 @@ class cadastro_pre_analise extends cadastro_pre {
 		$aa = sqrt($a);
 		$ab = sqrt(1 - $a);
 		$c = atan2($aa, $ab) * 2;
-		//$metros = round($r * $c * 1000);
+		//$metros = round($r * $c * 1000); //em metros
 		$km = round($r * $c);
+		// em kilometros
 
 		return $km;
 
 	}
 
+	/**
+	 * Calcula as restrições pela classe _class_acp.php
+	 */
 	function calcular_restricoes() {
 		$acp = new acp;
 		$acp -> calcular_restricoes($this -> cpf);
@@ -134,6 +164,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return (1);
 	}
 
+	/**
+	 * Faz a soma das pontuações .
+	 */
 	function calcular_pontuacao() {
 		$this -> TTpontos += $this -> pontos_idade();
 		$this -> TTpontos += $this -> pontos_vlr_restricoes();
@@ -147,6 +180,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> TTpontos += $this -> pontos_tempo_emprego();
 	}
 
+	/**
+	 * Calcula pontos pela idade .
+	 */
 	function pontos_idade() {
 		$peso = $this -> pesos[0];
 		switch ($this->idade) {
@@ -180,6 +216,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula total de restrições e valor total das restrições .
+	 */
 	function pontos_vlr_restricoes() {
 		$peso = $this -> pesos[1];
 
@@ -216,6 +255,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pela distancia da consultora em relção a Fonzaghi.
+	 */
 	function pontos_distancia() {
 		$peso = $this -> pesos[2];
 		switch ($this->dist_moradia) {
@@ -248,30 +290,31 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pela renda familiar.
+	 * Renda familiar é composta pelo salario da futura consultora + renda complementar.
+	 */
 	function pontos_renda() {
 		$peso = $this -> pesos[4];
-		echo '------------------('.$this->renda_familiar.')-----------------';
-		if ($this->renda_familiar>1000) {
+		echo '-----------------REVER RENDA FAMILIAR, CONDIÇÕES APLICADAS 
+			NÃO ESTÃO FUNCIONANDOS PELO SWITCH-(' . $this -> renda_familiar . ')-----------------';
+		if ($this -> renda_familiar > 1000) {
 			echo '=======+++aqui+++========';
 		}
-		$renda =$this->renda_familiar; 
+		$renda = $this -> renda_familiar;
 		switch ($renda) {
-			
+
 			case (10000<$renda) :
 				$pt = 4 * $peso;
-				echo '<br>----aqui 4-----'; 
 				break;
 			case (5000<$renda and $renda<=10000) :
 				$pt = 3 * $peso;
-				echo '<br>----aqui 3-----';
 				break;
 			case (2000>$renda and $renda<=5000) :
 				$pt = 2 * $peso;
-				echo '<br>----aqui 2-----';
 				break;
 			case ($renda<=2000) :
 				$pt = 1 * $peso;
-				echo '<br>----aqui 1-----';
 				break;
 			default :
 				break;
@@ -282,13 +325,16 @@ class cadastro_pre_analise extends cadastro_pre {
 									<td ' . $sty1 . '>Renda mensal</td>
 									<td' . $sty2 . '>5</td>
 									<td></td>
-									<td' . $sty2 . ' colspan="2">' . number_format($this -> renda_familiar,2,',','.') . '</td>
+									<td' . $sty2 . ' colspan="2">' . number_format($this -> renda_familiar, 2, ',', '.') . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
 									<td' . $sty2 . '>-----' . $pt / $peso . '</td>
 									<td' . $sty2 . '>' . $pt . '</td></tr>';
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pela experiência em vendas.
+	 */
 	function pontos_xp_vendas() {
 		$peso = $this -> pesos[5];
 		switch ($this->xp_vendas) {
@@ -321,6 +367,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pelo tempo de união.
+	 */
 	function pontos_uniao() {
 		$peso = $this -> pesos[6];
 		switch ($this->tempo_uniao) {
@@ -356,6 +405,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pelo tempo do emprego atual.
+	 */
 	function pontos_tempo_emprego() {
 		$peso = $this -> pesos[7];
 		switch ($this->tempo_emprego) {
@@ -391,6 +443,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pelo estado civil.
+	 */
 	function pontos_estado_civil() {
 		$peso = $this -> pesos[8];
 		switch ($this->estado_civil) {
@@ -422,6 +477,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Traduz sigla do estado civil.
+	 */
 	function estado_civil($sigla) {
 		switch ($sigla) {
 			case 'C' :
@@ -446,6 +504,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($sx);
 	}
 
+	/**
+	 * Calcula pontos pelo tempo de moradia.
+	 */
 	function pontos_tempo_moradia() {
 		$peso = $this -> pesos[9];
 		switch ($this -> tempo_moradia) {
@@ -481,19 +542,26 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Calcula pontos pelas referências fornecidas pela futura consultora.
+	 */
 	function pontos_referencia() {
 		$peso = $this -> pesos[10];
 		switch ($this->referencia) {
 			case ($this->referencia=='A') :
+				//amigos e parentes
 				$pt = 1 * $peso;
 				break;
 			case ($this->referencia=='V') :
+				// vizinhos
 				$pt = 2 * $peso;
 				break;
 			case ($this->referencia=='C') :
+				// comercial
 				$pt = 3 * $peso;
 				break;
 			case ($this->referencia=='B') :
+				// bancária
 				$pt = 4 * $peso;
 				break;
 			default :
@@ -512,6 +580,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		return ($pt);
 	}
 
+	/**
+	 * Traduz nome das referências pelas siglas.
+	 */
 	function referencia($sigla) {
 		switch ($sigla) {
 			case 'A' :
