@@ -45,7 +45,7 @@ class cadastro_pre_analise extends cadastro_pre {
 	var $TTrestricoes = '';
 	/**Total dos pontos calculados segundo criterios de avalição. @name $TTpontos */
 	var $TTpontos = 0;
-	/**Latitude da Fonzaghi para ser utilizado no calculo da distância. @name $latF*/ 
+	/**Latitude da Fonzaghi para ser utilizado no calculo da distância. @name $latF*/
 	var $latF = -25.427985;
 	/**Longitude da Fonzaghi para ser utilizado no calculo da distância. @name $longF*/
 	var $longF = -49.27563;
@@ -55,16 +55,19 @@ class cadastro_pre_analise extends cadastro_pre {
 	var $longC = 0;
 	/**Pesos utilizados no calculo dos pontos. @name $pesos */
 	var $pesos = array();
+	/**Contador auxiliar nas funções. @name $ct */
+	var $ct = 0;
 	/**
 	 * Construtor seta os pesos a serem utilizados pelos métodos que calculam as pontuações
 	 */
 	function __construct() {
-		$this -> pesos = array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+		$this -> pesos = array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
 	}
+
 	/**
 	 * Seta atributos do objeto pelo código do cliente e sequencia
 	 */
-	 
+
 	function obter_dados($cliente = '', $seq = '') {
 		if (strlen($cliente) > 0) {
 			$this -> cliente = $cliente;
@@ -80,7 +83,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> avalista = $this -> line['pes_avalista'];
 		$this -> avalista_cod = $this -> line['pes_avalista_cod'];
 		$this -> dist_moradia = $this -> calcular_distancia();
-		$this -> patrimonio = '';
+		$this -> patrimonio = $this -> line_cmp['cmp_patrimonio'];
 		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar'];
 		$this -> xp_vendas = $this -> line_cmp['cmp_experiencia_vendas'];
 		$this -> estado_civil = $this -> line_cmp['cmp_estado_civil'];
@@ -106,7 +109,6 @@ class cadastro_pre_analise extends cadastro_pre {
 
 		//$sx .= '<tr><td '.$sty.'>4 a </td><td '.$sty.'>Veiculo</td><td'.$sty.'>4</td><td></td></tr>';
 		//$sx .= '<tr><td '.$sty.'>4 b</td><td '.$sty.'>Imovel</td><td'.$sty.'></td><td></td></tr>';
-		//$sx .= '<tr><td '.$sty.'>8</td><td '.$sty.'>Tipo de referencia</td><td'.$sty.'>8</td><td></td></tr>';
 
 		return ($sx);
 	}
@@ -171,13 +173,15 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> TTpontos += $this -> pontos_idade();
 		$this -> TTpontos += $this -> pontos_vlr_restricoes();
 		$this -> TTpontos += $this -> pontos_distancia();
+		$this -> TTpontos += $this -> pontos_patrimonio();
 		$this -> TTpontos += $this -> pontos_renda();
 		$this -> TTpontos += $this -> pontos_xp_vendas();
 		$this -> TTpontos += $this -> pontos_estado_civil();
-		$this -> TTpontos += $this -> pontos_referencia();
+		$this -> TTpontos += $this -> pontos_referencias_total();
 		$this -> TTpontos += $this -> pontos_uniao();
 		$this -> TTpontos += $this -> pontos_tempo_moradia();
 		$this -> TTpontos += $this -> pontos_tempo_emprego();
+
 	}
 
 	/**
@@ -185,21 +189,17 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_idade() {
 		$peso = $this -> pesos[0];
-		switch ($this->idade) {
-			case (18>=$this->idade and $this->idade<=21) :
-				$pt = 1 * $peso;
-				break;
-			case (22>=$this->idade and $this->idade<=30) :
-				$pt = 2 * $peso;
-				break;
-			case (31>=$this->idade and $this->idade<=45) :
-				$pt = 3 * $peso;
-				break;
-			case ($this->idade>45) :
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+		if (18 >= $this -> idade and $this -> idade <= 21) {
+			$pt = 1 * $peso;
+		}
+		if (22 >= $this -> idade and $this -> idade <= 30) {
+			$pt = 2 * $peso;
+		}
+		if (31 >= $this -> idade and $this -> idade <= 45) {
+			$pt = 3 * $peso;
+		}
+		if ($this -> idade > 45) {
+			$pt = 4 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -221,19 +221,17 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_vlr_restricoes() {
 		$peso = $this -> pesos[1];
-
-		switch ($this->TTrestricoes_vlr) {
-			case (0<=$this->TTrestricoes_vlr and $this->TTrestricoes_vlr<100) :
-				$pt = 3 * $peso;
-				break;
-			case (100<=$this->TTrestricoes_vlr and $this->TTrestricoes_vlr<1000) :
-				$pt = 2 * $peso;
-				break;
-			case (1000<=$this->TTrestricoes_vlr) :
-				$pt = 1 * $peso;
-				break;
-			default :
-				break;
+		if ($this -> TTrestricoes_vlr == 0) {
+			$pt = 0;
+		}
+		if ($this -> TTrestricoes_vlr >= 0 and $this -> TTrestricoes_vlr < 100) {
+			$pt = 3 * $peso;
+		}
+		if ($this -> TTrestricoes_vlr >= 100 and $this -> TTrestricoes_vlr < 1000) {
+			$pt = 2 * $peso;
+		}
+		if ($this -> TTrestricoes_vlr >= 1000) {
+			$pt = 1 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -260,21 +258,17 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_distancia() {
 		$peso = $this -> pesos[2];
-		switch ($this->dist_moradia) {
-			case ($this->dist_moradia>10) :
-				$pt = 1 * $peso;
-				break;
-			case (5<$this->dist_moradia and $this->dist_moradia<=10) :
-				$pt = 2 * $peso;
-				break;
-			case (2<$this->dist_moradia and $this->dist_moradia<=5) :
-				$pt = 3 * $peso;
-				break;
-			case ($this->dist_moradia<2) :
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+		if ($this -> dist_moradia > 10) {
+			$pt = 1 * $peso;
+		}
+		if (5 < $this -> dist_moradia and $this -> dist_moradia <= 10) {
+			$pt = 2 * $peso;
+		}
+		if (2 < $this -> dist_moradia and $this -> dist_moradia <= 5) {
+			$pt = 3 * $peso;
+		}
+		if ($this -> dist_moradia < 2) {
+			$pt = 4 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -296,28 +290,22 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_renda() {
 		$peso = $this -> pesos[4];
-		echo '-----------------REVER RENDA FAMILIAR, CONDIÇÕES APLICADAS 
-			NÃO ESTÃO FUNCIONANDOS PELO SWITCH-(' . $this -> renda_familiar . ')-----------------';
-		if ($this -> renda_familiar > 1000) {
-			echo '=======+++aqui+++========';
-		}
+		$pt = 0;
 		$renda = $this -> renda_familiar;
-		switch ($renda) {
-
-			case (10000<$renda) :
-				$pt = 4 * $peso;
-				break;
-			case (5000<$renda and $renda<=10000) :
-				$pt = 3 * $peso;
-				break;
-			case (2000>$renda and $renda<=5000) :
-				$pt = 2 * $peso;
-				break;
-			case ($renda<=2000) :
-				$pt = 1 * $peso;
-				break;
-			default :
-				break;
+		if ($renda == 0) {
+			$pt = 0 * $peso;
+		}
+		if ($renda > 10000) {
+			$pt = 0 * $peso;
+		}
+		if ($renda > 5000 and $renda <= 10000) {
+			$pt = 0 * $peso;
+		}
+		if ($renda > 2000 and $renda <= 5000) {
+			$pt = 0 * $peso;
+		}
+		if ($renda > 0 and $renda <= 2000) {
+			$pt = 0 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -327,7 +315,7 @@ class cadastro_pre_analise extends cadastro_pre {
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . number_format($this -> renda_familiar, 2, ',', '.') . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
-									<td' . $sty2 . '>-----' . $pt / $peso . '</td>
+									<td' . $sty2 . '>' . $pt / $peso . '</td>
 									<td' . $sty2 . '>' . $pt . '</td></tr>';
 		return ($pt);
 	}
@@ -337,21 +325,18 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_xp_vendas() {
 		$peso = $this -> pesos[5];
-		switch ($this->xp_vendas) {
-			case ($this->xp_vendas==0) :
-				$pt = 1 * $peso;
-				break;
-			case (0<$this->xp_vendas and $this->xp_vendas<=1) :
-				$pt = 2 * $peso;
-				break;
-			case (1<$this->xp_vendas and $this->xp_vendas<=3) :
-				$pt = 3 * $peso;
-				break;
-			case (3<$this->xp_vendas) :
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+
+		if ($this -> xp_vendas == 0) {
+			$pt = 1 * $peso;
+		}
+		if (0 < $this -> xp_vendas and $this -> xp_vendas <= 1) {
+			$pt = 2 * $peso;
+		}
+		if (1 < $this -> xp_vendas and $this -> xp_vendas <= 3) {
+			$pt = 3 * $peso;
+		}
+		if (3 < $this -> xp_vendas) {
+			$pt = 4 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -359,7 +344,7 @@ class cadastro_pre_analise extends cadastro_pre {
 									<td ' . $sty1 . '>Experiencia com vendas</td>
 									<td' . $sty2 . '>6</td>
 									<td></td>
-									<td' . $sty2 . '></td>
+									<td' . $sty2 . '>' . $this -> xp_vendas . '</td>
 									<td' . $sty2 . '>anos</td>
 									<td' . $sty2 . '>' . $peso . '</td>
 									<td' . $sty2 . '>' . $pt / $peso . '</td>
@@ -372,25 +357,23 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_uniao() {
 		$peso = $this -> pesos[6];
-		switch ($this->tempo_uniao) {
-			case ($this->tempo_uniao==0) :
-				$pt = 0 * $peso;
-				break;
-			case (0<$this->tempo_uniao and $this->tempo_uniao<=1) :
-				$pt = 1 * $peso;
-				break;
-			case (1<$this->tempo_uniao and $this->tempo_uniao<=5) :
-				$pt = 2 * $peso;
-				break;
-			case (5<$this->tempo_uniao and $this->tempo_uniao<=10) :
-				$pt = 3 * $peso;
-				break;
-			case (10<$this->tempo_uniao) :
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+
+		if ($this -> tempo_uniao == 0) {
+			$pt = 0 * $peso;
 		}
+		if (0 < $this -> tempo_uniao and $this -> tempo_uniao <= 1) {
+			$pt = 1 * $peso;
+		}
+		if (1 < $this -> tempo_uniao and $this -> tempo_uniao <= 5) {
+			$pt = 2 * $peso;
+		}
+		if (5 < $this -> tempo_uniao and $this -> tempo_uniao <= 10) {
+			$pt = 3 * $peso;
+		}
+		if (10 < $this -> tempo_uniao) {
+			$pt = 4 * $peso;
+		}
+
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>9 a</td>
@@ -410,25 +393,22 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_tempo_emprego() {
 		$peso = $this -> pesos[7];
-		switch ($this->tempo_emprego) {
-			case ($this->tempo_emprego==0) :
-				$pt = 0 * $peso;
-				break;
-			case (0<$this->tempo_emprego and $this->tempo_emprego<=1) :
-				$pt = 1 * $peso;
-				break;
-			case (1<$this->tempo_emprego and $this->tempo_emprego<=3) :
-				$pt = 2 * $peso;
-				break;
-			case (3<$this->tempo_emprego and $this->tempo_emprego<=5) :
-				$pt = 3 * $peso;
-				break;
-			case (5<$this->tempo_emprego) :
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+		if ($this -> tempo_emprego == 0) {
+			$pt = 0 * $peso;
 		}
+		if (0 < $this -> tempo_emprego and $this -> tempo_emprego <= 1) {
+			$pt = 1 * $peso;
+		}
+		if (1 < $this -> tempo_emprego and $this -> tempo_emprego <= 3) {
+			$pt = 2 * $peso;
+		}
+		if (3 < $this -> tempo_emprego and $this -> tempo_emprego <= 5) {
+			$pt = 3 * $peso;
+		}
+		if (5 < $this -> tempo_emprego) {
+			$pt = 4 * $peso;
+		}
+
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>9 c</td>
@@ -448,21 +428,17 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_estado_civil() {
 		$peso = $this -> pesos[8];
-		switch ($this->estado_civil) {
-			case ($this->estado_civil=='S' or $this->estado_civil=='D') :
-				$pt = 0 * $peso;
-				break;
-			case ($this->estado_civil=='E') :
-				$pt = 1 * $peso;
-				break;
-			case ($this->estado_civil=='V') :
-				$pt = 2 * $peso;
-				break;
-			case ($this->estado_civil=='C') :
-				$pt = 3 * $peso;
-				break;
-			default :
-				break;
+		if ($this -> estado_civil == 'S' or $this -> estado_civil == 'D') {
+			$pt = 0 * $peso;
+		}
+		if ($this -> estado_civil == 'E') {
+			$pt = 1 * $peso;
+		}
+		if ($this -> estado_civil == 'V') {
+			$pt = 2 * $peso;
+		}
+		if ($this -> estado_civil == 'C') {
+			$pt = 3 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -509,24 +485,20 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_tempo_moradia() {
 		$peso = $this -> pesos[9];
-		switch ($this -> tempo_moradia) {
-			case ($this->tempo_moradia==0) :
-				$pt = 0 * $peso;
-				break;
-			case (0<$this->tempo_moradia and $this->tempo_moradia<=1) :
-				$pt = 1 * $peso;
-				break;
-			case (1<$this->tempo_moradia and $this->tempo_moradia<=5) :
-				$pt = 2 * $peso;
-				break;
-			case (5<$this->tempo_moradia and $this->tempo_moradia<=10) :
-				$pt = 3 * $peso;
-				break;
-			case (10<$this->tempo_moradia) :
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+		if ($this -> tempo_moradia == 0) {
+			$pt = 0 * $peso;
+		}
+		if (0 < $this -> tempo_moradia and $this -> tempo_moradia <= 1) {
+			$pt = 1 * $peso;
+		}
+		if (1 < $this -> tempo_moradia and $this -> tempo_moradia <= 5) {
+			$pt = 2 * $peso;
+		}
+		if (5 < $this -> tempo_moradia and $this -> tempo_moradia <= 10) {
+			$pt = 3 * $peso;
+		}
+		if (10 < $this -> tempo_moradia) {
+			$pt = 4 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
@@ -547,33 +519,29 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function pontos_referencia() {
 		$peso = $this -> pesos[10];
-		switch ($this->referencia) {
-			case ($this->referencia=='A') :
-				//amigos e parentes
-				$pt = 1 * $peso;
-				break;
-			case ($this->referencia=='V') :
-				// vizinhos
-				$pt = 2 * $peso;
-				break;
-			case ($this->referencia=='C') :
-				// comercial
-				$pt = 3 * $peso;
-				break;
-			case ($this->referencia=='B') :
-				// bancária
-				$pt = 4 * $peso;
-				break;
-			default :
-				break;
+		if ($this -> referencia == '01' or $this -> referencia == '04') {
+			//amigos e parentes
+			$pt = 1 * $peso;
+		}
+		if ($this -> referencia == '05') {
+			// vizinhos
+			$pt = 2 * $peso;
+		}
+		if ($this -> referencia == '02') {
+			// comercial
+			$pt = 3 * $peso;
+		}
+		if ($this -> referencia == '03') {
+			// bancária
+			$pt = 4 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
-		$this -> relatorio .= '<tr><td ' . $sty1 . '>8</td>
+		$this -> relatorio .= '<tr><td ' . $sty1 . '>8 &#' . ($this -> ct + 97) . '</td>
 									<td ' . $sty1 . '>Tipo de referencia</td>
 									<td' . $sty2 . '>8</td>
 									<td></td>
-									<td' . $sty2 . ' colspan="2">' . $this -> referencia($this -> referencia) . '</td>
+									<td' . $sty2 . ' colspan="2">' . $this -> recuperar_nome_da_seq($this -> referencia) . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
 									<td' . $sty2 . '>' . $pt / $peso . '</td>
 									<td' . $sty2 . '>' . $pt . '</td></tr>';
@@ -581,27 +549,80 @@ class cadastro_pre_analise extends cadastro_pre {
 	}
 
 	/**
-	 * Traduz nome das referências pelas siglas.
+	 * Calcula pontos pelo tempo de moradia.
 	 */
-	function referencia($sigla) {
-		switch ($sigla) {
-			case 'A' :
-				$sx = 'Amigo/parente';
+	function pontos_patrimonio() {
+		$peso = $this -> pesos[11];
+
+		switch ($this->patrimonio) {
+			case '1' :
+				$ptx = 1;
+				$pt = $ptx * $peso;
 				break;
-			case 'V' :
-				$sx = 'Vizinho';
+			case '2' :
+				$ptx = 2;
+				$pt = $ptx * $peso;
 				break;
-			case 'C' :
-				$sx = 'Comercial';
+			case '3' :
+				$ptx = 3;
+				$pt = $ptx * $peso;
 				break;
-			case 'B' :
-				$sx = 'Bancario';
+			case '4' :
+				$ptx = 4;
+				$pt = $ptx * $peso;
 				break;
 			default :
-				$sx = $sigla;
 				break;
 		}
-		return ($sx);
+		
+		$sty1 = ' class="pre_tabelaTH"';
+		$sty2 = ' class="pre_tabela01"';
+		$this -> relatorio .= '<tr><td ' . $sty1 . '>4</td>
+									<td ' . $sty1 . '>Tempo de moradia</td>
+									<td' . $sty2 . '>4</td>
+									<td></td>
+									<td' . $sty2 . ' colspan="2">' . $this->sigla_patrimonio($this -> patrimonio) . '</td>
+									<td' . $sty2 . '>' . $peso . '</td>
+									<td' . $sty2 . '>' . $ptx . '</td>
+									<td' . $sty2 . '>' . $pt . '</td></tr>';
+		return ($pt);
+	}
+	function sigla_patrimonio($sigla){
+		switch ($sigla) {
+			case '1' :
+				$sig_nome = 'Nao tem';
+				break;
+			case '2' :
+				$sig_nome = 'Auto F'; 
+				break;
+			case '3' :
+				$sig_nome = 'Imovel F + Auto F/Q';
+				break;
+			case '4' :
+				$sig_nome = 'Imovel Q + Auto Q';
+				break;
+			default :
+				$sig_nome = 'Verificar com TI, novo patrimonio adicionado';
+				break;
+		}
+		return($sig_nome);
+	}
+	function pontos_referencias_total() {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+
+		$sql = "select * from " . $this -> tabela_referencia . "  
+				where ref_cliente ='" . $this -> cliente . "' and ref_status='A' and ref_ativo = 1
+				";
+
+		$rlt = db_query($sql);
+		$this -> ct = 0;
+		while ($line = db_read($rlt)) {
+			$this -> referencia = $line['ref_cliente_seq'];
+			$pt += $this -> pontos_referencia();
+			$this -> ct++;
+		}
+		return ($pt);
 	}
 
 }

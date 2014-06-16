@@ -14,8 +14,8 @@ $form->class_memo = 'precad_form';
 $form->class_select = 'precad_select';
 
 /*lastupdate/lastlog*/
-$dd[12] = $user->user_log;
-$dd[13] = date('Ymd');
+$dd[14] = $user->user_log;
+$dd[15] = date('Ymd');
 
 $_SESSION['angulo'] = 20;
 echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());

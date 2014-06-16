@@ -15,7 +15,7 @@ $form->class_form_standard = 'precad_form';
 $form->class_memo = 'precad_form';
 echo $hd->cab_banner($pre->gerar_tabela_tela_inicial());
 echo '<center><div id="corpo">-----';
-$pre -> obter_dados('7000039','00');
+$pre -> obter_dados('7000034','00');
 echo '<div align="left">';
 //print_r($pre);
 echo '</div>';

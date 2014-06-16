@@ -36,6 +36,9 @@ class cadastro_pre {
 	var $id_cmp = '';
 	var $line_cmp = '';
 
+	var $id_ref = '';
+	var $line_ref = '';
+	
 	var $line_contato = '';
 
 	/**Em processo cadastro(geral BD)*/
@@ -65,12 +68,11 @@ class cadastro_pre {
 	var $tt_mensal_S = 0;
 
 	var $class_include = '../../';
-	
-	function lista_telefone()
-		{
-			$sql = "select * from telefone";
-			echo $sql;
-		}
+
+	function lista_telefone() {
+		$sql = "select * from telefone";
+		echo $sql;
+	}
 
 	function zerar_sessions_auxiliar() {
 		$_SESSION['PG01_DD0'] = '';
@@ -147,16 +149,18 @@ class cadastro_pre {
 		}
 	}
 
-	function recupera_dados_pelo_codigo($cliente='',$seq='') {
+	function recupera_dados_pelo_codigo($cliente = '', $seq = '') {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
-		if(strlen(trim($cliente))>0){ $this->cliente = $cliente; }
-		if(strlen(trim($seq))>0){ $this->seq = $seq; }
-		$sql = "select * from ".$this -> tabela."  
-				where pes_cliente ='".$this->cliente."' and 
-					  pes_cliente_seq = '".$this->seq."'
+		if (strlen(trim($cliente)) > 0) { $this -> cliente = $cliente;
+		}
+		if (strlen(trim($seq)) > 0) { $this -> seq = $seq;
+		}
+		$sql = "select * from " . $this -> tabela . "  
+				where pes_cliente ='" . $this -> cliente . "' and 
+					  pes_cliente_seq = '" . $this -> seq . "'
 				";
-					  
+
 		$rlt = db_query($sql);
 		if ($line = db_read($rlt)) {
 			$this -> id = $line['id_pes'];
@@ -166,6 +170,28 @@ class cadastro_pre {
 			$this -> seq = $line['pes_cliente_seq'];
 			$this -> line = $line;
 			return ($line['pes_cliente']);
+		} else {
+			return (0);
+		}
+	}
+	
+	function recupera_referencia_pelo_codigo($cliente = '', $seq = '') {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		if (strlen(trim($cliente)) > 0) { $this -> cliente = $cliente;
+		}
+		if (strlen(trim($seq)) > 0) { $this -> seq = $seq;
+		}
+		$sql = "select * from " . $this -> tabela_referencia . "  
+				where ref_cliente ='" . $this -> cliente . "' and 
+					  ref_cliente_seq = '" . $this -> seq . "'
+				";
+
+		$rlt = db_query($sql);
+		if ($line_ref = db_read($rlt)) {
+			$this -> id_ref = $line['id_ref'];
+			$this -> line_ref = $line_ref;
+			return ($line_ref['id_ref']);
 		} else {
 			return (0);
 		}
@@ -204,6 +230,21 @@ class cadastro_pre {
 		}
 		return ($this -> id_cmp);
 	}
+	
+	function recuperar_nome_da_seq($seq) {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
+		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
+		$sql = "select * from $this->tabela_referencia_tipo
+				where ret_codigo = '$seq' 
+		";
+		$rlt = db_query($sql);
+		if ($line = db_read($rlt)) {
+			$seq_nome = $line['ret_nome'];
+		} else {
+			$seq_nome = 'Tipo de referencia nao cadastrada, falar com TI';			
+		}
+		return ($seq_nome);
+	}
 
 	function updatex() {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
@@ -218,31 +259,31 @@ class cadastro_pre {
 		return (0);
 	}
 
-	function cp_fone()
-		{
-		$cp = array();			
+	function cp_fone() {
+		$cp = array();
 		/*0*/array_push($cp, array('$H8', '', '', False, True));
-		/*1*/array_push($cp, array('$H8', '', '', False, True));
-		/*2*/array_push($cp, array('$H8', '', '', False, True));
-		/*4*/array_push($cp, array('$S15', '', 'Telefone', TRUE, True));
-		/*5*/array_push($cp, array('$S15', '', 'Numero', False, True));
-		/*7*/array_push($cp, array('$O : &C:Celular&F:Fixo','', 'Tipo', False, True));
-			
-			return($cp);
-		}
+		/*1*/array_push($cp, array('$H8', '', 'cliente', False, True));
+		/*2*/array_push($cp, array('$H8', '', 'seq', False, True));
+		/*3*/array_push($cp, array('$S3', '', 'DDD', TRUE, True));
+		/*4*/array_push($cp, array('$S15', '', 'Numero', False, True));
+		/*5*/array_push($cp, array('$O : &C:Celular&F:Fixo', '', 'Tipo', False, True));
+		/*6*/array_push($cp, array('$H8', '', 'data', False, True));
+		/*7*/array_push($cp, array('$H8', '', 'status', False, True));
+		/*8*/array_push($cp, array('$H8', '', 'validado', False, True));
 		
-	function cp_endereco()
-		{
-		$cp = array();			
+		return ($cp);
+	}
+
+	function cp_endereco() {
+		$cp = array();
 		/*0*/array_push($cp, array('$H8', '', '', False, True));
 		/*1*/array_push($cp, array('$H8', '', '', False, True));
 		/*2*/array_push($cp, array('$H8', '', '', False, True));
 		/*4*/array_push($cp, array('$S10', '', 'CEP', TRUE, True));
 		/*5*/array_push($cp, array('$S15', '', 'Rua', False, True));
-			
-			return($cp);
-		}
-		
+
+		return ($cp);
+	}
 
 	function cp_00() {
 		$cp = array();
@@ -266,7 +307,7 @@ class cadastro_pre {
 		/*8*/array_push($cp, array('$O : ' . utf8_encode("&S:SIM&N:NÃO"), 'pes_avalista', 'POSSUI AVALISTA?', True, True));
 		/*9*/array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), True, True));
 		/*10*/array_push($cp, array('$B8', '', 'Salvar', False, True));
-		
+
 		/*11*/array_push($cp, array('$H15', 'pes_lastupdate_log', '', True, True));
 		/*12*/array_push($cp, array('$H11', 'pes_lastupdate', '', True, True));
 		return ($cp);
@@ -282,14 +323,15 @@ class cadastro_pre {
 		/*dd5*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
 		/*dd6*/array_push($cp, array('$S30', 'cmp_emprego_tempo', 'TEMPO DE PROFISSAO', TRUE, True));
 		/*dd7*/array_push($cp, array('$S2', 'cmp_experiencia_vendas', 'TEMPO EXP. VENDAS', TRUE, True));
-		/*dd8*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
-		/*dd9*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
-		/*dd10*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
-		/*dd11*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
-		/*dd12*/array_push($cp, array('$B8', '', 'Salvar', False, True));
-		
-		/*dd13*/array_push($cp, array('$H15', 'cmp_lastupdate_log', 'log', TRUE, True));
-		/*dd14*/array_push($cp, array('$H11', 'cmp_lastupdate', 'data log', TRUE, True));
+		/*dd8*/array_push($cp, array('$O : &1:NAO TEM&2:AUTO FIN&3:IMOVEL FIN + AUTO FIN/QUIT&4:IMOVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
+		/*dd9*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
+		/*dd10*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
+		/*dd11*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
+		/*dd12*/array_push($cp, array('$O : &0:RADIO GOSPEL&1:RADIO CAIOBA&2:AMIGOS&3:TV&4:PANFLETOS', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
+		/*dd13*/array_push($cp, array('$B8', '', 'Salvar', False, True));
+
+		/*dd14*/array_push($cp, array('$H15', 'cmp_lastupdate_log', 'log', TRUE, True));
+		/*dd15*/array_push($cp, array('$H11', 'cmp_lastupdate', 'data log', TRUE, True));
 		return ($cp);
 
 	}
@@ -320,6 +362,7 @@ class cadastro_pre {
 
 		return ($cp);
 	}
+
 	function cp_04() {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, True));
@@ -588,7 +631,7 @@ class cadastro_pre {
 		return (1);
 	}
 
-		function carregar_tags_nome_autocomplete() {
+	function carregar_tags_nome_autocomplete() {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
 		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 
