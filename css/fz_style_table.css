@@ -17,3 +17,19 @@
 .pre_tabela03{
 	
 }
+
+.pre_tabelaTH_A{
+	border:#4D4D4D; 
+	border-style:solid;
+}
+
+.pre_tabela01_A{
+	border:#4D4D4D; 
+	border-style:solid;
+}
+
+.pre_tabelaPT{
+	border:#4D4D4D;
+	border-style:solid;
+	text-align: center;
+}

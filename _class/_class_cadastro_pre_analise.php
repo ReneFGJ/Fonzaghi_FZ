@@ -61,7 +61,7 @@ class cadastro_pre_analise extends cadastro_pre {
 	 * Construtor seta os pesos a serem utilizados pelos métodos que calculam as pontuações
 	 */
 	function __construct() {
-		$this -> pesos = array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+		$this -> pesos = array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
 	}
 
 	/**
@@ -101,9 +101,9 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sx = '<table>';
 		$sx .= '<tr><td' . $sty1 . 'colspan="2">Nome da candidata a consultora</td><td ' . $sty1 . ' colspan="7">' . $this -> nome . '</td></tr>';
 		$sx .= '<tr><td' . $sty1 . ' colspan="2">Endereco de moradia</td><td ' . $sty1 . 'colspan="7">Nome da rua</td></tr>';
-		$sx .= '<tr><td colspan="2"></td><td' . $sty1 . ' colspan="3">cep</td><td' . $sty1 . 'colspan="4">cidade</td></tr>';
-		$sx .= '<tr><td colspan="2"></td><td' . $sty1 . ' colspan="5">Area de risco?</td><td ' . $sty1 . ' colspan="2">Sim/nao</td></tr>';
-		$sx .= '<tr><td' . $sty1 . ' colspan="2" >Criterio</td><td' . $sty1 . '>T*</td><td></td><td' . $sty1 . ' colspan="2">Dados do Cadastro</td><td' . $sty1 . '>Peso</td><td' . $sty1 . '>P</td><td' . $sty1 . '>Pontos</td></tr>';
+		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>'.$this->TTpontos.'</td><td' . $sty1 . ' colspan="3">cep</td><td' . $sty1 . 'colspan="4">cidade</td></tr>';
+		$sx .= '<tr><td' . $sty1 . ' colspan="5">Area de risco?</td><td ' . $sty1 . ' colspan="2">Sim/nao</td></tr>';
+		$sx .= '<tr><td' . $sty1 . ' colspan="2" >Criterio</td><td></td><td' . $sty1 . ' colspan="2">Dados do Cadastro</td><td' . $sty1 . '>Peso</td><td' . $sty1 . '>P</td><td' . $sty1 . '>Pontos</td></tr>';
 		$sx .= $this -> relatorio;
 		$sx .= '</table>';
 
@@ -171,6 +171,7 @@ class cadastro_pre_analise extends cadastro_pre {
 	 */
 	function calcular_pontuacao() {
 		$this -> TTpontos += $this -> pontos_idade();
+		$this -> TTpontos += $this -> pontos_genero();
 		$this -> TTpontos += $this -> pontos_vlr_restricoes();
 		$this -> TTpontos += $this -> pontos_distancia();
 		$this -> TTpontos += $this -> pontos_patrimonio();
@@ -205,7 +206,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>1</td>
 								<td ' . $sty1 . '>Idade</td>
-								<td' . $sty2 . '>1</td>
 								<td></td>
 								<td' . $sty2 . '>' . $this -> idade . '</td>
 								<td' . $sty2 . '>anos</td>
@@ -237,13 +237,12 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>2 a</td>
 									<td ' . $sty1 . '>N restricoes</td>
-									<td' . $sty2 . '>Qtda</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . $this -> TTrestricoes . '</td>
-									<td' . $sty2 . ' colspan="3"></td></tr>';
+									<td' . $sty2 . ' colspan="3"></td>
+									</tr>';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>2 b</td>
 									<td ' . $sty1 . '>Valor das restricoes</td>
-									<td' . $sty2 . '>2</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . number_format($this -> TTrestricoes_vlr, 2, ',', '.') . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
@@ -274,7 +273,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>3</td>
 									<td ' . $sty1 . '>Distancia da moradia</td>
-									<td' . $sty2 . '>3</td>
 									<td></td>
 									<td' . $sty2 . '>' . $this -> dist_moradia . '</td>
 									<td' . $sty2 . '>Km</td>
@@ -296,22 +294,21 @@ class cadastro_pre_analise extends cadastro_pre {
 			$pt = 0 * $peso;
 		}
 		if ($renda > 10000) {
-			$pt = 0 * $peso;
+			$pt = 4 * $peso;
 		}
 		if ($renda > 5000 and $renda <= 10000) {
-			$pt = 0 * $peso;
+			$pt = 3 * $peso;
 		}
 		if ($renda > 2000 and $renda <= 5000) {
-			$pt = 0 * $peso;
+			$pt = 2 * $peso;
 		}
 		if ($renda > 0 and $renda <= 2000) {
-			$pt = 0 * $peso;
+			$pt = 1 * $peso;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>5</td>
 									<td ' . $sty1 . '>Renda mensal</td>
-									<td' . $sty2 . '>5</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . number_format($this -> renda_familiar, 2, ',', '.') . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
@@ -342,7 +339,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>6</td>
 									<td ' . $sty1 . '>Experiencia com vendas</td>
-									<td' . $sty2 . '>6</td>
 									<td></td>
 									<td' . $sty2 . '>' . $this -> xp_vendas . '</td>
 									<td' . $sty2 . '>anos</td>
@@ -378,7 +374,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>9 a</td>
 									<td ' . $sty1 . '>Tempo de uniao</td>
-									<td' . $sty2 . '>9</td>
 									<td></td>
 									<td' . $sty2 . '>' . $this -> tempo_uniao . '</td>
 									<td' . $sty2 . '>anos</td>
@@ -413,7 +408,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>9 c</td>
 									<td ' . $sty1 . '>Tempo de emprego</td>
-									<td' . $sty2 . '>10</td>
 									<td></td>
 									<td' . $sty2 . '>' . $this -> tempo_emprego . '</td>
 									<td' . $sty2 . '>anos</td>
@@ -444,7 +438,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>7</td>
 									<td ' . $sty1 . '>Estado civil</td>
-									<td' . $sty2 . '>7</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . $this -> estado_civil($this -> estado_civil) . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
@@ -504,7 +497,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>9 b</td>
 									<td ' . $sty1 . '>Tempo de moradia</td>
-									<td' . $sty2 . '>9</td>
 									<td></td>
 									<td' . $sty2 . '>' . $this -> tempo_moradia . '</td>
 									<td' . $sty2 . '>anos</td>
@@ -539,7 +531,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>8 &#' . ($this -> ct + 97) . '</td>
 									<td ' . $sty1 . '>Tipo de referencia</td>
-									<td' . $sty2 . '>8</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . $this -> recuperar_nome_da_seq($this -> referencia) . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
@@ -579,7 +570,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>4</td>
 									<td ' . $sty1 . '>Tempo de moradia</td>
-									<td' . $sty2 . '>4</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . $this->sigla_patrimonio($this -> patrimonio) . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
@@ -622,6 +612,31 @@ class cadastro_pre_analise extends cadastro_pre {
 			$pt += $this -> pontos_referencia();
 			$this -> ct++;
 		}
+		return ($pt);
+	}
+	
+	/**
+	 * Calcula pontos pelo genero.
+	 */
+	function pontos_genero() {
+		$peso = $this -> pesos[11];
+		switch (trim($this -> genero)) {
+			case 'F':
+				$pt = 3 * $peso;
+				break;
+			case 'M':
+				$pt = 1 * $peso;
+				break;	
+		}
+		$sty1 = ' class="pre_tabelaTH"';
+		$sty2 = ' class="pre_tabela01"';
+		$this -> relatorio .= '<tr><td ' . $sty1 . '>2</td>
+									<td ' . $sty1 . '>Genero</td>
+									<td></td>
+									<td' . $sty2 . ' colspan="2">' . $this -> genero. '</td>
+									<td' . $sty2 . '>' . $peso . '</td>
+									<td' . $sty2 . '>' . $pt / $peso . '</td>
+									<td' . $sty2 . '>' . $pt . '</td></tr>';
 		return ($pt);
 	}
 
