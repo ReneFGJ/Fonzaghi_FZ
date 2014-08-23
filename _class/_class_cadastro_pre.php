@@ -12,6 +12,32 @@ require_once ('../../include/sisdoc_data.php');
 require_once ('../../include/sisdoc_windows.php');
 require_once ('../../include/sisdoc_lojas.php');
 
+if (!(function_exists("cpf")))
+	{
+	function cpf($cpf)
+	{
+		$cpf = sonumero($cpf);
+		if (strlen($cpf) <> 11) { return(false); } 
+		
+		$soma1 = ($cpf[0] * 10) + ($cpf[1] * 9) + ($cpf[2] * 8) + ($cpf[3] * 7) + 
+			 	($cpf[4] * 6) + ($cpf[5] * 5) + ($cpf[6] * 4) + ($cpf[7] * 3) + 
+			 	($cpf[8] * 2); 
+		$resto = $soma1 % 11; 
+		$digito1 = $resto < 2 ? 0 : 11 - $resto; 
+		
+		$soma2 = ($cpf[0] * 11) + ($cpf[1] * 10) + ($cpf[2] * 9) + 
+			 	($cpf[3] * 8) + ($cpf[4] * 7) + ($cpf[5] * 6) + 
+			 	($cpf[6] * 5) + ($cpf[7] * 4) + ($cpf[8] * 3) + 
+			 	($cpf[9] * 2); 
+			 	
+		$resto = $soma2 % 11; 
+		$digito2 = $resto < 2 ? 0 : 11 - $resto; 
+		if (($cpf[9] == $digito1) and ($cpf[10] == $digito2))
+			{ return(true); } else
+			{ return(false); }
+		}
+	}
+
 class cadastro_pre {
 
 	var $js = '';
@@ -40,6 +66,7 @@ class cadastro_pre {
 	var $line_ref = '';
 	
 	var $line_contato = '';
+	var $image_status;
 
 	/**Em processo cadastro(geral BD)*/
 	var $tt_geral_Z = 0;
@@ -68,6 +95,180 @@ class cadastro_pre {
 	var $tt_mensal_S = 0;
 
 	var $class_include = '../../';
+	
+	function mostra_idade($dds)
+		{
+			$n = mktime(0, 0, 0, substr($dds,4,2),substr($dds,6,2) , substr($dds,0,4));
+			$a = mktime(0, 0, 0, date("m"),date("d") , date("Y"));
+			$r = (int)((time()-$n)/31556926);
+			return($r);
+		}
+	
+	function mostra()
+		{
+			$sx .= '<div class="gray border1 pad5">';
+			$sx .= '<div >';
+			$sx .= '<font class="lt0">NOME COMPLETO</font><BR>';
+			$sx .= '<font class="lt3"><B>'.$this->nome.'</B></FONT>';
+			$sx .= '</div>';
+			
+			$sx .= '<div>Idade: '.$this->mostra_idade($this->nasc).' anos</div>';
+			
+			$sx .= '<div class="right text-center">Status: ';
+			$sx .= $this->mostra_status($this->line['pes_status']);
+			$sx .= '<BR><img src="'.$this->image_status.'" height="60">';
+			$sx .= '</div>';
+			$sx .= '</div>';
+			return($sx);
+		}
+	
+	function le($id)
+		{
+			$sql = "select * from ".$this->tabela." where id_pes = ".round($id)." or pes_cliente = '".$id."' ";
+			$rlt = db_query($sql);
+			if ($line = db_read($rlt))
+				{
+					$this->line = $line;
+					$this->nome = trim($line['pes_nome']);
+					$this->cpf = trim($line['pes_cpf']);
+					$this->cliente = trim($line['pes_cliente']);
+					$this->nasc = $line['pes_nasc'];
+					return(1);
+				}
+		}
+	
+	function busca_nome($nome='',$cpf='')
+		{
+			$this->erro = '';
+			$ok = 0;
+			if (strlen($cpf) > 0)
+				{
+					if (cpf($cpf)==1)
+						{
+							$sql = "select * from ".$this->tabela." 
+										where pes_cpf = '".sonumero($cpf)."' ";
+							$ok = 1;
+						} else {
+							$this->erro .= 'CPF Inválido';		
+						}					
+				}
+			if ((strlen($nome) > 0) and ($ok == 0))
+				{
+					$ok = 1;
+					$sql = "select * from ".$this->tabela." 
+								where pes_nome like '%".UpperCaseSql($nome)."%'
+								order by pes_nome 
+								limit 100
+								";
+				}
+			if ($ok == 1)
+				{
+					$rlt = db_query($sql);
+					$id = 0;
+					$sx = '<table class="tabela00 lt3" width="98%" align="center">';
+					$sx .= '<TR><TH>Nome<TH>CPF<TH>Código<TH>Dt. Nascimento<TH>Situação</TR>';
+					while ($line = db_read($rlt))
+						{
+							$sx .= $this->mostra_cliente_linha($line);
+						}
+					$sx .= '</table>';
+				}
+			return($sx);
+		}
+	function mostra_status($st)
+		{
+			global $http;
+			switch ($st)
+				{
+				case 'A': 
+					$sx = '<font color="green">aprovado</font>';
+					$img = $http.'icone_precad_aprovado.png';
+				case 'C': 
+					$sx = '<font color="red">recusado</font>';
+					$img = $http.'img/icone_precad_recusado.png';
+				case 'E': 
+					$sx = '<font color="green">comunicad liberação</font>';
+					$img = $http.'img/icone_precad_comunicar.png';
+				default: 
+					$sx = '<font color="blue">em análise</font>';
+					$img = $http.'img/icone_precad_analise.png';
+				}
+			$this->image_status = $img;
+			return($sx);
+		}
+	function mostra_cliente_linha($line)
+		{
+			global $http;
+			$link = '<A HREF="pre_cliente_ver.php?dd0='.$line['pes_cliente'].'">';
+			$sx .= '<TR>';
+			$sx .= '<TD>';
+			$sx .= $line['pes_nome'];
+			$sx .= '<TD align="center">';
+			$sx .= $line['pes_cpf'];
+			$sx .= '<TD align="center">';
+			$sx .= $line['pes_cliente'];
+			$sx .= '<TD align="center">';
+			$sx .= stodbr($line['pes_nasc']);
+			$sx .= '<TD align="center">';
+			$sx .= $this->mostra_status($line['pes_status']);
+			$sx .= '<TD align="center">';
+			$sx .= $link;
+			$sx .= '<img src="'.$http.'img/icone_view.png" height="18" title="ver dados do cliente" border=0 >';
+			$sx .= '</A>';
+			$sx .= '</td>';
+			return($sx);
+		}
+	function formulario_de_busca()
+		{
+			global $dd, $acao;
+			$sx .= '<form method="get" action="'.page().'">
+					<div>
+					<img src="../img/imgboxcad.png" width="200">
+					<div class="pad5 radius10" style="background-color: #F0F0F0; width:80%;">
+						<table width="100%" border=0 class="tabela00">
+							<TR>
+							<TD class="lt1">NOME DE BUSCA
+							<tr>
+							<TR>
+							<td><input type="text" id="dd1" name="dd1" value="'.$dd[1].'" style="width: 90%;" size="100" class="precad_form_string">
+							<TR>
+							<TD class="lt1">CPF DE BUSCA
+							<TR>
+							<td><input type="text" id="dd2" name="dd2" value="'.$dd[2].'" size="15"  class="precad_form_string">							
+							<input type="submit" name="acao" value="buscar"  class="precad_form_submit">
+						</table>
+					</div>
+					</div>
+					</form>
+					';
+			return($sx);
+		}
+	
+	function mostra_informacoes_uteis()
+		{
+			$sx .= '
+					<div>
+					<img src="../img/imgboxinfo.png" width="200">
+					<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
+						<table width="100%" border=0 class="tabela00">
+							<TR>
+							<TD class="lt1" colspan=3  align="center"><B>Número de Cadastros</B></td>
+							</TR>
+							<TR class="lt1" align="center">
+							<TD>no dia
+							<TD>na semana
+							<TD>no mês
+							</TR>
+							<TR class="lt5" align="center">
+							<TD>0
+							<TD>0
+							<TD>0
+						</table>
+					</div>
+					</div>
+					';
+			return($sx);
+		}
 
 	function lista_telefone() {
 		$sql = "select * from telefone";

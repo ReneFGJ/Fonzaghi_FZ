@@ -37,7 +37,7 @@ class header
 				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style[$r].'">'.$cr; }
 
 		/* Style Additional */
-		if (isset($style_add)) {
+		if (is_array($style_add)) {
 		for ($r=0;$r < count($style_add);$r++)
 				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style_add[$r].'">'.$cr; }
 		}
@@ -46,6 +46,8 @@ class header
 		$js = array('jquery-1.7.1.js','jquery.maskedinput.js','jquery.autocomplete.js'); 
 		for ($r=0;$r < count($js);$r++)
 			{ $sx .= '<script type="text/javascript" src="'.$http.'js/'.$js[$r].'"></script>'.$cr; }
+
+
 		$sx .= '<title>'.$this->title.'</title>'.$cr;
 		$sx .= '</head>';
 		
@@ -54,7 +56,12 @@ class header
 		}
 		
 	
-			
+	function cab_extend()
+		{
+			$sx .= '<div>';
+			$sx .= '</div>';
+			return($sx);
+		}		
 	function cab()
 		{
 			$sx = $this->head();

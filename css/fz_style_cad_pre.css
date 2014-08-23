@@ -22,6 +22,25 @@
   		-o-border-radius: 7px;
 }	
 
+.precad_form_submit
+    {
+        font-family:"Nexa Light";
+        font-size: 30px;
+        border-radius: 7px;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        -ms-border-radius: 7px;
+        -o-border-radius: 7px;  
+        opacity: 0.9;
+    }
+.precad_form_submit:focus
+    {
+        
+        opacity: 1;
+
+    }
+    
+
 .precad_form_string
 	{
 		font-family:"Nexa Light";

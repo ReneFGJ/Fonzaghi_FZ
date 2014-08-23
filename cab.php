@@ -14,6 +14,8 @@ $include_db = '../../';
 require ("db.php");
 require ("_class/_class_header_fz.php");
 $hd = new header;
+$hd->charcod = "ISO-8859-1";
+
 echo $hd -> cab();
 require ("_class/_class_user.php");
 $user = new user;

@@ -71,11 +71,11 @@
 				
 				if (!file_exists($file))
 					{
-						echo '<H1>Configuração do sistema</h1>';
+						echo '<H1>Configuracaoo do sistema</h1>';
 						require("db_config.php");
 						exit;
 					} else {
-						echo 'Contacte o administrador, arquivo de configuração inválido';
+						echo 'Contacte o administrador, arquivo de configuracao invalida';
 					}
 				
 		}	
