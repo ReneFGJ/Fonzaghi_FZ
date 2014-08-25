@@ -34,11 +34,11 @@
 
 .bt_acoes {
 	font-family: "Nexa Light";
-	color:#FFFFFF;
+	color: #FFFFFF;
 	font-size: 24px;
 	width: 50%;
-	text-align:center;
-	text-decoration:none;
+	text-align: center;
+	text-decoration: none;
 	background: rgb(74, 172, 186);
 	position: relative;
 	border: 1px solid #62C2D0;
@@ -52,8 +52,8 @@
 	color: #FFFFFF;
 }/* visited link */
 .bt_acoes:hover {
-	color:#4d4d4d;
-	background:#e46a5d;
+	color: #4d4d4d;
+	background: #e46a5d;
 	cursor: hand;
 	border: 1px solid #4d4d4d;
 	border-top-color: #e46a5d;
@@ -65,7 +65,6 @@
 .bt_acoes_box {
 	position: relative;
 	width: 100%;
-	
 }
 
 .cab_banner {
@@ -90,7 +89,6 @@
 	background: #F8F8F8;
 	position: relative;
 	text-align: center;
-	
 }
 
 .cab_banner_tr_th {
@@ -126,7 +124,6 @@
 	background: rgb(98, 194, 208);
 	position: relative;
 	text-align: center;
-	
 }
 
 .cab_banner_buttom {
@@ -156,7 +153,7 @@
 	width: 300px;
 	height: 300px;
 	background: #E7E7E7;
-	vertical-align:bottom;
+	vertical-align: bottom;
 	-moz-border-radius-topleft: 10px;
 	-moz-border-radius-topright: 10px;
 	-moz-border-radius-bottomleft: 10px;
@@ -199,26 +196,12 @@
 	text-align: left;
 }
 
-.textmenu_new {
-	width: 400px;
-	height: 50px;
-	float: left;
-	font-family: "Nexa Light";
-	color: #666;
-	padding-left: 20px;
-	font-size: 36px;
-	vertical-align: middle;
-	top: 20px;
-}
-
 .textmenu {
 	font-family: "Nexa Bold";
-	font-size: 38px;
+	font-size: 18px;
 	color: #499C9E;
 	text-align: left;
 	padding: 5px;
-	padding-left: 20px;
-	left: 50px;
 	background-color: #62C2D0;
 }
 
@@ -402,14 +385,9 @@
 
 /*circulo para seta */
 .circle1 {
-	height: 45px;
-	width: 45px;
 	z-index: 101;
-	position: relative;
 	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
+	border-image-width: 25%;
 	background-image: url(../img/seta.png);
 	background-repeat: no-repeat;
 }
@@ -417,100 +395,28 @@
 	background-image: url(../img/seta2.png);
 }
 
-.circle2 {
-	height: 45px;
-	width: 45px;
-	z-index: 101;
-	position: relative;
-	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
-	background-image: url(../img/seta.png);
-	background-repeat: no-repeat;
-}
-.circle2a {
-	background-image: url(../img/seta2.png);
+.menu_simple ul {
+	margin: 0;
+	padding: 0;
+	width: 185px;
+	list-style-type: none;
 }
 
-.circle3 {
-	height: 45px;
-	width: 45px;
-	z-index: 101;
-	position: relative;
-	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
-	background-image: url(../img/seta.png);
-	background-repeat: no-repeat;
-}
-.circle3a {
-	background-image: url(../img/seta2.png);
+.menu_simple ul li a {
+	text-decoration: none;
+	color: white;
+	padding: 10.5px 11px;
+	background-color: #005555;
+	display: block;
 }
 
-.circle4 {
-	height: 45px;
-	width: 45px;
-	z-index: 101;
-	position: relative;
-	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
-	background-image: url(../img/seta.png);
-	background-repeat: no-repeat;
-}
-.circle4a {
-	background-image: url(../img/seta2.png);
+.menu_simple ul li a:visited {
+	color: white;
 }
 
-.circle5 {
-	height: 45px;
-	width: 45px;
-	z-index: 101;
-	position: relative;
-	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
-	background-image: url(../img/seta.png);
-	background-repeat: no-repeat;
-}
-.circle5a {
-	background-image: url(../img/seta2.png);
-}
-
-.circle6 {
-	height: 45px;
-	width: 45px;
-	z-index: 101;
-	position: relative;
-	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
-	background-image: url(../img/seta.png);
-	background-repeat: no-repeat;
-}
-.circle6a {
-	background-image: url(../img/seta2.png);
-}
-
-.circle7 {
-	height: 45px;
-	width: 45px;
-	z-index: 101;
-	position: relative;
-	float: right;
-	right: 5px;
-	top: 3px;
-	border-image-width: 50%;
-	background-image: url(../img/seta.png);
-	background-repeat: no-repeat;
-}
-.circle7a {
-	background-image: url(../img/seta2.png);
+.menu_simple ul li a:hover, .menu_simple ul li .current {
+	color: white;
+	background-color: #5FD367;
 }
 
 /*Radial consultora */
@@ -521,7 +427,7 @@
 	height: @circle-size;
 	position: absolute;
 	border-radius: 50%;
-	box-shadow:   @shadow inset;
+	box-shadow:     @shadow inset;
 }
 }
 

@@ -3,6 +3,8 @@ require("cab.php");
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 
+require($include.'sisdoc_data.php');
+
 if (strlen($dd[1].$dd[2]) > 0)
 	{
 		$nome = $dd[1];

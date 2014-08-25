@@ -242,7 +242,6 @@ class user
 	
 	function login_valida($user,$pass)
 		{
-			
 			$user = uppercasesql($user);
 			$senha = uppercasesql($pass);
 			$sql = "select * from ".$this->tabela." 

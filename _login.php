@@ -4,7 +4,7 @@ $include_db = '../';
 require("db.php");
 require("_class/_class_user.php");
 $user = new user;
-require("../include/_class_form.php");
+require("../_include/_class_form.php");
 require("_class/_class_header_fz.php");
 $hd = new header;
 header("Content-Type: text/html; charset=".$hd->char_set,true);

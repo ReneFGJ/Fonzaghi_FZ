@@ -10,23 +10,26 @@
     */
     
 	/* Noshow Errors */
-	$debug = 0;
+	$debug1 = 0; $debug2 = 0;
 	date_default_timezone_set('Etc/GMT+2');
-	if (file_exists('debug.txt')) { $debug1 = 0; $debug2 = 255; } 	
+	if (file_exists('debug.txt')) { $debug1 = 7; $debug2 = 255; } 	
 	
 	ini_set('display_errors', $debug1);
 	ini_set('error_reporting', $debug2);
 	    
     if (!isset($include)) { $include = 'include/'; }
-	else { $include .= 'include/'; }
+	else { $include .= '_include/'; }
+	if (!(is_dir($include)))
+		{ $include = '../'.$include; }
+	
+
 	if (!isset($include_db)) { $include_db = '_db/'; }
 	else { $include_db .= '_db/'; }
-
     ob_start();
 	session_start();
 
 	/* Path Directory */
-	$path_info = trim($_SERVER['PATH_INFO']);
+	//$path_info = trim($_SERVER['PATH_INFO']);
 	
 	/* Set header param */
 	header("Expires: 0");
@@ -38,9 +41,10 @@
 	
 	$charset = 'utf-8';
 	header('Content-Type: text/html; charset='.$charset);
+	
 	/* Include */
 	require($include.'sisdoc_sql.php');	
-	require($include.'sisdoc_debug.php');
+	require($include.'_class_debug.php');
 	require($include.'_class_msg.php');
 	require($include.'_class_char.php');		
 
@@ -50,7 +54,7 @@
 	//echo '<br><br>'.$conn;
 	/* Leituras das Variaveis dd0 a dd99 (POST/GET) */
 	$vars = array_merge($_GET, $_POST);
-	$acao = troca($vars['acao'],"'",'Â´');
+	$acao = troca($vars['acao'],"'",'´');
 	for ($k=0;$k < 100;$k++)
 		{
 		$varf='dd'.$k;
@@ -71,7 +75,7 @@
 				
 				if (!file_exists($file))
 					{
-						echo '<H1>Configuracaoo do sistema</h1>';
+						echo '<H1>Configuracao do sistema</h1>';
 						require("db_config.php");
 						exit;
 					} else {

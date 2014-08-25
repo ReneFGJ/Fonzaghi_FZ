@@ -4,7 +4,6 @@ $top_cab = array();
 array_push($top_cab,array('PRÉ-CADASTRO','pre_cadastro.php'));
 $include = '../';
 require("../cab.php");
-echo $hd->head();
 echo $hd->cab_extend();
 require("../cab_top_menu.php");
 ?>
