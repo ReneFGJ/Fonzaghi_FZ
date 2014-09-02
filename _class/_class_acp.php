@@ -54,7 +54,6 @@ class acp
 	function mostra_consulta($cpf,$tel='')
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base;
-			require("../../_db/db_informsystem.php");
 			$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data desc limit 1
      		";
@@ -144,7 +143,7 @@ class acp
 		{
 			$postXML = $this->SPCA_XML($cpf,$tel);
 			
-			$flt = fopen('acp.xml','w+');
+			$flt = fopen('temp/acp.xml','w+');
 			fwrite($flt,$postXML);
 			fclose($flt);
 			$this->tela .= '<A HREF="acp.xml" target="_blank">XML</A>';
@@ -263,7 +262,6 @@ class acp
     function consulta($cpf,$forced=0,$tel='')
         {
 			global $base_name,$base_server,$base_host,$base_user;
-			require("../../_db/db_informsystem.php");
 
 			$cpf = strzero(sonumero($cpf),11);
 			$ok = $this->last_consulta($cpf);

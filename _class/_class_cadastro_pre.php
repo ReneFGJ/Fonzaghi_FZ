@@ -62,6 +62,8 @@ class cadastro_pre {
 
 	var $line_contato = '';
 	var $image_status;
+	
+	var $total_result = 0;
 
 	/**Em processo cadastro(geral BD)*/
 	var $tt_geral_Z = 0;
@@ -145,6 +147,7 @@ class cadastro_pre {
 	}
 
 	function mostra() {
+		global $editar;
 		$sx .= '<div class="gray border1 pad5">';
 		$sx .= '<div >';
 
@@ -170,9 +173,12 @@ class cadastro_pre {
 
 		if ($this -> line['pes_status'] == '@') {
 			$onclick = ' onclick="window.location = \'pre_cad_selection.php?dd0=' . $this -> line['pes_cliente'] . '\';" ';
-			$sx .= '<div class="right">';
-			$sx .= '<input type="button" ' . $onclick . ' name="cad" id="cadastro" value="editar cadastro" class="botao_editar">';
-			$sx .= '</div>';
+			if ($editar == 0)
+				{
+					$sx .= '<div class="right">';
+					$sx .= '<input type="button" ' . $onclick . ' name="cad" id="cadastro" value="editar cadastro" class="botao_editar">';
+					$sx .= '</div>';
+				}
 		}
 
 		$sx .= '<div>Mãe: ' . $this -> line['pes_mae'] . '</div>';
@@ -223,10 +229,14 @@ class cadastro_pre {
 			$id = 0;
 			$sx = '<table class="tabela00 lt3" width="98%" align="center">';
 			$sx .= '<TR><TH>Nome<TH>CPF<TH>Código<TH>Dt. Nascimento<TH>Situação</TR>';
+			$tot = 0;
 			while ($line = db_read($rlt)) {
+				$tot++;
 				$sx .= $this -> mostra_cliente_linha($line);
 			}
 			$sx .= '</table>';
+			$this->total_result = $tot;
+			if ($tot == 0) { $sx = ''; }
 		}
 		return ($sx);
 	}
@@ -443,14 +453,18 @@ class cadastro_pre {
 	}
 
 	function lista_telefone_adiciona() {
-		global $http;
-		$id = 'pre_telefone';
-		$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
-		$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_phone_add.png" height="30" title="adicionar novo contato">';
-		$sx .= '</div>';
+		global $http, $editar;
+		
+		if ($editar == 1)
+			{
+			$id = 'pre_telefone';
+			$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
+			$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_phone_add.png" height="30" title="adicionar novo contato">';
+			$sx .= '</div>';
 
-		$form_ajax = new form;
-		$sx .= $form_ajax -> active($id, $this -> cliente, 'NEW');
+			$form_ajax = new form;
+			$sx .= $form_ajax -> active($id, $this -> cliente, 'NEW');
+			}
 		return ($sx);
 	}
 
@@ -500,14 +514,17 @@ class cadastro_pre {
 	}
 
 	function lista_endereco_adiciona() {
-		global $http;
-		$id = 'pre_endereco';
-		$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
-		$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_address_add.png" height="40" title="adicionar novo endereco">';
-		$sx .= '</div>';
+		global $http,$editar;
+		if ($editar==1)
+			{
+				$id = 'pre_endereco';
+				$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
+				$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_address_add.png" height="40" title="adicionar novo endereco">';
+				$sx .= '</div>';
 
-		$form_ajax = new form;
-		$sx .= $form_ajax -> active($id, $this -> cliente, 'NEW');
+				$form_ajax = new form;
+				$sx .= $form_ajax -> active($id, $this -> cliente, 'NEW');
+			}
 		return ($sx);
 	}
 
@@ -520,20 +537,22 @@ class cadastro_pre {
 	}
 
 	function lista_endereco($edit = 0) {
+		global $editar;
 		$id = 'pre_endereco';
 		$sx .= '<div id="' . $id . '_main">';
 		$form = new form;
-		$sx .= $form -> ajax_refresh($id, $this -> cliente);
+		$sx .= $form -> ajax_refresh($id, $this -> cliente, $editar);
 		$sx .= '</div>';
 		return ($sx);
 	}
 
 	/* REFERENCIA */
 	function lista_referencia($edit = 0) {
+		global $editar;
 		$id = 'pre_referencia';
 		$sx .= '<div id="' . $id . '_main">';
 		$form = new form;
-		$sx .= $form -> ajax_refresh($id, $this -> cliente);
+		$sx .= $form -> ajax_refresh($id, $this -> cliente, $editar);
 		$sx .= '</div>';
 		return ($sx);
 	}
@@ -613,22 +632,27 @@ class cadastro_pre {
 	}
 
 	function lista_referencia_adiciona() {
-		global $http;
-		$id = 'pre_referencia';
-		$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
-		$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_ref_add.png" height="40" title="adicionar novo endereco">';
-		$sx .= '</div>';
-
-		$form_ajax = new form;
-		$sx .= $form_ajax -> active($id, $this -> cliente, 'NEW');
+		global $http,$editar;
+		
+		if ($editar == 1)
+			{
+			$id = 'pre_referencia';
+			$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
+			$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_ref_add.png" height="40" title="adicionar novo endereco">';
+			$sx .= '</div>';
+	
+			$form_ajax = new form;
+			$sx .= $form_ajax -> active($id, $this -> cliente, 'NEW');
+			}
 		return ($sx);
 	}
 
 	function lista_telefone($edit = 0) {
+		global $editar;
 		$id = 'pre_telefone';
 		$sx .= '<div id="' . $id . '_main">';
 		$form = new form;
-		$sx .= $form -> ajax_refresh($id, $this -> cliente);
+		$sx .= $form -> ajax_refresh($id, $this -> cliente, $editar);
 		$sx .= '</div>';
 		return ($sx);
 	}
@@ -668,22 +692,6 @@ class cadastro_pre {
 		$sx .= '</script>';
 
 		return ($sx);
-	}
-
-	function cadastrar_cpf($cpf = '') {
-		$this -> recupera_codigo_pelo_cpf($cpf);
-		$this -> recuperar_codigo_complemento();
-		if (round($this -> cliente) == 0) {
-			$acp = new acp;
-			$acp -> consulta($cpf, 0, '');
-			$acp -> mostra_consulta($cpf);
-			$this -> nome = $acp -> acp_nome;
-			$this -> nasc = $acp -> acp_nasc;
-			$this -> mae = $acp -> acp_mae;
-			$this -> inserir_cpf($cpf);
-			$this -> inserir_complemento();
-		}
-		return ($this -> cliente);
 	}
 
 	function inserir_cpf($cpf = '', $seq = '00') {

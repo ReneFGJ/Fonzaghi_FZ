@@ -1,6 +1,6 @@
 .precad_form
 	{
-		font-family:"Nexa Light";
+		font-family:"Roboto";
 		font-size: 10px;
 		left:5px;
 		background:#FCFCFC;
@@ -10,7 +10,7 @@
 
 /* The CSS */
 .precad_select {
-		font-family:"Nexa Light";
+		font-family:"Roboto";
 		font-size: 20px;
 		border: 1px solid #E0E0E0;	
 		border-left: 1px solid #E0E0E0;
@@ -24,7 +24,7 @@
 
 .precad_form_submit
     {
-        font-family:"Nexa Light";
+        font-family:"Roboto";
         font-size: 30px;
         border-radius: 7px;
         -webkit-border-radius: 7px;
@@ -43,7 +43,7 @@
 
 .precad_form_string
 	{
-		font-family:"Nexa Light";
+		font-family:"Roboto";
 		font-size: 20px;
 		border: 1px solid #E0E0E0;	
 		border-left: 1px solid #E0E0E0;
@@ -81,7 +81,7 @@
 		height: 40px;
 		border-radius: 7px;
 		background-color:#4aacba;
-		font-family:"Nexa Light";
+		font-family:"Roboto";
 		font-size:24px;	
 		color:#FFF;	
 		

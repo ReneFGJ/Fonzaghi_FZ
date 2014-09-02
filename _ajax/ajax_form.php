@@ -3,6 +3,7 @@ $include = '../';
 $include_db = '../../';
 require('../db.php');
 require($include.'_class_form.php');
+$editar = $dd[95];
 
 $form = new form;
 $form->ajax = 1;
@@ -23,7 +24,7 @@ if (strlen($class) > 0)
 switch($verb)
 	{
 	case 'REFRESH2':
-			$sx .= $form->ajax_refresh($class,$proto);
+			$sx .= $form->ajax_refresh($class,$proto,$editar);
 			break;
 	case 'REFRESH':
 			$sx .= '<div style="display:  table;">';

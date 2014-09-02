@@ -1,7 +1,6 @@
 <?php
-
 require ('cab.php');
-
+$editar = 1;
 require ($include . 'sisdoc_data.php');
 
 require ("../_class/_class_cadastro_pre.php");
@@ -51,8 +50,6 @@ $ps = round('0' . $_SESSION['page']);
 if ($ps < 1) { $ps = '1';
 }
 if (strlen($dd[80]) > 0) { $ps = $dd[80]; }
-
-echo '===>' . $ps;
 
 echo '<TD>';
 /* Dados CP01 */
