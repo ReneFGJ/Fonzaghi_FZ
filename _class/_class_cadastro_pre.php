@@ -934,6 +934,7 @@ class cadastro_pre {
 
 	function cp_02() {
 		$cp = array();
+		$teste = 'teste';
 		$log = $_SESSION['nw_user'];
 		/*dd0*/array_push($cp, array('$H8', 'cmp_cliente', '', False, False));
 		/*dd1*/array_push($cp, array('$HV', '', '2', False, False));
