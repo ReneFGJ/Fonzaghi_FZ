@@ -11,12 +11,12 @@ $form = new form;
 echo '<link rel="stylesheet" href="' . $include . 'css/calender_data.css" type="text/css" media="screen" />' . chr(13) . chr(10);
 $form -> required_message = 0;
 $form -> required_message_post = 0;
-$form -> class_string = 'precad_form_string';
-$form -> class_button_submit = 'precad_form_submit';
-$form -> class_form_standard = 'precad_form';
-$form -> class_textbox = 'precad_form_string';
-$form -> class_memo = 'precad_form';
-$form -> class_select = 'precad_select';
+$form -> class_string = 'fz_precad_form_string';
+$form -> class_button_submit = 'fz_precad_form_submit';
+$form -> class_form_standard = 'fz_precad_form';
+$form -> class_textbox = 'fz_precad_form_string';
+$form -> class_memo = 'fz_precad_form';
+$form -> class_select = 'fz_precad_select';
 
 /*lastupdate/lastlog*/
 $_SESSION['angulo'] = 0;
@@ -27,7 +27,7 @@ if (strlen($dd[0]) == 0) {
 }
 
 $pre -> le($dd[0]);
-echo $pre -> mostra_nome();
+echo $pre -> mostra_nome('form_nome');
 
 echo '<table border=0 class="tabela00" width="100%">';
 echo '<TR valign="top"><TD width="200">';
@@ -42,13 +42,19 @@ array_push($link, array('Resumo', '<A HREF="'.page().'?dd80=6">'));
 
 /* Menu de items */
 echo '<div class="menu_simple"><UL>';
-for ($r = 0; $r < count($link); $r++)
+for ($r = 0; $r < count($link); $r++){
 	echo '<LI>' . $link[$r][1] . $link[$r][0] . '</A></LI>';
-echo '</UL></div>';
+}
+echo '<LI class="noDecoration">
+		<a class="noDecoration">
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		</a>
+	 </LI></UL></DIV>';
+
 echo $dd[0];
 $ps = round('0' . $_SESSION['page']);
-if ($ps < 1) { $ps = '1';
-}
+
+if ($ps < 1) { $ps = '1';}
 if (strlen($dd[80]) > 0) { $ps = $dd[80]; }
 
 echo '<TD>';
@@ -92,8 +98,9 @@ switch ($ps) {
 
 if (count($cp) > 0) {
 	$tela = $form -> editar($cp, $tabela);
-
+		ECHO "<script>alert('".$form -> saved."');</script>";
 	if ($form -> saved > 0) {
+
 		echo 'PAGE-->' . $dd[1];
 		$_SESSION['page'] = ($ps + 1);
 		redirecina(page());

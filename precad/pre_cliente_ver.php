@@ -8,7 +8,7 @@ require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 
 $pre->le($dd[0]);
-$editar = 0;
+
 echo $pre->mostra();
 echo '<h3>Contatos Pessoal</h3>';
 echo $pre->lista_telefone(0);

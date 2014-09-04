@@ -1,3 +1,4 @@
+/*Classes rene*/
 .precad_form
 	{
 		font-family:"Roboto";
@@ -103,4 +104,94 @@
 	{
   		background-color: #FCFCFC;
 	}	
+	
+	
+/**********************Classes novas willian e marina*******************************/	
 
+.fz_precad_form
+	{
+		font-family:"RobotoThin";
+		font-size: 20px;
+		left:5px;
+		background:#FFFFFF;
+		border:#0FC;
+		font-weight: 800;
+	}
+
+
+/* The CSS */
+.fz_precad_select {
+		font-family:"RobotoThin";
+		font-size: 20px;
+		border: 1px solid #E0E0E0;	
+		border-left: 1px solid #E0E0E0;
+		padding-left: 11px;	
+		border-radius: 7px;
+  		-webkit-border-radius: 7px;
+  		-moz-border-radius: 7px;
+  		-ms-border-radius: 7px;
+  		-o-border-radius: 7px;
+}	
+
+.fz_precad_form_submit
+    {
+        font-family:"RobotoThin";
+        font-size: 30px;
+        border-radius: 7px;
+        -webkit-border-radius: 7px;
+        -moz-border-radius: 7px;
+        -ms-border-radius: 7px;
+        -o-border-radius: 7px;  
+        opacity: 0.9;
+    }
+.fz_precad_form_submit:focus
+    {
+        opacity: 1;
+    }
+    
+
+.fz_precad_form_string
+	{
+		font-family:"RobotoThin";
+		font-size: 30px;
+		border: 1px solid #E0E0E0;	
+		border-left: 1px solid #E0E0E0;
+		padding-left: 11px;	
+		border-radius: 7px;
+  		-webkit-border-radius: 7px;
+  		-moz-border-radius: 7px;
+  		-ms-border-radius: 7px;
+  		-o-border-radius: 7px;	
+		
+	}
+	
+	
+/* focus campos cor azul */	
+.fz_precad_form_string:focus
+	{
+		border: 1px solid #050505;
+		border-left: 12px solid #62C2D0;
+		padding-left: 0px;	
+		opacity: 1;
+	}
+
+.fz_precad_form_submit	
+	{
+		width: 130px;
+		height: 40px;
+		border-radius: 1px;
+		background:#38acc0;
+		font-family:"RobotoThin";
+		font-size:30px;	
+		color:#FFF;	
+	}
+
+.fz_precad_tr:nth-child(even) 
+	{
+	  	background-color: rgb(98, 194, 208);
+	}
+
+.fz_precad_tr:nth-child(odd) 
+	{
+  		background-color: #FCFCFC;
+	}	

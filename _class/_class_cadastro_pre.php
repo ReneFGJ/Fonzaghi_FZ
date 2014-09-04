@@ -105,8 +105,8 @@ class cadastro_pre {
 		return ($cp);
 	}
 
-	function mostra_nome() {
-		$sx .= '<div class="lt3 border1 radius5 pad5">';
+	function mostra_nome($sty='') {
+		$sx .= '<div class="lt3 border1 radius5 pad5 '.$sty.'">';
 		$sx .= '<div class="right">' . $this -> mostra_idade($this -> nasc) . ' anos</div>';
 		$sx .= $this -> nome;
 		$sx .= '</div>';
@@ -915,7 +915,7 @@ class cadastro_pre {
 		$cp = array();
 		/*0*/array_push($cp, array('$H8', 'pes_cliente', 'ID', False, True));
 		/*0*/array_push($cp, array('$HV', '', '1', False, False));
-		/*1*/array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, False));
+		/*1*/array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
 		/*2*/array_push($cp, array('$D8', 'pes_nasc', 'DATA NASCIMENTO', True, True));
 		/*3*/array_push($cp, array('$S30', 'pes_naturalidade', 'NATURALIDADE', True, True));
 		/*4*/array_push($cp, array('$S15', 'pes_rg', 'RG', True, True));
