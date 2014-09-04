@@ -41,6 +41,7 @@ echo '
 	    	<div class="mobile-menu">
 	    		<UL>
 	    		<LI><a href="/fz/main.php" class="y-out">Menu Principal</a></LI>
+	    		<LI><a href="/fz/precad/analise_consulta.php" class="y-out">Analise de cadastros</a></LI>
 
 	    		</UL>
 	    	</div>
