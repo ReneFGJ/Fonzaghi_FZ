@@ -913,6 +913,7 @@ class cadastro_pre {
 
 	function cp_01() {
 		$cp = array();
+		$log = $_SESSION['nw_user'];
 		/*0*/array_push($cp, array('$H8', 'pes_cliente', 'ID', False, True));
 		/*0*/array_push($cp, array('$HV', '', '1', False, False));
 		/*1*/array_push($cp, array('$S100', 'pes_nome', 'NOME COMPLETO', True, True));
@@ -926,31 +927,37 @@ class cadastro_pre {
 		///*9*/array_push($cp, array('$S7', 'pes_avalista_cod', utf8_encode('CÓDIGO AVALISTA'), True, True));
 		/*10*/array_push($cp, array('$B8', '', 'Salvar', False, True));
 
-		/*11*/array_push($cp, array('$H15', 'pes_lastupdate_log', '', True, True));
-		/*12*/array_push($cp, array('$H11', 'pes_lastupdate', '', True, True));
+		/*11*/array_push($cp, array('$HV', 'pes_lastupdate_log', $log, False, True));
+		/*12*/array_push($cp, array('$HV', 'pes_lastupdate', date("Ymd"), False, True));
 		return ($cp);
 	}
 
 	function cp_02() {
 		$cp = array();
+		$log = $_SESSION['nw_user'];
 		/*dd0*/array_push($cp, array('$H8', 'cmp_cliente', '', False, False));
 		/*dd1*/array_push($cp, array('$HV', '', '2', False, False));
-		/*dd1*/array_push($cp, array('$S8', 'cmp_salario', 'SALARIO', TRUE, True));
-		/*dd2*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALARIO COMPLEMENTAR', TRUE, True));
-		/*dd3*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
-		/*dd4*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
-		/*dd5*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
-		/*dd6*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'Tempo de profissão (anos)', TRUE, True));
-		/*dd7*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'Experiencia com vendas (anos)', TRUE, True));
-		/*dd8*/array_push($cp, array('$O : &1:NAO TEM&2:AUTO FIN&3:IMOVEL FIN + AUTO FIN/QUIT&4:IMOVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
-		/*dd9*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
-		/*dd10*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
-		/*dd11*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\'', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
-		/*dd12*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\'', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
-		/*dd13*/array_push($cp, array('$B8', '', 'Salvar', False, True));
+		/*dd2*/array_push($cp, array('$HV', '', '', False, False));
+		/*dd3*/array_push($cp, array('$HV', '', '', False, False));
+		/*dd4*/array_push($cp, array('$HV', '', '', False, False));
+		/*dd5*/array_push($cp, array('$HV', '', '', False, False));
+		
+		/*dd6*/array_push($cp, array('$S8', 'cmp_salario', 'SALARIO', TRUE, True));
+		/*dd7*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALARIO COMPLEMENTAR', TRUE, True));
+		/*dd8*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
+		/*dd9*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
+		/*dd10*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
+		/*dd11*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'Tempo de profissão (anos)', TRUE, True));
+		/*dd12*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'Experiencia com vendas (anos)', TRUE, True));
+		/*dd13*/array_push($cp, array('$O : &1:NAO TEM&2:AUTO FIN&3:IMOVEL FIN + AUTO FIN/QUIT&4:IMOVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
+		/*dd14*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
+		/*dd15*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
+		/*dd16*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\'', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
+		/*dd17*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\'', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
+		/*dd18*/array_push($cp, array('$B8', '', 'Salvar', False, True));
 
-		/*dd14*/array_push($cp, array('$H15', 'cmp_lastupdate_log', 'log', TRUE, True));
-		/*dd15*/array_push($cp, array('$H11', 'cmp_lastupdate', 'data log', TRUE, True));
+		/*dd19*/array_push($cp, array('$HV', 'cmp_lastupdate_log', $log, False, True));
+		/*dd20*/array_push($cp, array('$HV', 'cmp_lastupdate', date("Ymd"), False, True));
 		return ($cp);
 
 	}
