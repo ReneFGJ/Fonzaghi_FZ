@@ -23,7 +23,7 @@ echo '
 			&nbsp;
 		</li>
 		<li>
-			<a href="/fz/main.php" class="menu_top">INICIAL</a>
+			<a href="'.$http.'main.php" class="menu_top">INICIAL</a>
 		</li>';
 		
 for ($r=0;$r < count($top_cab); $r++)
@@ -40,8 +40,8 @@ echo '
 	<div id="menus" class="menu_left menu_lateral">
 	    	<div class="mobile-menu">
 	    		<UL>
-	    		<LI><a href="/fz/main.php" class="y-out">Menu Principal</a></LI>
-	    		<LI><a href="/fz/precad/analise_consulta.php" class="y-out">Analise de cadastros</a></LI>
+	    		<LI><a href="'.$http.'main.php" class="y-out">Menu Principal</a></LI>
+	    		<LI><a href="'.$http.'precad/analise_consulta.php" class="y-out">Analise de cadastros</a></LI>
 
 	    		</UL>
 	    	</div>
