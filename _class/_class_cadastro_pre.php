@@ -353,28 +353,28 @@ class cadastro_pre {
 		$this -> obtem_quantidade_por_status_dia();
 		$this -> obtem_quantidade_por_status_mes();
 
-		$onclickTT_d = '<a onclick="lista_status_pre_cad(\'TT\',\'LISTA_D\' );" >';
-		$onclickTT_w = '<a onclick="lista_status_pre_cad(\'TT\',\'LISTA_W\' );" >';
-		$onclickTT_m = '<a onclick="lista_status_pre_cad(\'TT\',\'LISTA_M\' );" >';
+		$onclickTT_d = '<a class="cursor" onclick="lista_status_pre_cad(\'TT\',\'LISTA_D\' );" >';
+		$onclickTT_w = '<a class="cursor" onclick="lista_status_pre_cad(\'TT\',\'LISTA_W\' );" >';
+		$onclickTT_m = '<a class="cursor" onclick="lista_status_pre_cad(\'TT\',\'LISTA_M\' );" >';
 
-		$onclickR_d = '<a onclick="lista_status_pre_cad(\'R\',\'LISTA_D\' );" >';
-		$onclickR_w = '<a onclick="lista_status_pre_cad(\'R\',\'LISTA_W\' );" >';
-		$onclickR_m = '<a onclick="lista_status_pre_cad(\'R\',\'LISTA_M\' );" >';
+		$onclickR_d = '<a class="cursor" onclick="lista_status_pre_cad(\'R\',\'LISTA_D\' );" >';
+		$onclickR_w = '<a class="cursor" onclick="lista_status_pre_cad(\'R\',\'LISTA_W\' );" >';
+		$onclickR_m = '<a class="cursor" onclick="lista_status_pre_cad(\'R\',\'LISTA_M\' );" >';
 
-		$onclickT_d = '<a onclick="lista_status_pre_cad(\'T\',\'LISTA_D\' );" >';
-		$onclickT_w = '<a onclick="lista_status_pre_cad(\'T\',\'LISTA_W\' );" >';
-		$onclickT_m = '<a onclick="lista_status_pre_cad(\'T\',\'LISTA_M\' );" >';
+		$onclickT_d = '<a class="cursor" onclick="lista_status_pre_cad(\'T\',\'LISTA_D\' );" >';
+		$onclickT_w = '<a class="cursor" onclick="lista_status_pre_cad(\'T\',\'LISTA_W\' );" >';
+		$onclickT_m = '<a class="cursor" onclick="lista_status_pre_cad(\'T\',\'LISTA_M\' );" >';
 
-		$onclickA_d = '<a onclick="lista_status_pre_cad(\'A\',\'LISTA_D\' );" >';
-		$onclickA_w = '<a onclick="lista_status_pre_cad(\'A\',\'LISTA_W\' );" >';
-		$onclickA_m = '<a onclick="lista_status_pre_cad(\'A\',\'LISTA_M\' );" >';
+		$onclickA_d = '<a class="cursor" onclick="lista_status_pre_cad(\'A\',\'LISTA_D\' );" >';
+		$onclickA_w = '<a class="cursor" onclick="lista_status_pre_cad(\'A\',\'LISTA_W\' );" >';
+		$onclickA_m = '<a class="cursor" onclick="lista_status_pre_cad(\'A\',\'LISTA_M\' );" >';
 
-		$onclickE_d = '<a onclick="lista_status_pre_cad(\'@\',\'LISTA_D\' );" >';
-		$onclickE_w = '<a onclick="lista_status_pre_cad(\'@\',\'LISTA_W\' );" >';
-		$onclickE_m = '<a onclick="lista_status_pre_cad(\'@\',\'LISTA_M\' );" >';
+		$onclickE_d = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_D\' );" >';
+		$onclickE_w = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_W\' );" >';
+		$onclickE_m = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_M\' );" >';
 
 		$sx .= '
-					<div>
+					<div class="pad25">
 					<img src="../img/imgboxinfo.png" width="200">
 					<table width="100%"><tr><td width="25%">
 						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">

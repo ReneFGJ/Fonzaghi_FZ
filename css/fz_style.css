@@ -80,6 +80,16 @@ h4
         padding: 5px;
     }
     
+.pad15
+    {
+        padding: 15px;
+    }
+    
+.pad25
+    {
+        padding: 25px;
+    }        
+    
 /* Margin */
 .margin5
     {
@@ -146,4 +156,9 @@ h4
 		font-size: 20px;
 		background: #ffff00;
 }
+.cursor{
+	cursor:  pointer; 
+}
+
+
 
