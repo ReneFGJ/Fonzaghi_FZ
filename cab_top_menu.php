@@ -41,8 +41,6 @@ echo '
 	    	<div class="mobile-menu">
 	    		<UL>
 	    		<LI><a href="'.$http.'main.php" class="y-out">Menu Principal</a></LI>
-	    		<LI><a href="'.$http.'precad/analise_consulta.php" class="y-out">Analise de cadastros</a></LI>
-
 	    		</UL>
 	    	</div>
 	</div>	

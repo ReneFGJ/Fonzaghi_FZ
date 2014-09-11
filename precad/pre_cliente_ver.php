@@ -3,21 +3,36 @@ require("cab.php");
 
 require($include.'sisdoc_data.php');
 require($include.'_class_form.php');
-
-require("../_class/_class_cadastro_pre.php");
-$pre = new cadastro_pre;
+require("../_class/_class_cadastro_pre_analise.php");
+$pre = new cadastro_pre_analise;
+require("../_class/_class_acp.php");
+$acp = new acp;
 
 $pre->le($dd[0]);
+$pre->obter_dados($dd[0],'00');
+$pre->calcular_pontuacao();
 
-echo $pre->mostra();
-echo '<h3>Contatos Pessoal</h3>';
-echo $pre->lista_telefone(0);
+$telax  = $pre->mostra();
+$telax .= '<h3>Contatos Pessoal</h3>';
+$telax .= $pre->lista_telefone(0);
+$telax .= '<h3>Endereço</h3>';
+$telax .= $pre->lista_endereco(0);
+$telax .= '<h3>Referências</h3>';
+$telax .= $pre->lista_referencia(0);
+$telax .= $pre->mostrar_relatorio();
+$sty = ' style="background:#000000;
+				   font-size:20px;
+				   text-align:center;
+				   color:#FFFFFF;
+				   font-family:RobotoThin;
+				   font-weight:900;" ';
+$sty1 = 'style=" font-size:30px;" ';
+				   
+$pontuacao = '<div width="100%" '.$sty.'>
+				<div align="right">'.$pre->status($pre->status).'</div>
+				<div align="right" '.$sty1.'>PONTUAÇÃO ('.$pre->TTpontos.')</div>
+			</div>';
+$tela = $pontuacao.$telax;
 
-echo '<h3>Endereço</h3>';
-echo $pre->lista_endereco(0);
-
-echo '<h3>Referências</h3>';
-echo $pre->lista_referencia(0);
-//echo $pre->editar_contatos();
-
+echo $tela;
 ?>

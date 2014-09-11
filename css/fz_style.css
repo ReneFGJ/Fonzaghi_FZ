@@ -119,4 +119,31 @@ h4
         border: 1px solid #000000;
         border-radius: 10px;
         -moz-box-sizing: border-box;
-    }    
+    }  
+
+.bt_editar{
+	font-family: RobotoThin;
+		font-size: 15px;
+		border: 1px solid #808080;
+} 
+
+.bt_aprovar{
+	font-family: RobotoThin;
+		font-size: 20px;
+		background:#41c729; 
+		
+}
+
+.bt_recusar{
+		font-family: RobotoThin;
+		font-size: 20px;
+		background: #ff0000;
+		
+}
+
+.bt_retornar{
+	font-family: RobotoThin;
+		font-size: 20px;
+		background: #ffff00;
+}
+

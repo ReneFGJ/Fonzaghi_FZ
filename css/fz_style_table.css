@@ -1,6 +1,10 @@
+.pre_tabela{
+	width:80%;
+	border-style:solid 1px;
+}
+
 .pre_tabelaTH{
-	border:#4D4D4D; 
-	border-style:solid;
+	background:#FFF666;
 	text-align: left;
 }
 

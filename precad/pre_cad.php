@@ -98,7 +98,7 @@ switch ($ps) {
 
 if (count($cp) > 0) {
 	$tela = $form -> editar($cp, $tabela);
-		ECHO "<script>alert('".$form -> saved."');</script>";
+	//	ECHO "<script>alert('".$form -> saved."');</script>";
 	if ($form -> saved > 0) {
 
 		echo 'PAGE-->' . $dd[1];

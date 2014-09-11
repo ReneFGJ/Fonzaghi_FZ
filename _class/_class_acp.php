@@ -15,6 +15,8 @@ class acp
 	var $xml_link = 'https://www.scpc.inf.br/cgi-bin/spcaxml';
 	
 	/*Setado via db*/
+	var $include_db = '../../_db/';
+	
 	var $acp_codigo = '';
 	var $acp_senha = '';
 	var $acp_service = '';
@@ -54,6 +56,8 @@ class acp
 	function mostra_consulta($cpf,$tel='')
 		{
 			global $base_name,$base_server,$base_host,$base_user,$base;
+			$this->include_db.'db_informsystem.php';
+			require($this->include_db.'db_informsystem.php');
 			$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data desc limit 1
      		";

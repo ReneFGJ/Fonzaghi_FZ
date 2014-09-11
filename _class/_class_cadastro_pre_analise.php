@@ -75,6 +75,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		}
 		$this -> recupera_dados_pelo_codigo();
 		$this -> recuperar_codigo_complemento();
+		$this -> recupera_referencia_pelo_codigo();
 		$this -> calcular_restricoes();
 		$this -> cpf = $this -> line['pes_cpf'];
 		$nasc = $this -> line['pes_nasc'];
@@ -87,7 +88,6 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar'];
 		$this -> xp_vendas = $this -> line_cmp['cmp_experiencia_vendas'];
 		$this -> estado_civil = $this -> line_cmp['cmp_estado_civil'];
-		$this -> referencia = '';
 		$this -> tempo_uniao = $this -> line_cmp['cmp_estado_civil_tempo'];
 		$this -> tempo_moradia = $this -> line_cmp['cmp_imovel_tempo'];
 		$this -> tempo_emprego = $this -> line_cmp['cmp_emprego_tempo'];
@@ -98,14 +98,14 @@ class cadastro_pre_analise extends cadastro_pre {
 	function mostrar_relatorio() {
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
-		$sx = '<table>';
+		$sx = '<center><table class="pre_tabela">';
 		$sx .= '<tr><td' . $sty1 . 'colspan="2">Nome da candidata a consultora</td><td ' . $sty1 . ' colspan="7">' . $this -> nome . '</td></tr>';
 		$sx .= '<tr><td' . $sty1 . ' colspan="2">Endereco de moradia</td><td ' . $sty1 . 'colspan="7">Nome da rua</td></tr>';
-		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>'.$this->TTpontos.'</td><td' . $sty1 . ' colspan="3">cep</td><td' . $sty1 . 'colspan="4">cidade</td></tr>';
+		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>' . $this -> TTpontos . '</td><td' . $sty1 . ' colspan="3">cep</td><td' . $sty1 . 'colspan="4">cidade</td></tr>';
 		$sx .= '<tr><td' . $sty1 . ' colspan="5">Area de risco?</td><td ' . $sty1 . ' colspan="2">Sim/nao</td></tr>';
 		$sx .= '<tr><td' . $sty1 . ' colspan="2" >Criterio</td><td></td><td' . $sty1 . ' colspan="2">Dados do Cadastro</td><td' . $sty1 . '>Peso</td><td' . $sty1 . '>P</td><td' . $sty1 . '>Pontos</td></tr>';
 		$sx .= $this -> relatorio;
-		$sx .= '</table>';
+		$sx .= '</table></center>';
 
 		//$sx .= '<tr><td '.$sty.'>4 a </td><td '.$sty.'>Veiculo</td><td'.$sty.'>4</td><td></td></tr>';
 		//$sx .= '<tr><td '.$sty.'>4 b</td><td '.$sty.'>Imovel</td><td'.$sty.'></td><td></td></tr>';
@@ -178,11 +178,10 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> TTpontos += $this -> pontos_renda();
 		$this -> TTpontos += $this -> pontos_xp_vendas();
 		$this -> TTpontos += $this -> pontos_estado_civil();
-		$this -> TTpontos += $this -> pontos_referencias_total();
+		$this -> TTpontos += $this -> pontos_referencia();
 		$this -> TTpontos += $this -> pontos_uniao();
 		$this -> TTpontos += $this -> pontos_tempo_moradia();
 		$this -> TTpontos += $this -> pontos_tempo_emprego();
-
 	}
 
 	/**
@@ -510,32 +509,25 @@ class cadastro_pre_analise extends cadastro_pre {
 	 * Calcula pontos pelas referências fornecidas pela futura consultora.
 	 */
 	function pontos_referencia() {
-		$peso = $this -> pesos[10];
-		if ($this -> referencia == '01' or $this -> referencia == '04') {
-			//amigos e parentes
-			$pt = 1 * $peso;
+		$this -> ct = 0;
+		foreach ($this->referencias as $key => $value) {
+			$grau = $value['ref_grau'];
+			$peso = $value['ret_peso'];
+			$tipo = $value['ret_nome'];
+		
+			$sty1 = ' class="pre_tabelaTH"';
+			$sty2 = ' class="pre_tabela01"';
+			$this -> relatorio .= '<tr><td ' . $sty1 . '>8 &#' . ($this -> ct + 97) . '</td>
+										<td ' . $sty1 . '>Tipo de referencia</td>
+										<td></td>
+										<td' . $sty2 . ' colspan="2">'.$tipo.'</td>
+										<td' . $sty2 . '>' . $peso . '</td>
+										<td' . $sty2 . '>1</td>
+										<td' . $sty2 . '>' . $peso . '</td></tr>';
+			$this -> ct++;
+			$pt = $peso+$pt;
 		}
-		if ($this -> referencia == '05') {
-			// vizinhos
-			$pt = 2 * $peso;
-		}
-		if ($this -> referencia == '02') {
-			// comercial
-			$pt = 3 * $peso;
-		}
-		if ($this -> referencia == '03') {
-			// bancária
-			$pt = 4 * $peso;
-		}
-		$sty1 = ' class="pre_tabelaTH"';
-		$sty2 = ' class="pre_tabela01"';
-		$this -> relatorio .= '<tr><td ' . $sty1 . '>8 &#' . ($this -> ct + 97) . '</td>
-									<td ' . $sty1 . '>Tipo de referencia</td>
-									<td></td>
-									<td' . $sty2 . ' colspan="2">' . $this -> recuperar_nome_da_seq($this -> referencia) . '</td>
-									<td' . $sty2 . '>' . $peso . '</td>
-									<td' . $sty2 . '>' . $pt / $peso . '</td>
-									<td' . $sty2 . '>' . $pt . '</td></tr>';
+
 		return ($pt);
 	}
 
@@ -565,25 +557,26 @@ class cadastro_pre_analise extends cadastro_pre {
 			default :
 				break;
 		}
-		
+
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>4</td>
 									<td ' . $sty1 . '>Tempo de moradia</td>
 									<td></td>
-									<td' . $sty2 . ' colspan="2">' . $this->sigla_patrimonio($this -> patrimonio) . '</td>
+									<td' . $sty2 . ' colspan="2">' . $this -> sigla_patrimonio($this -> patrimonio) . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
 									<td' . $sty2 . '>' . $ptx . '</td>
 									<td' . $sty2 . '>' . $pt . '</td></tr>';
 		return ($pt);
 	}
-	function sigla_patrimonio($sigla){
+
+	function sigla_patrimonio($sigla) {
 		switch ($sigla) {
 			case '1' :
 				$sig_nome = 'Nao tem';
 				break;
 			case '2' :
-				$sig_nome = 'Auto F'; 
+				$sig_nome = 'Auto F';
 				break;
 			case '3' :
 				$sig_nome = 'Imovel F + Auto F/Q';
@@ -595,45 +588,28 @@ class cadastro_pre_analise extends cadastro_pre {
 				$sig_nome = 'Verificar com TI, novo patrimonio adicionado';
 				break;
 		}
-		return($sig_nome);
+		return ($sig_nome);
 	}
-	function pontos_referencias_total() {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
-		require ($this -> class_include . "_db/db_mysql_10.1.1.220.php");
 
-		$sql = "select * from " . $this -> tabela_referencia . "  
-				where ref_cliente ='" . $this -> cliente . "' and ref_status='A' and ref_ativo = 1
-				";
-
-		$rlt = db_query($sql);
-		$this -> ct = 0;
-		while ($line = db_read($rlt)) {
-			$this -> referencia = $line['ref_cliente_seq'];
-			$pt += $this -> pontos_referencia();
-			$this -> ct++;
-		}
-		return ($pt);
-	}
-	
 	/**
 	 * Calcula pontos pelo genero.
 	 */
 	function pontos_genero() {
 		$peso = $this -> pesos[11];
 		switch (trim($this -> genero)) {
-			case 'F':
+			case 'F' :
 				$pt = 3 * $peso;
 				break;
-			case 'M':
+			case 'M' :
 				$pt = 1 * $peso;
-				break;	
+				break;
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
 		$this -> relatorio .= '<tr><td ' . $sty1 . '>2</td>
 									<td ' . $sty1 . '>Genero</td>
 									<td></td>
-									<td' . $sty2 . ' colspan="2">' . $this -> genero. '</td>
+									<td' . $sty2 . ' colspan="2">' . $this -> genero . '</td>
 									<td' . $sty2 . '>' . $peso . '</td>
 									<td' . $sty2 . '>' . $pt / $peso . '</td>
 									<td' . $sty2 . '>' . $pt . '</td></tr>';

@@ -32,7 +32,7 @@ class header
         $sx .= '<link rel="shortcut icon" type="image/x-icon" href="'.$http.'favicon.ico" />'.$cr;
 		
 		/* Style */
-		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css','fz_style_ballon.css');
+		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css','fz_style_ballon.css','fz_style_table.css');
 		for ($r=0;$r < count($style);$r++)
 				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style[$r].'">'.$cr; }
 
@@ -43,7 +43,7 @@ class header
 		}
 
 		/* Java script */
-		$js = array('jquery-1.7.1.js','jquery.maskedinput.js','jquery.autocomplete.js'); 
+		$js = array('jquery-1.7.1.js','jquery.maskedinput.js','jquery.autocomplete.js','pre_cad.js'); 
 		for ($r=0;$r < count($js);$r++)
 			{ $sx .= '<script type="text/javascript" src="'.$http.'js/'.$js[$r].'"></script>'.$cr; }
 
