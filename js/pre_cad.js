@@ -26,3 +26,16 @@ function lista_status_pre_cad(status,verbo) {
 		$("#lista_status_pre_cad").html(data);
 	});
 }
+
+function mostra_dados_pre_cad(id,verbo) {
+	$.ajax({
+		type : "POST",
+		url : "../_ajax/ajax_pre_cad.php",
+		data : {
+			dd0 : id,
+			dd1 : verbo,
+		}
+	}).done(function(data) {
+		$("#mostra_dados_pre_cad").html(data);
+	});
+}

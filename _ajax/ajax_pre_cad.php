@@ -2,11 +2,12 @@
 $include = '../';
 $include_db = '../../';
 require ('../db.php');
+require ($include . 'sisdoc_data.php');
+require ($include . '_class_form.php');
 require("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
 require("../_class/_class_acp.php");
 $acp = new acp;
-
 
 $aux = uppercase($dd[0]);
 $verb = uppercase($dd[1]);
@@ -24,7 +25,6 @@ switch($verb) {
 		$pre->salvar_status($aux,'@');
 		echo '<script>location.reload();</script>';
 		break;
-		
 	case 'LISTA_D' :
 		echo $pre->lista_status_dia($aux);
 		break;
@@ -35,10 +35,16 @@ switch($verb) {
 		echo $pre->lista_status_mes($aux);
 		break;	
 	case 'RESUMO' :
-		echo tela_1();
+		$pre -> le($dd[0]);
+		$pre -> obter_dados($dd[0], '00');
+		$pre -> calcular_pontuacao();
+		echo $pre -> mostra_resumo();
 		break;
 	case 'PONTUACAO' :
-		echo $pre->lista_status_mes($aux);
+		$pre -> le($dd[0]);
+		$pre -> obter_dados($dd[0], '00');
+		$pre -> calcular_pontuacao();
+		echo $pre -> mostrar_relatorio();
 		break;		
 	default :
 		break;

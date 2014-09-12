@@ -79,7 +79,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> calcular_restricoes();
 		$this -> cpf = $this -> line['pes_cpf'];
 		$nasc = $this -> line['pes_nasc'];
-		$this -> idade = idade($nasc, 'en');
+		$this -> idade = $this->mostra_idade($nasc);
 		$this -> genero = $this -> line['pes_genero'];
 		$this -> avalista = $this -> line['pes_avalista'];
 		$this -> avalista_cod = $this -> line['pes_avalista_cod'];

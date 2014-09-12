@@ -1750,6 +1750,19 @@ class cadastro_pre {
 					   pes_cliente_seq='00'";
 		$rlt = db_query($sql);
 	}
-
+	
+	function mostra_resumo(){
+		$sx = $this->mostra();
+		$sx .= '<h3>Contatos Pessoal</h3>';
+		$sx .= $this->lista_telefone(0);
+		$sx .= '<h3>Endereço</h3>';
+		$sx .= $this->lista_endereco(0);
+		$sx .= '<h3>Referências</h3>';
+		$sx .= $this->lista_referencia(0);
+		return($sx);
+	}
+			
+	
+	
 }
 ?>
