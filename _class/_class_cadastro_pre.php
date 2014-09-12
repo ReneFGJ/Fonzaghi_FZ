@@ -499,14 +499,21 @@ class cadastro_pre {
 		$sx .= "<th align=left>Nome</th>";
 		$sx .= "<th align=center>CPF</th>";
 		$sx .= "<th align=center>Log</th>";
+		$sx .= "<th align=center>Acao</th>";
 		$sx .= "</tr>";
 		while ($line = db_read($rlt)) {
+			$cl = $line['pes_cliente'];
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+					<img  width="16px" src="../img/icone_view.png"></a>';
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
 			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cliente'] . "</td>";
 			$sx .= "<td align=left>" . $line['pes_nome'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cpf'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_log'] . "</td>";
+			$sx .= '<td align=center>'.$link.$link1.'</td>';
 			$sx .= "</tr>";
 		}
 		$sx .= "</table>";
@@ -550,14 +557,21 @@ class cadastro_pre {
 		$sx .= "<th align=left>Nome</th>";
 		$sx .= "<th align=center>CPF</th>";
 		$sx .= "<th align=center>Log</th>";
+		$sx .= "<th align=center>Acao</th>";
 		$sx .= "</tr>";
 		while ($line = db_read($rlt)) {
+			$cl = $line['pes_cliente'];
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+					<img  width="16px" src="../img/icone_view.png"></a>';
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
 			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cliente'] . "</td>";
 			$sx .= "<td align=left>" . $line['pes_nome'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cpf'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_log'] . "</td>";
+			$sx .= '<td align=center>'.$link.$link1.'</td>';
 			$sx .= "</tr>";
 		}
 		$sx .= "</table>";
@@ -611,15 +625,22 @@ class cadastro_pre {
 		$sx .= "<th align=left>Nome</th>";
 		$sx .= "<th align=center>CPF</th>";
 		$sx .= "<th align=center>Log</th>";
+		$sx .= "<th align=center>Acao</th>";
 		$sx .= "</tr>";
 
 		while ($line = db_read($rlt)) {
+			$cl = $line['pes_cliente'];
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+					<img  width="16px" src="../img/icone_view.png"></a>';
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
 			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cliente'] . "</td>";
 			$sx .= "<td align=left>" . $line['pes_nome'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cpf'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_log'] . "</td>";
+			$sx .= '<td align=center>'.$link.$link1.'</td>';
 			$sx .= "</tr>";
 		}
 		$sx .= "</table>";

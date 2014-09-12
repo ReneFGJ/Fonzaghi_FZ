@@ -7,7 +7,7 @@ require("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
 require("../_class/_class_acp.php");
 $acp = new acp;
-
+echo '<div></div>';
 $pre->le($dd[0]);
 $pre->obter_dados($dd[0],'00');
 $pre->calcular_pontuacao();
