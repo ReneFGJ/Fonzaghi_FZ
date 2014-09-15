@@ -48,8 +48,6 @@ echo '
 ';
 echo '<BR><BR>';
 ?>
-
-
 <script>
 	$("#hamburger-helper").click(function() {
 		$("#ham1").toggleClass('barra_first');
