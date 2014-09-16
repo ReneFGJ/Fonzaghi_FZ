@@ -11,10 +11,6 @@ $pre -> le($dd[0]);
 $pre -> obter_dados($dd[0], '00');
 $pre -> calcular_pontuacao();
 
-
-
-
-
 $onclickR = '<a class="cursor bt_resumo" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
 $onclickP = '<a class="cursor bt_pontuacao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
 $tela = '<table  class="cab_status" width="100%"><tr>
@@ -27,7 +23,13 @@ $tela = '<table  class="cab_status" width="100%"><tr>
 				<div class="cab_statusB" align="right">PONTUAÇÃO (' . $pre -> TTpontos . ')</div>
 			</td>	
 		</tr></table>
-			<div id="mostra_dados_pre_cad"></div>';
+			<div id="mostra_dados_pre_cad"></div>
+			<script> 
+					$( document ).ready(function() {
+						mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );
+					});
+			</script>
+			';
 
 echo $tela;
 ?>

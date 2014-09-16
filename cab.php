@@ -13,14 +13,20 @@ $include = '../../';
 $include_db = '../../';
 require ("db.php");
 require ("_class/_class_header_fz.php");
-$hd = new header;
-$hd->charcod = "ISO-8859-1";
-
-echo $hd -> cab();
+require("_class/_class_user_perfil.php");
 require ("_class/_class_user.php");
+$perfil = new user_perfil;
 $user = new user;
+$hd = new header;
+
+$hd->charcod = "ISO-8859-1";
+echo $hd -> cab();
+
+
 $hd -> http = '../';
 $user -> security();
+
+
 $ss = $user;
 global $cr;
 $cr = chr(13) . chr(10);

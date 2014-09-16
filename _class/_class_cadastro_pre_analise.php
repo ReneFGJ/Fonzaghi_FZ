@@ -99,10 +99,10 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
 		$sx = '<center><table class="pre_tabela">';
-		$sx .= '<tr><td' . $sty1 . 'colspan="2">Nome da candidata a consultora</td><td ' . $sty1 . ' colspan="7">' . $this -> nome . '</td></tr>';
-		$sx .= '<tr><td' . $sty1 . ' colspan="2">Endereco de moradia</td><td ' . $sty1 . 'colspan="7">Nome da rua</td></tr>';
-		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>' . $this -> TTpontos . '</td><td' . $sty1 . ' colspan="3">cep</td><td' . $sty1 . 'colspan="4">cidade</td></tr>';
-		$sx .= '<tr><td' . $sty1 . ' colspan="5">Area de risco?</td><td ' . $sty1 . ' colspan="2">Sim/nao</td></tr>';
+		$sx .= '<tr><td' . $sty1 . 'colspan="2">Nome da candidata a consultora</td><td></td><td colspan="5"' . $sty1 . '>' . $this -> nome . '</td></tr>';
+		$sx .= '<tr><td' . $sty1 . ' colspan="2">Endereco de moradia</td><td></td><td ' . $sty1 . 'colspan="5">Nome da rua</td></tr>';
+		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>' . $this -> TTpontos . '</td><td></td><td' . $sty1 . ' colspan="2">cep</td><td' . $sty1 . 'colspan="3">cidade</td></tr>';
+		$sx .= '<tr><td></td><td' . $sty1 . ' colspan="3">Area de risco?</td><td ' . $sty1 . ' colspan="2">Sim/nao</td></tr>';
 		$sx .= '<tr><td' . $sty1 . ' colspan="2" >Criterio</td><td></td><td' . $sty1 . ' colspan="2">Dados do Cadastro</td><td' . $sty1 . '>Peso</td><td' . $sty1 . '>P</td><td' . $sty1 . '>Pontos</td></tr>';
 		$sx .= $this -> relatorio;
 		$sx .= '</table></center>';

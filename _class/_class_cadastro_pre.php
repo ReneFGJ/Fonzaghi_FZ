@@ -210,11 +210,11 @@ class cadastro_pre {
 		}
 		$sx .= '<div id="acao_pre_cad"></div>';
 
-		$sx .= '<div>Mãe: ' . $this -> line['pes_mae'] . '</div>';
+		$sx .= '<div>Mae: ' . $this -> line['pes_mae'] . '</div>';
 		$sx .= '<div>Pai: ' . $this -> line['pes_pai'] . '</div>';
 
 		$sx .= '<div>Dt. Cadastro: ' . stodbr($this -> line['pes_data']) . '</div>';
-		$sx .= '<div>Dt. Atualiação: ' . stodbr($this -> line['pes_lastupdate']) . '</div>';
+		$sx .= '<div>Dt. Atualizacao: ' . stodbr($this -> line['pes_lastupdate']) . '</div>';
 
 		$sx .= '</div>
 		';
@@ -463,6 +463,11 @@ class cadastro_pre {
 					</td>
 					</table>
 					</div>
+					<script> 
+					$( document ).ready(function() {
+						lista_status_pre_cad(\'@\',\'LISTA_M\' );
+					});
+					</script>
 					';
 		return ($sx);
 	}
@@ -492,7 +497,8 @@ class cadastro_pre {
 				where 	pes_data = " . $dt .$stx. " 
 		";
 		$rlt = db_query($sql);
-		$sx = '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx = '<h2>Cadastros do dia - '.$this->status($st).'</h2>';
+		$sx .= '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
 		$sx .= "<tr>";
 		$sx .= "<th align=center>Data</th>";
 		$sx .= "<th align=center>Codigo</th>";
@@ -503,9 +509,9 @@ class cadastro_pre {
 		$sx .= "</tr>";
 		while ($line = db_read($rlt)) {
 			$cl = $line['pes_cliente'];
-			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_view.png"></a>';
-			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
 			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
@@ -550,7 +556,8 @@ class cadastro_pre {
 		";
 		
 		$rlt = db_query($sql);
-		$sx = '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx = '<h2>Cadastros do mes - '.$this->status($st).'</h2>';
+		$sx .= '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
 		$sx .= "<tr>";
 		$sx .= "<th align=center>Data</th>";
 		$sx .= "<th align=center>Codigo</th>";
@@ -561,9 +568,9 @@ class cadastro_pre {
 		$sx .= "</tr>";
 		while ($line = db_read($rlt)) {
 			$cl = $line['pes_cliente'];
-			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_view.png"></a>';
-			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
 			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
@@ -618,7 +625,8 @@ class cadastro_pre {
 						(pes_data >= " . $dt1_w . " and pes_data >= " . $dt2_w . ") ".$stx." 
 		";
 		$rlt = db_query($sql);
-		$sx = '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx = '<h2>Cadastros da semana - '.$this->status($st).'</h2>';
+		$sx .= '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
 		$sx .= "<tr>";
 		$sx .= "<th align=center>Data</th>";
 		$sx .= "<th align=center>Codigo</th>";
@@ -630,9 +638,9 @@ class cadastro_pre {
 
 		while ($line = db_read($rlt)) {
 			$cl = $line['pes_cliente'];
-			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_view.png"></a>';
-			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'"  target="_blank">
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
 			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
@@ -1737,6 +1745,10 @@ class cadastro_pre {
 				$sx = 'RECUSADO';
 				/*recusados*/
 				break;
+			case 'TT' :
+				$sx = 'GERAL';
+				/*recusados*/
+				break;	
 			default :
 		}
 		return ($sx);
