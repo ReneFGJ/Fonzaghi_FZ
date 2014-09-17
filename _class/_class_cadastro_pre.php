@@ -837,10 +837,10 @@ class cadastro_pre {
 		}
 	}
 
-	function lista_telefone_adiciona() {
-		global $http, $editar;
+	function lista_telefone_adiciona($edit=0) {
+		global $http;
 
-		if ($editar == 1) {
+		if ($edit == 1) {
 			$id = 'pre_telefone';
 			$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
 			$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_phone_add.png" height="30" title="adicionar novo contato">';
@@ -855,7 +855,7 @@ class cadastro_pre {
 	function lista_telefone_mostra($cliente, $edit = 0) {
 		$this -> cliente = $cliente;
 		$sx .= $this -> lista_telefone_cadastrado();
-		if ($edit == 1) { $sx .= $this -> lista_telefone_adiciona();
+		if ($edit == 1) { $sx .= $this -> lista_telefone_adiciona($edit);
 		}
 		return ($sx);
 	}
@@ -897,9 +897,9 @@ class cadastro_pre {
 		return ($sx);
 	}
 
-	function lista_endereco_adiciona() {
-		global $http, $editar;
-		if ($editar == 1) {
+	function lista_endereco_adiciona($edit = 0) {
+		global $http;
+		if ($edit == 1) {
 			$id = 'pre_endereco';
 			$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
 			$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_address_add.png" height="40" title="adicionar novo endereco">';
@@ -914,7 +914,7 @@ class cadastro_pre {
 	function lista_endereco_mostra($cliente, $edit = 0) {
 		$this -> cliente = $cliente;
 		$sx .= $this -> lista_endereco_cadastrado();
-		if ($edit == 1) { $sx .= $this -> lista_endereco_adiciona();
+		if ($edit == 1) { $sx .= $this -> lista_endereco_adiciona($edit);
 		}
 		return ($sx);
 	}
@@ -943,8 +943,10 @@ class cadastro_pre {
 	function lista_referencia_mostra($cliente, $edit = 0) {
 		$this -> cliente = $cliente;
 		$sx .= $this -> lista_referencia_cadastrado();
-		if ($edit == 1) { $sx .= $this -> lista_referencia_adiciona();
-		}
+		if ($edit == 1) 
+			{
+				$sx .= $this -> lista_referencia_adiciona($edit);
+			}
 		return ($sx);
 	}
 
@@ -1014,10 +1016,9 @@ class cadastro_pre {
 		}
 	}
 
-	function lista_referencia_adiciona() {
-		global $http, $editar;
-
-		if ($editar == 1) {
+	function lista_referencia_adiciona($edit=0) {
+		global $http;
+		if ($edit == 1) {
 			$id = 'pre_referencia';
 			$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
 			$sx .= '<img id="' . $id . '" src="' . $http . 'img/icone_ref_add.png" height="40" title="adicionar novo endereco">';
@@ -1030,11 +1031,10 @@ class cadastro_pre {
 	}
 
 	function lista_telefone($edit = 0) {
-		global $editar;
 		$id = 'pre_telefone';
 		$sx .= '<div id="' . $id . '_main">';
 		$form = new form;
-		$sx .= $form -> ajax_refresh($id, $this -> cliente, $editar);
+		$sx .= $form -> ajax_refresh($id, $this -> cliente, $edit);
 		$sx .= '</div>';
 		return ($sx);
 	}
@@ -1272,7 +1272,7 @@ class cadastro_pre {
 		/*2*/array_push($cp, array('$H8', '', '', False, True));
 		/*3*/array_push($cp, array('$H8', '', '', False, True));
 		/*4*/array_push($cp, array('$S10', '', 'CEP', TRUE, True));
-		/*5*/array_push($cp, array('$S100', '', 'Endereço', True, True));
+		/*5*/array_push($cp, array('$S100', '', 'Endereco', True, True));
 		/*5*/array_push($cp, array('$S10', '', 'Numero', True, True));
 		/*5*/array_push($cp, array('$S30', '', 'Complemento', True, True));
 		/*5*/array_push($cp, array('$S30', '', 'Bairro', True, True));
@@ -1308,6 +1308,7 @@ class cadastro_pre {
 
 		/*11*/array_push($cp, array('$HV', 'pes_lastupdate_log', $log, False, True));
 		/*12*/array_push($cp, array('$HV', 'pes_lastupdate', date("Ymd"), False, True));
+		
 		return ($cp);
 	}
 
@@ -1345,6 +1346,7 @@ class cadastro_pre {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, False));
 		array_push($cp, array('$HV', '', '3', True, False));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 		return ($cp);
 	}
 
@@ -1352,6 +1354,7 @@ class cadastro_pre {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, True));
 		array_push($cp, array('$HV', '', '4', True, True));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 		return ($cp);
 
 	}
@@ -1360,6 +1363,7 @@ class cadastro_pre {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, True));
 		array_push($cp, array('$HV', '', '5', True, True));
+		array_push($cp, array('$B8', '', 'Salvar', False, True));
 		return ($cp);
 	}
 
@@ -1367,6 +1371,7 @@ class cadastro_pre {
 		$cp = array();
 		array_push($cp, array('$H8', '', '', False, True));
 		array_push($cp, array('$HV', '', '5', True, True));
+		array_push($cp, array('$B8', '', 'enviar>>', False, True));
 		return ($cp);
 	}
 

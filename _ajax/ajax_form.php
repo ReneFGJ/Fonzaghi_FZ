@@ -20,7 +20,7 @@ if (strlen($class) > 0)
 		$ajax = new ajax;
 		$tabela = $ajax->tabela;
 	}
-
+echo $class;
 switch($verb)
 	{
 	case 'REFRESH2':

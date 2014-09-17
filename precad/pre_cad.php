@@ -35,24 +35,34 @@ echo '<TR valign="top"><TD width="200">';
 $link = array();
 array_push($link, array('Dados pessoais', '<A HREF="'.page().'?dd80=1">'));
 array_push($link, array('Dados profissionais', '<A HREF="'.page().'?dd80=2">'));
-array_push($link, array('Endereço', '<A HREF="'.page().'?dd80=3">'));
-array_push($link, array('Telefone', '<A HREF="'.page().'?dd80=4">'));
+array_push($link, array('Telefone', '<A HREF="'.page().'?dd80=3">'));
+array_push($link, array('Endereço', '<A HREF="'.page().'?dd80=4">'));
 array_push($link, array('Referências', '<A HREF="'.page().'?dd80=5">'));
 array_push($link, array('Resumo', '<A HREF="'.page().'?dd80=6">'));
 
-/* Menu de items */
-echo '<div class="menu_simple"><UL>';
-for ($r = 0; $r < count($link); $r++){
-	echo '<LI>' . $link[$r][1] . $link[$r][0] . '</A></LI>';
-}
-echo '<LI class="noDecoration">
-		<a class="noDecoration">
-		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-		</a>
-	 </LI></UL></DIV>';
+
+/* Menu */
+echo '
+<link rel="STYLESHEET" type="text/css" href="../css/style_pre_cad_menus.css">
+<div class="navbox">
+	<ul class="nav">
+';
+	for ($r = 0; $r < count($link); $r++){
+			echo '<LI>' . $link[$r][1] . $link[$r][0] . '</A></LI>';
+		}
+echo '</ul></div>';
 
 echo $dd[0];
+/* Página */
+if (strlen($dd[80]) > 0)
+	{
+		$_SESSION['page'] = $dd[80];
+		redireciona(page());
+		exit;		
+	}
+
 $ps = round('0' . $_SESSION['page']);
+$_SESSION['page'] = $ps;
 
 if ($ps < 1) { $ps = '1';}
 if (strlen($dd[80]) > 0) { $ps = $dd[80]; }
@@ -98,13 +108,9 @@ switch ($ps) {
 
 if (count($cp) > 0) {
 	$tela = $form -> editar($cp, $tabela);
-	//	ECHO "<script>alert('".$form -> saved."');</script>";
 	if ($form -> saved > 0) {
-
-		echo 'PAGE-->' . $dd[1];
 		$_SESSION['page'] = ($ps + 1);
 		redirecina(page());
-
 	} else {
 		echo $tela;
 	}
