@@ -6,6 +6,11 @@ require ($include . 'sisdoc_data.php');
 require ($include . '_class_form.php');
 require("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
+
+require("../_class/_class_cadastro_pre_mailing.php");
+$mail = new cadastro_pre_mailing;
+$mail->include_class = $include_db;
+
 require("../_class/_class_acp.php");
 $acp = new acp;
 
@@ -45,7 +50,14 @@ switch($verb) {
 		$pre -> obter_dados($dd[0], '00');
 		$pre -> calcular_pontuacao();
 		echo $pre -> mostrar_relatorio();
-		break;		
+		break;
+	case 'MAILING_REMOVE' :
+		require($include_db.'db_cadastro.php');
+		echo $mail->mailing_remove($aux);
+		break;	
+	case 'MAILING_RETORNO' :
+		echo $mail->mailing_retorno($aux);
+		break;	
 	default :
 		break;
 }

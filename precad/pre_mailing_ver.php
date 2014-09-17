@@ -7,6 +7,10 @@ require($include."sisdoc_colunas.php");
 require("../_class/_class_consultora.php");
 require("../_class/_class_consignado.php");
 require("../_class/_class_duplicatas.php");
+require("../_class/_class_cadastro_pre_mailing.php");
+$include_db = '../../_db/';
+$mail = new cadastro_pre_mailing;
+$mail->include_class = $include_db;
 
 $cons = new consultora;
 $cons->include_class = $include_db;
@@ -26,6 +30,8 @@ $duplicata->db_cliente = $cliente;
 $consignado->cliente = $cliente;
 $consignado->pecas_quantidades();
 $consignado->nome = $cons->nome;
+
+echo $mail->menu_mailing();
 echo '<table>';
 echo '<tr><td align="center" colspan="3">'.$cons->codigo.' - '.$cons->nome.' - '.$cons->cpf.'</td></tr>';
 echo '<tr><td  align="center" width="20%"><img src="'.$cons->foto().'" width="200"  alt="" border="0"></td>';

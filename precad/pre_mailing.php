@@ -1,5 +1,6 @@
 <?php
 require("cab.php");
+require($include.'sisdoc_tips.php');
 require($include.'sisdoc_data.php');
 require("../_class/_class_cadastro_pre_mailing.php");
 $pre = new cadastro_pre_mailing;

@@ -23,7 +23,7 @@ echo '
 			&nbsp;
 		</li>
 		<li>
-			<a href="'.$http.'main.php" class="menu_top">INICIAL</a>
+			<a href="'.$http.'precad/" class="menu_top">INICIAL</a>
 		</li>';
 		
 for ($r=0;$r < count($top_cab); $r++)

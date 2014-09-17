@@ -39,3 +39,16 @@ function mostra_dados_pre_cad(id,verbo) {
 		$("#mostra_dados_pre_cad").html(data);
 	});
 }
+
+function mailing(id,verbo) {
+	$.ajax({
+		type : "POST",
+		url : "../_ajax/ajax_pre_cad.php",
+		data : {
+			dd0 : id,
+			dd1 : verbo,
+		}
+	}).done(function(data) {
+		$("#mailing_status").html(data);
+	});
+}
