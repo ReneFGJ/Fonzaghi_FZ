@@ -55,24 +55,24 @@ class cadastro_pre_mailing extends cadastro_pre {
 		$sql = "select * from cadastro where cl_cliente='$cliente'";
 		$rlt = db_query($sql);
 		if($line = db_read($rlt)){
-			$sx = $line;	
+			$this->cliente = $line['cl_cliente'];
+			$this->cpf = cpf(sonumero($line['cl_cpf']));
+			return(true);
 		}else{
-			$sx = false;
+			return(false);
 		}	
-		return($sx);
+		
 	}
 	
-	function mailing_retorno_verifica_acp($cpf){
+	function mailing_retorno_verifica_acp(){
 			global $ip;
 			require("../../_db/db_informsystem.php");
 			/**
 			 * Importa classe _class_acp.php
 			 * caso use esta função
 			 */
-			 if(cpf(sonumero($line['cl_cpf']))){
-				$acp = new acp;
-				$acp -> consulta($cpf, 0, '');
-				$acp -> mostra_consulta($cpf);
+			 	$acp = new acp;
+				$acp -> consulta($this->cpf, 0, '');
 				
 				$filename = $include_db."db_mysql_".$ip.".php";
 				require($filename);
@@ -80,53 +80,49 @@ class cadastro_pre_mailing extends cadastro_pre {
 				$this -> nome = $acp -> acp_nome;
 				$this -> nasc = $acp -> acp_nasc;
 				$this -> mae = $acp -> acp_mae;
+				$this -> seq = '00';
 				
-				$this -> inserir_cpf($cpf);
+				$this -> mailing_retorno_inserir_cpf($this->cpf);
 				$this -> inserir_complemento(); 	
-			 }
-			
-			
-			return($sx);
+			return(true);
 	}
 	
-	function mailing_retorno_inserir_cpf($cpf = '', $seq = '00') {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $user;
+	function mailing_retorno_inserir_cpf() {
+		global $user;
 		$date = date('Ymd');
-		if (strlen(trim($this -> nome)) > 0) { $set1 .= ', pes_nome';
+		if (strlen(trim($this -> cliente)) > 0) {
+			$set1 .= ', pes_cpf';
+			$set2 .= ",'$this->cpf'";
+		};
+		if (strlen(trim($this -> cliente)) > 0) {
+			$set1 .= ', pes_cliente';
+			$set2 .= ",'$this->cliente'";
+		};
+		if (strlen(trim($this -> nome)) > 0) {
+			$set1 .= ', pes_nome';
 			$set2 .= ",'$this->nome'";
 		};
-		if (strlen(trim($this -> nasc)) > 0) { $set1 .= ', pes_nasc';
+		if (strlen(trim($this -> nasc)) > 0) {
+			$set1 .= ', pes_nasc';
 			$set2 .= ",'$this->nasc'";
 		};
-		if (strlen(trim($this -> mae)) > 0) { $set1 .= ', pes_mae';
+		if (strlen(trim($this -> mae)) > 0) {
+			$set1 .= ', pes_mae';
 			$set2 .= ",'$this->mae'";
 		};
 		$sql = "insert into " . $this -> tabela . " 
-					(pes_cliente_seq,pes_cpf,pes_data,
+					(pes_cliente_seq,pes_data,
 					  pes_status, pes_log $set1)
 					values 
-					('$seq','$cpf', $date,
-					  '@', '$user->user_log' $set2 
-					)";
-		$rlt = db_query($sql);
-		$this -> updatex();
-		return ($this -> recupera_codigo_pelo_cpf($cpf));
-
-	}
-
-	function mailing_retorno_grava_cliente($line){
-		
-		
-		$sql = "insert into cad_pessoa (pes_data,pes_nome,pes_cpf) 
-					value (".date('Ymd').",
-						  '".$line['cl_nome']."',
-						  '".sonumero($line['cl_cpf'])."'";
+					('00', $date,'@', '$user->user_log' $set2)";
+					
 		//$rlt = db_query($sql);
 		$sx = '<div class="green_light fnt_black">CONSULTORA RETORNADA!!!</div>';
-		$sx = '<div class="green_light fnt_black">CADASTRO NÃO LOCALIZADO!!!</div>';
-			
-		return($sx);
+		return ($sx);
+
 	}
+
+	
 					
 }
 ?>
