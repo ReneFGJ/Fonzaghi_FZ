@@ -1102,8 +1102,8 @@ class cadastro_pre {
 	}
 
 	function recupera_codigo_pelo_cpf($cpf = '') {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
-
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn,$include_db,$ip;
+		
 		$sql = "select * from " . $this -> tabela . " where pes_cpf = '" . $cpf . "'";
 		$rlt = db_query($sql);
 		if ($line = db_read($rlt)) {

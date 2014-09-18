@@ -147,7 +147,7 @@ class acp
 		{
 			$postXML = $this->SPCA_XML($cpf,$tel);
 			
-			$flt = fopen('temp/acp.xml','w+');
+			$flt = fopen('../precad/temp/acp.xml','w+');
 			fwrite($flt,$postXML);
 			fclose($flt);
 			$this->tela .= '<A HREF="acp.xml" target="_blank">XML</A>';
@@ -170,6 +170,8 @@ class acp
 	
 	function salva_consulta($cpf,$result)
 		{
+			global $base_name,$base_server,$base_host,$base_user,$base;
+			$this->include_db.'db_informsystem.php';
 			$data = date('Ymd');
 			$hora = date('H:i');
 			$log = 'AUTO';
@@ -282,6 +284,8 @@ class acp
 		       
      function last_consulta($cpf)
      	{
+     		global $base_name,$base_server,$base_host,$base_user,$base;
+			require($this->include_db.'db_informsystem.php');
      		$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
      				order by c_data
      		";
