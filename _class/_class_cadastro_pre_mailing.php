@@ -83,9 +83,8 @@ class cadastro_pre_mailing extends cadastro_pre {
 	
 
 	function mailing_retorno_inserir_cpf() {
-		global $user;
 		
-		print_r($user);
+		$user_log = $_SESSION['nw_user'];
 		$date = date('Ymd');
 		if (strlen(trim($this -> cpf)) > 0) {
 			$set1 .= ', pes_cpf';
@@ -113,7 +112,7 @@ class cadastro_pre_mailing extends cadastro_pre {
 					  pes_status, pes_log $set1)
 					values 
 					('00', " . $date . ",
-					'@', '" . $user -> user_log . "' " . $set2 . ")";
+					'@', '" . $user_log . "' " . $set2 . ")";
 
 		$rlt = db_query($sql);
 		$sx = '<div class="green_light fnt_black">CONSULTORA RETORNADA!!!</div>';
