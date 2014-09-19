@@ -52,3 +52,11 @@ function mailing(id,verbo) {
 		$("#mailing_status").html(data);
 	});
 }
+
+function progress(id){
+	var img = $('<img />',
+             { id: 'progress_id',
+               src: '../img/plug_carregando.gif', 
+               alt:'Carregando'})
+              .appendTo($('#'+id));
+}

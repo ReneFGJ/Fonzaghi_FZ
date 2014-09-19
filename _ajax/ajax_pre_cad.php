@@ -2,6 +2,7 @@
 $include = '../';
 $include_db = '../../';
 require ('../db.php');
+require('../progress.php');
 require ($include . 'sisdoc_data.php');
 require ($include . '_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
@@ -54,6 +55,7 @@ switch($verb) {
 	case 'MAILING_REMOVE' :
 		require ($include_db . 'db_cadastro.php');
 		echo $mail -> mailing_remove($aux);
+		redirecionar("pre_mailing.php",3);
 		break;
 	case 'MAILING_RETORNO' :
 		require ($include_db . 'db_cadastro.php');
@@ -69,20 +71,36 @@ switch($verb) {
 						/*insere CPF*/
 						echo $mail -> mailing_retorno_inserir_cpf($mail -> cpf);
 						$mail -> inserir_complemento();
+						/*redireciona com delay de 5 segundos*/
+						redirecionar("pre_cliente_ver.php?dd0=".$aux,5);
 					} else {
 						echo '<div class="green_light fnt_black">JA CONSTA ESTE CPF EM NOSSO CADASTRO!!!</div>';
+						/*redireciona com delay de 5 segundos*/
+						redirecionar("pre_mailing.php",5);
 					}
 				} else {
 					echo '<div class="green_light fnt_black">JA CONSTA ESTE CPF EM NOSSO CADASTRO!!!</div>';
+					/*redireciona com delay de 5 segundos*/
+					redirecionar("pre_mailing.php",5);
 				}
 		}else{
-			echo '<div class="green_light fnt_black">CPF INVALIDO!!!</div>';
+			echo '<div class="red_light fnt_black">CPF INVALIDO!!!</div>';
+			/*redireciona com delay de 5 segundos*/
+			redirecionar("pre_mailing.php",5);
 		}	
 
 		break;
 	default :
 		break;
 }
+function redirecionar($link,$delay){
+	sleep($delay);
+	echo '<script>window.location.replace("'.$link.'");</script>';
+}
+
+
+
+
 
 function tela_1() {
 	$pre -> le($dd[0]);

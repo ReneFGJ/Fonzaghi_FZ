@@ -1778,6 +1778,8 @@ class cadastro_pre {
 		$sx .= $this->lista_referencia(0);
 		return($sx);
 	}
+	
+	
 			
 	
 	

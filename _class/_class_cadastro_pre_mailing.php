@@ -28,14 +28,14 @@ class cadastro_pre_mailing extends cadastro_pre {
 
 	function menu_mailing() {
 		global $dd;
-		$onclickR = '<a class="bt_sub_menu" onclick="mailing(\'' . $dd[0] . '\',\'MAILING_REMOVE\' );" >';
-		$onclickP = '<a class="bt_sub_menu" onclick="mailing(\'' . $dd[0] . '\',\'MAILING_RETORNO\' );" >';
+		$onclickR = '<a class="bt_fz" onclick="mailing(\'' . $dd[0] . '\',\'MAILING_REMOVE\' ); progress(\'mailing_status\');" >';
+		$onclickP = '<a class="bt_fz" onclick="mailing(\'' . $dd[0] . '\',\'MAILING_RETORNO\' ); progress(\'mailing_status\');" >';
 		$sx = '<table  class="cab_status" width="100%"><tr>
 				<td width="50%">
 					<div id="mailing_status" width="100%"></div>
 				</td>
 				<td width="50%">
-					' . $onclickR . 'REMOVER</a>				
+					' . $onclickR . 'REMOVER</a>
 					' . $onclickP . 'RETORNO</a>
 				</td>	
 				</tr></table>
