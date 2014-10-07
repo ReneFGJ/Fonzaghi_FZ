@@ -1,53 +1,44 @@
-<?
-$menui = array();
-switch ($LANG)
-	{
-	case 'en':
-		break;
-	default:
-		array_push($menui,'Menu Principal');
-		break;
-	}
-echo '
 <div id="logo_pucpr"></div>
-<nav id="menu">
-	<div id="hamburger-helper">
-		<div>
-			<div id="ham1" class="barra"></div>
-			<div id="ham2" class="barra"></div>
-			<div id="ham3" class="barra"></div>
-		</div>
-	</div>
-	<ul>
-		<li>
-			&nbsp;
-		</li>
-		<li>
-			<a href="'.$http.'precad/" class="menu_top">INICIAL</a>
-		</li>';
-		
-for ($r=0;$r < count($top_cab); $r++)
+<ul id="gn-menu" class="gn-menu-main"> 
+				<li class="gn-trigger">
+					<a class="gn-icon gn-icon-menu"></a>
+					<nav class="gn-menu-wrapper">
+						<div class="gn-scroller"> 
+							<ul class="gn-menu">
+								<li> <a href="/fz/index.php"><i class="fa fa-home"></i> In�cio</a></li>								
+								<li> <a href="/fz/precad/"><i class="fa fa-comment"></i> Telemarketing</a></li>
+								<li> <a href="/fz/venda_funcionario/"><i class="fa fa-users"></i> Venda Funcion�rio</a></li>
+								<!--
+								<li> <a href="programacao.php"><i class="fa fa-clock-o"></i> Programação</a></li>
+								<li> <a href="submissao-de-trabalhos.php"><i class="fa fa-file"></i> Submissão de trabalhos</a></li>
+								<li> <a href="comissoes.php"><i class="fa fa-users"></i> Comissão Organizadora</a></li>
+								<li> <a href="instituicoesparticipantes.php"><i class="fa fa-university"></i> Instituições Participantes</a></li>
+								<li> <a href="mapas.php"><i class="fa fa-map-marker"></i>  Localização e Hospedagem</a></li>
+								<li> <a href="materiais-para-divulgacao.php"><i class="fa fa-thumbs-up"></i> Materiais para divulgação</a></li>
+								<li> <a href="perguntas-frequentes.php"><i class="fa fa-question-circle"></i> Perguntas Frequentes</a></li>
+								<li> <a href="politicas-de-adesao.php"><i class="fa fa-check-square-o"></i> Políticas de Adesão</a></li>
+								<li> <a href="sobre-curitiba.php"><i class="fa fa-bus"></i> Sobre Curitiba</a></li><li> <a href="galeria-de-homenageados.php"><i class="fa fa-star"></i> Galeria de Homenageados</a></li>
+								<li> <a href="contato.php"><i class="fa fa-envelope"></i></i> Contato</a></li>
+								-->
+							</ul>
+						</div><!-- /gn-scroller -->
+					</nav>
+				</li> 
+<?
+/* Menu Superior */
+if (!(isset($menus)))
 	{
-		echo '
-		<li>
-			<a href="'.$top_cab[$r][1].'" class="menu_top">'.$top_cab[$r][0].'</a>
-		</li>					
-		';
+		$menus = array();
+		array_push($menus,array('/fz/','Tela Principal'));
 	}
-
-echo '	
-	</ul>
-	<div id="menus" class="menu_left menu_lateral">
-	    	<div class="mobile-menu">
-	    		<UL>
-	    		<LI><a href="'.$http.'main.php" class="y-out">Menu Principal</a></LI>
-	    		</UL>
-	    	</div>
-	</div>	
-</nav>
-';
-echo '<BR><BR>';
+for ($r=0;$r < count($menus);$r++)
+	{
+		echo '<li class="submissao-botao"><a href="'.$menus[$r][0].'" class="linka">'.$menus[$r][1].'</a></li>';
+	}				
+echo '<li><a class="codrops-icon codrops-icon-drop" href=""><span></span></a></li>';
+echo '</ul>';
 ?>
+
 <script>
 	$("#hamburger-helper").click(function() {
 		$("#ham1").toggleClass('barra_first');
@@ -62,4 +53,4 @@ echo '<BR><BR>';
 		});
 	});
 
-</script>
+</script> 

@@ -84,7 +84,7 @@ switch($verb) {
 					redirecionar("pre_mailing.php",5);
 				}
 		}else{
-			echo '<div class="red_light fnt_black">CPF INVALIDO!!!</div>';
+			echo '<div class="green_light fnt_black">CPF INVALIDO!!!</div>';
 			/*redireciona com delay de 5 segundos*/
 			redirecionar("pre_mailing.php",5);
 		}	

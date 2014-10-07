@@ -1,0 +1,592 @@
+.pg01{
+	margin-bottom: 100px;
+}
+.pg02 {
+	background-color: #fff;
+	height: 100%;
+	margin-top: 50px;
+	margin-bottom: 100px;
+
+}
+
+
+.foot
+	{
+		padding: 50px;
+		background-color: #2d332d;
+		width: 100%;
+		font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+		font-size: 14px;
+		margin-left: -10px;
+		line-height: 170%;
+		
+		border-top: dashed 1px #2d332d;
+		clear: both;
+	}
+
+.foot p
+{
+	margin-left: 13%;
+	width: 500px;
+	margin-top: 0;
+	color: #f5f5f5;
+}
+
+.logos-org{
+	margin-left: 13%;
+}
+
+.logo_pg
+	{
+		padding: 10px;
+	}
+#logo_pucpr
+	{
+		top: 0px;
+		position: absolute;
+		right: 40px;
+		background: url('../img/logo_pucpr_top.jpg');
+		width: 234px;
+		height: 110px;
+		border: 1px solid #8B1217;
+		z-index: 10000;
+	}
+.title {
+	font-family: 'CICPG-Bold', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 14px;
+	letter-spacing: 0.2em;
+	margin-bottom: 10px;
+}
+
+.content {
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 13px;
+	letter-spacing: 0.1em;
+}
+
+.ltsp3 {
+	letter-spacing: 3px;
+}
+.ltsp2 {
+	letter-spacing: 2px;
+}
+.ltsp1 {
+	letter-spacing: 1px;
+}
+h1 {
+	margin-left: 1%;
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+}
+.lt4 {
+	font-size: 32px;
+}
+.lt3 {
+	font-size: 24px;
+}
+.lt2 {
+	font-size: 16px;
+}
+.lt1 {
+	font-size: 12px;
+}
+.lt0 {
+	font-size: 10px;
+}
+.tabela01 {
+	border: 1px solid #2D332D;
+}
+p {
+	line-height: 150%;
+	font-family: 'CICPG', 'Tahoma', 'Arial';
+	font-size: 15px;
+}
+table {
+	font-family: 'CICPG', 'Tahoma', 'Arial';
+	font-size: 13px;
+}
+/* Form */
+.form_string {
+	width: 260px;
+	font-family: 'FontAwesome', 'Tahoma', 'Arial';
+	font-size: 26px;
+	line-height: 120%;
+	text-align: inherit;
+	background-color: #FFFFFF;
+	border: 1px solid #909090;
+}
+.form_string:hover {
+	background-color: #EFEFFF;
+	border: 1px solid #303030;
+}
+/* Pagimas */
+.page_min {
+	min-height: 500px;
+	padding-top: 80px;
+}
+/* Cabecalho */
+body {
+	opacity: 1 !important;
+	transition: 0.5s;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+body {
+	font-family: "FontAwesome", serif;
+	color: #242424;
+	font-weight: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+body.work-actived, body.work-actived .wrapper {
+	/*overflow: hidden;*/
+}
+/* Menu */
+y-out {
+	font-family: "Arial", serif;
+	color: #E0EFE0;
+	background-color: #2D332D;
+	font-weight: normal;
+	font-size: 13px;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+a.y-out {
+	font-family: "Arial", serif;
+	color: #E0EFE0;
+	font-size: 18px;
+}
+a.y-out:hover {
+	background-color: #FFFFFF;
+	color: #FFFFFF;
+	font-size: 18px;
+}
+
+.menu_top {
+	font-family: 'FontAwesome', 'Tahoma', 'Arial';
+	font-size: 18px;
+}
+#menu_icone {
+	cursor: pointer;
+}
+#menu {
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	margin-top: 0px;
+	z-index: 50;
+	background-color: #2d332d;
+	color: #f0f0f0;
+}
+
+#menu ul {
+	padding: 0px;
+	margin: 0px;
+	background-color: #2d332d;
+	list-style: none;
+}
+
+#menu ul li {
+	display: inline;
+}
+
+#menu ul li a {
+	padding: 2px 10px;
+	display: inline-block;
+	/* visual do link */
+	background-color: #2d332d;
+	color: #EFFFEF;
+	text-decoration: none;
+	padding: 10px;
+}
+
+#menu ul li a:hover {
+	background-color: #8B1217;
+	color: #FFFFFF;
+}
+/* Hamburger */
+#hamburger-helper {
+	width: 20px;
+	float: left;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+#hamburger-helper .hamburger {
+}
+#hamburger-helper .hamburger:hover {
+	opacity: 0.6;
+	transition: 0.5s;
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+}
+
+#hamburger-helper .hamburger {
+	/* display: block; */
+	width: 25px;
+	height: 4px;
+	background: #FFF;
+	margin-bottom: 4px;
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+	transition: .3s;
+	-webkit-transform: rotate(0deg) translateY(0);
+	-moz-transform: rotate(0deg) translateY(0);
+	transform: rotate(0deg) translateY(0);
+	opacity: 1;
+}
+
+#hamburger-helper .hamburger_x {
+	div: first-child
+	{
+	-webkit-transform: rotate(45deg) translate(2px, 3px);
+	-moz-transform: rotate(45deg) translate(2px, 3px);
+	transform: rotate(45deg) translate(2px, 3px);
+}
+}
+
+.active #hamburger-helper .hamburger > div:first-child {
+	-webkit-transform: rotate(45deg) translate(2px, 3px);
+	-moz-transform: rotate(45deg) translate(2px, 3px);
+	transform: rotate(45deg) translate(2px, 3px);
+}
+.active #hamburger-helper .hamburger > div:nth-child(2) {
+	-webkit-transform: translateY(10px);
+	-moz-transform: translateY(10px);
+	transform: translateY(10px);
+	opacity: 0;
+}
+.active #hamburger-helper .hamburger > div:last-child {
+	-webkit-transform: rotate(-45deg) translate(2px, -4px);
+	-moz-transform: rotate(-45deg) translate(2px, -4px);
+	transform: rotate(-45deg) translate(2px, -4px);
+}
+/* Menu lateral */
+.menu_lateral {
+	background-color: #2D332D;
+}
+.menu_left {
+	opacity: 0;
+	display: none;
+	/* top: -500px; */
+	width: 260px;
+	height: 306px;
+	top: 50px;
+	left: 20px;
+	position: fixed;
+	z-index: 200;
+	border: 1px solid #2D332D;
+}
+.barra {
+	width: 25px;
+	height: 4px;
+	background: #FFF;
+	margin-bottom: 4px;
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+	transition: .3s;
+	-webkit-transform: rotate(0deg) translateY(0);
+	-moz-transform: rotate(0deg) translateY(0);
+	transform: rotate(0deg) translateY(0);
+	opacity: 1;
+}
+.barra_first {
+	-webkit-transform: rotate(45deg) translate(2px, 3px);
+	-moz-transform: rotate(45deg) translate(2px, 3px);
+	transform: rotate(45deg) translate(2px, 3px);
+}
+.barra_middle {
+	display: none;
+	-webkit-transform: translateY(10px);
+	-moz-transform: translateY(10px);
+	transform: translateY(10px);
+	opacity: 0;
+	-webkit-transition: .3s;
+	-moz-transition: .3s;
+	transition: .3s;
+}
+.barra_last {
+	-webkit-transform: rotate(-45deg) translate(2px, -4px);
+	-moz-transform: rotate(-45deg) translate(2px, -4px);
+	transform: rotate(-45deg) translate(2px, -4px);
+}
+/* Botoes */
+.link_bt {
+	text-decoration: none;
+	background-color: #FF8258;
+	border: 1px solid : #000000;
+	padding: 5px 10px 5px 10px;
+	opacity: 0.8;
+	color: #FFFFFF;
+}
+.link_bt:hover {
+	opacity: 1;
+}
+a.link_bt {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+.texto-apresentacao{
+	width: 940px;
+	margin-left: 15%;
+	-webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+    -webkit-column-gap: 60px; /* Chrome, Safari, Opera */
+    -moz-column-gap: 60px; /* Firefox */
+    column-gap: 60px;
+    
+    background-color: #89ac4f;
+	padding: 40px;
+}
+
+.texto-apresentacao a{
+	color: #f9f9f9;
+	text-decoration: none;
+}
+
+
+.fa{
+		
+		margin-left: 6%;
+		margin-top: 1%;
+		padding-right: 10%;
+		font-size: 24px;
+	}
+
+.fac{
+	margin: 0;
+	padding: 0;
+}
+
+.submissao-botao{
+	background-color: #497c32;
+	height: 140px;
+}
+
+
+#programacao-info{
+	width: 70%;
+	margin-left: 15%;
+	height: 100%;
+	clear: both;
+}
+
+.programacao-horario{
+	width: 33%;
+	float: left;
+}
+
+.estilo-horario{
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.data-programacao{
+	background-color: rgba(73, 125, 47, 1);
+	float: left;
+	width: 100%;
+	color: #fff;
+}
+
+.cor-data-programacao_1{background-color: rgba(73, 125, 47, 1);}
+.cor-data-programacao_2{background-color: rgba(102, 36, 131, 1);}
+.cor-data-programacao_3{background-color: rgba(243, 146, 47, 1);}
+
+.data-programacao h5{
+	font-size: 20px;
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	margin-left: 40px;
+
+}
+
+.celula-tabela-horario{
+	float: left;
+	width: 100%;
+	color: #232323;
+}
+
+.celula-tabela-horario p{
+	padding: 10px 40px;
+}
+
+.estilo_data4_1{ background-color: rgba(73, 125, 47, 0.8);}
+.estilo_data4_2{ background-color: rgba(73, 125, 47, 0.6);}
+.estilo_data4_3{ background-color: rgba(73, 125, 47, 0.4);}
+.estilo_data4_4{ background-color: rgba(73, 125, 47, 0.3);}
+.estilo_data4_5{ background-color: rgba(73, 125, 47, 0.2);}
+
+.estilo_data5_1{ background-color: rgba(102, 36, 131, 0.7);}
+.estilo_data5_2{ background-color: rgba(102, 36, 131, 0.5);}
+.estilo_data5_3{ background-color: rgba(102, 36, 131, 0.3);}
+.estilo_data5_4{ background-color: rgba(102, 36, 131, 0.2);}
+
+.estilo_data6_1{ background-color: rgba(243, 146, 47, 0.8);}
+.estilo_data6_2{ background-color: rgba(243, 146, 47, 0.6);}
+.estilo_data6_3{ background-color: rgba(243, 146, 47, 0.4);}
+.estilo_data6_4{ background-color: rgba(243, 146, 47, 0.2);}
+
+#submissao-trab{
+	margin-left: 15%;
+	width: 60%;
+}
+
+#submissao-trab h6{
+	font-size: 18px;
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+}
+
+.bt_submit
+		{
+			width: 250px;
+			height: 50px;
+			background-color: #4a7e30;
+			color: #fff;
+			font-size: 14px;
+			border: none;
+			cursor: pointer;
+			font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+			text-transform: uppercase;
+			font-weight: bold;
+			float: right;
+			margin-top: 55px;
+		}
+.bt_submit:hover{
+	background-color: #94b65c;
+}
+
+.instrucoes-autores{
+	width: 250px;
+	cursor: pointer;
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 14px;
+	border: none;
+	background-color: #f2f2f2;
+	padding: 10px 20px;
+	line-height: 150%;
+	float: left;
+	margin-bottom: 30px;
+}
+
+.instrucoes-autores a{
+	color: #47224a;
+}
+
+.instrucoes-autores a:hover{
+	color: #47224a;
+}
+
+.instrucoes-autores a:visited{
+	color: #47224a;
+}
+
+.breadcrumb{
+	margin-left: 15%;
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 12px;
+}
+
+h3{
+	
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 22px;
+}
+
+h4{
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 14px;
+	text-align: center;
+}
+
+.titulo-politica-adesao{
+	margin-left: 15%;
+}
+
+#mapas{
+	width: 70%;
+	margin-left: 15%;
+}
+
+#hoteis{
+	width: 70%;
+	margin-left: 15%;
+}
+
+.hotel-descricao{
+	float: left;
+	width: 30%;
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+.hotel-descricao div:first-child{
+	height: 120px;
+}
+
+#sobre-curitiba{
+	width: 70%;
+	margin-left: 15%;
+}
+
+.coluna-sobre-curitiba{
+	-webkit-column-count: 2; /* Chrome, Safari, Opera */
+    -moz-column-count: 2; /* Firefox */
+    column-count: 2;
+}
+
+.detalhes-curitiba{
+	width: 80%;
+	margin-left: 15%;
+}
+
+.item-detalhe{
+	width: 30%;
+	float: left;
+	border: 1px solid #000;
+}
+
+.item-detalhe div{
+	float: left;
+}
+
+h5{
+	
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+	font-size: 14px;
+}
+
+.materiais-divulgacao{
+	width: 80%;
+	margin-left: 15%;
+
+}
+
+.materiais-facebook{
+	margin-bottom: 50px;
+	float: left;
+	width: 40%;
+	margin-right: 5%;
+}
+
+.materiais-impresso{
+	margin-bottom: 50px;
+	float: left;
+	width: 40%;
+}
+
+@media screen and (max-width: 600px) { 
+		.programacao-horario{
+			float: none;
+			margin:0;
+			width: 100%;
+		}
+
+		.hotel-descricao{
+			float: left;
+			width: 100%;
+			text-align: center;
+		}
+
+		
+	}
+

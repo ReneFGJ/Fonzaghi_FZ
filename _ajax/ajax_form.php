@@ -14,20 +14,29 @@ $class = trim($dd[91]);
 $proto = trim($dd[1]);
 $verb = uppercase($dd[2]);
 
+echo date("Y-m-d H:i:s");
+
 if (strlen($class) > 0)
 	{
-		require("../_ajax/_class_ajax_".$class.".php");
-		$ajax = new ajax;
-		$tabela = $ajax->tabela;
+		$file = "../_ajax/_class_ajax_".$class.".php";
+		if (file_exists($file))
+			{
+			require($file);
+			$ajax = new ajax;
+			$tabela = $ajax->tabela;
+			} else {
+				echo 'Class not found <B>'.$file.'</B>';
+				exit;
+			}
 	}
-echo $class;
+
 switch($verb)
 	{
 	case 'REFRESH2':
 			$sx .= $form->ajax_refresh($class,$proto,$editar);
 			break;
 	case 'REFRESH':
-			$sx .= '<div style="display:  table;">';
+			$sx .= '<div style="display: table;">';
 			$sx .= $ajax->refresh();
 			$sx .= '</div>';
 			break;
@@ -44,6 +53,9 @@ switch($verb)
 	case 'list': $sx = 'LISTA'; break;
 	default:
 			$sx .= 'VERB NOT INFORMED';
+			$sx .= '<BR>dd2=verb';
+			$sx .= '<BR>dd1=protocol';
+			$sx .= '<BR>dd91=class';
 			break;
 	}
 echo $sx;

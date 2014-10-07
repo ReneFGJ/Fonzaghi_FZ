@@ -11,8 +11,8 @@
 
 class header 
 	{
-	var $charcod = "UTF-8";
-	/* var $charcod = "ISO-8859-1"; */
+	/* var $charcod = "UTF-8"; */
+	var $charcod = "ISO-8859-1"; 
 	var $title = '';
 	var $google_id = ''; /* Ex: UA-12712904-10 */
 	var $login_api = '';	
@@ -32,7 +32,7 @@ class header
         $sx .= '<link rel="shortcut icon" type="image/x-icon" href="'.$http.'favicon.ico" />'.$cr;
 		
 		/* Style */
-		$style = array('fz_style.css','fz_style_roboto.css','fz_style_menus.css','fz_style_ballon.css','fz_style_table.css');
+		$style = array('component.css','fz_style.css','fz_style_roboto.css','fz_style_menus.css','fz_style_ballon.css','fz_style_table.css');
 		for ($r=0;$r < count($style);$r++)
 				{ $sx .= '<link rel="STYLESHEET" type="text/css" href="'.$http.'css/'.$style[$r].'">'.$cr; }
 
@@ -43,7 +43,7 @@ class header
 		}
 
 		/* Java script */
-		$js = array('jquery-1.7.1.js','jquery.maskedinput.js','jquery.autocomplete.js','pre_cad.js'); 
+		$js = array('jquery-1.7.1.js','modernizr.custom.js','jquery.maskedinput.js','scrooling.js','jquery.maskedinput.js','jquery.autocomplete.js','pre_cad.js'); 
 		for ($r=0;$r < count($js);$r++)
 			{ $sx .= '<script type="text/javascript" src="'.$http.'js/'.$js[$r].'"></script>'.$cr; }
 

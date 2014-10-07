@@ -1,13 +1,10 @@
 <?php
 $style_add = array('fz_stytecab_top.css','fz_style_cad_pre.css','fz_style_cpf.css');
-$top_cab = array();
-array_push($top_cab,array('PRÉ-CADASTRO','pre_cadastro.php'));
-array_push($top_cab,array('MAILING','pre_mailing.php'));
-$include = '../';
-$include_db = '../../_db/';
+$menus = array();
+array_push($menus,array('pre_cadastro.php','PRÉ-CADASTRO'));
+array_push($menus,array('pre_mailing.php','MAILING'));
+
 require("../cab.php");
-echo $hd->cab_extend();
-require("../cab_top_menu.php");
 ?>
-<div class="pre_titulo">Pré-Cadastro</div>
+<h1>Pré-Cadastro</h1>
 

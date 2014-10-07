@@ -11,8 +11,8 @@ $pre -> le($dd[0]);
 $pre -> obter_dados($dd[0], '00');
 $pre -> calcular_pontuacao();
 
-$onclickR = '<a class="cursor bt_resumo" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
-$onclickP = '<a class="cursor bt_pontuacao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
+$onclickR = '<a class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
+$onclickP = '<a class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
 $tela = '<table  class="cab_status" width="100%"><tr>
 			<td>
 				'.$onclickR.'RESUMO</a>				

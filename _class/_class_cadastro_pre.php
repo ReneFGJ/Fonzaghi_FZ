@@ -494,7 +494,7 @@ class cadastro_pre {
 
 		$sql = " select * 
 				from " . $this -> tabela . "
-				where 	pes_data = " . $dt .$stx. " 
+				where 	pes_lastupdate = " . $dt .$stx. " 
 		";
 		$rlt = db_query($sql);
 		$sx = '<h2>Cadastros do dia - '.$this->status($st).'</h2>';
@@ -551,8 +551,8 @@ class cadastro_pre {
 		
 		$sql = " select * 
 				from " . $this -> tabela . "
-				where 	pes_data >= " . $dt1 . " and 
-						pes_data <= " . $dt2 . $stx."
+				where 	pes_lastupdate >= " . $dt1 . " and 
+						pes_lastupdate <= " . $dt2 . $stx."
 		";
 		
 		$rlt = db_query($sql);
@@ -674,8 +674,8 @@ class cadastro_pre {
 
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
-				where 	(pes_data >= " . $dt1 . " and pes_data <= " . $dt2 . ") and
-						(pes_data >= " . $dt1_w . " and pes_data >= " . $dt2_w . ") 
+				where 	(pes_lastupdate >= " . $dt1 . " and pes_lastupdate <= " . $dt2 . ") and
+						(pes_lastupdate >= " . $dt1_w . " and pes_lastupdate >= " . $dt2_w . ") 
 				group by pes_status		 
 		";
 		$rlt = db_query($sql);
@@ -695,8 +695,8 @@ class cadastro_pre {
 		$dt2 = $mes . '32';
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
-				where 	pes_data >= " . $dt1 . " and 
-						pes_data <= " . $dt2 . "
+				where 	pes_lastupdate >= " . $dt1 . " and 
+						pes_lastupdate <= " . $dt2 . "
 				group by pes_status		 
 		";
 		$rlt = db_query($sql);
@@ -713,7 +713,7 @@ class cadastro_pre {
 		$dt = date('Ym');
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
-				where 	pes_data = " . $dt . " 
+				where 	pes_lastupdate = " . $dt . " 
 				group by pes_status		 
 		";
 		$rlt = db_query($sql);
@@ -1778,8 +1778,6 @@ class cadastro_pre {
 		$sx .= $this->lista_referencia(0);
 		return($sx);
 	}
-	
-	
 			
 	
 	
