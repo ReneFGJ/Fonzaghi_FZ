@@ -1273,11 +1273,12 @@ class cadastro_pre {
 		/*3*/array_push($cp, array('$H8', '', '', False, True));
 		/*4*/array_push($cp, array('$S10', '', 'CEP', TRUE, True));
 		/*5*/array_push($cp, array('$S100', '', 'Endereco', True, True));
-		/*5*/array_push($cp, array('$S10', '', 'Numero', True, True));
-		/*5*/array_push($cp, array('$S30', '', 'Complemento', True, True));
-		/*5*/array_push($cp, array('$S30', '', 'Bairro', True, True));
-		/*5*/array_push($cp, array('$Q cidade_nome:cidade_nome:select * from ajax_cidade where cidade_ativo=1 order by cidade_nome', '', 'Cidade', True, True));
-
+		/*6*/array_push($cp, array('$S10', '', 'Numero', True, True));
+		/*7*/array_push($cp, array('$S30', '', 'Complemento', True, True));
+		/*8*/array_push($cp, array('$S30', '', 'Bairro', True, True));
+		/*9*/array_push($cp, array('$Q ds_cidade_nome:ds_cidade_nome:select * from cidades order by ds_cidade_nome ', '', 'Cidade', True, True));
+		
+		
 		return ($cp);
 	}
 
@@ -1369,11 +1370,22 @@ class cadastro_pre {
 
 	function cp_06() {
 		$cp = array();
-		array_push($cp, array('$H8', '', '', False, True));
-		array_push($cp, array('$HV', '', '5', True, True));
-		array_push($cp, array('$B8', '', 'enviar>>', False, True));
+		array_push($cp, array('$H8', 'cmp_cliente', '', False, True));
+		array_push($cp, array('$HV', '', '6', True, True));
+		array_push($cp, array('$T100:10', 'cmp_obs', 'Observações', False, True));
+		array_push($cp, array('$B8', '', 'Salvar>>', False, True));
 		return ($cp);
 	}
+
+	function cp_07() {
+		$cp = array();
+		array_push($cp, array('$H8', '', '', False, True));
+		array_push($cp, array('$HV', '', '7', True, True));
+		array_push($cp, array('$B8', '', 'Analise>>', False, True));
+		return ($cp);
+	}
+
+	
 
 	function cp_telefone_admin() {
 		$cp = array();
@@ -1777,6 +1789,37 @@ class cadastro_pre {
 		$sx .= '<h3>Referências</h3>';
 		$sx .= $this->lista_referencia(0);
 		return($sx);
+	}
+	
+	function buscar_por_cep($cep=''){
+		global $dd;
+		if(strlen(trim($cep))>0){
+			$sql = 'select * from (select * from logradouros 
+					where no_logradouro_cep='.$cep.') as tb 
+					inner join bairros on bairros.cd_bairro=tb.cd_bairro
+					inner join cidades on cidades.cd_cidade=bairros.cd_cidade 
+					inner join uf on uf.cd_uf=cidades.cd_uf
+			';
+			$rlt = db_query($sql);
+			$js = '<script>
+					$(document).ready(function(){
+				';
+			while($line = db_read($rlt)){
+				$js .= '$("#dd5").val("'.$line['ds_logradouro_nome'].'");'.chr(13).chr(10);
+				$js .= '$("#dd8").val("'.$line['ds_bairro_nome'].'");'.chr(13).chr(10);
+				$js .= '$("#dd9").val("'.$line['ds_cidade_nome'].'");'.chr(13).chr(10);
+			}
+			$js .= '});
+					</script>';
+					
+			return($js);
+		}else{
+			
+			return(0);	
+		}
+		
+		
+		
 	}
 			
 	

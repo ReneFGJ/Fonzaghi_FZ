@@ -38,7 +38,8 @@ array_push($link, array('Dados profissionais', '<A HREF="'.page().'?dd80=2">'));
 array_push($link, array('Telefone', '<A HREF="'.page().'?dd80=3">'));
 array_push($link, array('Endereço', '<A HREF="'.page().'?dd80=4">'));
 array_push($link, array('Referências', '<A HREF="'.page().'?dd80=5">'));
-array_push($link, array('Resumo', '<A HREF="'.page().'?dd80=6">'));
+array_push($link, array('Observações', '<A HREF="'.page().'?dd80=6">'));
+array_push($link, array('Resumo', '<A HREF="'.page().'?dd80=7">'));
 
 
 /* Menu */
@@ -87,14 +88,22 @@ switch ($ps) {
 		$cp = $pre -> cp_04();
 		echo '<h3>Endereço</h3>';
 		echo $pre->lista_endereco(1);
+		
 		break;
 	case '5' :
 		$cp = $pre -> cp_05();
 		echo '<h3>Referências</h3>';
 		echo $pre->lista_referencia(1);
 		break;
-	case '6':
+		
+	case '6' :
 		$cp = $pre -> cp_06();
+		$tabela = $pre -> tabela_complemento;
+		echo '<h3>Observações</h3>';
+		break;	
+			
+	case '7':
+		$cp = $pre -> cp_07();
 		echo $pre->mostra();
 		echo '<h3>Contatos Pessoal</h3>';
 		echo $pre->lista_telefone(0);
@@ -103,7 +112,12 @@ switch ($ps) {
 		echo $pre->lista_endereco(0);
 
 		echo '<h3>Referências</h3>';
-		echo $pre->lista_referencia(0);		
+		echo $pre->lista_referencia(0);
+		break;
+	case '8':
+		redirecina('pre_cliente_ver.php?dd0='.$dd[0]);
+		break;	
+			
 	}
 
 if (count($cp) > 0) {

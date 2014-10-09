@@ -90,6 +90,13 @@ switch($verb) {
 		}	
 
 		break;
+	case 'CEP_BUSCA' :
+		global $dd;
+		
+		echo $pre->buscar_por_cep($aux);
+		
+		break;	
+		
 	default :
 		break;
 }

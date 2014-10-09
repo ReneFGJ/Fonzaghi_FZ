@@ -60,3 +60,5 @@ function progress(id){
                alt:'Carregando'})
               .appendTo($('#'+id));
 }
+
+

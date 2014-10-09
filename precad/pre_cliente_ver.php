@@ -19,6 +19,10 @@ $tela = '<table  class="cab_status" width="100%"><tr>
 				'.$onclickP.'PONTUACAO</a>
 			</td>
 			<td>
+				<div class="cab_statusB" align="right">Restrições (' . $pre -> TTrestricoes . ')</div>
+				<div class="cab_statusB" align="right">Valor (' . number_format($pre -> TTrestricoes_vlr,2) . ')</div>
+			</td>
+			<td>
 				<div class="cab_statusA" align="right">' . $pre -> status($pre -> status) . '</div>
 				<div class="cab_statusB" align="right">PONTUAÇÃO (' . $pre -> TTpontos . ')</div>
 			</td>	

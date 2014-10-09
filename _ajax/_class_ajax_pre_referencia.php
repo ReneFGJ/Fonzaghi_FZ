@@ -21,11 +21,11 @@ class ajax
 			{
 				$cad = new cadastro_pre;
 				$cad->cliente = $dd[1];
-				$nome = $dd[3];
+				$nome = strtoupper($dd[3]);
 				$grau = $dd[4];
 				$ddd = $dd[5];
 				$telefone = $dd[6];
-				$obs = $dd[7];
+				$obs = strtoupper($dd[7]);
 
 				$cad->insere_referencia($nome,$ddd,$telefone,$obs,$data,$grau);			
 			}

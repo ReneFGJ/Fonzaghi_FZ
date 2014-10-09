@@ -234,16 +234,11 @@ class cadastro_pre_analise extends cadastro_pre {
 		}
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
-		$this -> relatorio .= '<tr><td ' . $sty1 . '>2 a</td>
-									<td ' . $sty1 . '>N restricoes</td>
+		$this -> relatorio .= '<tr><td ' . $sty1 . '>2</td>
+									<td ' . $sty1 . '>Restricoes</td>
 									<td></td>
-									<td' . $sty2 . ' colspan="2">' . $this -> TTrestricoes . '</td>
-									<td' . $sty2 . ' colspan="3"></td>
-									</tr>';
-		$this -> relatorio .= '<tr><td ' . $sty1 . '>2 b</td>
-									<td ' . $sty1 . '>Valor das restricoes</td>
-									<td></td>
-									<td' . $sty2 . ' colspan="2">' . number_format($this -> TTrestricoes_vlr, 2, ',', '.') . '</td>
+									<td' . $sty2 . '>' . $this -> TTrestricoes .'   / R$ '.number_format($this -> TTrestricoes_vlr, 2, ',', '.') . '</td>
+									<td' . $sty2 . '>Qtda/valor</td>
 									<td' . $sty2 . '>' . $peso . '</td>
 									<td' . $sty2 . '>' . $pt / $peso . '</td>
 									<td' . $sty2 . '>' . $pt . '</td></tr>';
