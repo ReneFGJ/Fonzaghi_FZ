@@ -1,3 +1,5 @@
+<?php
+echo '
 <div id="logo_pucpr"></div>
 <ul id="gn-menu" class="gn-menu-main"> 
 				<li class="gn-trigger">
@@ -5,9 +7,9 @@
 					<nav class="gn-menu-wrapper">
 						<div class="gn-scroller"> 
 							<ul class="gn-menu">
-								<li> <a href="/fz/index.php"><i class="fa fa-home"></i> Início</a></li>								
-								<li> <a href="/fz/precad/"><i class="fa fa-comment"></i> Telemarketing</a></li>
-								<li> <a href="/fz/venda_funcionario/"><i class="fa fa-users"></i> Venda Funcionário</a></li>
+								<li> <a href="'.$http.'index.php"><i class="fa fa-home"></i> Início</a></li>								
+								<li> <a href="'.$http.'precad/"><i class="fa fa-comment"></i> Telemarketing</a></li>
+								<li> <a href="'.$http.'venda_funcionario/"><i class="fa fa-users"></i> Venda Funcionário</a></li>
 								<!--
 								<li> <a href="programacao.php"><i class="fa fa-clock-o"></i> ProgramaÃ§Ã£o</a></li>
 								<li> <a href="submissao-de-trabalhos.php"><i class="fa fa-file"></i> SubmissÃ£o de trabalhos</a></li>
@@ -24,7 +26,7 @@
 						</div><!-- /gn-scroller -->
 					</nav>
 				</li> 
-<?
+';
 /* Menu Superior */
 if (!(isset($menus)))
 	{

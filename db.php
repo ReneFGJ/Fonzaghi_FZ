@@ -12,14 +12,15 @@
 	
 	/* Noshow Errors */
 	$debug1 = 0; $debug2 = 0;
-	date_default_timezone_set('Etc/GMT+2');
+	//date_default_timezone_set('Etc/GMT-3');
+	
 	if (file_exists('debug.txt')) 
-		{ $debug1 = 7; $debug2 = 255; } 	
+			{ $debug1 = 7; $debug2 = 255; } 	
 	
 	ini_set('display_errors', $debug1);
 	ini_set('error_reporting', $debug2);
 	    
-    if (!isset($include)) { $include = 'include/'; }
+    if (!isset($include)) { $include = '_include/'; }
 	else { $include .= '_include/'; }
 	if (!(is_dir($include))) { $include = '../'.$include; }
 	if (!(is_dir($include))) { $include = '../'.$include; }
