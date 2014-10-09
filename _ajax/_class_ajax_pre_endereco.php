@@ -28,7 +28,9 @@ class ajax
 									dd0 : cep,
 									dd1 : "CEP_BUSCA",
 								}
-							}).done(function(data) {
+							})
+							.fail(function() { alert("error"); })
+							.done(function(data) {
 								$("#cep_busca").html(data);
 							});
 						});

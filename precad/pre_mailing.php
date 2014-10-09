@@ -1,12 +1,12 @@
 <?php
 require("cab.php");
-require($include.'sisdoc_tips.php');
-require($include.'sisdoc_data.php');
+require('../../_include/sisdoc_tips.php');
+require('../../_include/sisdoc_data.php');
 require("../_class/_class_cadastro_pre_mailing.php");
 $pre = new cadastro_pre_mailing;
 
 require("../../_db/db_cadastro.php");
-$tabela = $pre->tabela;
+$tabela = 'cadastro';
 $editar = false;
 $http_redirect = 'pre_mailing.php';
 $http_ver = 'pre_mailing_ver.php';
@@ -21,8 +21,8 @@ $offset = 20;
 $tab_max = "100%";
 echo '<div id="content">';
 	echo '<TABLE width="98%" align="center"><TR><TD>';
-	require($include.'sisdoc_colunas.php');
-	require($include.'sisdoc_row.php');	
+	require('../../_include/sisdoc_colunas.php');
+	require('../../_include/sisdoc_row.php');	
 	echo '</table>';	
 echo '</div>';
 ?>

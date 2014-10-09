@@ -31,8 +31,8 @@ class user
 	
 	function saldo_compras_funcionario($cracha)
 		{
-			$data1 = mktime(0,0,0,date("m")+1,"1",date("Y"));
-			$data = date("Ymd",$data1);
+			
+			$data = date("Ym").'99';
 			
 			$sql = "select sum(us_valor_parcela) as total from ".$this->tabela."_compras 
 						where uc_cracha = '$cracha' 

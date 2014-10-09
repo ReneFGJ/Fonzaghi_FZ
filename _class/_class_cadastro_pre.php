@@ -1379,7 +1379,8 @@ class cadastro_pre {
 
 	function cp_07() {
 		$cp = array();
-		array_push($cp, array('$H8', '', '', False, True));
+		array_push($cp, array('$H8', 'pes_cliente', '', False, True));
+		array_push($cp, array('$HV', '', '7', True, True));
 		array_push($cp, array('$HV', '', '7', True, True));
 		array_push($cp, array('$B8', '', 'Analise>>', False, True));
 		return ($cp);
@@ -1817,9 +1818,6 @@ class cadastro_pre {
 			
 			return(0);	
 		}
-		
-		
-		
 	}
 			
 	
