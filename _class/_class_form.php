@@ -142,10 +142,12 @@ class form
 			{
 				global $dd,$acao,$path,$http;
 				$bto = 0;
-				
+				echo '--->'.$this->ajax;
 				if ($this->ajax==1)
 					{
 						if (strlen($this->frame) == 0) { echo 'FRAME NAME NOT FOUND'; exit; }
+						
+						
 						$vars = ''; $data = '';
 						for ($r=0;$r < (count($cp)+3); $r++)
 							{
@@ -164,9 +166,9 @@ class form
 										url: "'.page().'",  
 										data: { '.$data.'}
 										}) 
-										.done(function(data) { $("'.$this->frame.'").html(data); }) 
+										.done(function(data) { $("'.$this->frame.'_main").html(data); }) 
 										.fail(function() { alert("error"); }) 
-										.always(function(data) { $("'.$this->frame.'").html(data); }); 
+										.always(function(data) { $("'.$this->frame.'_main").html(data); }); 
 							}
 						</script>
 						';

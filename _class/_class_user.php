@@ -18,6 +18,8 @@ class user
 	var $user_cracha='';
 	var $user_perfil='';
 	var $user_pass='';
+	
+	var $saldo_compras = 0;
     
 	var $field_login = 'us_login';
 	var $field_pass = 'us_senha';
@@ -26,6 +28,35 @@ class user
     var $line;
 	
 	var $include_class = '../';
+	
+	function saldo_compras_funcionario($cracha)
+		{
+			$data1 = mktime(0,0,0,date("m")+1,"1",date("Y"));
+			$data = date("Ymd",$data1);
+			
+			$sql = "select sum(us_valor_parcela) as total from ".$this->tabela."_compras 
+						where uc_cracha = '$cracha' 
+						and us_venc > $data
+						";
+			$rlt = db_query($sql);
+			if ($line = db_read($rlt))
+				{
+					$vlrg = round($line['total']*100)/100;
+				} else {
+					$vlrg = 0;
+				}
+			 
+			$sql = "select * from ".$this->tabela." where us_cracha = '".$cracha."'";
+			$rlt = db_query($sql);
+			if ($line = db_read($rlt))
+				{
+					$vlr = $line['us_credito'];
+					$this->saldo_compras = $vlr;
+					return($vlr - $vlrg);
+				}
+			return(0);
+		}
+	
 	function lista_compras_funcionario($funcionario='',$data=0)
 		{
 			return($sx);
@@ -98,9 +129,6 @@ class user
 			return($func);		
 		}
 	
-	
-	
-	
 	function lista_funcionarios_option()
 		{
 			  
@@ -120,8 +148,8 @@ class user
 			return($op);
 		}
 		
-	
 	function cp_password()
+
 		{
 			$cp = array();
             array_push($cp,array('$H8','','',False,False));
@@ -133,6 +161,7 @@ class user
 			array_push($cp,array('$B','','Alterar senha',False,True));
 			return($cp);
 		}
+
 	function cp_email()
 		{
 			$cp = array();
@@ -144,6 +173,7 @@ class user
 			array_push($cp,array('$B','','Atualizar',False,True));
 			return($cp);
 		}		
+
     function cp_endereco_telefone()
         {
             $cp = array();
@@ -190,6 +220,7 @@ class user
            $msg="<center><font color=red size=5>$msg</font>";
             return($msg);    
 	    }
+
     function salva_password($new_pass)
         {
             $sql = "UPDATE usuario
@@ -199,8 +230,6 @@ class user
             $rlt = db_query($sql);
             return(1);   
         }
-     
-     
     
 	function logout()
 		{
@@ -238,6 +267,33 @@ class user
 					redirecina($hd->http.'_login.php');
 				}
 			return(1);
+		}
+	
+	function login_valida_compras($user,$pass,$cracha)
+		{
+			$user = UPPERCASE($user);
+			$sql = "select * from ".$this->tabela." 
+					where ".$this->field_login." = '$user' 
+					and us_status = 'A'
+					";
+				
+			$rlt = db_query($sql);
+			$ok = 0;
+			$err = 0;
+			if ($line = db_read($rlt))
+				{
+					$ok = 1;
+					$pass2 = trim($line['us_senha']);
+					$cracha2 = trim($line['us_cracha']);
+					if ($pass != $pass2)  { $err = -2; $ok = 0; }
+					if ($cracha != $cracha2) { $err = -3; $ok = 0; }
+					if ($err == 0) { $ok = 1; }
+					//if ($ok != 1) { $ok = $err; }			
+				} else {
+					$ok = -1;
+				}
+			return($ok);
+			
 		}
 	
 	function login_valida($user,$pass)
@@ -337,6 +393,7 @@ class user
 			//print_r($this);
 			return($sx);
 		}
+
 	function le($id)
 		{
 			$sql = "select * from usuario 
@@ -350,6 +407,7 @@ class user
 				}
 			return(1);
 		}
+
 	function login()
 		{
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $dd;
