@@ -178,39 +178,7 @@ class cadastro_pre {
 
 		$sx .= '<div>Codigo: ' . $this -> line['pes_cliente'] . '</div>';
 
-		$cl = $this -> line['pes_cliente'];
-
-		switch($this -> line['pes_status']) {
-			case '@' :
-				$onclick = ' onclick="window.location = \'pre_cad_selection.php?dd0=' . $cl . '\';" ';
-				if ($editar == 0) {
-					$sx .= '<div class="right">';
-					$sx .= '<input type="button" ' . $onclick . ' name="cad" id="cadastro" value="editar cadastro" class="bt_editar">';
-					$sx .= '</div>';
-				}
-				break;
-			case 'T' :
-				$onclick0 = ' onclick="acao_pre_cad(' . $cl . ',\'EDICAO\' );" ';
-				$onclick1 = ' onclick="acao_pre_cad(' . $cl . ',\'APROVADO\' );" ';
-				$onclick2 = ' onclick="acao_pre_cad(' . $cl . ',\'RECUSADO\' );" ';
-
-				if ($editar == 0) {
-					$sx .= '<div class="right">';
-					$sx .= '<input type="button" ' . $onclick0 . ' name="cad" id="cadastro" value="Retornar para edição" class="bt_retornar">';
-					$sx .= '</div>';
-					$sx .= '<div class="right">';
-					$sx .= '<input type="button" ' . $onclick1 . ' name="cad" id="cadastro" value="Aprovar" class="bt_aprovar">';
-					$sx .= '</div>';
-					$sx .= '<div class="right">';
-					$sx .= '<input type="button" ' . $onclick2 . ' name="cad" id="cadastro" value="Recusar" class="bt_recusar">';
-					$sx .= '</div>';
-				}
-
-				break;
-		}
-		$sx .= '<div id="acao_pre_cad"></div>';
-
-		$sx .= '<div>Mae: ' . $this -> line['pes_mae'] . '</div>';
+				$sx .= '<div>Mae: ' . $this -> line['pes_mae'] . '</div>';
 		$sx .= '<div>Pai: ' . $this -> line['pes_pai'] . '</div>';
 
 		$sx .= '<div>Dt. Cadastro: ' . stodbr($this -> line['pes_data']) . '</div>';
@@ -289,13 +257,17 @@ class cadastro_pre {
 				$img = $http . 'img/icone_precad_recusado.png';
 				break;
 			case 'E' :
-				$sx = '<font color="green">comunicado liberação</font>';
-				$img = $http . 'img/icone_precad_comunicar.png';
+				$sx = '<font color="green">comunicar liberação</font>';
+				$img = $http . 'img/icone_precad_comunicar_aprovacao.png';
 				break;
 			case 'T' :
 				$sx = '<font color="blue">em análise</font>';
 				$img = $http . 'img/icone_precad_analise.png';
 				break;
+			case 'F' :
+				$sx = '<font color="red">comunicar recusa</font>';
+				$img = $http . 'img/icone_precad_comunicar_recusa.png';
+				break;	
 		}
 		$this -> image_status = $img;
 		return ($sx);
@@ -1382,11 +1354,9 @@ class cadastro_pre {
 		array_push($cp, array('$H8', 'pes_cliente', '', False, True));
 		array_push($cp, array('$HV', '', '7', True, True));
 		array_push($cp, array('$HV', '', '7', True, True));
-		array_push($cp, array('$B8', '', 'Analise>>', False, True));
+		array_push($cp, array('$B8', '', 'Enviar>>', False, True));
 		return ($cp);
 	}
-
-	
 
 	function cp_telefone_admin() {
 		$cp = array();
@@ -1402,7 +1372,6 @@ class cadastro_pre {
 		array_push($cp, array('$H3', 'tel_cliente_seq', '', True, True));
 		array_push($cp, array('$H11', 'tel_data', '', TRUE, True));
 		return ($cp);
-
 	}
 
 	function validaCPF($cpf = null) {
@@ -1426,7 +1395,6 @@ class cadastro_pre {
 			// Calcula os digitos verificadores para verificar se o
 			// CPF é válido
 		} else {
-
 			for ($t = 9; $t < 11; $t++) {
 				for ($d = 0, $c = 0; $c < $t; $c++) {
 					$d += $cpf{$c} * (($t + 1) - $c);
@@ -1763,6 +1731,14 @@ class cadastro_pre {
 				$sx = 'RECUSADO';
 				/*recusados*/
 				break;
+			case 'F' :
+				$sx = 'COMUNICAR RECUSA';
+				/*recusados*/
+				break;
+			case 'E' :
+				$sx = 'COMUNICAR APROVAÇÃO';
+				/*recusados*/
+				break;		
 			case 'TT' :
 				$sx = 'GERAL';
 				/*recusados*/
@@ -1818,6 +1794,53 @@ class cadastro_pre {
 			
 			return(0);	
 		}
+	}
+	
+	function regras_de_acesso($cliente,$st){
+		$edicao = '<span class="cursor bt_botao bt_yellow" onclick="window.location = \'pre_cad_selection.php?dd0='.$cliente.'\';">EDITAR</span>';
+		$analise = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'T\' );  progress(\'progress_bar\');" >ENVIO ANALISE</span>';
+		$aprovar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'E\' );  progress(\'progress_bar\');" >APROVAR</span>';
+		$comunica_aprovacao = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'A\' );  progress(\'progress_bar\');" >COMUNICAR APROVACAO</span>';
+		$comunica_recusa = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'R\' );  progress(\'progress_bar\');" >COMUNICAR RECUSA</span>';
+		$recusar = '<span class="cursor bt_botao bt_red" onclick="altera_status(\''.$cliente.'\',\'F\' );  progress(\'progress_bar\');" >RECUSAR</span>';
+		$retorna_edicao = '<span class="cursor bt_botao bt_yellow" onclick="altera_status(\''.$cliente.'\',\'@\' );  progress(\'progress_bar\');" >RETORNAR P/ EDICAO</span>';
+		
+		switch ($st) {
+			case '@':
+				$sx  = '<nav>';
+				$sx .= $analise;
+				$sx .= $edicao;
+				$sx .= '</nav>';
+				break;
+			case 'T':
+				$sx  = '<nav>';
+				$sx .= $aprovar;
+				$sx .= $recusar;
+				$sx .= $retorna_edicao;
+				$sx .= '</nav>';
+				break;
+			case 'E':
+				$sx  = '<nav>';
+				$sx .= $comunica_aprovacao;
+				$sx .= '</nav>';
+				break;
+			case 'A':
+				$sx  = '<nav>';
+				$sx .= '<a>Aprovado finalizado</a>';
+				$sx .= '</nav>';
+				break;
+			case 'F':
+				$sx  = '<nav>';
+				$sx .= $comunica_recusa;
+				$sx .= '</nav>';
+				break;
+			case 'R':
+				$sx  = '<nav>';
+				$sx .= $retorna_edicao;
+				$sx .= '</nav>';
+				break;
+		}
+		return($sx);
 	}
 			
 	

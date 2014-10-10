@@ -11,22 +11,45 @@ $pre -> le($dd[0]);
 $pre -> obter_dados($dd[0], '00');
 $pre -> calcular_pontuacao();
 
-$onclickR = '<a class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
-$onclickP = '<a class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
+
+
+
+
+
+$bt_menu = $pre->regras_de_acesso($dd[0],$pre -> status);
+$onclickR = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
+$onclickP = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
+
 $tela = '<table  class="cab_status" width="100%"><tr>
-			<td>
-				'.$onclickR.'RESUMO</a>				
-				'.$onclickP.'PONTUACAO</a>
+			<td colspan="2" align="left" width="30%">
+				<nav>
+					'.$onclickR.'RESUMO</span>
+					'.$onclickP.'PONTUACAO</span>
+				</nav>
 			</td>
-			<td>
-				<div class="cab_statusB" align="right">Restrições (' . $pre -> TTrestricoes . ')</div>
-				<div class="cab_statusB" align="right">Valor (' . number_format($pre -> TTrestricoes_vlr,2) . ')</div>
+			<td colspan="2" align="right" width="70%">
+			<div id="acoes_status">'.$bt_menu.'</div>
 			</td>
-			<td>
-				<div class="cab_statusA" align="right">' . $pre -> status($pre -> status) . '</div>
-				<div class="cab_statusB" align="right">PONTUAÇÃO (' . $pre -> TTpontos . ')</div>
-			</td>	
-		</tr></table>
+		</tr>
+		<tr>
+			<td colspan="4"><div id="progress_bar"></div></td>
+		</tr>
+		<tr>
+			<td width="10%">
+				<div class="cab_statusB" align="center">Restrições (' . $pre -> TTrestricoes . ')</div>
+			</td>
+			<td width="10%">
+				<div class="cab_statusB" align="center">Valor (' . number_format($pre -> TTrestricoes_vlr,2) . ')</div>
+			</td>
+			<td width="10%">
+				<div class="cab_statusA" align="center">' . $pre -> status($pre -> status) . '</div>
+			</td>
+			<td width="10%">
+				<div class="cab_statusB" align="center">PONTUAÇÃO (' . $pre -> TTpontos . ')</div>
+			</td>
+			
+		</tr>
+		</table>
 			<div id="mostra_dados_pre_cad"></div>
 			<script> 
 					$( document ).ready(function() {

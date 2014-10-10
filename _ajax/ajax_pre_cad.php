@@ -17,20 +17,9 @@ $acp = new acp;
 
 $aux = uppercase($dd[0]);
 $verb = uppercase($dd[1]);
+$aux2 = uppercase($dd[2]);
 
 switch($verb) {
-	case 'APROVADO' :
-		$pre -> salvar_status($aux, 'A');
-		echo '<script>location.reload();</script>';
-		break;
-	case 'RECUSADO' :
-		$pre -> salvar_status($aux, 'R');
-		echo '<script>location.reload();</script>';
-		break;
-	case 'EDICAO' :
-		$pre -> salvar_status($aux, '@');
-		echo '<script>location.reload();</script>';
-		break;
 	case 'LISTA_D' :
 		echo $pre -> lista_status_dia($aux);
 		break;
@@ -92,9 +81,13 @@ switch($verb) {
 		break;
 	case 'CEP_BUSCA' :
 		global $dd;
-		
 		echo $pre->buscar_por_cep($aux);
-		
+		break;	
+	
+	case 'ALTERAR_STATUS' :
+		$pre->salvar_status($aux,$aux2);
+		/*redireciona com delay de 5 segundos*/
+		redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
 		break;	
 		
 	default :

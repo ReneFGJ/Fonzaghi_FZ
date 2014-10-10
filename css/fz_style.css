@@ -2,10 +2,9 @@ body {
 	font-family: RobotoThin;
 	background: rgba(132, 203, 240,0.03)
 }
-div
-    {
-        font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
-    }
+div {
+	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
+}
 /* Headers */
 h3 {
 	padding: 0px;
@@ -94,10 +93,9 @@ h4 {
 	vertical-align: top;
 }
 
-.bottom{
+.bottom {
 	vertical-align: bottom;
 }
-
 
 /* Texto */
 .text-center {
@@ -181,7 +179,7 @@ h4 {
 	color: #FFFFFF;
 	font-family: RobotoThin;
 	font-weight: 900;
-	height:50px;
+	height: 50px;
 }
 
 .cab_statusA {
@@ -192,7 +190,7 @@ h4 {
 	font-size: 25px;
 }
 
-.bt_resumo{
+.bt_resumo {
 	background: #c0c0c0;
 	text-align: center;
 	color: #FFFFFF;
@@ -200,40 +198,63 @@ h4 {
 	font-weight: 900;
 }
 
-.bt_botao{
-  -webkit-appearance: button;
-  -moz-appearance: button;
-  appearance: button;
-  padding: 10px;
-  font-size: 15px;
-  color: #333333;
+.bt_botao {
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	padding: 10px;
+	font-size: 15px;
+	color: #333333;
+	width: 210px;
+	text-align: center;
 }
 
+.bt_green {
+	background:#28de1f;
+}
 
+.bt_green:hover{
+	opacity: 0.8;
+}
 
-.bt_fz{
-    color: #444444;
-    font-family:Arial, Helvetica, sans-serif;
-    -webkit-transition: all 0.3s ease-out;
-    background: #cbcbcb url(../img/img_border2.png) no-repeat;
-    color: #174867;
-    padding: 7px 15px 7px 15px;
-    -webkit-border-bottom-left-radius: 10px;
-    -webkit-border-bottom-right-radius: 10px;
-    width: 100px;
-    display: block;
-    text-decoration: none;
-    -webkit-box-shadow: 2px 2px 4px #888;
-    float:right;
-    vertical-align: top;
-    
+.bt_red {
+	 background:#fe0107;
+}
+
+.bt_red:hover {
+	opacity: 0.8;
+}
+
+.bt_yellow {
+	background:#ffff00;
+}
+
+.bt_yellow:hover {
+	opacity: 0.8;
+}
+
+.bt_fz {
+	color: #444444;
+	font-family: Arial, Helvetica, sans-serif;
+	-webkit-transition: all 0.3s ease-out;
+	background: #cbcbcb url(../img/img_border2.png) no-repeat;
+	color: #174867;
+	padding: 7px 15px 7px 15px;
+	-webkit-border-bottom-left-radius: 10px;
+	-webkit-border-bottom-right-radius: 10px;
+	width: 100px;
+	display: block;
+	text-decoration: none;
+	-webkit-box-shadow: 2px 2px 4px #888;
+	float: right;
+	vertical-align: top;
 }
 
 .bt_fz:hover {
-    color: #000000;
-    background: #ebebeb url(../img/img_border2.png) no-repeat;
-    color: #67a5cd;
-    vertical-align: top;
-    cursor: pointer;
+	color: #000000;
+	background: #ebebeb url(../img/img_border2.png) no-repeat;
+	color: #67a5cd;
+	vertical-align: top;
+	cursor: pointer;
 }
 
