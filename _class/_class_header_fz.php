@@ -43,7 +43,7 @@ class header
 		}
 
 		/* Java script */
-		$js = array('jquery-1.7.1.js','modernizr.custom.js','jquery.maskedinput.js','scrooling.js','jquery.maskedinput.js','jquery.autocomplete.js','pre_cad.js'); 
+		$js = array('jquery-1.7.1.js','modernizr.custom.js','jquery.maskedinput.js','scrooling.js','jquery.maskedinput.js','jquery.autocomplete.js','pre_cad.js','vendas_funcionario.js'); 
 		for ($r=0;$r < count($js);$r++)
 			{ $sx .= '<script type="text/javascript" src="'.$http.'js/'.$js[$r].'"></script>'.$cr; }
 

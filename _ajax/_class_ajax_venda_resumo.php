@@ -6,6 +6,15 @@ class ajax {
 	function __construct() {
 		//		$cad = new cadastro_pre;
 		//		$this->tabela = $cad->tabela_telefone;
+		
+		echo '
+		<script>
+		  $("#dd5").focusout(function(){
+		  		var ean13 = $("#dd5").val();
+				insere_produto("INSERE",ean13);	  	
+		});
+		</script>
+		';
 	}
 
 	function cp() {

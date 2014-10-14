@@ -25,3 +25,5 @@ $form = new form;
 	</TR>
 	
 </Table>
+<div id="status"></div>
+
