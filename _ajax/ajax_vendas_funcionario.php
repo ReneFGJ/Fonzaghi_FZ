@@ -10,11 +10,16 @@ $venda = new vendas_funcionario;
 
 $verb = uppercase($dd[0]);
 $aux1 = uppercase($dd[1]);
-$aux2 = uppercase($dd[2]);
+
 
 switch($verb) {
 	case 'INSERE' :
-		echo $venda->valida_loja($aux1);
+		echo '<br>';
+		print_r($_SESSION); 
+		echo '<br>';
+		
+		$venda->valida_loja($aux1);
+		echo $venda->erro;
 		break;
 	default:
 		break;	

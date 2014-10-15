@@ -6,15 +6,6 @@ class ajax {
 	function __construct() {
 		//		$cad = new cadastro_pre;
 		//		$this->tabela = $cad->tabela_telefone;
-		
-		echo '
-		<script>
-		  $("#dd5").focusout(function(){
-		  		var ean13 = $("#dd5").val();
-				insere_produto("INSERE",ean13);	  	
-		});
-		</script>
-		';
 	}
 
 	function cp() {
@@ -23,7 +14,7 @@ class ajax {
 
 	function refresh() {
 		global $dd;
-		$cracha = $dd[1];
+		$cracha = $_SESSION['user_id'];
 		
 		$nw = new user;
 		echo '<h3>Saldo para compras: R$ ';
