@@ -3,6 +3,7 @@ $include = '../';
 $include_db = '../../';
 require('../db.php');
 require($include.'_class_form.php');
+
 $editar = $dd[95];
 
 $form = new form;

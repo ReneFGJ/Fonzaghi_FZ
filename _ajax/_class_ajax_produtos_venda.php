@@ -29,6 +29,9 @@ class ajax {
 		
 		$venda = new vendas_funcionario;
 		$sx = $venda->salva_produto($ean13);
+		if($sx==0){
+			echo '<script>alert("Não foi salvo!!!");</script>';	
+		}
 		$form = new form;
 		$sx .= $form->ajax('venda_resumo','');
 		$sx .= $form->ajax('produtos_venda','');

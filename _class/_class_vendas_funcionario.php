@@ -79,9 +79,6 @@ class vendas_funcionario{
 			
 			$this->joia_produto = $tipo.$pt;
 			$this->joia_ponto = $pt;
-			
-			echo '<script>alert("teste");</script>';
-			
 			$soma = 0;
 			/*Soma digitos sem o DV*/
 			for ($i=0; $i < ($tam-1) ; $i++) { 
@@ -89,8 +86,6 @@ class vendas_funcionario{
 			}
 			/*Verifica se ultimo digito da soma é igual DV*/
 			if(substr($soma, -1)==$dv){
-				 
-				
 				return(1);	
 			}else{
 				$this->erro .= '<h2>Código não pertence a Loja Joias</h2>';
@@ -111,24 +106,25 @@ class vendas_funcionario{
 		$rlt = db_query($sql);
 		$sx = '';
 		if($line = db_read($rlt)){
-			$comissao = $this->desconto($line['p_comissao']);
+			$comissao = $line['p_comissao'];
+			$desconto = $this->desconto($line['p_comissao']);
 			$vlr_custo = $line['p_custo'];
 			$vlr_venda= $line['p_preco'];
 			$produto = $line['p_codigo'];
+			$ean13='';//nao possui ean13
+			$cracha='';
+			$vlr_vendido = $vlr_venda*((100-$desconto)/100);
+			$vlr_vendido = number_format($vlr_vendido,2);
+			$lj='J';
+			$log = $_SESSION['nw_user'];
+			$cracha = $_SESSION['user_id'];
+			
+			/*Executa as inserções*/
+			$this->insere_produto_estoque_joias($produto,$cracha,$vlr_venda,$vlr_custo,$comissao,$log,$vlr_vendido);
+			$this->insere_produto_log($ean13,$cracha,$produto,$log);
+			$this->insere_usuario_compras($cracha,$lj,$vlr_vendido);
 		}	
-		$ean13='';//nao possui ean13
-		$cracha='';
-		
-		$vlr_vendido = $vlr_venda*((100-$comissao)/100);
-		$vlr_vendido = number_format($vlr_vendido,2);
-		
-		$lj='J';
-		$log = $_SESSION['nw_user'];
-		
-		$this->insere_produto_estoque_joias($produto,$cracha,$vlr_venda,$vlr_custo,$comissao,$log,$vlr_vendido);
-		$this->insere_produto_log($ean13,$cracha,$produto,$log);
-		$this->insere_usuario_compras($cracha,$lj,$vlr_vendido);
-		
+
 		return(1);
 	}
 	
@@ -147,20 +143,18 @@ class vendas_funcionario{
 			$log = $_SESSION['nw_user'];
 			$produto = $line['pe_produto'];
 			$vlr_venda = $line['pe_vlr_venda'];
-			$comissao = $this->desconto($line['pe_comissao']);
+			$desconto = $this->desconto($line['pe_comissao']);
 			
-			$vlr_vendido = $vlr_venda*((100-$comissao)/100);
+			$vlr_vendido = $vlr_venda*((100-$desconto)/100);
 			$vlr_vendido = number_format($vlr_vendido,2);
-			
 			$cracha = $_SESSION['user_id'];
-			/**verifica se status é valido para venda
+			
+			 /**verifica se status é valido para venda
 			 *verifica se data do cadastro do produto é maior que 60 dias
 			 */
-			 echo '<script>
-			 	alert("'.$ean13.'-'.$cracha.'-'.$comissao.'-'.$vlr_vendido.'-'.$log.'");
-			 </script>';
 			if(($this->valida_status($st, $lj)) and ($this->valida_data_cadastro($dt))){
-				$this->atualiza_produto_estoque($ean13,$cracha,$comissao,$vlr_vendido);
+				/*Executa as inserções*/
+				$this->atualiza_produto_estoque($ean13,$cracha,$vlr_vendido,$log);
 				$this->insere_produto_log($ean13,$cracha,$produto,$log);
 				$this->insere_usuario_compras($cracha,$lj,$vlr_vendido);
 				return(1);
@@ -173,46 +167,45 @@ class vendas_funcionario{
 	
 	/**Insere registro na tabela produto_estoque - JOIAS*/
 	function insere_produto_estoque_joias($produto,$cracha,$vlr_venda,$vlr_custo,$comissao,$log,$vlr_vendido){
-		echo '<br>'.$sql = "
+		$sql = "
+				INSERT INTO produto_estoque(
+		            pe_data, pe_cliente, pe_status, 
+		            pe_vlr_venda, pe_vlr_custo,pe_tipo_entrada,
+		            pe_comissao, pe_produto, 
+		            pe_lastupdate,pe_log,pe_vlr_vendido, 
+		            pe_inventario, pe_promo, pe_fornecimento, 
+		            v_ref, pe_log_eti, pe_validade)
+		    	VALUES ( ".date('Ymd').",'F".$cracha."','T',
+		    			".$vlr_venda." , ".$vlr_custo.",'A',
+		    			".$comissao.", '".$produto."', 
+			            ".date('Ymd').",'".$log."', ".$vlr_vendido.", 
+			            1, 0, ".date('Ymd').", 
+			            0,'".$log."' , 19000101);
+				";
 		
-		INSERT INTO produto_estoque(
-            pe_data, pe_cliente, pe_status, 
-            pe_vlr_venda, pe_vlr_custo,pe_tipo_entrada,
-            pe_comissao, pe_produto, 
-            pe_lastupdate,pe_log,pe_vlr_vendido, 
-            pe_inventario, pe_promo, pe_fornecimento, 
-            v_ref, pe_log_eti, pe_validade)
-    	VALUES ( ".date('Ymd').",'F".$cracha."','T',
-    			".$vlr_venda." , ".$vlr_custo.",'A',
-    			".$comissao.", '".$produto."', 
-	            ".date('Ymd').",'".$log."', ".$vlr_vendido.", 
-	            1, 0, ".date('Ymd').", 
-	            0,'".$log."' , 19000101);
-		";
-		
-		//$rlt = db_query($sql);
+		$rlt = db_query($sql);
 		return(1);
 	}
 	
 	
 	/**Atualiza registro da tabela produto_estoque - LOJA*/
-	function atualiza_produto_estoque($ean13,$cracha,$comissao,$vlr_vendido){
-		echo '<br>'.$sql = " update produto_estoque 
+	function atualiza_produto_estoque($ean13,$cracha,$vlr_vendido,$log){
+		$sql = " update produto_estoque 
 				set	pe_cliente='F".$cracha."', 
 					pe_status='T',
-					pe_comissao=".$comissao."
 					pe_vlr_vendido=".$vlr_vendido.",
 					pe_lastupdate=".date('Ymd').",
-					pe_fornecimento=".date('Ymd')."
+					pe_fornecimento=".date('Ymd').",
+					pe_log='".$log."'
 				where pe_ean13='".$ean13."'	
 		 
 		";
-		//$rlt = db_query($sql);
+		$rlt = db_query($sql);
 		return(1);
 	}
 	/**Insere registro na tabela produto_log - LOJA*/
 	function insere_produto_log($ean13,$cracha,$produto,$log){
-		echo '<br>'.$sql = " insert into produto_log_".date('Ym')." 
+		$sql = " insert into produto_log_".date('Ym')." 
 					(pl_ean13, pl_data, pl_hora,
 					pl_cliente, pl_status,pl_produto, 
 					pl_log) 
@@ -221,25 +214,26 @@ class vendas_funcionario{
 					'F".$cracha."','T','".$produto."',
 					'".$log."')
 				";
-		//$rlt = db_query($sql);
+		$rlt = db_query($sql);
 		return(1);
 	}
 	
 	/**Insere registro na tabela usuario_compras - FGHI*/
 	function insere_usuario_compras($cracha,$lj,$vlr){
 		global $base_name,$base_host,$base_user;
+		require($this->include_db.'db_fghi.php');
 		$venc = date('Ymd',mktime(0,0,0,date('m')+1,1,date('Y'),0));
-		echo '<br>'.$sql = " insert into usuario_compras
-					(us_cracha,us_data,us_hora,
+		$sql = " insert into usuario_compras
+					(uc_cracha,us_data,us_hora,
 					 us_loja,us_valor,us_parcela,
 					 us_valor_parcela,us_venc,us_doc,
 					 us_documento)
 				 values
 				 	('".$cracha."',".date('Ymd').",'".date('h:i')."',
 				 	 '".$lj."',".$vlr.",1,
-				 	 ".$vlr.",".$venc.",'1/ 1',
+				 	 ".$vlr.",".$venc.",' 1/ 1',
 				 	 '".date('ymdhi')."')";
-		//$rlt = db_query($sql);
+		$rlt = db_query($sql);
 				 	 
 		return(1);
 	}
@@ -303,6 +297,7 @@ class vendas_funcionario{
 		}
 		
 	}
+	
 }
 
 

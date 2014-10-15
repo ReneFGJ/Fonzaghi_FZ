@@ -21,6 +21,9 @@ switch($verb) {
 		$venda->valida_loja($aux1);
 		echo $venda->erro;
 		break;
+	case 'ERRO':
+		echo $aux1;
+		break;	
 	default:
 		break;	
 }
