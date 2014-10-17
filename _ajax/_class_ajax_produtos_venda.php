@@ -35,6 +35,7 @@ class ajax {
 		$form = new form;
 		$sx .= $form->ajax('venda_resumo','');
 		$sx .= $form->ajax('produtos_venda','');
+		echo $form->ajax('lista_produtos','');
 		$sx .= $venda->erro;
 		return($sx);
 	}

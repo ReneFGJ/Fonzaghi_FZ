@@ -48,6 +48,7 @@ class vendas_funcionario{
 		}elseif($tamanho==6){//joias express
 			require($this->include_db.'db_fghi_206_express_joias.php');
 			$lj='G';
+			echo '<script>alert("'.$tamanho.'")</script>';
 			$ean13 = '0000000000'.$ean13;
 			$ean13 = '09'.substr($ean13,-9); 
 			$ean13 = $this->gera_dv($ean13);
@@ -99,36 +100,48 @@ class vendas_funcionario{
 	/*Calculo diferenciado para joias por pontuação*/
 	function regras_joias($ean){
 		/*Não possui condição de status ou data de cadastro como as outras lojas*/
+			$ref = $this->recupera_ref();
 		
-		$sql = "select * from produto
-				where p_codigo='".$this->joia_produto."'
-				";
-		$rlt = db_query($sql);
-		$sx = '';
-		if($line = db_read($rlt)){
-			$comissao = $line['p_comissao'];
-			$desconto = $this->desconto($line['p_comissao']);
-			$vlr_custo = $line['p_custo'];
-			$vlr_venda= $line['p_preco'];
-			$produto = $line['p_codigo'];
+			$comissao = 35;
+			$vlr_custo = $this->joia_ponto;
+			$vlr_venda= ($vlr_custo*$ref*(0.65));
+			$produto = $this->joia_produto;
 			$ean13='';//nao possui ean13
 			$cracha='';
-			$vlr_vendido = $vlr_venda*((100-$desconto)/100);
+			
+				
+			$vlr_vendido = (int)(round($vlr_venda*(1-($comissao/100))*100))/100;
 			$vlr_vendido = number_format($vlr_vendido,2);
+			
 			$lj='J';
 			$log = $_SESSION['nw_user'];
 			$cracha = $_SESSION['user_id'];
 			
+			$descricao = substr($produto.'/ '.$line['p_descricao'],0,50);
+			
 			/*Executa as inserções*/
 			$this->insere_produto_estoque_joias($produto,$cracha,$vlr_venda,$vlr_custo,$comissao,$log,$vlr_vendido);
 			$this->insere_produto_log($ean13,$cracha,$produto,$log);
-			$this->insere_usuario_compras($cracha,$lj,$vlr_vendido);
-		}	
-
+			$this->insere_usuario_compras($cracha,$lj,$vlr_vendido,$descricao);
+		
 		return(1);
 	}
+
+	function recupera_ref(){
+		$sql = "select * from vref
+				where ref_data<=".date('Ymd')."
+				order by ref_data
+				limit 1	";
+		
+		$rlt = db_query($sql);
+		$sx = '';
+		if($line = db_read($rlt)){
+			$sx = $line['ref_valor'];
+		}
+		return($sx);
+	}
 	
-	/*Calculo padrao para outras lojas*/
+	/**Calculo padrao para outras lojas*/
 	function regras_geral($ean13,$lj,$log){
 		$sql = "select * from (select * from produto_estoque
 						where pe_ean13='$ean13') as tb 
@@ -143,11 +156,25 @@ class vendas_funcionario{
 			$log = $_SESSION['nw_user'];
 			$produto = $line['pe_produto'];
 			$vlr_venda = $line['pe_vlr_venda'];
-			$desconto = $this->desconto($line['pe_comissao']);
 			
-			$vlr_vendido = $vlr_venda*((100-$desconto)/100);
-			$vlr_vendido = number_format($vlr_vendido,2);
+			if($lj=='G'){
+				
+				$ref = $this->recupera_ref();
+		
+				$comissao = 35;
+				$vlr_custo = $vlr_venda;
+				$vlr_venda= ($vlr_custo*$ref*(0.65));
+				$vlr_vendido = (int)(round($vlr_venda*(1-($comissao/100))*100))/100;
+				$vlr_vendido = number_format($vlr_vendido,2);
+				
+			}else{
+				$desconto = $this->desconto($line['pe_comissao']);
+				$vlr_vendido = $vlr_venda*((100-$desconto)/100);
+				$vlr_vendido = number_format($vlr_vendido,2);
+			}
+			
 			$cracha = $_SESSION['user_id'];
+			$descricao = substr($produto.'/ '.$line['p_descricao'],0,50);
 			
 			 /**verifica se status é valido para venda
 			 *verifica se data do cadastro do produto é maior que 60 dias
@@ -156,7 +183,7 @@ class vendas_funcionario{
 				/*Executa as inserções*/
 				$this->atualiza_produto_estoque($ean13,$cracha,$vlr_vendido,$log);
 				$this->insere_produto_log($ean13,$cracha,$produto,$log);
-				$this->insere_usuario_compras($cracha,$lj,$vlr_vendido);
+				$this->insere_usuario_compras($cracha,$lj,$vlr_vendido,$descricao);
 				return(1);
 			}else{
 				return(0);
@@ -219,7 +246,7 @@ class vendas_funcionario{
 	}
 	
 	/**Insere registro na tabela usuario_compras - FGHI*/
-	function insere_usuario_compras($cracha,$lj,$vlr){
+	function insere_usuario_compras($cracha,$lj,$vlr,$descricao){
 		global $base_name,$base_host,$base_user;
 		require($this->include_db.'db_fghi.php');
 		$venc = date('Ymd',mktime(0,0,0,date('m')+1,1,date('Y'),0));
@@ -227,12 +254,12 @@ class vendas_funcionario{
 					(uc_cracha,us_data,us_hora,
 					 us_loja,us_valor,us_parcela,
 					 us_valor_parcela,us_venc,us_doc,
-					 us_documento)
+					 us_documento,us_descricao)
 				 values
 				 	('".$cracha."',".date('Ymd').",'".date('h:i')."',
 				 	 '".$lj."',".$vlr.",1,
 				 	 ".$vlr.",".$venc.",' 1/ 1',
-				 	 '".date('ymdhi')."')";
+				 	 '".date('ymdhi')."','".$descricao."')";
 		$rlt = db_query($sql);
 				 	 
 		return(1);
@@ -296,6 +323,96 @@ class vendas_funcionario{
 			return(0);
 		}
 		
+	}
+	
+	function lista_compras($cracha){
+		global $base_name,$base_host,$base_user;
+		require($this->include_db.'db_fghi.php');
+		$sql = "select * from usuario_compras
+				where uc_cracha='".$cracha."' and 
+					  us_data=".date('Ymd')."
+		";
+		$rlt = db_query($sql);
+		$sx = '<table width="100%" class="tabela00">
+				<tr>
+					<th class="tabelaTH">Loja</th>
+					<th class="tabelaTH">Valor</th>
+					<th class="tabelaTH">Data</th>
+				</tr>';
+		$tt = 0;
+		while($line = db_read($rlt)){
+			$tt += $line['us_valor'];
+		$sx .= '<tr>
+					<td class="tabela01" align="center">'.$line['us_loja'].'</td>
+					<td class="tabela01" align="right">R$ '.number_format($line['us_valor'],2,',','.').'</td>
+					<td class="tabela01" align="center">'.$line['us_data'].'</td>
+				</tr>';
+		}
+		
+		$link = '<a align="center" href="javascript:newxy2(\'recibo_funcionario.php?dd1='.$cracha.'\',640,480);"">';
+		$sx .= '<tr>
+					<td align="center" class="tabelaTH" colspan="2">Total R$ '.number_format($tt,2,',','.').'</td>
+					<td>
+						'.$link.'
+						<div><img width="32px" src="../img/recibo.png"/></div>
+						<div>Gerar recibo</div>
+						</a>
+					</td>
+				</tr>';
+		$sx .= '</table>';
+		
+		return($sx);
+	}
+
+	function gera_recibo($cracha){
+		global $base_name,$base_host,$base_user;
+		require($this->include_db.'db_fghi.php');
+		
+		$sql = "select * from usuario_compras
+				where uc_cracha='".$cracha."' and 
+					  us_data=".date('Ymd')."
+		";
+		$rlt = db_query($sql);
+		$tt = 0;
+		$col =0;
+		$lin = 0;
+		$branco = '                                                               ';
+		while($line = db_read($rlt)){
+			$tt += $line['us_valor'];
+			if($col==2){
+				$sxx .=	chr(13).chr(13).chr(10);
+				$col=0;
+				$lin +=2;
+			}
+			$sxx .= '----|'.$line['us_loja'].' | R$ '.substr($branco.number_format($line['us_valor'],2,',','.'),-6).'|'.substr($line['us_descricao'].$branco,0,25).'|';
+			$col++;
+			
+		}
+		
+		for ($lin; $lin < 20; $lin++) { 
+			$sy .=  chr(13).chr(10); 
+		}
+		$sxx .=	chr(13).chr(10);
+		$sx  = 'RECIBO - VENDA FUNCIONARIO ( VIA - FUNCIONARIO)'.chr(13).chr(10);
+		$sx .= 'DATA:'.date('d/m/Y h:i').'                          VALOR:R$'.number_format($tt,2,',','.').chr(13).chr(10);
+		$sx .= '---------------------------------------------------------------------------------------------'.chr(13).chr(10);	
+		$sx .= $sxx;
+		$sx .= '---------------------------------------------------------------------------------------------'.chr(13).chr(13).chr(13).chr(10);
+		$sx .= 'Atendente:_________________________			Funcionário:______________________'.chr(13).chr(13).chr(10);
+		$sx .= 'Fiscal   :_________________________'.chr(13).chr(13).chr(10);
+		$sx .= $sy;
+		$sx .= '-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  '.chr(13).chr(13).chr(10);
+		$sx .= 'RECIBO - VENDA FUNCIONARIO ( VIA - FONZAGHI)'.chr(13).chr(10);
+		$sx .= 'DATA:'.date('d/m/Y h:i').'                          VALOR:R$'.number_format($tt,2,',','.').chr(13).chr(10);
+		$sx .= '---------------------------------------------------------------------------------------------'.chr(13).chr(10);	
+		$sx .= $sxx;
+		$sx .= '---------------------------------------------------------------------------------------------'.chr(13).chr(13).chr(13).chr(10);
+		$sx .= 'Atendente:_________________________			Funcionário:______________________'.chr(13).chr(13).chr(10);
+		$sx .= 'Fiscal   :_________________________'.chr(13).chr(13).chr(10);
+		$sx .= $sy;
+		
+		
+		return($sx);
 	}
 	
 }

@@ -3,6 +3,8 @@ $include = '../';
 $include_db = '../../';
 require('../db.php');
 require($include.'_class_form.php');
+//require ($include.'sisdoc_debug.php');
+
 
 $editar = $dd[95];
 
@@ -15,7 +17,7 @@ $class = trim($dd[91]);
 $proto = trim($dd[1]);
 $verb = uppercase($dd[2]);
 
-echo date("Y-m-d H:i:s");
+//echo date("Y-m-d H:i:s");
 
 if (strlen($class) > 0)
 	{

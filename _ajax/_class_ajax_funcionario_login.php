@@ -50,6 +50,7 @@ class ajax {
 				$form = new form;
 				echo $form->ajax('produtos_venda',$cracha);
 				echo $form->ajax('venda_resumo',$cracha);
+				echo $form->ajax('lista_produtos',$cracha);
 				exit ;
 			}
 			$erro = '<font color="red">Dados Incorretos</font>';
