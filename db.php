@@ -12,10 +12,9 @@
 	
 	/* Noshow Errors */
 	$debug1 = 0; $debug2 = 0;
-	//date_default_timezone_set('Etc/GMT-3');
-	
+	date_default_timezone_set('Etc/GMT+2');
 	if (file_exists('debug.txt')) 
-			{ $debug1 = 7; $debug2 = 255; } 	
+		{ $debug1 = 7; $debug2 = 255; } 	
 	
 	ini_set('display_errors', $debug1);
 	ini_set('error_reporting', $debug2);

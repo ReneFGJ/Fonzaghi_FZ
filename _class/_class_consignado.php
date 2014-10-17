@@ -553,10 +553,12 @@ class consignado
 					$this->setconsignado($this->cliente, $this->lojas[$i]);
 					
 					$prev = $this->kh_previsao;
+				/**comentado ate ser inserido perfil*			
 				if (($perfil->valid('#ADM#COB#COJ#COM#COO#COS#GEG#GEC#DIR#MST#REC#CCC#SSS'))){
 		
 					$link = '<A HREF="#" onclick="newxy2('.chr(39).'cliente_acerto_alterar_data.php?dd2='.$this->kh_cliente.'&dd1='.$lojas[$i].chr(39).',400,450);">';
 				}
+				 */
 					if ($prev > date("Ymd"))
 					{
 						
@@ -581,6 +583,7 @@ class consignado
 				}
 			return(1);
 		}
+
 		function pecas_retiradas(){
 			global $ac, $ad, $ap, $lm, $vm, $perfil;
 			$this->set_limite_valor();
@@ -599,11 +602,11 @@ class consignado
 					$vlr_max = $line['cp_valor_'.($i+1)];
 					 
 				}
-				 
-		if (($perfil->valid('#ADM#COB#COJ#COM#COO#COS#GEG#GEC#DIR#MST#REC#CCC#SSS'))){
+	/**comentado ate ser inserido perfil*/			 
+	//	if (($perfil->valid('#ADM#COB#COJ#COM#COO#COS#GEG#GEC#DIR#MST#REC#CCC#SSS'))){
 			    
-				$link = '<A HREF="#" onclick="newxy2('.chr(39).'cliente_acerto_pecas_numero.php?dd0='.$cliente.'&dd1='.$qtd_pecas.'&dd2='.$vlr_max.'&dd3='.$i.chr(39).',400,450);">';
-		}		
+	//			$link = '<A HREF="#" onclick="newxy2('.chr(39).'cliente_acerto_pecas_numero.php?dd0='.$cliente.'&dd1='.$qtd_pecas.'&dd2='.$vlr_max.'&dd3='.$i.chr(39).',400,450);">';
+	//	}		
 				$sx .= '<TD width="10%"><fieldset><legend>'.$this->lojas[$i].'</legend><center><font class="lt1">'.$ac[$i].'<BR>&nbsp;'.$ad[$i].'&nbsp;<BR><fonts class="lt0">limite&nbsp;'.$link.$lm[$i].'&nbsp;peças(s)<BR>R$ '.$vm[$i].'</center></TD>';
 				
 			}
@@ -611,6 +614,7 @@ class consignado
 			
 			return($sx);
 		}
+
 		function le_cliente_pecas()
 		{
 			global $base_name,$base_host,$base_user;	
@@ -650,6 +654,7 @@ class consignado
 					}
 				}
 		}
+		
 		function grava_limite($cliente='',$pc='',$vlr='',$lj='',$vip)
 		{
 			global $base_name,$base_host,$base_user;	

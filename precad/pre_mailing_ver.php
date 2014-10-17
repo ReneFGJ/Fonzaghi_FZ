@@ -1,13 +1,16 @@
 <?php
 require("cab.php");
+//require($include."sisdoc_debug.php");
 require($include.'sisdoc_tips.php');
 require($include.'sisdoc_data.php');
 require($include."sisdoc_colunas.php");
+
 /* Abre classe da consultora */
 require("../_class/_class_consultora.php");
 require("../_class/_class_consignado.php");
 require("../_class/_class_duplicatas.php");
 require("../_class/_class_cadastro_pre_mailing.php");
+
 $include_db = '../../_db/';
 $mail = new cadastro_pre_mailing;
 $mail->include_class = $include_db;
