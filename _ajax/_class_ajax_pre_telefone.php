@@ -24,7 +24,7 @@ class ajax
 				$ddd = $dd[3];
 				$telefone = $dd[4];
 				$tipo = $dd[5];
-				$cad->insere_telefone($ddd,$telefone,$tipo);				
+				$cad->insere_telefone($ddd,$telefone,$tipo);
 			}
 		function refresh()
 			{

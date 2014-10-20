@@ -44,6 +44,19 @@ switch($verb)
 			$sx .= '</div>';
 			break;
 	case 'NEW':
+			//codigo comentado é do sistema precadastro verificar com rene o que fazer 
+			
+			/*$cp = $ajax->cp();
+			$tela = $form->editar($cp,'');
+			if($form->saved >0){
+				$ajax->insere_registro($dd);
+				redirecina(page().'?dd1='.$dd[1].'&dd2=REFRESH2&dd91='.$dd[91]);
+			}
+			$sx = $tela;
+			 * 
+			 */
+		
+		
 			$sx .= $ajax->insere_registro($dd);
 			break;
 	case 'list': $sx = 'LISTA'; break;
