@@ -3,6 +3,7 @@ $include = '../';
 $include_db = '../';
 require("db.php");
 require("_class/_class_user.php");
+//require($include."sisdoc_debug.php");
 $user = new user;
 require("../_include/_class_form.php");
 require("_class/_class_header_fz.php");
@@ -30,6 +31,6 @@ header("Content-Type: text/html; charset=".$hd->char_set,true);
 		</div>
 		<center>
 		';
-	echo $sx;
+echo $sx;
 echo $user->login();
 ?>

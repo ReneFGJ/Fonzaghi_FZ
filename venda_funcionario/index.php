@@ -1,7 +1,7 @@
 <?
 require("../cab.php");
 require($include.'_class_form.php');
-//require ($include.'sisdoc_debug.php');
+require ($include.'sisdoc_debug.php');
 require($include.'sisdoc_windows.php');
 $form = new form;
 ?>

@@ -16,6 +16,7 @@ class header
 	var $title = '';
 	var $google_id = ''; /* Ex: UA-12712904-10 */
 	var $login_api = '';	
+	var $http = '/fz/';
 	
 	function head()
 		{

@@ -5,10 +5,10 @@ require($include.'sisdoc_tips.php');
 require($include.'sisdoc_data.php');
 require($include."sisdoc_colunas.php");
 
-/* Abre classe da consultora */
 require("../_class/_class_consultora.php");
 require("../_class/_class_consignado.php");
 require("../_class/_class_duplicatas.php");
+require("../_class/_class_telefone.php");
 require("../_class/_class_cadastro_pre_mailing.php");
 
 $include_db = '../../_db/';
@@ -24,15 +24,27 @@ $consignado->include_class = $include_db;
 $duplicata = new duplicatas;
 $duplicata->include_class = $include_db;
 
+$telefone = new telefone;
+$telefone->include_class = $include_db;
+
 $tab_max='100%';
 
 $cliente = $dd[0];
+
 $cons->le($cliente);
 $cons->le_endereco($cliente);
+
+$telefone->tel_cliente=$cliente;
+$rsp = $telefone->telefones_busca_por_cliente();
+
 $duplicata->db_cliente = $cliente;
+
 $consignado->cliente = $cliente;
 $consignado->pecas_quantidades();
 $consignado->nome = $cons->nome;
+
+
+
 
 echo $mail->menu_mailing();
 echo '<table>';
@@ -40,7 +52,9 @@ echo '<tr><td align="center" colspan="3">'.$cons->codigo.' - '.$cons->nome.' - '
 echo '<tr><td  align="center" width="20%"><img src="'.$cons->foto().'" width="200"  alt="" border="0"></td>';
 echo '<td align="center" width="40%">'.$cons->mostra_endereco().'</td>';
 echo '<td align="center" width="40%">'.$cons->le_telefones($cliente,0).'</td>';
+echo '<td align="center" width="40%">'.$telefone->mostra_telefone($rsp,0).'</td>';
 echo '</tr></table>';
+
 require($include_db."db_206_telemarket.php");
 $tabela = "pre_cadastro";
 $sql = "select * from ".$tabela." where pc_codigo = '".$dd[0]."' ";
@@ -83,7 +97,7 @@ if ($line = db_read($rlt))
 		$link_cp1 = '<A HREF="#" onclick="newxy2('.chr(39).'/fonzaghi/tele2/pg_consulta_ref_dados.php?dd0='.$idc.chr(39).',900,600);"><img src="img/icone_editar.gif" width="20" height="19" alt="" border="0"></A>'; 
 		$link_cp2 = '<A HREF="#" onclick="newxy2('.chr(39).'/fonzaghi/tele2/pg_consulta_ref_dados_2.php?dd0='.$idc.chr(39).',900,600);"><img src="img/icone_editar.gif" width="20" height="19" alt="" border="0"></A>'; 
 	//	}
-	?>
+	?>-------------------------
 	<table  width="<?=$tab_max;?>" cellpadding="0" cellspacing="0" border="1" align="center"><TR><TD>
 	<table width="100%" class="lt0" align="center" border=0>
 	<TR valign="top">

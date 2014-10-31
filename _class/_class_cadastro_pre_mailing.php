@@ -52,6 +52,9 @@ class cadastro_pre_mailing extends cadastro_pre {
 	}
 
 	function mailing_retorno_busca_cliente($cliente) {
+		$sqlx = "update cadastro set cl_last=".date('Ymd')." where cl_cliente='" . $cliente . "'";
+		$rltx = db_query($sqlx);
+		
 		$sql = "select * from cadastro where cl_cliente='$cliente'";
 		$rlt = db_query($sql);
 		if ($line = db_read($rlt)) {
@@ -108,12 +111,13 @@ class cadastro_pre_mailing extends cadastro_pre {
 		};
 
 		$sql = "insert into " . $this -> tabela . " 
-					(pes_cliente_seq,pes_data,
-					  pes_status, pes_log $set1)
+					(pes_cliente_seq, pes_data, pes_status, 
+					 pes_log, pes_lastupdate, pes_lastupdate_log
+					  $set1)
 					values 
-					('00', " . $date . ",
-					'@', '" . $user_log . "' " . $set2 . ")";
-
+					('00', " . $date . ", '@',
+					 '" . $user_log . "', " . $date . ",'" . $user_log . "'
+					 " . $set2 . ")";
 		$rlt = db_query($sql);
 		$sx = '<div class="green_light fnt_black">CONSULTORA RETORNADA!!!</div>';
 		return ($sx);

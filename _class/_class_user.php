@@ -431,7 +431,7 @@ class user
 				if ((strlen($dd[1]) > 0) and (strlen($dd[2]) > 0))
 				{
 					if ($this->login_valida($dd[1],$dd[2]))
-						{ }
+						{ return(1); }
 				}				
 			}
 		$sxa = '	

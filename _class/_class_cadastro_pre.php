@@ -100,18 +100,7 @@ class cadastro_pre {
 
 	var $class_include = '../../';
 
-	function cp_telefone() {
-		global $dd, $acao;
-		$cp = array();
-		array_push($cp, array('$H8', 'id_tel', '', False, True));
-		array_push($cp, array('$H8', 'tel_cliente', '', True, True));
-		array_push($cp, array('$H8', '', '', False, True));
-		array_push($cp, array('$S2', 'tel_ddd', 'DDD', True, True));
-		array_push($cp, array('$S9', 'tel_numero', 'Telefone', True, True));
-		array_push($cp, array('$O : &R:Residencial&C:Comercial&E:Recado', 'tel_tipo', 'Tipo', True, True));
-		return ($cp);
-	}
-
+	
 	function mostra_nome($sty = '') {
 		$sx .= '<div class="lt3 border1 radius5 pad5 ' . $sty . '">';
 		$sx .= '<div class="right">' . $this -> mostra_idade($this -> nasc) . ' anos</div>';
@@ -141,7 +130,7 @@ class cadastro_pre {
 				$genero_img = '';
 				break;
 			case 'F' :
-				$genero = 'Masculino';
+				$genero = 'Feminino';
 				$genero_img = '';
 				break;
 			default :
@@ -155,35 +144,23 @@ class cadastro_pre {
 
 	function mostra() {
 		global $editar;
-		$sx .= '<div class="gray border1 pad5">';
-		$sx .= '<div >';
-
-		/* Mostra status */
-		$sx .= '<div class="right text-center">Status: ';
-		$sx .= $this -> mostra_status($this -> line['pes_status']);
-		$sx .= '<BR><img src="' . $this -> image_status . '" height="60">';
-		$sx .= '</div>';
-
-		$sx .= '<font class="lt0">nome completo</font><BR>';
-		$sx .= '<font class="lt3"><B>' . $this -> nome . '</B></FONT>';
-		$sx .= '</div>';
-
-		$sx .= '<div>Idade: ' . $this -> mostra_idade($this -> nasc) . ' anos</div>';
-		$sx .= '<div>Dt. Nascimento: ' . stodbr($this -> nasc) . '</div>';
-		$sx .= '<div>Genero: ' . $this -> mostra_genero($this -> line['pes_genero']) . '</div>';
-
-		/* Documentos */
-		$sx .= '<div>CPF: ' . $this -> mostra_cpf($this -> cpf) . '</div>';
-		$sx .= '<div>RG: ' . $this -> line['pes_rg'] . '</div>';
-
-		$sx .= '<div>Codigo: ' . $this -> line['pes_cliente'] . '</div>';
-
-				$sx .= '<div>Mae: ' . $this -> line['pes_mae'] . '</div>';
-		$sx .= '<div>Pai: ' . $this -> line['pes_pai'] . '</div>';
-
-		$sx .= '<div>Dt. Cadastro: ' . stodbr($this -> line['pes_data']) . '</div>';
-		$sx .= '<div>Dt. Atualizacao: ' . stodbr($this -> line['pes_lastupdate']) . '</div>';
-
+		$sx = '<div  class="gray border1 pad5">';
+		$sx .= '<table width="100%">';
+		$sx .= '<tr><td colspan="2" width="50%" valign="top" class="lt3" >'.$this -> line['pes_cliente'].' - ' . trim($this -> nome) . '</td>';
+		$sx .= '	<td rowspan="2" width="50%" align="right">Status:'.$this -> mostra_status($this -> line['pes_status']).'<br>
+						<img src="' . $this -> image_status . '" height="60"></td>';
+		$sx .= '</tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Dt. Cadastro: <b>' . stodbr($this -> line['pes_data']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Dt. Atualizacao: <b>' . stodbr($this -> line['pes_lastupdate']) . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Idade: <b>' . $this -> mostra_idade($this -> nasc) . ' anos</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Dt. Nascimento: <b>' . stodbr($this -> nasc) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Genero: <b>' . $this -> mostra_genero($this -> line['pes_genero']) . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">CPF: <b>' . $this -> mostra_cpf($this -> cpf) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">RG: <b>' . $this -> line['pes_rg'] . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Mae: <b>' . $this -> line['pes_mae'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Pai: <b>' . $this -> line['pes_pai'] . '</b></td></tr>';
+		$sx .= '<tr><td class="lt2">Observações :<br> <b>'. $this->line_cmp['cmp_obs'] . '</b></td></tr>';
+		$sx .= '</table>';
 		$sx .= '</div>
 		';
 		return ($sx);
@@ -199,10 +176,25 @@ class cadastro_pre {
 			$this -> cliente = trim($line['pes_cliente']);
 			$this -> nasc = $line['pes_nasc'];
 			$this -> status = $line['pes_status'];
+			$this->le_complemento($line['pes_cliente']);
 			return (1);
+		}else{
+			return(0);
 		}
 	}
-
+	function le_complemento($id){
+		$sql = "select * from " . $this->tabela_complemento . " 
+				where cmp_cliente = '" . $id . "' and 
+						cmp_cliente_seq = '00' ";
+		$rlt = db_query($sql);
+		if ($line = db_read($rlt)) {
+			$this -> line_cmp = $line;
+			return (1);
+		}else{
+			return(0);
+		}
+		
+	}
 	function busca_nome($nome = '', $cpf = '') {
 		$this -> erro = '';
 		$ok = 0;
@@ -346,9 +338,9 @@ class cadastro_pre {
 		$onclickE_m = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_M\' );" >';
 
 		$sx .= '
-					<div class="pad25">
+					<div class="pad25" valign="top">
 					<img src="../img/imgboxinfo.png" width="200">
-					<table width="100%"><tr><td width="25%">
+					<table width="100%"  valign="top"><tr><td width="25%">
 						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
 								<TR>
@@ -445,7 +437,7 @@ class cadastro_pre {
 	}
 
 	function lista_status_dia($st) {
-		$dt = date('Ym');
+		$dt = date('Ymd');
 		
 		switch ($st) {
 			case '@' :
@@ -591,7 +583,7 @@ class cadastro_pre {
 				break;
 		}
 
-		$sql = " select * 
+		echo $sql = " select * 
 				from " . $this -> tabela . "
 				where 	(pes_data >= " . $dt1 . " and pes_data <= " . $dt2 . ") and
 						(pes_data >= " . $dt1_w . " and pes_data >= " . $dt2_w . ") ".$stx." 
@@ -604,6 +596,7 @@ class cadastro_pre {
 		$sx .= "<th align=center>Codigo</th>";
 		$sx .= "<th align=left>Nome</th>";
 		$sx .= "<th align=center>CPF</th>";
+		$sx .= "<th align=center>Status</th>";
 		$sx .= "<th align=center>Log</th>";
 		$sx .= "<th align=center>Acao</th>";
 		$sx .= "</tr>";
@@ -619,6 +612,7 @@ class cadastro_pre {
 			$sx .= "<td align=center>" . $line['pes_cliente'] . "</td>";
 			$sx .= "<td align=left>" . $line['pes_nome'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cpf'] . "</td>";
+			$sx .= "<td align=center>" . $line['pes_status'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_log'] . "</td>";
 			$sx .= '<td align=center>'.$link.$link1.'</td>';
 			$sx .= "</tr>";
@@ -642,12 +636,12 @@ class cadastro_pre {
 		/***1º dia da semana*/
 		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
 		/***ultimo dia da semana*/
-		$dt2_w = date('Ymd', mktime(0, 0, 0, $m, 6 - $w, $y));
+		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+7, $y));
 
-		$sql = " select pes_status as status, count(pes_status) as total 
+		echo $sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
 				where 	(pes_lastupdate >= " . $dt1 . " and pes_lastupdate <= " . $dt2 . ") and
-						(pes_lastupdate >= " . $dt1_w . " and pes_lastupdate >= " . $dt2_w . ") 
+						(pes_lastupdate >= " . $dt1_w . " and pes_lastupdate <= " . $dt2_w . ") 
 				group by pes_status		 
 		";
 		$rlt = db_query($sql);
@@ -682,7 +676,7 @@ class cadastro_pre {
 	}
 
 	function obtem_quantidade_por_status_dia() {
-		$dt = date('Ym');
+		$dt = date('Ymd');
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
 				where 	pes_lastupdate = " . $dt . " 
@@ -702,6 +696,12 @@ class cadastro_pre {
 		switch ($tp) {
 			case 'C' :
 				$tipo = 'Comercial';
+				break;
+			case 'M' :
+				$tipo = 'Celular';
+				break;
+			case 'E' :
+				$tipo = 'Recado';
 				break;
 			case 'R' :
 				$tipo = 'Residencial';
@@ -1190,7 +1190,22 @@ class cadastro_pre {
 		}
 		return ($seq_nome);
 	}
+	
+	function recupera_propaganda($id){
+		echo '('.$id.')';		
+			
+		ECHO $sql = "select * from propagandas 
+				where prop_codigo='".trim($id)."' 
+				";
+		//$rlt = db_query($sql);
+		//if($line = db_read($rlt)){
+		//	$sx = $line['prop_descricao'];
+		//}else{
+		//	return('Não localizado');
+		//}
 
+		return($sx);
+	}
 	function updatex() {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
 
@@ -1203,20 +1218,33 @@ class cadastro_pre {
 		return (0);
 	}
 
-	function cp_fone() {
-		$cp = array();
-		/*0*/array_push($cp, array('$H8', '', '', False, True));
-		/*1*/array_push($cp, array('$H8', '', 'cliente', False, True));
-		/*2*/array_push($cp, array('$H8', '', 'seq', False, True));
-		/*3*/array_push($cp, array('$S3', '', 'DDD', TRUE, True));
-		/*4*/array_push($cp, array('$S15', '', 'Numero', False, True));
-		/*5*/array_push($cp, array('$O : &C:Celular&F:Fixo', '', 'Tipo', False, True));
-		/*6*/array_push($cp, array('$H8', '', 'data', False, True));
-		/*7*/array_push($cp, array('$H8', '', 'status', False, True));
-		/*8*/array_push($cp, array('$H8', '', 'validado', False, True));
+	//function cp_fone() {
+		//$cp = array();
+		/*0*///array_push($cp, array('$H8', '', '', False, True));
+		/*1*///array_push($cp, array('$H8', '', 'cliente', False, True));
+		/*2*///array_push($cp, array('$H8', '', 'seq', False, True));
+		/*3*///array_push($cp, array('$S3', '', 'DDD', TRUE, True));
+		/*4*///array_push($cp, array('$S15', '', 'Numero', False, True));
+		/*5*///array_push($cp, array('$O : &C:Celular&F:Fixo', '', 'Tipo', False, True));
+		/*6*///array_push($cp, array('$H8', '', 'data', False, True));
+		/*7*///array_push($cp, array('$H8', '', 'status', False, True));
+		/*8*///array_push($cp, array('$H8', '', 'validado', False, True));
 
+		//return ($cp);
+	//}
+	
+	function cp_telefone() {
+		global $dd, $acao;
+		$cp = array();
+		array_push($cp, array('$H8', 'id_tel', '', False, True));
+		array_push($cp, array('$H8', 'tel_cliente', '', True, True));
+		array_push($cp, array('$H8', '', '', False, True));
+		array_push($cp, array('$S2', 'tel_ddd', 'DDD', True, True));
+		array_push($cp, array('$S9', 'tel_numero', 'Telefone', True, True));
+		array_push($cp, array('$O : &M:Celular&R:Residencial&C:Comercial&E:Recado', 'tel_tipo', 'Tipo', True, True));
 		return ($cp);
 	}
+	
 
 	function cp_referencia() {
 		$cp = array();
@@ -1295,22 +1323,28 @@ class cadastro_pre {
 		/*dd4*/array_push($cp, array('$HV', '', '', False, False));
 		/*dd5*/array_push($cp, array('$HV', '', '', False, False));
 
-		/*dd6*/array_push($cp, array('$S8', 'cmp_salario', 'SALARIO', TRUE, True));
-		/*dd7*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALARIO COMPLEMENTAR', TRUE, True));
-		/*dd8*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELACAO ESTAVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
-		/*dd9*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
-		/*dd10*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSAO', TRUE, True));
-		/*dd11*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'Tempo de profissão (anos)', TRUE, True));
-		/*dd12*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'Experiencia com vendas (anos)', TRUE, True));
-		/*dd13*/array_push($cp, array('$O : &1:NAO TEM&2:AUTO FIN&3:IMOVEL FIN + AUTO FIN/QUIT&4:IMOVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
-		/*dd14*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
-		/*dd15*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMOVEL', TRUE, True));
-		/*dd16*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\'', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
-		/*dd17*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\'', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
-		/*dd18*/array_push($cp, array('$B8', '', 'Salvar', False, True));
+		/*dd6*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSÃO', TRUE, True));
+		/*dd7*/array_push($cp, array('$S8', 'cmp_salario', 'SALÁRIO', TRUE, True));
+		/*dd8*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALÁRIO COMPLEMENTAR', TRUE, True));
+		/*dd9*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELAÇÃO ESTÁVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
+		/*dd10*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
+		
+		/*dd11*/array_push($cp, array('$S100', 'cmp_conjuge_nome', 'NOME CONJUGE', TRUE, True));
+		/*dd12*/array_push($cp, array('$S30', 'cmp_conjuge_profissao', 'PROFISSÃO CONJUGE', TRUE, True));
+		/*dd13*/array_push($cp, array('$S8', 'cmp_conjuge_salario', 'SALÁRIO CONJUGE', TRUE, True));
+		
+		
+		/*dd14*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'TEMPO DE PROFISSÃO (anos)', TRUE, True));
+		/*dd15*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'EXPERIÊNCIA COM VENDAS (anos)', TRUE, True));
+		/*dd16*/array_push($cp, array('$O : &1:NÃO TEM&2:AUTO FIN&3:IMÓVEL FIN + AUTO FIN/QUIT&4:IMÓVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
+		/*dd17*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
+		/*dd18*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMÓVEL', TRUE, True));
+		/*dd19*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
+		/*dd20*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
+		/*dd21*/array_push($cp, array('$B8', '', 'Salvar', False, True));
 
-		/*dd19*/array_push($cp, array('$HV', 'cmp_lastupdate_log', $log, False, True));
-		/*dd20*/array_push($cp, array('$HV', 'cmp_lastupdate', date("Ymd"), False, True));
+		/*dd22*/array_push($cp, array('$HV', 'cmp_lastupdate_log', $log, False, True));
+		/*dd23*/array_push($cp, array('$HV', 'cmp_lastupdate', date("Ymd"), False, True));
 		return ($cp);
 
 	}
@@ -1357,7 +1391,7 @@ class cadastro_pre {
 		array_push($cp, array('$B8', '', 'Enviar>>', False, True));
 		return ($cp);
 	}
-
+/*
 	function cp_telefone_admin() {
 		$cp = array();
 
@@ -1373,7 +1407,8 @@ class cadastro_pre {
 		array_push($cp, array('$H11', 'tel_data', '', TRUE, True));
 		return ($cp);
 	}
-
+*/
+ 
 	function validaCPF($cpf = null) {
 		// Verifica se um número foi informado
 		if (empty($cpf)) {
@@ -1652,8 +1687,8 @@ class cadastro_pre {
 		$sx .= '<TH>Nome';
 		$sx .= '<TH>Telefone';
 		$sx .= '<TH>Telefone (Comercial)';
-		$sx .= '<TH>e-emal';
-		$sx .= '<TH>e-emal (alternativo)';
+		$sx .= '<TH>e-email';
+		$sx .= '<TH>e-email (alternativo)';
 
 		while ($line = db_read($rlt)) {
 			$sx .= '<tr  class="lt1">';
@@ -1758,7 +1793,10 @@ class cadastro_pre {
 	}
 	
 	function mostra_resumo(){
-		$sx = $this->mostra();
+		$sx .= '<h3>Dados Pessoais</h3>';
+		$sx .= $this->mostra();
+		$sx .= '<h3>Complemento</h3>';
+		$sx .= $this->mostra_complemento();
 		$sx .= '<h3>Contatos Pessoal</h3>';
 		$sx .= $this->lista_telefone(0);
 		$sx .= '<h3>Endereço</h3>';
@@ -1768,6 +1806,69 @@ class cadastro_pre {
 		return($sx);
 	}
 	
+	function mostra_complemento(){
+		$sx = '<div class="gray border1 pad5">';
+		$sx .= '<table width="100%">';
+		$sx .= '<tr><td width="33%" class="lt2">Profissão : <b>' . $this -> line_cmp['cmp_profissao'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo de profissão :<b> ' . $this -> line_cmp['cmp_emprego_tempo'] . ' ano(s)</b>';
+		$sx .= '	<td width="33%" class="lt2">Experiência com vendas :<b> ' . $this -> line_cmp['cmp_experiencia_vendas'] . ' ano(s)</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Salário :<b> R$ ' . number_format($this -> line_cmp['cmp_salario'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Salário complementar :<b> R$ ' . number_format($this -> line_cmp['cmp_salario_complementar'],2,',','.') . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Estado civil :<b> ' .$this->estado_civil($this -> line_cmp['cmp_estado_civil']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo estado civil :<b> ' . $this -> line_cmp['cmp_estado_civil_tempo'] . ' ano(s)</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Nome conjuge :<b> ' . $this -> line_cmp['cmp_conjuge_nome'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Profissão conjuge : <b>' . $this -> line_cmp['cmp_conjuge_profissao'] . '</b></td></tr>';
+		$sx .= '	<td width="33%" class="lt2">Salário conjuge :<b> R$ ' . number_format($this -> line_cmp['cmp_conjuge_salario'],2,',','.') . '</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Patrimônio : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Valor do aluguel :<b> R$ ' . number_format($this -> line_cmp['cmp_valor_aluguel'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo do imóvel :<b> ' . $this -> line_cmp['cmp_imovel_tempo'] . ' ano(s)</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Propaganda 1 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Propaganda 2 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda2']) . '</b></td></tr>';
+		$sx .= '</table>'; 
+		$sx .= '</div>
+		';
+		
+		return($sx);
+	}
+
+	function sigla_patrimonio($sigla) {
+		switch ($sigla) {
+			case '1' :
+				$sig_nome = 'Nao tem';
+				break;
+			case '2' :
+				$sig_nome = 'Auto F';
+				break;
+			case '3' :
+				$sig_nome = 'Imovel F + Auto F/Q';
+				break;
+			case '4' :
+				$sig_nome = 'Imovel Q + Auto Q';
+				break;
+			default :
+				$sig_nome = 'Verificar com TI, novo patrimonio adicionado';
+				break;
+		}
+		return ($sig_nome);
+	}
+	
+	function estado_civil($st){
+		switch ($st) {
+			case 'C':
+				$sx = 'CASADO';
+				break;
+			case 'S':
+				$sx = 'SOLTEIRO';
+				break;
+			case 'R':
+				$sx = 'RELAÇÃO ESTÁVEL';
+				break;	
+			default:
+				$sx = 'NÃO INFORMADO';
+				break;
+		}
+		return($sx);
+	}
 	function buscar_por_cep($cep=''){
 		global $dd;
 		if(strlen(trim($cep))>0){

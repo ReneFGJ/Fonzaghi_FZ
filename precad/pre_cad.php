@@ -105,6 +105,8 @@ switch ($ps) {
 	case '7':
 		$cp = $pre -> cp_07();
 		echo $pre->mostra();
+		echo '<h3>Complemento</h3>';
+		echo $pre->mostra_complemento();
 		echo '<h3>Contatos Pessoal</h3>';
 		echo $pre->lista_telefone(0);
 

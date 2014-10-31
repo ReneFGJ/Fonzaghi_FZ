@@ -5,12 +5,22 @@ $idv = substr(date("s"), 1, 1);
 $idv = '4';
 $video = '';
 require ("db.php");
+//require("../_include/sisdoc_debug.php");
+require("_class/_class_user.php");
 require("_class/_class_header_fz.php");
+require("_class/_class_user_perfil.php");
+$perfil = new user_perfil;
+
 $hd = new header;
+$user = new user;
 echo $hd->head();
+$user->security();
+$ss = $user;
 
 $http = "/fz/";
 //$http = "/projetos/Fonzaghi_FZ/";
+
+$hd->http = $http;
 
 if ($nocab==1)
    {
@@ -20,11 +30,10 @@ if ($nocab==1)
 			<head>
 				<meta charset="iso-8859-1">
 				<title>Fonzaghi :: INTRANET ::</title>
-				<meta charset="ISO-8859-1" description" content="">
+				<meta charset="ISO-8859-1" CONTENT="3600; URL='.$http.'logout.php>
 				<meta name="description" content="Fonzaghi">
 				<link rel="icon" type="img/png" href="favicon.png">
 				<link rel="stylesheet" href="'.$http.'css/cicpg-inport-font.css">
-				<link rel="stylesheet" href="'.$http.'css/cicpg-header-main.css">
 				<link rel="stylesheet" href="'.$http.'css/cicpg_normal.css">
 				<link rel="stylesheet" href="'.$http.'css/font-awesome-4.2.0/css/font-awesome.css">
 				<link rel="stylesheet" href="'.$http.'css/font-awesome-4.2.0/css/font-awesome.min.css">
@@ -55,11 +64,10 @@ if ($nocab==1)
 			<head>
 				<meta charset="iso-8859-1">
 				<title>Fonzaghi :: INTRANET ::</title>
-				<meta charset="ISO-8859-1" description" content="">
+				<meta charset="ISO-8859-1" CONTENT="3600; URL='.$http.'logout.php>
 				<meta name="description" content="Fonzaghi">
 				<link rel="icon" type="img/png" href="favicon.png">
 				<link rel="stylesheet" href="'.$http.'css/cicpg-inport-font.css">
-				<link rel="stylesheet" href="'.$http.'css/cicpg-header-main.css">
 				<link rel="stylesheet" href="'.$http.'css/cicpg_normal.css">
 				<link rel="stylesheet" href="'.$http.'css/font-awesome-4.2.0/css/font-awesome.css">
 				<link rel="stylesheet" href="'.$http.'css/font-awesome-4.2.0/css/font-awesome.min.css">
@@ -91,6 +99,4 @@ if ($nocab==1)
 				</script>
 		<div style="height:30px"></div>';
    }
-
-	
 ?>
