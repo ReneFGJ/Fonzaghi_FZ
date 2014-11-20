@@ -20,10 +20,12 @@ $pre->row_mailing();
 $busca = true;
 $offset = 20;
 $tab_max = "100%";
+$order  = "cl_cliente";
 echo '<div>';
 	echo '<TABLE width="98%" align="center"><TR><TD>';
 	require($include.'sisdoc_colunas.php');
 	require($include.'sisdoc_row.php');	
 	echo '</table>';	
 echo '</div>';
+
 ?>

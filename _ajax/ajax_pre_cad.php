@@ -7,7 +7,8 @@ require ($include . 'sisdoc_data.php');
 require ($include . '_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
-
+require ("../_class/_class_messages.php");
+$msg = new message;
 require ("../_class/_class_cadastro_pre_mailing.php");
 $mail = new cadastro_pre_mailing;
 $mail -> include_class = $include_db;
@@ -34,6 +35,7 @@ switch($verb) {
 		$pre -> obter_dados($dd[0], '00');
 		$pre -> calcular_pontuacao();
 		echo $pre -> mostra_resumo();
+		echo $pre->restricoesACP();
 		break;
 	case 'PONTUACAO' :
 		$pre -> le($dd[0]);
@@ -77,30 +79,30 @@ switch($verb) {
 			/*redireciona com delay de 5 segundos*/
 			redirecionar("pre_mailing.php",5);
 		}	
-
 		break;
 	case 'CEP_BUSCA' :
 		global $dd;
 		echo $pre->buscar_por_cep($aux);
 		break;	
-	
 	case 'ALTERAR_STATUS' :
 		$pre->salvar_status($aux,$aux2);
 		/*redireciona com delay de 5 segundos*/
 		redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
 		break;	
+	case 'MSG' :
+		require($include.'_class_form.php');
+		$form = new form;
+		echo $form->ajax('msg','');
 		
+		break;	
 	default :
 		break;
 }
+
 function redirecionar($link,$delay){
 	sleep($delay);
 	echo '<script>window.location.replace("'.$link.'");</script>';
 }
-
-
-
-
 
 function tela_1() {
 	$pre -> le($dd[0]);
@@ -122,7 +124,6 @@ function tela_1() {
 					   font-family:RobotoThin;
 					   font-weight:900;" ';
 	$sty1 = 'style=" font-size:30px;" ';
-
 	$pontuacao = '<div width="100%" ' . $sty . '>
 					<div align="right">' . $pre -> status($pre -> status) . '</div>
 					<div align="right" ' . $sty1 . '>PONTUAÇÃO (' . $pre -> TTpontos . ')</div>

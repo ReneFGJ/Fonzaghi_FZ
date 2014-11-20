@@ -72,3 +72,21 @@ function altera_status(id,status){
 }
 
 
+$("#msg_main").click(function() {
+		$("#msg_main").addClass("cad_msg_box");
+		$.ajax({
+			type : "POST",
+			url : "../_ajax/ajax_pre_cad.php",
+			data : {
+				dd0 : "",
+				dd1 : "MSG",
+			}
+		}).fail(function() {
+			alert("error");
+		}).done(function(data) {
+			$("#msg_main").html(data);
+		});
+
+	}); 
+
+

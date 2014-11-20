@@ -949,6 +949,8 @@ class cadastro_pre {
 			$sx .= '<font class="lt0">' . trim($line['ret_nome']) . '&nbsp;</font>';
 			$sx .= '<BR>';
 			$sx .= $this -> formata_telefone($line['ref_numero'], $line['ref_ddd']);
+			$sx .= '<BR>';
+			$sx .= $this -> formata_telefone($line['ref_numero2'], $line['ref_ddd2']);
 			$comercial = $line['ret_tipo'];
 			if ($comercial == 'C') {
 				$sx .= '<BR><font class="lt1 fnt_blue"><B>** COMERCIAL **</B>';
@@ -956,6 +958,12 @@ class cadastro_pre {
 			$sx .= '</div>';
 		}
 		return ($sx);
+	}
+
+	function lista_restrições(){
+		$acp = new acp;
+		$acp = '';
+		return($sx);
 	}
 
 	function insere_referencia($nome, $ddd, $telefone, $obs, $data, $grau) {
@@ -1062,10 +1070,10 @@ class cadastro_pre {
 		};
 		$sql = "insert into " . $this -> tabela . " 
 					(pes_cliente_seq,pes_cpf,pes_data,
-					  pes_status, pes_log $set1)
+					  pes_status, pes_log ".$set1.")
 					values 
-					('$seq','$cpf', $date,
-					  '@', '$user->user_log' $set2 
+					('".$seq."','".$cpf."', ".$date.",
+					  '@', '".$user->user_log."'".$set2." 
 					)";
 		$rlt = db_query($sql);
 		$this -> updatex();
@@ -1244,21 +1252,6 @@ class cadastro_pre {
 		array_push($cp, array('$O : &M:Celular&R:Residencial&C:Comercial&E:Recado', 'tel_tipo', 'Tipo', True, True));
 		return ($cp);
 	}
-	
-
-	function cp_referencia() {
-		$cp = array();
-		/*0*/array_push($cp, array('$H8', '', '', False, True));
-		/*1*/array_push($cp, array('$H8', '', 'cliente', False, True));
-		/*2*/array_push($cp, array('$H8', '', 'seq', False, True));
-		/*3*/array_push($cp, array('$S30', '', 'Nome', true, True));
-		/*4*/array_push($cp, array('$Q ret_nome:ret_codigo:select * from cad_referencia_tipo', '', 'Grau', True, True));
-		/*5*/array_push($cp, array('$S3', '', 'DDD', TRUE, True));
-		/*6*/array_push($cp, array('$S15', '', 'Numero', true, True));
-		/*7*/array_push($cp, array('$T 40:5', '', 'Observacao', False, True));
-
-		return ($cp);
-	}
 
 	function cp_endereco() {
 		global $dd;
@@ -1266,22 +1259,45 @@ class cadastro_pre {
 		if (strlen($cep) == 8) { $dd[4] = $cep;
 		} else { $dd[4] == '';
 		}
+				
 		$cp = array();
-		/*0*/array_push($cp, array('$H8', '', '', False, True));
-		/*1*/array_push($cp, array('$H8', '', '', False, True));
+		/*0*/array_push($cp, array('$H8', 'id_end', '', False, True));
+		/*1*/array_push($cp, array('$H8', 'end_cliente', '', False, True));
 		/*2*/array_push($cp, array('$H8', '', '', False, True));
 		/*3*/array_push($cp, array('$H8', '', '', False, True));
-		/*4*/array_push($cp, array('$S10', '', 'CEP', TRUE, True));
-		/*5*/array_push($cp, array('$S100', '', 'Endereco', True, True));
-		/*6*/array_push($cp, array('$S10', '', 'Numero', True, True));
-		/*7*/array_push($cp, array('$S30', '', 'Complemento', True, True));
-		/*8*/array_push($cp, array('$S30', '', 'Bairro', True, True));
-		/*9*/array_push($cp, array('$Q ds_cidade_nome:ds_cidade_nome:select * from cidades order by ds_cidade_nome ', '', 'Cidade', True, True));
+		/*4*/array_push($cp, array('$S10', 'end_cep', 'CEP', TRUE, True));
+		/*5*/array_push($cp, array('$S100', 'end_rua', 'Endereco', True, False));
+		/*6*/array_push($cp, array('$S10', 'end_numero', 'Numero', True, True));
+		/*7*/array_push($cp, array('$S30', 'end_complemento', 'Complemento', True, True));
+		/*8*/array_push($cp, array('$S30', 'end_bairro', 'Bairro', True, False));
+		/*9*/array_push($cp, array('$S30', 'end_cidade', 'Cidade', True, False));
+		/*10*/array_push($cp, array('$S2  ', 'end_estado', 'Estado', True, False));
+		/*11*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'end_status', 'Status', True, True));
+		/*12*/array_push($cp, array('$O 0:Não validado&0:Validado', 'end_status', 'Validado', True, True));
 		
 		
 		return ($cp);
 	}
 
+	function cp_referencia() {
+		$cp = array();
+		/*0*/array_push($cp, array('$H8', 'id_ref', '', False, True));
+		/*1*/array_push($cp, array('$H8', 'ref_cliente', 'cliente', False, True));
+		/*2*/array_push($cp, array('$H8', 'ref_cliente_seq', 'seq', False, True));
+		/*3*/array_push($cp, array('$S30', 'ref_nome', 'Nome', true, True));
+		/*4*/array_push($cp, array('$Q ret_nome:ret_codigo:select * from cad_referencia_tipo', 'ref_grau', 'Grau', True, True));
+		/*5*/array_push($cp, array('$S3', 'ref_ddd', '1.DDD', TRUE, True));
+		/*6*/array_push($cp, array('$S15', 'ref_numero', '1.Numero', true, True));
+		/*7*/array_push($cp, array('$S3', 'ref_ddd2', '2.DDD', False, True));
+		/*8*/array_push($cp, array('$S15', 'ref_numero2', '2.Numero', False, True));
+		/*9*/array_push($cp, array('$T 40:5', 'ref_observacao', 'Observacao', False, True));
+		/*10*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'ref_status', 'Status', True, True));
+		/*11*/array_push($cp, array('$O 0:Não validado&0:Validado', 'ref_status', 'Validado', True, True));
+
+		return ($cp);
+	}
+
+	
 	function cp_00() {
 		$cp = array();
 		/*0*/array_push($cp, array('$H8', '', '', False, True));
@@ -1803,6 +1819,8 @@ class cadastro_pre {
 		$sx .= $this->lista_endereco(0);
 		$sx .= '<h3>Referências</h3>';
 		$sx .= $this->lista_referencia(0);
+		$sx .= '<h3>Restrições</h3>';
+		$sx .= $this->lista_restrições();
 		return($sx);
 	}
 	
@@ -1943,7 +1961,49 @@ class cadastro_pre {
 		}
 		return($sx);
 	}
-			
+	
+	function row_telefones(){
+		global $tabela, $http_edit, $http_edit_para, $cdf, $cdm, $masc, $offset, $order;
+		$tabela = "cad_telefone";
+		$label = "";
+		$http_edit = 'pre_telefones_ed.php';
+		$offset = 20;
+		$order = "tel_cliente";
+
+		$cdf = array('id_tel', 'tel_cliente', 'tel_ddd', 'tel_numero', 'tel_tipo','tel_data');
+		$cdm = array('ID', 'Cliente', 'DDD', 'Telefone', 'Tipo','data');
+		$masc = array('', '#', '#', '#', '#', 'D', '#');
+		return (true);
+	}		
+	
+	function row_enderecos(){
+		global $tabela, $http_edit, $http_edit_para, $cdf, $cdm, $masc, $offset, $order;
+		$tabela = "cad_endereco";
+		$label = "";
+		$http_edit = 'pre_endereco_ed.php';
+		$offset = 20;
+		$order = "end_cliente";
+
+		$cdf = array('id_end', 'end_cliente', 'end_rua', 'end_numero', 'end_cep');
+		$cdm = array('ID', 'Codigo', 'Rua', 'Número', 'CEP');
+		$masc = array('', '#', '', '#', '#', '#', '#');
+		return (true);
+	}
+	
+	function row_referencias(){
+		global $tabela, $http_edit, $http_edit_para, $cdf, $cdm, $masc, $offset, $order;
+		$tabela = " cad_referencia ";
+		$label = "";
+		$http_edit = 'pre_referencias_ed.php';
+		$offset = 20;
+		$order = "ref_cliente";
+		$edit = true;
+
+		$cdf = array('id_ref', 'ref_cliente', 'ref_nome','ref_ddd','ref_numero','ref_ddd2','ref_numero2', 'ref_observacao','ref_data');
+		$cdm = array('ID', 'Codigo', 'Nome', 'DDD 1', 'Telefone 1', 'DDD 2', 'Telefone 2','Observações','Cadastro');
+		$masc = array('', '#', '', '#', '#', '#', '#','','D','','','');
+		return (true);
+	}
 	
 	
 }

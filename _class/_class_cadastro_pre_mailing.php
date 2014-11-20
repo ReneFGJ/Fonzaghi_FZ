@@ -13,7 +13,7 @@ require_once ('_class_cadastro_pre.php');
 class cadastro_pre_mailing extends cadastro_pre {
 	var $include_class = '../';
 	function row_mailing() {
-		global $tabela, $http_edit, $http_edit_para, $cdf, $cdm, $masc, $offset, $order;
+		global $tabela, $http_edit, $http_edit_para, $cdf, $cdm, $masc, $offset;
 		$tabela = "cadastro";
 		$label = "Consultoras inativas mais de 6 meses";
 		$http_edit = 'pre_cad_mailing_ed.php';
@@ -22,7 +22,7 @@ class cadastro_pre_mailing extends cadastro_pre {
 
 		$cdf = array('cl_cliente', 'cl_cliente', 'cl_nome', 'cl_dtcadastro', 'cl_last');
 		$cdm = array('ID', 'Codigo', 'Nome', 'Cadastro', 'Ultimo movimento');
-		$masc = array('', '', '', '', '', '', '');
+		$masc = array('#', '#', '', 'D', 'D', '', '');
 		return (true);
 	}
 

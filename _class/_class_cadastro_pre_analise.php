@@ -43,6 +43,10 @@ class cadastro_pre_analise extends cadastro_pre {
 	var $TTrestricoes_vlr = '';
 	/**Total de restrições CHQs e SPCs. @name $TTrestricoes */
 	var $TTrestricoes = '';
+	/**Restrições acp*/
+	var $restricoes = '';
+	/**Restrições acp*/
+	var $restricoesACP = array();
 	/**Total dos pontos calculados segundo criterios de avalição. @name $TTpontos */
 	var $TTpontos = 0;
 	/**Latitude da Fonzaghi para ser utilizado no calculo da distância. @name $latF*/
@@ -163,7 +167,24 @@ class cadastro_pre_analise extends cadastro_pre {
 		$acp -> calcular_restricoes($this -> cpf);
 		$this -> TTrestricoes = $acp -> TTrestricoes;
 		$this -> TTrestricoes_vlr = $acp -> TTrestricoes_vlr;
+		$this -> restricoesACP = $acp->restricoesSPC;
+		$this->restricoesACP();
 		return (1);
+	}
+	
+	function restricoesACP(){
+		$sx = '<table class="left radius5 margin5 pad5 border1 orange_light" width="100%">';
+		$sx .= '<tr><th align="center">Data</th>
+					<th align="center">Valor</th>
+					<th align="center">Informante</th></tr>';
+		foreach ($this -> restricoesACP as $key => $value) {
+			$sx .= '<tr><td align="center">'.stodbr($value[0]).'</td>
+						<td align="center">'.$value[1].'</td>
+						<td align="center">'.$value[2].'</td></tr>';	
+		}
+		$sx .= '</table>';
+		$this -> restricoes = $sx;
+		return($sx);
 	}
 
 	/**
