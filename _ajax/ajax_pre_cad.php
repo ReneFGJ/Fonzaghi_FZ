@@ -7,8 +7,10 @@ require ($include . 'sisdoc_data.php');
 require ($include . '_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
-require ("../_class/_class_messages.php");
-$msg = new message;
+
+//require ("../_class/_class_messages.php");
+//$msg = new message;
+
 require ("../_class/_class_cadastro_pre_mailing.php");
 $mail = new cadastro_pre_mailing;
 $mail -> include_class = $include_db;
@@ -82,6 +84,7 @@ switch($verb) {
 		break;
 	case 'CEP_BUSCA' :
 		global $dd;
+		require ("../_class/_class_geocode.php");
 		echo $pre->buscar_por_cep($aux);
 		break;	
 	case 'ALTERAR_STATUS' :
@@ -90,10 +93,10 @@ switch($verb) {
 		redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
 		break;	
 	case 'MSG' :
-		require($include.'_class_form.php');
-		$form = new form;
-		echo $form->ajax('msg','');
-		
+		//require($include.'_class_form.php');
+		//$form = new form;
+		//echo $form->ajax('msg','');
+		echo 'aqui';
 		break;	
 	default :
 		break;

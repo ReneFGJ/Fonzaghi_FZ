@@ -2,7 +2,6 @@
 require ('cab.php');
 $editar = 1;
 require ($include . 'sisdoc_data.php');
-
 require ("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 

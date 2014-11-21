@@ -80,6 +80,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> recupera_dados_pelo_codigo();
 		$this -> recuperar_codigo_complemento();
 		$this -> recupera_referencia_pelo_codigo();
+		$this->ultimo_endereco_cliente();
 		$this -> calcular_restricoes();
 		$this -> cpf = $this -> line['pes_cpf'];
 		$nasc = $this -> line['pes_nasc'];
@@ -87,7 +88,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> genero = $this -> line['pes_genero'];
 		$this -> avalista = $this -> line['pes_avalista'];
 		$this -> avalista_cod = $this -> line['pes_avalista_cod'];
-		$this -> dist_moradia = $this -> calcular_distancia();
+		$this -> dist_moradia = $this -> calcular_distancia($this->latC,$this->longC);
 		$this -> patrimonio = $this -> line_cmp['cmp_patrimonio'];
 		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar'];
 		$this -> xp_vendas = $this -> line_cmp['cmp_experiencia_vendas'];
@@ -104,8 +105,8 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sty2 = ' class="pre_tabela01"';
 		$sx = '<center><table class="pre_tabela">';
 		$sx .= '<tr><td' . $sty1 . 'colspan="2">Nome da candidata a consultora</td><td></td><td colspan="5"' . $sty1 . '>' . $this -> nome . '</td></tr>';
-		$sx .= '<tr><td' . $sty1 . ' colspan="2">Endereco de moradia</td><td></td><td ' . $sty1 . 'colspan="5">Nome da rua</td></tr>';
-		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>' . $this -> TTpontos . '</td><td></td><td' . $sty1 . ' colspan="2">cep</td><td' . $sty1 . 'colspan="3">cidade</td></tr>';
+		$sx .= '<tr><td' . $sty1 . ' colspan="2">Endereco de moradia</td><td></td><td ' . $sty1 . 'colspan="5">'.$this->rua.' , '.$this->rua_num.' - '.$this->bairro.'</td></tr>';
+		$sx .= '<tr><td class="pre_tabelaPT" rowspan="2" colspan="2">Pontuacao<br>' . $this -> TTpontos . '</td><td></td><td' . $sty1 . ' colspan="2">CEP : '.$this->cep.'</td><td' . $sty1 . 'colspan="3">'.$this->cidade.' - '.$this->estado.'</td></tr>';
 		$sx .= '<tr><td></td><td' . $sty1 . ' colspan="3">Area de risco?</td><td ' . $sty1 . ' colspan="2">Sim/nao</td></tr>';
 		$sx .= '<tr><td' . $sty1 . ' colspan="2" >Criterio</td><td></td><td' . $sty1 . ' colspan="2">Dados do Cadastro</td><td' . $sty1 . '>Peso</td><td' . $sty1 . '>P</td><td' . $sty1 . '>Pontos</td></tr>';
 		$sx .= $this -> relatorio;

@@ -30,7 +30,7 @@ $telefone->include_class = $include_db;
 $tab_max='100%';
 
 $cliente = $dd[0];
-
+$_SESSION['cad_cliente'] = $cliente;
 $cons->le($cliente);
 $cons->le_endereco($cliente);
 

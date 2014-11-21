@@ -22,6 +22,11 @@ $http = "/fz/";
 
 $hd->http = $http;
 
+/*setar  com 1 caso nao queira zerar o cliente na inicialização da pagina*/
+if($nocliente==0){
+	unset($_SESSION['cad_cliente']);
+}
+
 if ($nocab==1)
    {
 	    echo '<!DOCTYPE html>

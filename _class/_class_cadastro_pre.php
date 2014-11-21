@@ -8,7 +8,6 @@
  * @package _class
  * @subpackage _class_cadastro_pre.php
  */
-
 if (!(function_exists("cpf"))) {
 	function cpf($cpf) {
 		$cpf = sonumero($cpf);
@@ -54,6 +53,13 @@ class cadastro_pre {
 	var $nasc = '';
 	var $status = '';
 	var $line = '';
+	var $latC = 0; 
+	var $longC = 0;
+	var $rua = '';
+	var $cep = '';
+	var $cidade = '';
+	var $rua_num = '';
+	var $bairro = '';
 
 	var $referencias = array();
 
@@ -174,6 +180,7 @@ class cadastro_pre {
 			$this -> nome = trim($line['pes_nome']);
 			$this -> cpf = trim($line['pes_cpf']);
 			$this -> cliente = trim($line['pes_cliente']);
+			$_SESSION['cad_cliente'] = $this -> cliente;
 			$this -> nasc = $line['pes_nasc'];
 			$this -> status = $line['pes_status'];
 			$this->le_complemento($line['pes_cliente']);
@@ -182,6 +189,7 @@ class cadastro_pre {
 			return(0);
 		}
 	}
+	
 	function le_complemento($id){
 		$sql = "select * from " . $this->tabela_complemento . " 
 				where cmp_cliente = '" . $id . "' and 
@@ -207,6 +215,7 @@ class cadastro_pre {
 				$this -> erro .= 'CPF Inválido';
 			}
 		}
+		
 		if ((strlen($nome) > 0) and ($ok == 0)) {
 			$ok = 1;
 			$sql = "select * from " . $this -> tabela . " 
@@ -215,6 +224,7 @@ class cadastro_pre {
 								limit 100
 								";
 		}
+		
 		if ($ok == 1) {
 			$rlt = db_query($sql);
 			$id = 0;
@@ -289,11 +299,10 @@ class cadastro_pre {
 
 	function formulario_de_busca() {
 		global $dd, $acao;
-		$sx .= '<form method="get" action="' . page() . '">
-					<div>
-					<img src="../img/imgboxcad.png" width="200">
-					<div class="pad5 radius10" style="background-color: #F0F0F0; width:80%;">
+		$sx .= '<form method="get" action="pre_cadastro.php">
+						<div class="pad5 radius10" style="background-color: #F0F0F0; width:98%;">
 						<table width="100%" border=0 class="tabela00">
+							<tr><td rowspan="8"><img src="../img/imgboxcad.png" width="200"></td></tr>
 							<TR>
 							<TD class="lt1">NOME DE BUSCA
 							<tr>
@@ -303,9 +312,10 @@ class cadastro_pre {
 							<TD class="lt1">CPF DE BUSCA
 							<TR>
 							<td><input type="text" id="dd2" name="dd2" value="' . $dd[2] . '" size="15"  class="precad_form_string">							
+							<TR>
+							<td>
 							<input type="submit" name="acao" value="buscar"  class="precad_form_submit">
 						</table>
-					</div>
 					</div>
 					</form>
 					';
@@ -339,7 +349,6 @@ class cadastro_pre {
 
 		$sx .= '
 					<div class="pad25" valign="top">
-					<img src="../img/imgboxinfo.png" width="200">
 					<table width="100%"  valign="top"><tr><td width="25%">
 						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
@@ -583,7 +592,7 @@ class cadastro_pre {
 				break;
 		}
 
-		echo $sql = " select * 
+		$sql = " select * 
 				from " . $this -> tabela . "
 				where 	(pes_data >= " . $dt1 . " and pes_data <= " . $dt2 . ") and
 						(pes_data >= " . $dt1_w . " and pes_data >= " . $dt2_w . ") ".$stx." 
@@ -638,7 +647,7 @@ class cadastro_pre {
 		/***ultimo dia da semana*/
 		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+7, $y));
 
-		echo $sql = " select pes_status as status, count(pes_status) as total 
+		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
 				where 	(pes_lastupdate >= " . $dt1 . " and pes_lastupdate <= " . $dt2 . ") and
 						(pes_lastupdate >= " . $dt1_w . " and pes_lastupdate <= " . $dt2_w . ") 
@@ -748,7 +757,7 @@ class cadastro_pre {
 		return ($img . $ddd . $num);
 	}
 
-	function insere_endereco($rua, $numero, $complemento, $cep, $bairro, $cidade, $estado = 'PR') {
+	function insere_endereco($rua, $numero, $complemento, $cep, $bairro, $cidade, $estado = 'PR',$long, $lat) {
 		$cliente = $this -> cliente;
 		$cep = sonumero($cep);
 		$data = date("Ymd");
@@ -771,7 +780,8 @@ class cadastro_pre {
 					end_cliente, end_rua, end_numero, 
 					end_complemento, end_bairro, end_cidade,
 					end_estado, end_cep, end_latitude, end_longitude,
-					end_status, end_data, end_validado
+					end_status, end_data, end_validado,
+					end_lat, end_long
 					) values (
 					'$cliente','$rua','$numero',
 					'$complemento','$bairro','$cidade',
@@ -803,7 +813,7 @@ class cadastro_pre {
 					) values (
 					'$cliente','$seq','$ddd',
 					'$telefone','$tipo',$data,
-					0,1
+					0,1,$long, $lat
 					)";
 			$rrr = db_query($sql);
 		}
@@ -868,7 +878,26 @@ class cadastro_pre {
 		}
 		return ($sx);
 	}
+	function ultimo_endereco_cliente(){
+		$sql = "select * from " . $this -> tabela_endereco . " 
+					where end_cliente = '" . $this -> cliente . "' 
+					order by end_data desc 
+					limit 1";
+		$rlt = db_query($sql);
 
+		while ($line = db_read($rlt)) {
+			$this->latC = $line['end_latitude'];
+			$this->longC = $line['end_longitude'];
+			$this->rua = $line['end_rua'];
+			$this->cep = $line['end_cep'];
+			$this->cidade = $line['end_cidade'];
+			$this->estado = $line['end_estado'];
+			$this->rua_num = $line['end_numero'];
+			$this->bairro = $line['end_bairro'];
+		}
+		
+		return($line);
+	}
 	function lista_endereco_adiciona($edit = 0) {
 		global $http;
 		if ($edit == 1) {
@@ -1090,6 +1119,7 @@ class cadastro_pre {
 			$this -> id = $line['id_pes'];
 			$this -> cpf = $line['pes_cpf'];
 			$this -> cliente = $line['pes_cliente'];
+			$_SESSION['cad_cliente'] = $this -> cliente;
 			$this -> nome = $line['pes_nome'];
 			$this -> seq = $line['pes_cliente_seq'];
 			$this -> line = $line;
@@ -1116,6 +1146,7 @@ class cadastro_pre {
 			$this -> id = $line['id_pes'];
 			$this -> cpf = $line['pes_cpf'];
 			$this -> cliente = $line['pes_cliente'];
+			$_SESSION['cad_cliente'] = $this -> cliente;
 			$this -> nome = $line['pes_nome'];
 			$this -> seq = $line['pes_cliente_seq'];
 			$this -> line = $line;
@@ -1200,9 +1231,8 @@ class cadastro_pre {
 	}
 	
 	function recupera_propaganda($id){
-		echo '('.$id.')';		
 			
-		ECHO $sql = "select * from propagandas 
+		$sql = "select * from propagandas 
 				where prop_codigo='".trim($id)."' 
 				";
 		//$rlt = db_query($sql);
@@ -1257,9 +1287,10 @@ class cadastro_pre {
 		global $dd;
 		$cep = sonumero($dd[4]);
 		if (strlen($cep) == 8) { $dd[4] = $cep;
+			
 		} else { $dd[4] == '';
 		}
-				
+		
 		$cp = array();
 		/*0*/array_push($cp, array('$H8', 'id_end', '', False, True));
 		/*1*/array_push($cp, array('$H8', 'end_cliente', '', False, True));
@@ -1274,7 +1305,8 @@ class cadastro_pre {
 		/*10*/array_push($cp, array('$S2  ', 'end_estado', 'Estado', True, False));
 		/*11*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'end_status', 'Status', True, True));
 		/*12*/array_push($cp, array('$O 0:Não validado&0:Validado', 'end_status', 'Validado', True, True));
-		
+		/*13*/array_push($cp, array('$S20', 'end_latitude', 'Latitude', True, True));
+		/*14*/array_push($cp, array('$S20', 'end_longitude', 'Longitude', True, True));
 		
 		return ($cp);
 	}
@@ -1890,6 +1922,9 @@ class cadastro_pre {
 	function buscar_por_cep($cep=''){
 		global $dd;
 		if(strlen(trim($cep))>0){
+			/*busca latitude e longitude*/
+			$geo = new geocode;
+			$geo -> consulta_api_sem_update($cep,$_SESSION['cad_cliente']);
 			$sql = 'select * from (select * from logradouros 
 					where no_logradouro_cep='.$cep.') as tb 
 					inner join bairros on bairros.cd_bairro=tb.cd_bairro
@@ -1904,6 +1939,9 @@ class cadastro_pre {
 				$js .= '$("#dd5").val("'.$line['ds_logradouro_nome'].'");'.chr(13).chr(10);
 				$js .= '$("#dd8").val("'.$line['ds_bairro_nome'].'");'.chr(13).chr(10);
 				$js .= '$("#dd9").val("'.$line['ds_cidade_nome'].'");'.chr(13).chr(10);
+				$js .= '$("#dd10").val("'.$line['ds_uf_sigla'].'");'.chr(13).chr(10);
+				$js .= '$("#dd13").val("'.$geo->lat.'");'.chr(13).chr(10);
+				$js .= '$("#dd14").val("'.$geo->lng.'");'.chr(13).chr(10);
 			}
 			$js .= '});
 					</script>';

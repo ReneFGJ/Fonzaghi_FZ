@@ -1,5 +1,6 @@
 <?php
 require("../_class/_class_cadastro_pre.php");
+require ("../_class/_class_geocode.php");
 
 class ajax
 	{
@@ -49,8 +50,10 @@ class ajax
 				$complemento = strtoupper($dd[7]);
 				$bairro = strtoupper($dd[8]);
 				$cidade = strtoupper($dd[9]);
-				$estado = strtoupper('PR');
-				$cad->insere_endereco($rua,$numero,$complemento,$cep,$bairro,$cidade,$estado);				
+				$estado = $dd[10];
+				$long = $dd[13];
+				$lat = $dd[14];
+				$cad->insere_endereco($rua,$numero,$complemento,$cep,$bairro,$cidade,$estado,$long,$lat);				
 			}
 		function refresh()
 			{
