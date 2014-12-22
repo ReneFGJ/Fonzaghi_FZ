@@ -8,6 +8,9 @@ require ($include . '_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
 
+require("../_class/_class_cadastro_pre_importacao.php");
+$imp = new cadastro_pre_importacao;
+
 //require ("../_class/_class_messages.php");
 //$msg = new message;
 
@@ -111,9 +114,27 @@ switch($verb) {
 		echo $pre->buscar_por_cep($aux);
 		break;	
 	case 'ALTERAR_STATUS' :
-		$pre->salvar_status($aux,$aux2);
-		/*redireciona com delay de 5 segundos*/
-		redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
+		if($aux2<>'E'){
+			require ($include_db."db_mysql_" . $ip . ".php");
+			$pre->salvar_status($aux,$aux2);
+			/*redireciona com delay de 5 segundos*/
+			redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
+		}else{
+			require ($include_db."db_mysql_" . $ip . ".php");
+			$pre -> le($dd[0]);
+			require($include_db.'db_cadastro.php');
+			if($imp->gera_query_insert($pre)){
+				require ($include_db."db_mysql_" . $ip . ".php");
+				$pre->salvar_status($aux,$aux2);
+				/*redireciona com delay de 5 segundos*/
+				redirecionar("pre_cliente_ver.php?dd0=".$aux,2);	
+			}else{
+				echo '<script>alert("Erro : '.$imp->error.'")</script>';
+				redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
+			}	
+		}
+		
+		
 		break;	
 	case 'MSG' :
 		//require($include.'_class_form.php');

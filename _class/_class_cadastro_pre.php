@@ -60,6 +60,8 @@ class cadastro_pre {
 	var $cidade = '';
 	var $rua_num = '';
 	var $bairro = '';
+	var $propaganda1 = '';
+	var $propaganda2 = '';
 
 	var $referencias = array();
 
@@ -198,6 +200,8 @@ class cadastro_pre {
 		$rlt = db_query($sql);
 		if ($line = db_read($rlt)) {
 			$this -> line_cmp = $line;
+			$this -> propaganda1 = $line['cmp_propaganda'];
+			$this -> propaganda2 = $line['cmp_propaganda2'];
 			return (1);
 		}else{
 			return(0);
