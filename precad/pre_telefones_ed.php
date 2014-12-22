@@ -18,6 +18,12 @@ $tela .=  $form -> editar($cp, $tabela);
 $cliente = $dd[1];
 echo '<h3>Alteração de telefones - consultora('.$cliente.')</h3>';
 if ($form -> saved > 0) {
+	$id = $dd[0];
+	$status = 1;
+	$login = $_SESSION['nw_user'];
+	$acao = "215 - ATUALIZOU TELEFONE ID ".$id;
+	$acao_cod = '215';
+	$pre->inserir_log($cliente, $login, $acao,$acao_cod, $status);
 	redirecina('pre_telefones.php');
 }else{
 	echo $tela;

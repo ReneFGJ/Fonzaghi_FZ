@@ -32,6 +32,23 @@ switch($verb) {
 	case 'LISTA_M' :
 		echo $pre -> lista_status_mes($aux);
 		break;
+	case 'LISTA_AGENDA' :
+		require ("../../_db/db_206_telemarket.php");
+		switch ($aux) {
+			case 'D':
+				echo $pre -> lista_agenda_dia();		
+				break;
+			case 'W':
+				echo $pre -> lista_agenda_semana();		
+				break;
+			case 'M':
+				echo $pre -> lista_agenda_mes();		
+				break;
+			default:
+			break;
+		}
+		
+		break;	
 	case 'RESUMO' :
 		$pre -> le($dd[0]);
 		$pre -> obter_dados($dd[0], '00');
@@ -46,8 +63,14 @@ switch($verb) {
 		echo $pre -> mostrar_relatorio();
 		break;
 	case 'MAILING_REMOVE' :
+		$cliente = $aux;
+		$login = $_SESSION['nw_user'];
+		$acao = "225 - REMOVEU MAILING";
+		$acao_cod = '225';
+		$status_registro = 'I';
+		$pre ->inserir_log($cliente, $login, $acao, $acao_cod, $status_registro);
 		require ($include_db . 'db_cadastro.php');
-		echo $mail -> mailing_remove($aux);
+		echo $mail -> mailing_remove($cliente);
 		redirecionar("pre_mailing.php",3);
 		break;
 	case 'MAILING_RETORNO' :

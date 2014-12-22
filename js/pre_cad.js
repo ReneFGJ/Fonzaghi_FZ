@@ -2,6 +2,21 @@
  * @author Willian
  */
 
+function lista_agenda(aux,verbo) {
+	$.ajax({
+		type : "POST",
+		url : "../_ajax/ajax_pre_cad.php",
+		data : {
+			dd0 : aux,
+			dd1 : verbo,
+		}
+	})
+	.fail(function() { alert("error"); })
+	.done(function(data) {
+		$("#lista_status_pre_cad").html(data);
+	});
+}
+
 function lista_status_pre_cad(status,verbo) {
 	$.ajax({
 		type : "POST",

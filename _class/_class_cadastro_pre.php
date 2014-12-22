@@ -105,6 +105,7 @@ class cadastro_pre {
 	var $statusTT_m = array('@' => 0, 'A' => 0, 'T' => 0, 'R' => 0, 'TT' => 0);
 
 	var $class_include = '../../';
+	var $class_include_db = '../../_db/';
 
 	
 	function mostra_nome($sty = '') {
@@ -297,10 +298,10 @@ class cadastro_pre {
 		return ($sx);
 	}
 
-	function formulario_de_busca() {
+	function formulario_de_busca($width=98) {
 		global $dd, $acao;
 		$sx .= '<form method="get" action="pre_cadastro.php">
-						<div class="pad5 radius10" style="background-color: #F0F0F0; width:98%;">
+						<div class="pad5 radius10" style="background-color: #F0F0F0; width:'.$width.'%;">
 						<table width="100%" border=0 class="tabela00">
 							<tr><td rowspan="8"><img src="../img/imgboxcad.png" width="200"></td></tr>
 							<TR>
@@ -343,14 +344,22 @@ class cadastro_pre {
 		$onclickA_w = '<a class="cursor" onclick="lista_status_pre_cad(\'A\',\'LISTA_W\' );" >';
 		$onclickA_m = '<a class="cursor" onclick="lista_status_pre_cad(\'A\',\'LISTA_M\' );" >';
 
-		$onclickE_d = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_D\' );" >';
-		$onclickE_w = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_W\' );" >';
-		$onclickE_m = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_M\' );" >';
+		$onclickY_d = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_D\' );" >';
+		$onclickY_w = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_W\' );" >';
+		$onclickY_m = '<a class="cursor" onclick="lista_status_pre_cad(\'@\',\'LISTA_M\' );" >';
+		
+		$onclickE_d = '<a class="cursor" onclick="lista_status_pre_cad(\'E\',\'LISTA_D\' );" >';
+		$onclickE_w = '<a class="cursor" onclick="lista_status_pre_cad(\'E\',\'LISTA_W\' );" >';
+		$onclickE_m = '<a class="cursor" onclick="lista_status_pre_cad(\'E\',\'LISTA_M\' );" >';
+		
+		$onclickF_d = '<a class="cursor" onclick="lista_status_pre_cad(\'F\',\'LISTA_D\' );" >';
+		$onclickF_w = '<a class="cursor" onclick="lista_status_pre_cad(\'F\',\'LISTA_W\' );" >';
+		$onclickF_m = '<a class="cursor" onclick="lista_status_pre_cad(\'F\',\'LISTA_M\' );" >';
 
 		$sx .= '
-					<div class="pad25" valign="top">
-					<table width="100%"  valign="top"><tr><td width="25%">
-						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
+					<div valign="top" >
+					<table width="98%"  valign="top"><tr><td width="10%" valign="top">
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
 								<TR>
 								<TD class="lt1" colspan=3  align="center"><B>Geral</B></td>
@@ -360,13 +369,13 @@ class cadastro_pre {
 								<TD>na semana
 								<TD>no mês
 								</TR>
-								<TR class="lt5" align="center">
-								<TD>' .$onclickTT_d. $this -> statusTT_d['TT'] . '
-								<TD>' .$onclickTT_w. $this -> statusTT_w['TT'] . '
-								<TD>' .$onclickTT_m. $this -> statusTT_m['TT'] . '
+								<TR class="lt3" align="center">
+								<TD>' .$onclickTT_d. round($this -> statusTT_d['TT']) . '
+								<TD>' .$onclickTT_w. round($this -> statusTT_w['TT']) . '
+								<TD>' .$onclickTT_m. round($this -> statusTT_m['TT']) . '
 							</table>
 						</div>
-						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
 								<TR>
 								<TD class="lt1" colspan=3  align="center"><B>Aprovados</B></td>
@@ -376,13 +385,13 @@ class cadastro_pre {
 								<TD>na semana
 								<TD>no mês
 								</TR>
-								<TR class="lt5" align="center">
-								<TD>' .$onclickA_d. $this -> statusTT_d['A'] . '
-								<TD>' .$onclickA_w. $this -> statusTT_w['A'] . '
-								<TD>' .$onclickA_m. $this -> statusTT_m['A'] . '
+								<TR class="lt3" align="center">
+								<TD>' .$onclickA_d. round($this -> statusTT_d['A']) . '
+								<TD>' .$onclickA_w. round($this -> statusTT_w['A']) . '
+								<TD>' .$onclickA_m. round($this -> statusTT_m['A']) . '
 							</table>
 						</div>
-						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
 								<TR>
 								<TD class="lt1" colspan=3  align="center"><B>Analise</B></td>
@@ -392,13 +401,13 @@ class cadastro_pre {
 								<TD>na semana
 								<TD>no mês
 								</TR>
-								<TR class="lt5" align="center">
-								<TD>' .$onclickT_d. $this -> statusTT_d['T'] . '
-								<TD>' .$onclickT_w. $this -> statusTT_w['T'] . '
-								<TD>' .$onclickT_m. $this -> statusTT_m['T'] . '
+								<TR class="lt3" align="center">
+								<TD>' .$onclickT_d. round($this -> statusTT_d['T']) . '
+								<TD>' .$onclickT_w. round($this -> statusTT_w['T']) . '
+								<TD>' .$onclickT_m. round($this -> statusTT_m['T']) . '
 							</table>
 						</div>
-						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
 								<TR>
 								<TD class="lt1" colspan=3  align="center"><B>Edição</B></td>
@@ -408,13 +417,13 @@ class cadastro_pre {
 								<TD>na semana
 								<TD>no mês
 								</TR>
-								<TR class="lt5" align="center">
-								<TD>' .$onclickE_d. $this -> statusTT_d['@'] . '</a>
-								<TD>' .$onclickE_w. $this -> statusTT_w['@'] . '</a>
-								<TD>' .$onclickE_m. $this -> statusTT_m['@'] . '</a>
+								<TR class="lt3" align="center">
+								<TD>' .$onclickY_d. round($this -> statusTT_d['@']) . '</a>
+								<TD>' .$onclickY_w. round($this -> statusTT_w['@']) . '</a>
+								<TD>' .$onclickY_m. round($this -> statusTT_m['@']) . '</a>
 							</table>
 						</div>
-						<div class="pad5 radius10" style="background-color: #F0F0F0; width:190px;">
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
 							<table width="100%" border=0 class="tabela00">
 								<TR>
 								<TD class="lt1" colspan=3  align="center"><B>Recusados</B></td>
@@ -424,15 +433,47 @@ class cadastro_pre {
 								<TD>na semana
 								<TD>no mês
 								</TR>
-								<TR class="lt5" align="center">
-								<TD>' .$onclickR_d. $this -> statusTT_d['R'] . '
-								<TD>' .$onclickR_w. $this -> statusTT_w['R'] . '
-								<TD>' .$onclickR_m. $this -> statusTT_m['R'] . '
+								<TR class="lt3" align="center">
+								<TD>' .$onclickR_d. round($this -> statusTT_d['R']) . '
+								<TD>' .$onclickR_w. round($this -> statusTT_w['R']) . '
+								<TD>' .$onclickR_m. round($this -> statusTT_m['R']) . '
+							</table>
+						</div>
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
+							<table width="100%" border=0 class="tabela00">
+								<TR>
+								<TD class="lt1" colspan=3  align="center"><B>Comunicar Aprovação</B></td>
+								</TR>
+								<TR class="lt1" align="center">
+								<TD>no dia
+								<TD>na semana
+								<TD>no mês
+								</TR>
+								<TR class="lt3" align="center">
+								<TD>' .$onclickE_d. round($this -> statusTT_d['E']) . '
+								<TD>' .$onclickE_w. round($this -> statusTT_w['E']) . '
+								<TD>' .$onclickE_m. round($this -> statusTT_m['E']) . '
+							</table>
+						</div>
+						<div class="pad1 radius10" style="background-color: #F0F0F0; width:190px;">
+							<table width="100%" border=0 class="tabela00">
+								<TR>
+								<TD class="lt1" colspan=3  align="center"><B>Comunicar Recusa</B></td>
+								</TR>
+								<TR class="lt1" align="center">
+								<TD>no dia
+								<TD>na semana
+								<TD>no mês
+								</TR>
+								<TR class="lt3" align="center">
+								<TD>' .$onclickF_d. round($this -> statusTT_d['F']) . '
+								<TD>' .$onclickF_w. round($this -> statusTT_w['F']) . '
+								<TD>' .$onclickF_m. round($this -> statusTT_m['F']) . '
 							</table>
 						</div>
 					</td>
 					<td width="75%" valign="top">
-						<div id="lista_status_pre_cad"></div>
+						<center><div id="lista_status_pre_cad"  class="scroll500 radius10"  style="background-color: #F0F0F0;"></div></center>
 					</td>
 					</table>
 					</div>
@@ -447,38 +488,30 @@ class cadastro_pre {
 
 	function lista_status_dia($st) {
 		$dt = date('Ymd');
-		
-		switch ($st) {
-			case '@' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'T' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'A' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'R' :
-				$stx  = " and pes_status = '".$st."'";
-			break;
-			default :
-				break;
+		  
+		if($st!='TT'){ 
+			if (strlen(trim($st))>0) {
+					$stx  = " and pes_status = '".$st."'";
+			}
 		}
-
+		
+		
 		$sql = " select * 
 				from " . $this -> tabela . "
 				where 	pes_lastupdate = " . $dt .$stx. " 
 		";
 		$rlt = db_query($sql);
-		$sx = '<h2>Cadastros do dia - '.$this->status($st).'</h2>';
-		$sx .= '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx = '';
+		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx .= "<tr><th align=left><h2>Cadastros do dia - ".$this->status($st)."</h2></th></tr>";
 		$sx .= "<tr>";
-		$sx .= "<th align=center>Data</th>";
-		$sx .= "<th align=center>Codigo</th>";
-		$sx .= "<th align=left>Nome</th>";
-		$sx .= "<th align=center>CPF</th>";
-		$sx .= "<th align=center>Log</th>";
-		$sx .= "<th align=center>Acao</th>";
+		$sx .= "<th align=center width=5>Data</th>";
+		$sx .= "<th align=center width=5>Codigo</th>";
+		$sx .= "<th align=left width=60>Nome</th>";
+		$sx .= "<th align=center width=10>CPF</th>";
+		$sx .= "<th align=center width=5>Status</th>";
+		$sx .= "<th align=center width=5>Log</th>";
+		$sx .= "<th align=center width=10>Acao</th>";
 		$sx .= "</tr>";
 		while ($line = db_read($rlt)) {
 			$cl = $line['pes_cliente'];
@@ -487,10 +520,11 @@ class cadastro_pre {
 			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
-			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
+			$sx .= "<td align=center>" . stodbr($line['pes_data']) . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cliente'] . "</td>";
 			$sx .= "<td align=left>" . $line['pes_nome'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cpf'] . "</td>";
+			$sx .= "<td align=center>" . $line['pes_status'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_log'] . "</td>";
 			$sx .= '<td align=center>'.$link.$link1.'</td>';
 			$sx .= "</tr>";
@@ -505,22 +539,12 @@ class cadastro_pre {
 		$dt1 = $mes . '01';
 		$dt2 = $mes . '32';
 		
-		switch ($st) {
-			case '@' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'T' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'A' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'R' :
-				$stx  = " and pes_status = '".$st."'";
-			break;
-			default :
-				break;
+		if($st!='TT'){ 
+			if (strlen(trim($st))>0) {
+					$stx  = " and pes_status = '".$st."'";
+			}
 		}
+			
 		
 		$sql = " select * 
 				from " . $this -> tabela . "
@@ -529,15 +553,17 @@ class cadastro_pre {
 		";
 		
 		$rlt = db_query($sql);
-		$sx = '<h2>Cadastros do mes - '.$this->status($st).'</h2>';
-		$sx .= '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx = '';
+		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;">';
+		$sx .= "<tr><th colspan=6 align=left><h2>Cadastros do mes - ".$this->status($st)."</h2></th></tr>";
 		$sx .= "<tr>";
-		$sx .= "<th align=center>Data</th>";
-		$sx .= "<th align=center>Codigo</th>";
-		$sx .= "<th align=left>Nome</th>";
-		$sx .= "<th align=center>CPF</th>";
-		$sx .= "<th align=center>Log</th>";
-		$sx .= "<th align=center>Acao</th>";
+		$sx .= "<th align=center width=5>Data</th>";
+		$sx .= "<th align=center width=5>Codigo</th>";
+		$sx .= "<th align=left width=60>Nome</th>";
+		$sx .= "<th align=center width=10>CPF</th>";
+		$sx .= "<th align=center width=5>Status</th>";
+		$sx .= "<th align=center width=5>Log</th>";
+		$sx .= "<th align=center width=10>Acao</th>";
 		$sx .= "</tr>";
 		while ($line = db_read($rlt)) {
 			$cl = $line['pes_cliente'];
@@ -546,10 +572,11 @@ class cadastro_pre {
 			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
 					<img  width="16px" src="../img/icone_pontos.png"></a>';
 			$sx .= "<tr>";
-			$sx .= "<td align=center>" . $line['pes_data'] . "</td>";
+			$sx .= "<td align=center>" . stodbr($line['pes_data']) . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cliente'] . "</td>";
 			$sx .= "<td align=left>" . $line['pes_nome'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_cpf'] . "</td>";
+			$sx .= "<td align=center>" . $line['pes_status'] . "</td>";
 			$sx .= "<td align=center>" . $line['pes_log'] . "</td>";
 			$sx .= '<td align=center>'.$link.$link1.'</td>';
 			$sx .= "</tr>";
@@ -573,41 +600,31 @@ class cadastro_pre {
 		/***1º dia da semana*/
 		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
 		/***ultimo dia da semana*/
-		$dt2_w = date('Ymd', mktime(0, 0, 0, $m, 6 - $w, $y));
+		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
 
-		switch ($st) {
-			case '@' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'T' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'A' :
-				$stx  = " and pes_status = '".$st."'";
-				break;
-			case 'R' :
-				$stx  = " and pes_status = '".$st."'";
-			break;
-			default :
-				break;
+		if($st!='TT'){ 
+			if (strlen(trim($st))>0) {
+					$stx  = " and pes_status = '".$st."'";
+			}
 		}
-
+		
 		$sql = " select * 
 				from " . $this -> tabela . "
 				where 	(pes_data >= " . $dt1 . " and pes_data <= " . $dt2 . ") and
-						(pes_data >= " . $dt1_w . " and pes_data >= " . $dt2_w . ") ".$stx." 
+						(pes_data >= " . $dt1_w . " and pes_data <= " . $dt2_w . ") ".$stx." 
 		";
 		$rlt = db_query($sql);
-		$sx = '<h2>Cadastros da semana - '.$this->status($st).'</h2>';
-		$sx .= '<table width=100% class="pad5 radius10" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx = '';
+		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx .= "<tr><th colspan=6 align=left><h2>Cadastros da semana - ".$this->status($st)."</h2></th>";
 		$sx .= "<tr>";
-		$sx .= "<th align=center>Data</th>";
-		$sx .= "<th align=center>Codigo</th>";
-		$sx .= "<th align=left>Nome</th>";
-		$sx .= "<th align=center>CPF</th>";
-		$sx .= "<th align=center>Status</th>";
-		$sx .= "<th align=center>Log</th>";
-		$sx .= "<th align=center>Acao</th>";
+		$sx .= "<th align=center width=5>Data</th>";
+		$sx .= "<th align=center width=5>Codigo</th>";
+		$sx .= "<th align=left width=60>Nome</th>";
+		$sx .= "<th align=center width=10>CPF</th>";
+		$sx .= "<th align=center width=5>Status</th>";
+		$sx .= "<th align=center width=5>Log</th>";
+		$sx .= "<th align=center width=10>Acao</th>";
 		$sx .= "</tr>";
 
 		while ($line = db_read($rlt)) {
@@ -645,7 +662,7 @@ class cadastro_pre {
 		/***1º dia da semana*/
 		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
 		/***ultimo dia da semana*/
-		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+7, $y));
+		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
 
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
@@ -757,13 +774,12 @@ class cadastro_pre {
 		return ($img . $ddd . $num);
 	}
 
-	function insere_endereco($rua, $numero, $complemento, $cep, $bairro, $cidade, $estado = 'PR',$long, $lat) {
+	function insere_endereco($rua, $numero, $complemento, $cep, $bairro, $cidade, $estado = 'PR',$long=0, $lat=0) {
 		$cliente = $this -> cliente;
 		$cep = sonumero($cep);
 		$data = date("Ymd");
-		$lat = 0;
-		$log = 0;
 		$cidade = uppercase($cidade);
+		$status = '1';
 		$sql = "select * from " . $this -> tabela_endereco . " 
 						where end_cliente = '" . $cliente . "'
 							and end_rua = '" . $rua . "'
@@ -771,7 +787,7 @@ class cadastro_pre {
 		$rlt = db_query($sql);
 
 		if ($line = db_read($rlt)) {
-
+			
 		} else {
 			$data = date("Ymd");
 			$seq = "00";
@@ -780,22 +796,26 @@ class cadastro_pre {
 					end_cliente, end_rua, end_numero, 
 					end_complemento, end_bairro, end_cidade,
 					end_estado, end_cep, end_latitude, end_longitude,
-					end_status, end_data, end_validado,
-					end_lat, end_long
+					end_status, end_data, end_validado
 					) values (
 					'$cliente','$rua','$numero',
 					'$complemento','$bairro','$cidade',
-					'$estado','$cep','$lat','$log',
-					1,$data,0
+					'$estado','$cep','$lat','$long',
+					'$status',$data,0
 					)";
 			$rrr = db_query($sql);
-
+			$login = $_SESSION['nw_user'];
+			$acao = "105 - INSERIU NOVO ENDERECO";
+			$acao_cod = '105';
+			$this->inserir_log($cliente, $login, $acao, $acao_cod, $status);
 		}
+		
 	}
 
 	function insere_telefone($ddd, $telefone, $tipo) {
 		$cliente = $this -> cliente;
 		$telefone = sonumero($telefone);
+		$status = 1;
 		$sql = "select * from " . $this -> tabela_telefone . " 
 						where tel_cliente = '" . $cliente . "'
 							and tel_numero = '" . $telefone . "'";
@@ -813,9 +833,13 @@ class cadastro_pre {
 					) values (
 					'$cliente','$seq','$ddd',
 					'$telefone','$tipo',$data,
-					0,1,$long, $lat
+					0,$status
 					)";
 			$rrr = db_query($sql);
+			$login = $_SESSION['nw_user'];
+			$acao = "115 - INSERIU NOVO TELEFONE";
+			$acao_cod= '115';
+			$this->inserir_log($cliente, $login, $acao, $acao_cod, $status);
 		}
 	}
 
@@ -998,6 +1022,7 @@ class cadastro_pre {
 	function insere_referencia($nome, $ddd, $telefone, $obs, $data, $grau) {
 		$cliente = $this -> cliente;
 		$data = date("Ymd");
+		$status = 1;
 		$sql = "select * from " . $this -> tabela_referencia . " 
 						where ref_cliente = '" . $cliente . "'
 							and ref_ddd = '" . $ddd . "'
@@ -1018,10 +1043,14 @@ class cadastro_pre {
 					) values (
 					'$cliente','$nome','',
 					'$obs',$data,'$grau',
-					'1','1','0',
+					'$status','1','0',
 					'$ddd','$telefone'
 					)";
 			$rrr = db_query($sql);
+			$login = $_SESSION['nw_user'];
+			$acao = "110 - INSERIU NOVA REFERENCIA";
+			$acao_cod = '110';
+			$this->inserir_log($cliente, $login, $acao, $acao_cod,$status);
 		}
 	}
 
@@ -1099,14 +1128,26 @@ class cadastro_pre {
 		};
 		$sql = "insert into " . $this -> tabela . " 
 					(pes_cliente_seq,pes_cpf,pes_data,
-					  pes_status, pes_log ".$set1.")
+					  pes_status, pes_log, pes_lastupdate,
+					  pes_lastupdate_log ".$set1.")
 					values 
 					('".$seq."','".$cpf."', ".$date.",
-					  '@', '".$user->user_log."'".$set2." 
+					  '@', '".$user->user_log."', ".$date.",
+					  '".$user->user_log."' ".$set2." 
 					)";
 		$rlt = db_query($sql);
 		$this -> updatex();
-		return ($this -> recupera_codigo_pelo_cpf($cpf));
+		
+		$id = $this -> recupera_codigo_pelo_cpf($cpf);
+		$cliente = $this->cliente;
+		
+		/*LOG*/
+		$login = $_SESSION['nw_user'];
+		$acao = "100 - INSERIU NOVA CONSULTORA";
+		$acao_cod = '100';
+		$status = '@';
+		$this->inserir_log($cliente, $login, $acao,$acao_cod, $status);
+		return ($id);
 
 	}
 
@@ -1193,6 +1234,13 @@ class cadastro_pre {
 		)
 		";
 			$rlt = db_query($sql);
+			$cliente = $this->cliente;
+			/*LOG*/
+			$login = $_SESSION['nw_user'];
+			$acao = "120 - INSERIU NOVO COMPLEMENTO CONSULTORA";
+			$acao_cod = '120';
+			$status = '@';
+			$this->inserir_log($cliente, $login, $acao, $acao_cod, $status);
 		}
 		return ($this -> recuperar_codigo_complemento());
 	}
@@ -1544,7 +1592,15 @@ class cadastro_pre {
 					break;
 				case 'R' :
 					$this -> tt_geral_R = $ttx;
-					/*recusados*/
+					/*comunicado recusados*/
+					break;
+				case 'F' :
+					$this -> tt_geral_F = $ttx;
+					/*em analise*/
+					break;
+				case 'E' :
+					$this -> tt_geral_E = $ttx;
+					/*comunicado liberao*/
 					break;
 				default :
 			}
@@ -1586,6 +1642,14 @@ class cadastro_pre {
 					$this -> tt_mensal_R = $ttx;
 					/*recusados*/
 					break;
+				case 'F' :
+					$this -> tt_mensal_F = $ttx;
+					/*comunicado recusa*/
+					break;
+				case 'E' :
+					$this -> tt_mensal_E = $ttx;
+					/*comunicado liberao*/
+					break;	
 				default :
 					break;
 			}
@@ -1702,12 +1766,14 @@ class cadastro_pre {
 		return (1);
 	}
 
-	function inserir_log($cliente, $data, $login, $acao, $status_registro) {
+	function inserir_log($cliente, $login, $acao, $acao_cod, $status_registro) {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
+		$data = date('Ymd');
+		$hora = date('H:s');
 		$sql = "INSERT INTO cad_pessoa_log
-					(log_cliente, log_data, log_login, log_acao, log_status_registro) 
+					(log_cliente, log_data,log_hora, log_login, log_acao,log_acao_cod, log_status_registro) 
 				VALUES 
-					('$cliente',$data,'$login','$acao','$status_registro')
+					('$cliente',$data,'$hora','$login','$acao','$acao_cod','$status_registro')
 			";
 		$rlt = db_query($sql);
 		return (1);
@@ -2043,6 +2109,236 @@ class cadastro_pre {
 		return (true);
 	}
 	
+	function agendados($width=100){
+		$sxx = $this->total_agendado();
+		$sx = '
+		<div class="pad5 radius10" style="background-color: #F0F0F0; width:'.$width.'%;">
+			<table width="100%" border=0 class="tabela00">
+				<tr><td rowspan="8"><img src="../img/imgboxagendados.png" width="200"></td>
+				<tr><td>'.$sxx.'</td></tr>
+			</table>
+		</div>
+		';
+		return($sx);
+	}
+	
+	function total_agendado(){
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+		/*mes*/
+		$mes = date('Ym');
+		$dt1 = $mes . '01';
+		$dt2 = $mes . '32';
+
+		/*semana*/
+		$w = date('w');
+		/***1º dia da semana*/
+		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
+		/***ultimo dia da semana*/
+		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
+		
+		$sql = ' select 
+						(select count(*) as mes from listatelefonica 
+							where l_agendar_para>='.$dt1.' and l_agendar_para<='.$dt2.') as mes,
+						(select count(*) as semana from listatelefonica 
+							where l_agendar_para>='.$dt1_w.' and l_agendar_para<='.$dt2_w.') as semana,
+						(select count(*) as dia from listatelefonica 
+							where l_agendar_para>='.$data.' and l_agendar_para<='.$data.') as dia
+		';
+		$rlt = db_query($sql);
+		
+		$onclick_d = '<a class="cursor" onclick="lista_status_pre_cad(\'D\',\'LISTA_AGENDA\' );" >';
+		$onclick_w = '<a class="cursor" onclick="lista_status_pre_cad(\'W\',\'LISTA_AGENDA\' );" >';
+		$onclick_m = '<a class="cursor" onclick="lista_status_pre_cad(\'M\',\'LISTA_AGENDA\' );" >';
+		
+		
+		$sx = '<table><tr><th width="33%" align="center">HOJE</th>
+							<th width="33%" align="center">SEMANA</th>
+							<th width="33%" align="center">MÊS</th></tr>';
+		while($line = db_read($rlt)){
+			$sx .= '<tr>
+						<td align="center" class="lt5">'.$onclick_d.$line['dia'].'</a></td>
+						<td align="center" class="lt5">'.$onclick_w.$line['semana'].'</a></td>
+						<td align="center" class="lt5">'.$onclick_m.$line['mes'].'</a></td>
+					</tr>';
+		}
+		$sx .= '</table>';
+		return($sx);
+	}
+	
+	function updatex_agendamento() {
+		 global $base_name,$base_server,$base_host,$base_user,$user;
+        	$dx1 = 'l_codigo';
+			$dx2 = 'l';
+			$dx3 = 7;
+			echo $sql = "update listatelefonica set ".$dx1."=trim(to_char(id_".$dx2.",'".strzero(0,$dx3)."')) where (length(trim(".$dx1.")) < ".$dx3.") or (".$dx1." isnull);";
+			$rlt = db_query($sql);
+			return(1);
+	}
+	
+	function lista_agenda_dia($aux){
+		$data = date('Ymd');	
+			
+		$sql = ' select * from listatelefonica 
+				 where l_agendar_para='.$data.'
+				 order by l_agendar_para		
+		';
+		$rlt = db_query($sql);
+		
+		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx .= "<tr><th colspan=6 align=left><h2>Agendamentos da dia.</h2></th>";
+		$sx .= '<tr><th width="5%" align="center">Agendado</th>
+					<th width="5%" align="center">Cliente</th>
+					<th width="25%" align="left">Nome</th>
+					<th width="10%" align="center">Telefone</th>
+					<th width="25%" align="left">Comentário</th>
+					<th width="5%" align="center">Status</th>
+					<th width="5%" align="center">Log</th>
+					<th width="20%" align="center">Cadastro</th>
+					<th width="20%" align="center">Ação</th></tr>';
+		while($line = db_read($rlt)){
+			$cl = $line['l_cliente'];
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'">
+					<img  width="16px" src="../img/icone_view.png"></a>';
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
+					<img  width="16px" src="../img/icone_pontos.png"></a>';
+			
+			$sx .= '<tr>';
+			$sx .= '<td align="center">'.stodbr($line['l_agendar_para']).'</td>';
+			$sx .= '<td align="center">'.$cl.'</td>';
+			$sx .= '<td align="left">'.$line['l_nome'].'</td>';
+			$sx .= '<td align="center">'.$line['l_telefone'].'</td>';
+			$sx .= '<td align="left">'.$line['l_comente'].'</td>';
+			$sx .= '<td align="center">'.$line['l_status'].'</td>';
+			$sx .= '<td align="center">'.$line['l_log'].'</td>';
+			$sx .= '<td align="center">'.stodbr($line['l_data']).' - '.$line['l_hora'].'</td>';
+			$sx .= '<td align=center>'.$link.$link1.'</td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '</table>';
+		return($sx);
+	}		
+	
+	function lista_agenda_semana($aux){
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+		/*semana*/
+		$w = date('w');
+		/***1º dia da semana*/
+		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
+		/***ultimo dia da semana*/
+		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
+	
+		$sql = 'select * from listatelefonica 
+				where l_agendar_para>='.$dt1_w.' and 
+						l_agendar_para<='.$dt2_w.' 
+				order by l_agendar_para
+		';
+		
+		$rlt = db_query($sql);
+		
+		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx .= "<tr><th colspan=6 align=left><h2>Agendamentos da semana.</h2></th>";
+		$sx .= '<tr><th width="5%" align="center">Agendado</th>
+					<th width="5%" align="center">Cliente</th>
+					<th width="25%" align="left">Nome</th>
+					<th width="10%" align="center">Telefone</th>
+					<th width="25%" align="left">Comentário</th>
+					<th width="5%" align="center">Status</th>
+					<th width="5%" align="center">Log</th>
+					<th width="20%" align="center">Cadastro</th>
+					<th width="20%" align="center">Ação</th></tr>';
+		while($line = db_read($rlt)){
+			$cl = $line['l_cliente'];
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'">
+					<img  width="16px" src="../img/icone_view.png"></a>';
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
+					<img  width="16px" src="../img/icone_pontos.png"></a>';
+			
+			$sx .= '<tr>';
+			$sx .= '<td align="center">'.stodbr($line['l_agendar_para']).'</td>';
+			$sx .= '<td align="center">'.$cl.'</td>';
+			$sx .= '<td align="left">'.$line['l_nome'].'</td>';
+			$sx .= '<td align="center">'.$line['l_telefone'].'</td>';
+			$sx .= '<td align="left">'.$line['l_comente'].'</td>';
+			$sx .= '<td align="center">'.$line['l_status'].'</td>';
+			$sx .= '<td align="center">'.$line['l_log'].'</td>';
+			$sx .= '<td align="center">'.stodbr($line['l_data']).' - '.$line['l_hora'].'</td>';
+			$sx .= '<td align=center>'.$link.$link1.'</td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '</table>';
+		return($sx);
+	}
+	
+	function lista_agenda_mes($aux){
+		
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+		/*mes*/
+		$mes = date('Ym');
+		$dt1 = $mes . '01';
+		$dt2 = $mes . '32';
+
+		/*semana*/
+		$w = date('w');
+		/***1º dia da semana*/
+		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
+		/***ultimo dia da semana*/
+		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
+		
+		$sql = ' select * from listatelefonica 
+				where 	l_agendar_para>='.$dt1.' and 
+						l_agendar_para<='.$dt2.'
+				 order by l_agendar_para		
+		';
+		$rlt = db_query($sql);
+		
+		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
+		$sx .= "<tr><th colspan=6 align=left><h2>Agendamentos do mês.</h2></th>";
+		$sx .= '<tr><th width="5%" align="center">Agendado</th>
+					<th width="5%" align="center">Cliente</th>
+					<th width="25%" align="left">Nome</th>
+					<th width="10%" align="center">Telefone</th>
+					<th width="25%" align="left">Comentário</th>
+					<th width="5%" align="center">Status</th>
+					<th width="5%" align="center">Log</th>
+					<th width="20%" align="center">Cadastro</th>
+					<th width="20%" align="center">Ação</th></tr>';
+		while($line = db_read($rlt)){
+			$cl = $line['l_cliente'];
+			$link = '<a title="Resumo" href="pre_cliente_ver.php?dd0='.$cl.'">
+					<img  width="16px" src="../img/icone_view.png"></a>';
+			$link1 = '<a title="Pontuacao" href="pre_cliente_ver.php?dd0='.$cl.'">
+					<img  width="16px" src="../img/icone_pontos.png"></a>';
+			
+			$sx .= '<tr>';
+			$sx .= '<td align="center">'.stodbr($line['l_agendar_para']).'</td>';
+			$sx .= '<td align="center">'.$cl.'</td>';
+			$sx .= '<td align="left">'.$line['l_nome'].'</td>';
+			$sx .= '<td align="center">'.$line['l_telefone'].'</td>';
+			$sx .= '<td align="left">'.$line['l_comente'].'</td>';
+			$sx .= '<td align="center">'.$line['l_status'].'</td>';
+			$sx .= '<td align="center">'.$line['l_log'].'</td>';
+			$sx .= '<td align="center">'.stodbr($line['l_data']).' - '.$line['l_hora'].'</td>';
+			$sx .= '<td align=center>'.$link.$link1.'</td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '</table>';
+		return($sx);
+	}
 	
 }
 ?>

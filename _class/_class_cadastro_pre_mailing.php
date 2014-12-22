@@ -48,6 +48,7 @@ class cadastro_pre_mailing extends cadastro_pre {
 		$sql = "update cadastro set cl_last=20990101 where cl_cliente='" . $cliente . "'";
 		$rlt = db_query($sql);
 		$sx = '<div class="red_light fnt_black">CONSULTORA REMOVIDA!!!</div>';
+		
 		return ($sx);
 	}
 

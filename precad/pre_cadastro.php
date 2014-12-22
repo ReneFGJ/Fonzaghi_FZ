@@ -1,5 +1,6 @@
 <?php
 require("cab.php");
+//require ($include . "sisdoc_debug.php");
 require("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 
@@ -25,6 +26,7 @@ if (strlen($dd[1].$dd[2]) > 0)
 	} else {
 		echo $pre->formulario_de_busca();
 	}
+	
 ?>
 
 <script>

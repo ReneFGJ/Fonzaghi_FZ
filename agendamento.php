@@ -48,6 +48,7 @@ if (strlen(trim($dd[1])) > 0) {
 	$tela .= $form -> editar($cp, $tabela);
 
 	if ($form -> saved > 0) {
+		$pre->updatex_agendamento();
 		redirecina('close.php');
 	} else {
 		echo $tela;

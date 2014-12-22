@@ -53,7 +53,7 @@ class ajax
 				$estado = $dd[10];
 				$long = $dd[13];
 				$lat = $dd[14];
-				$cad->insere_endereco($rua,$numero,$complemento,$cep,$bairro,$cidade,$estado,$long,$lat);				
+				$cad->insere_endereco($rua,$numero,$complemento,$cep,$bairro,$cidade,$estado,$long,$lat);
 			}
 		function refresh()
 			{

@@ -26,7 +26,6 @@ class ajax
 				$ddd = $dd[5];
 				$telefone = $dd[6];
 				$obs = strtoupper($dd[7]);
-
 				$cad->insere_referencia($nome,$ddd,$telefone,$obs,$data,$grau);			
 			}
 		function refresh()
