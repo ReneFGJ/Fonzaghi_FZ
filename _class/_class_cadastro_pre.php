@@ -809,9 +809,9 @@ class cadastro_pre {
 					)";
 			$rrr = db_query($sql);
 			$login = $_SESSION['nw_user'];
-			$acao = "105 - INSERIU NOVO ENDERECO";
+			$acao_log = "105 - INSERIU NOVO ENDERECO";
 			$acao_cod = '105';
-			$this->inserir_log($cliente, $login, $acao, $acao_cod, $status);
+			$this->inserir_log($cliente, $login, $acao_log, $acao_cod, $status);
 		}
 		
 	}
@@ -841,9 +841,9 @@ class cadastro_pre {
 					)";
 			$rrr = db_query($sql);
 			$login = $_SESSION['nw_user'];
-			$acao = "115 - INSERIU NOVO TELEFONE";
+			$acao_log = "115 - INSERIU NOVO TELEFONE";
 			$acao_cod= '115';
-			$this->inserir_log($cliente, $login, $acao, $acao_cod, $status);
+			$this->inserir_log($cliente, $login, $acao_log, $acao_cod, $status);
 		}
 	}
 
@@ -1052,9 +1052,9 @@ class cadastro_pre {
 					)";
 			$rrr = db_query($sql);
 			$login = $_SESSION['nw_user'];
-			$acao = "110 - INSERIU NOVA REFERENCIA";
+			$acao_log = "110 - INSERIU NOVA REFERENCIA";
 			$acao_cod = '110';
-			$this->inserir_log($cliente, $login, $acao, $acao_cod,$status);
+			$this->inserir_log($cliente, $login, $acao_log, $acao_cod,$status);
 		}
 	}
 
@@ -1147,10 +1147,10 @@ class cadastro_pre {
 		
 		/*LOG*/
 		$login = $_SESSION['nw_user'];
-		$acao = "100 - INSERIU NOVA CONSULTORA";
+		$acao_log = "100 - INSERIU NOVA CONSULTORA";
 		$acao_cod = '100';
 		$status = '@';
-		$this->inserir_log($cliente, $login, $acao,$acao_cod, $status);
+		$this->inserir_log($cliente, $login, $acao_log,$acao_cod, $status);
 		return ($id);
 
 	}
@@ -1241,10 +1241,10 @@ class cadastro_pre {
 			$cliente = $this->cliente;
 			/*LOG*/
 			$login = $_SESSION['nw_user'];
-			$acao = "120 - INSERIU NOVO COMPLEMENTO CONSULTORA";
+			$acao_log = "120 - INSERIU NOVO COMPLEMENTO CONSULTORA";
 			$acao_cod = '120';
 			$status = '@';
-			$this->inserir_log($cliente, $login, $acao, $acao_cod, $status);
+			$this->inserir_log($cliente, $login, $acao_log, $acao_cod, $status);
 		}
 		return ($this -> recuperar_codigo_complemento());
 	}
@@ -1769,15 +1769,30 @@ class cadastro_pre {
 		}
 		return (1);
 	}
-
-	function inserir_log($cliente, $login, $acao, $acao_cod, $status_registro) {
-		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr;
+	/**
+	 * Codigos já utilizados (adici9one códigos utilizados aqui)
+	 * "100 - INSERIU NOVA CONSULTORA"; 
+	 * "105 - INSERIU NOVO ENDERECO";
+	 * "110 - INSERIU NOVA REFERENCIA";
+	 * "115 - INSERIU NOVO TELEFONE";
+	 * "120 - INSERIU NOVO COMPLEMENTO CONSULTORA";
+	 * "205 - ATUALIZOU ENDERECO ID ".$id;
+	 * "210 - ATUALIZOU REFERENCIA ID ".$id;
+	 * "215 - ATUALIZOU TELEFONE ID ".$id;
+	 * "225 - REMOVEU MAILING";
+	 * "330 - NOVA CONSULTA ACP CPF $cpf";
+	 * "900 - ATUALIZOU CADASTRO POSTGRES";
+	 * "905 - INSERIU CADASTRO POSTGRES";
+	 * "999 - ATUALIZOU STATUS P/ ".$this->status($status);
+	 */
+	function inserir_log($cliente, $login, $acao_log, $acao_cod, $status_registro) {
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $cr,$ip;
 		$data = date('Ymd');
 		$hora = date('H:s');
 		$sql = "INSERT INTO cad_pessoa_log
 					(log_cliente, log_data,log_hora, log_login, log_acao,log_acao_cod, log_status_registro) 
 				VALUES 
-					('$cliente',$data,'$hora','$login','$acao','$acao_cod','$status_registro')
+					('$cliente',$data,'$hora','$login','$acao_log','$acao_cod','$status_registro')
 			";
 		$rlt = db_query($sql);
 		return (1);
@@ -1908,6 +1923,13 @@ class cadastro_pre {
 		$sql .= " where pes_cliente='$cliente' and 
 					   pes_cliente_seq='00'";
 		$rlt = db_query($sql);
+		
+		/*LOG*/
+		$login = $_SESSION['nw_user'];
+		$acao_log = "999 - ATUALIZOU STATUS P/ ".$this->status($status);
+		$acao_cod = '999';
+		$this->inserir_log($cliente, $login, $acao_log,$acao_cod, $status);
+		return (1);
 	}
 	
 	function mostra_resumo(){
@@ -2024,6 +2046,16 @@ class cadastro_pre {
 	}
 	
 	function regras_de_acesso($cliente,$st){
+		global $perfil;
+		/**
+		 * CA1 - Supervisão
+		 * CA2 - Analista
+		 * CA3 - Operador
+		 */
+		if ($perfil->valid('#CCE'))
+		{
+			echo '<script>alert("perfil")</script>';
+		}
 		$edicao = '<span class="cursor bt_botao bt_yellow" onclick="window.location = \'pre_cad_selection.php?dd0='.$cliente.'\';">EDITAR</span>';
 		$analise = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'T\' );  progress(\'progress_bar\');" >ENVIO ANALISE</span>';
 		$aprovar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'E\' );  progress(\'progress_bar\');" >APROVAR</span>';
@@ -2035,35 +2067,56 @@ class cadastro_pre {
 		switch ($st) {
 			case '@':
 				$sx  = '<nav>';
-				$sx .= $analise;
-				$sx .= $edicao;
+				if ($perfil->valid('#CA1#CA2#CA3'))
+				{
+					$sx .= $analise;
+					$sx .= $edicao;
+				}	
 				$sx .= '</nav>';
 				break;
 			case 'T':
 				$sx  = '<nav>';
-				$sx .= $aprovar;
-				$sx .= $recusar;
-				$sx .= $retorna_edicao;
+				if ($perfil->valid('#CA1#CA2'))
+				{
+					$sx .= $aprovar;
+					$sx .= $recusar;
+				}
+				if ($perfil->valid('#CA3'))
+				{	
+					$sx .= $retorna_edicao;
+				}	
 				$sx .= '</nav>';
 				break;
 			case 'E':
 				$sx  = '<nav>';
-				$sx .= $comunica_aprovacao;
+				if ($perfil->valid('#CA1#CA2#CA3'))
+				{
+					$sx .= $comunica_aprovacao;
+				}	
 				$sx .= '</nav>';
 				break;
 			case 'A':
 				$sx  = '<nav>';
-				$sx .= '<a>Aprovado finalizado</a>';
+				if ($perfil->valid('#CA1#CA2#CA3'))
+				{
+					$sx .= '<a>Aprovado finalizado</a>';
+				}	
 				$sx .= '</nav>';
 				break;
 			case 'F':
 				$sx  = '<nav>';
-				$sx .= $comunica_recusa;
+				if ($perfil->valid('#CA1#CA2#CA3'))
+				{
+					$sx .= $comunica_recusa;
+				}	
 				$sx .= '</nav>';
 				break;
 			case 'R':
 				$sx  = '<nav>';
-				$sx .= $retorna_edicao;
+				if ($perfil->valid('#CA1#CA2#CA3'))
+				{
+					$sx .= $retorna_edicao;
+				}	
 				$sx .= '</nav>';
 				break;
 		}

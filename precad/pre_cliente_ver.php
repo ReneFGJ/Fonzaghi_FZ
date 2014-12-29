@@ -12,10 +12,6 @@ $pre -> obter_dados($dd[0], '00');
 $pre -> calcular_pontuacao();
 
 
-
-
-
-
 $bt_menu = $pre->regras_de_acesso($dd[0],$pre -> status);
 $onclickR = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
 $onclickP = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';

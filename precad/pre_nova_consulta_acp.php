@@ -3,7 +3,7 @@ require("cab.php");
 
 require($include.'sisdoc_tips.php');
 require($include.'sisdoc_data.php');
-require($include.'sisdoc_debug.php');
+//require($include.'sisdoc_debug.php');
 require ($include . '_class_form.php');
 require ('../_class/_class_acp.php');
 require ("../_class/_class_cadastro_pre.php");

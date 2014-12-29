@@ -121,16 +121,41 @@ switch($verb) {
 			redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
 		}else{
 			require ($include_db."db_mysql_" . $ip . ".php");
-			$pre -> le($dd[0]);
+			$cliente = $dd[0];
+			$pre -> le($cliente);
 			require($include_db.'db_cadastro.php');
-			if($imp->gera_query_insert($pre)){
-				require ($include_db."db_mysql_" . $ip . ".php");
-				$pre->salvar_status($aux,$aux2);
-				/*redireciona com delay de 5 segundos*/
-				redirecionar("pre_cliente_ver.php?dd0=".$aux,2);	
-			}else{
-				echo '<script>alert("Erro : '.$imp->error.'")</script>';
-				redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
+			$vld = $imp->gera_query_insert($pre); 
+			
+			switch ($vld) {
+				case 0:
+						echo '<script>alert("Erro : '.$imp->error.'")</script>';
+						redirecionar("pre_cliente_ver.php?dd0=".$aux,2);	
+					break;
+				case 1:
+					require ($include_db."db_mysql_" . $ip . ".php");
+					
+					$login = $_SESSION['nw_user'];
+					$status = 'A';
+					$acao = "900 - ATUALIZOU CADASTRO POSTGRES";
+					$acao_cod = '900';
+					$pre->inserir_log($cliente, $login, $acao, $acao_cod,$status);
+					
+					$pre->salvar_status($aux,$aux2);
+					/*redireciona com delay de 5 segundos*/
+					redirecionar("pre_cliente_ver.php?dd0=".$aux,2);	
+					break; 
+				case 2:
+					require ($include_db."db_mysql_" . $ip . ".php");
+					$login = $_SESSION['nw_user'];
+					$status = 'A';
+					$acao = "905 - INSERIU CADASTRO POSTGRES";
+					$acao_cod = '905';
+					$pre->inserir_log($cliente, $login, $acao, $acao_cod,$status);
+					
+					$pre->salvar_status($aux,$aux2);
+					/*redireciona com delay de 5 segundos*/
+					redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
+					break;
 			}	
 		}
 		

@@ -48,7 +48,6 @@ if ($nocab==1)
 				<script src="'.$http.'js/jquery.maskedinput.js"></script>
 		
 				<script src="'.$http.'js/modernizr.custom.js"></script>
-				<script src="http://twitterjs.googlecode.com/svn/trunk/src/twitter.min.js" type="text/javascript"></script>
 				<script type="text/javascript">
 		$(function(){
 		$(\'article.tabs section > h3\').click(function(){
@@ -82,7 +81,6 @@ if ($nocab==1)
 				<script src="'.$http.'js/jquery.maskedinput.js"></script>
 		
 				<script src="'.$http.'js/modernizr.custom.js"></script>
-				<script src="http://twitterjs.googlecode.com/svn/trunk/src/twitter.min.js" type="text/javascript"></script>
 				<script type="text/javascript">
 		$(function(){
 		$(\'article.tabs section > h3\').click(function(){

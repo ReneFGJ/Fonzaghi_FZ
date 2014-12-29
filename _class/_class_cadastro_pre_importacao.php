@@ -9,7 +9,7 @@
  * @subpackage _class_cadastro_pre_importacao.php
  */
 
-class cadastro_pre_importacao {
+class cadastro_pre_importacao extends cadastro_pre{
 	var $clientes = array();
 	var $include_db = '../../_db/';
 	var $error = '';
@@ -49,10 +49,18 @@ class cadastro_pre_importacao {
 			$sqlx = " select * from cadastro where cl_cpf='".$cpf."'";
 			$rltx = db_query($sqlx);
 			if($linex = db_read($rltx)){
-				$this->error = "Já existe este CPF cadastrado!!!";
-				return (0);				
+				$this->error = "Já existe este CPF cadastrado, foi reativado!!!";
+				$status = 'A';
+				$cliente = $line['pes_cliente'];
+				$sql = " update cadastro set cl_status='$status',cl_last=".date('Ymd')." 
+							where cl_cpf='".$cpf."'
+						";
+				$rlt = db_query($sql);
+				return (1);				
 			}else{
 				//não existe
+				$status = 'A';
+				$cliente = $line['pes_cliente'];
 				$sql .= "
 					 insert into cadastro (
 						  cl_cliente,cl_cpf,
@@ -62,17 +70,17 @@ class cadastro_pre_importacao {
 						  cl_status,cl_nasc,cl_senha,
 						  cl_senha_lembrete,cl_senha_status,cl_naturalidade,
 						  cl_search,cl_propaganda
-					) values ('" . $line['pes_cliente'] . "','" . $cpf . "',
+					) values ('" . $cliente . "','" . $cpf . "',
 						'" . $line['pes_nome'] . "'," . $line['pes_data'] . "," . $line['pes_nasc'] . ",
 						  '" . $line['pes_pai'] . "','" . $line['pes_mae'] . "','" . $line['pes_rg'] . "',
 						  'T'," . date('Ymd') . ",
-						  'A','" . $nascmask . "','" . substr(sonumero($line['pes_cpf']), 0, 4) . "',
+						  '$status','" . $nascmask . "','" . substr(sonumero($line['pes_cpf']), 0, 4) . "',
 						  'parte do cpf','@','" . $line['pes_naturalidade'] . "',
 						  '" . $line['pes_nome'].' ' . $cpf . "','".$prop1.$prop2."'
 						  
 						  );" . chr(13) . chr(10);
 				$rlt = db_query($sql);
-				return (1);
+				return (2);
 			}
 		}else{
 			return (0);
