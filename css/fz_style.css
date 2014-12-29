@@ -5,6 +5,19 @@ body {
 div {
 	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
 }
+
+#logout
+    {
+        color: white;
+        text-transform: capitalize;
+         background-color: none;
+    }
+
+.cab_nome
+    {
+        text-transform: capitalize;
+    } 
+
 /* Headers */
 h3 {
 	padding: 0px;

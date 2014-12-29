@@ -12,7 +12,7 @@ header("Content-Type: text/html; charset=".$hd->char_set,true);
 	$sx = '<!DOCTYPE html>'.chr(13);
 	$sx .= '<html lang="pt-BR">'.chr(13);
 	$sx .= '<head>'.chr(13);
-	$sx .= '<title>::Login::</title>'.chr(13);
+	$sx .= '<title>::Login:: Fonzaghi</title>'.chr(13);
 	$sx .= '<meta http-equiv="Content-Type" content="text/html; charset='.$hd->char_set.'" />'.chr(13);
 	$sx .= '<meta name="expires" content="never" />'.chr(13);
 	$sx .= '<link rel="shortcut icon" type="img/favicone.png" />'.chr(13);

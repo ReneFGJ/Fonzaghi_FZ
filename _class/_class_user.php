@@ -346,6 +346,40 @@ class user
 				}
 		}
 
+	function mosta_dados_mini()
+		{
+			global $user;
+			$nome = $user->user_nome;
+			$login = $user->user_log;
+			$sx = '<table align="right">';
+			$sx .= '<TR valign="top">';
+			$sx .= '<TD align="right">';
+			$sx .= '<font color="white">';
+			$sx .= '<span class="cab_nome">'.LowerCase($nome).'</span>';
+			$sx .= '<BR>'.$login;
+			$sx .= '<BR>';
+			$sx .= '</font>';
+			
+			$sx .= '<span id="logout">';
+			$sx .= $this->show_logout();
+			$sx .= '</span>';
+			
+			$sx .= '<TD>'; 
+			$sx .= '<img src="http://10.1.1.220/fonzaghi/img/foto/'.trim($user->user_cracha).'.JPG" height="40" align="right">';
+			$sx .= '</table>';
+			 
+			return($sx);
+		}
+
+	function show_logout()
+		{
+			global $http;
+			$sx = '';
+			$sx .= '<a href="'.$http.'/logout.php">';
+			$sx .= 'sair';
+			$sx .= '</A>';
+			return($sx);
+		}
 	function mostra_dados()
 		{
 			global $http;
@@ -353,7 +387,7 @@ class user
 			$sx .= '<table width="98%" class="tabela00" align="center">';
 			$sx .= '<TR valign="top">
 					<TD rowspan="10">
-						<img src="http://10.1.1.220/fonzaghi/img/foto/'.trim($this->line['us_cracha']).'.JPG" height="150">
+						<img src="/fonzaghi/img/foto/'.trim($this->line['us_cracha']).'.JPG" height="150">
 					<TD width="60%">';
 			$sx .= $this->line['us_endereco'];
 			$sx .= '<BR>';

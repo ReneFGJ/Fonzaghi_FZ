@@ -9,6 +9,8 @@ require ("db.php");
 require("_class/_class_user.php");
 require("_class/_class_header_fz.php");
 require("_class/_class_user_perfil.php");
+require($include.'sisdoc_autor.php');
+
 $perfil = new user_perfil;
 
 $hd = new header;
