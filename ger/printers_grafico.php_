@@ -1,0 +1,288 @@
+<?
+$breadcrumbs=array();
+array_push($breadcrumbs, array('/fonzaghi/ger/impressora.php','Impressoras'));
+array_push($breadcrumbs, array('/fonzaghi/ger/printers_grafico.php','Gráfico da impressão mensal'));
+
+$include = '../';
+require($include."cab.php");
+require($include."sisdoc_menus.php");
+require($include."sisdoc_windows.php");
+require($include."sisdoc_colunas.php");
+require($include."sisdoc_form2.php");
+require($include."sisdoc_data.php");
+require($include."sisdoc_debug.php");
+require($include."cp2_gravar.php");
+require($include."biblioteca.php");
+require($include."letras.css");
+require("../db_206_printers.php");
+
+echo '<CENTER><font class="lt5">Gráfico da impressão mensal</font></CENTER>';
+if ($dd[0]==''){
+
+	$dd[0]=calculaDataMenor(1);
+	$dd[1]=calculaDataMaior(1);
+	
+	$cp = array();
+	array_push($cp,array('$D8','','De',True,True,''));
+	array_push($cp,array('$D8','','Até',True,True,''));
+
+	
+	echo '<TABLE align="center" width="'.$tab_max.'">';
+	echo '<TR><TD>';
+	editar();
+	echo '</TABLE>';
+	
+	require("../foot.php");	
+	exit;
+}
+echo '<CENTER><font class="lt1">No período de: '.$dd[0].' até '.$dd[1].'</font></CENTER>';
+echo '<CENTER><font class="lt1">Ordenação: <b><i>Código</i></b></font></CENTER>';
+echo '<br>';
+
+//grafico geral
+$sql="select pc_data, sum((pc_pages_max - pc_pages_min)) as pages 
+			from (
+			SELECT pc_codigo, pc_data, min(pc_pages) as pc_pages_min, max(pc_pages) as pc_pages_max
+			from (SELECT pc_codigo, SUBSTR(CAST(pc_data AS text),0,7) as pc_data, pc_pages
+			      FROM (SELECT pc_codigo, pc_data, pc_pages
+				    FROM printers_count
+					where pc_data >= ".brtos($dd[0])." and pc_data <= ".brtos($dd[1])."
+					order by pc_codigo, pc_data
+			      ) as t1  
+			      order by pc_codigo, pc_data
+			) as t2
+			left join printers on pr_codigo = pc_codigo
+			group by pc_data, pc_codigo
+			order by pc_codigo, pc_data
+			) as resultado
+			group by pc_data
+			order by pc_data";
+
+//echo '<br> sql: '.$sql;
+
+$rlt_geral = db_query($sql);
+
+
+//echo '<br>'.$sql;
+
+if (pg_num_rows($rlt_geral) == 0){
+	echo msg_erro("Não há registro neste período!");
+	require("../foot.php");	
+	exit;
+}
+
+echo '<TABLE border="0" align="center" width="'.$tab_max.'">';
+$titulo='';
+$dados='';
+$label_pages='|';
+$label_mes='|';
+$topo_grafico=0;
+$tb_titulo='';
+$tb_dados='';
+$colunas=0;
+
+while ($line=db_read($rlt_geral)){
+	if ($line['pages'] > $topo_grafico)
+		$topo_grafico = $line['pages'];
+		
+	$dados .= $line['pages'].',';
+	$label_mes .=mes_legenda(substr($line['pc_data'], 4, 2)).'|';
+	$tb_titulo .= '<th class="1_th">'.mes_legenda(substr($line['pc_data'], 4, 2)).'</th>'; 
+	$tb_dados .= '<td clas="1_td" align="center"><b><font color="#0000ff">'.$line['pages'].'</font></b></td>';
+	$colunas++;
+}
+
+$dados=substr($dados, 0, strlen($dados)-1); // retirando o caracter ,
+$label_mes=substr($label_mes, 0, strlen($label_mes)-1); // retirando o caracter ,
+
+visualizar_grafico("Consumo de todas as impressoras", $dados, $label_mes, $topo_grafico);
+
+echo '<tr>';
+echo '<td>';
+echo '<CENTER><font class="lt5">Dados do gráfico</font></CENTER>';
+echo '<table border="0" class="1_naoLinhaVertical" width='.$tab_max.' align="center" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">';
+echo '<tr>';
+echo $tb_titulo;
+echo '</tr>';
+
+echo '<tr '.coluna().'>';
+echo $tb_dados;
+echo '</tr>';
+
+echo '<tr><td class="total" colspan="'.$colunas.'" >&nbsp;</td></tr>';
+
+echo '</table>';
+echo '</td>';
+echo '</tr>';
+
+//gravar_configuracao_grafico("Consumo de todas as impressoras", "Páginas impressas", "100, 200, 800, 50", '"Jan", "Fev", "Mar", "Abr"', 1000);
+//include("/tmp/grafico.php?ofc=data.json");
+
+$sql2="select *, (max_pages-min_pages) as pages from (
+		SELECT pc_codigo, pr_nome, pc_data, max(pc_pages) as max_pages, min(pc_pages) as min_pages
+		from (SELECT pc_codigo, SUBSTR(CAST(pc_data AS text),0,7) as pc_data, pc_pages
+		      FROM (SELECT pc_codigo, pc_data, pc_pages
+			    FROM printers_count
+				where pc_data >= ".brtos($dd[0])." and pc_data <= ".brtos($dd[1])."
+				order by pc_codigo, pc_data
+		      ) as t1  
+		      order by pc_codigo, pc_data
+		) as t2
+		left join printers on pr_codigo = pc_codigo
+		group by pc_data, pc_codigo, pr_nome
+		order by pc_codigo, pc_data
+	) as resultado";
+
+
+$rlt2 = db_query($sql2);
+$topo_grafico=0;
+$max_impressora='';
+$max_mes='';
+$max_pages=0;
+while ($line=db_read($rlt2)){
+	if ($line['pages'] > $topo_grafico){
+		$topo_grafico = $line['pages'];
+		$max_impressora=$line['pc_codigo'].' '.$line['pr_nome'];
+		$max_pages=$line['pages'];
+		$max_mes=mes_legenda(substr($line['pc_data'], 4, 2));
+	}
+}
+
+echo '<tr>';
+echo '<td class="lt3" color=#0080ff>';
+echo '<br><p><b>Observação</b>: Impressora mais utilizada - ';
+echo '<b>'.$max_impressora.'</b> no mês de <b>'.$max_mes.'</b> com <b>'.$max_pages.'</b> páginas impressas.</p>';
+echo '<br>';
+echo '</td>';
+echo '</tr>';
+
+$rlt3 = db_query($sql2);
+$line=db_read($rlt3);
+
+$codigo=$line['pc_codigo'];
+$titulo='';
+$dados='';
+$label_pages='|';
+$label_mes='|';
+
+do{
+	if ($codigo == $line['pc_codigo']){
+		$titulo	= $line['pc_codigo'].' '.$line['pr_nome'];
+		$dados .= $line['pages'].',';
+		$label_mes .=mes_legenda(substr($line['pc_data'], 4, 2)).'|';
+	}
+	else{
+		$dados=substr($dados, 0, strlen($dados)-1); // retirando o caracter ,
+		$label_mes=substr($label_mes, 0, strlen($label_mes)-1); // retirando o caracter ,
+		
+		visualizar_grafico($titulo, $dados, $label_mes, $topo_grafico);
+
+		$titulo='';
+		$dados='';
+		$label_mes='|';
+		
+		$titulo	= $line['pc_codigo'].' '.$line['pr_nome'];
+		$dados .= $line['pages'].',';
+		$label_mes .=mes_legenda(substr($line['pc_data'], 4, 2)).'|';
+	}
+	$codigo=$line['pc_codigo'];
+}while ($line=db_read($rlt3));
+//visualizar_grafico($titulo, $dados,$label_pages,$label_mes);
+
+echo '</table>';
+require("../foot.php");	
+
+
+//-FUNÇÕES AUXILIARES--------------------------------------------------------------------
+function visualizar_grafico($_titulo, $_dados, $_label_mes, $topo){
+	echo "<tr>";
+	echo "<td class='lt3' align='center' valign='midle'>";
+	echo "<b>".$_titulo."</b>";
+	echo "</td>";
+	echo "</tr>";
+
+	//echo "<IMG SRC='http://chart.apis.google.com/chart?&chs=400x200&chds=0,1&chxt=x,y,x&chm=N*p0*,000000,0,-1,11&chd=t:0.01,0.20,0.01&cht=bvg&chxl=0:|117|50|100|2:|Jan|Fev|Mar&chco=0080c0'>";
+	echo "<tr>";
+	echo "<td align='center' valign='midle'>";
+
+	/*		
+	echo '<br> dados: '.$_dados;
+	echo '<br> label_mes: '.$_label_mes;
+	echo '<br>';
+	*/
+	
+
+	echo "<IMG border='1' SRC='http://chart.apis.google.com/chart?&chs=500x200&chds=0,1&chxt=x,y&chds=0,".$topo."&chxr=1,0,".$topo."&chd=t:".$_dados."&cht=bvs&chxl=0:".$_label_mes."&chco=2dbbff'>";
+	echo '<br><br>';	
+	echo "</td>";
+	echo "</tr>";
+}
+
+function ordena_array($dados, $colunas, $ordenarColuna){
+	$dados_bkp=array();
+	$dados_bkp=$dados;	
+	//print_r($dados_bkp);
+	$linhas=array();
+	for($i=0; $i<count($dados); $i++){
+		array_push($linhas, $i);	
+	}
+	
+}
+
+function gravar_configuracao_grafico($titulo, $y_label, $x_dados, $x_labels, $y_max){
+
+	$texto=' "title":{
+		"text": "'.$titulo.'",
+		"style": "{font-size: 20px; color:#999900; text-align: center;}"
+	},
+
+	"y_legend":{
+		"text": "'.$y_label.'",
+		"style": "{color: #99cc33; font-size: 12px;}"
+	},
+
+	"elements":[{
+		"type": "bar",
+		"alpha": 0.5,
+		"colour": "#0000cc",
+		"values" : ['.$x_dados.']
+	}],
+
+	"x_axis":{
+		"stroke":2,
+		"colour":"#d000d0",
+		"grid_colour":"#00ff00",
+		"labels": {"labels": ['.$x_labels.']}
+	},
+
+	"y_axis":{
+		"stroke": 4,
+		"tick_length": 3,
+		"colour": "#9933ff",
+		"grid_colour": "#0000ff",
+		"offset": 0,
+		"max": '.$y_max.'
+		}
+	}'; 
+
+	//echo $texto;
+	/*
+	echo "<br>HTTP_USER_AGENT: ".$_SERVER['HTTP_USER_AGENT'];
+	echo "<br>PHP_SELF: ".$_SERVER['PHP_SELF'];
+	echo "<br>PATH_TRANSLATED: ".$_SERVER['PATH_TRANSLATED'];
+	echo "<br>SCRIPT_NAME: ".$_SERVER['SCRIPT_NAME'];
+	*/
+
+	$handle = fopen("/tmp/data.json", "w");
+
+	if ($handle){
+		//echo '<br>abriu';
+		fwrite($handle, $texto);
+		fclose($handle);
+	}
+	else{
+		echo '<br>não abriu';
+	}
+}
+
+?>

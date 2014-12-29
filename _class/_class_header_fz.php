@@ -18,6 +18,11 @@ class header
 	var $login_api = '';	
 	var $http = '/fz/';
 	
+	function foot()
+		{
+			return('');
+		}
+	
 	function head()
 		{
 		global $LANG, $http, $style_add;

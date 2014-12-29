@@ -49,15 +49,15 @@ if ($nocab==1)
 				<script src="'.$http.'js/scrooling.js"></script>
 				<script src="'.$http.'js/jquery.maskedinput.js"></script>
 		
-				<script src="'.$http.'js/modernizr.custom.js"></script>
-				<script type="text/javascript">
-		$(function(){
-		$(\'article.tabs section > h3\').click(function(){
-		$(\'article.tabs section\').removeClass(\'current\');
-		$(this)
-		.closest(\'section\').addClass(\'current\');
-		});
-		});
+		<script src="'.$http.'js/modernizr.custom.js"></script>
+		<script type="text/javascript">
+					$(function(){
+					$(\'article.tabs section > h3\').click(function(){
+					$(\'article.tabs section\').removeClass(\'current\');
+					$(this)
+					.closest(\'section\').addClass(\'current\');
+					});
+					});
 		</script>
 		</head>
 		<body>';
