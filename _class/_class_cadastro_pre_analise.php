@@ -47,6 +47,8 @@ class cadastro_pre_analise extends cadastro_pre {
 	var $restricoes = '';
 	/**Restrições acp*/
 	var $restricoesACP = array();
+	/**Consultantes acp*/
+	var $informantesACP = array();
 	/**Total dos pontos calculados segundo criterios de avalição. @name $TTpontos */
 	var $TTpontos = 0;
 	/**Latitude da Fonzaghi para ser utilizado no calculo da distância. @name $latF*/
@@ -169,24 +171,42 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> TTrestricoes = $acp -> TTrestricoes;
 		$this -> TTrestricoes_vlr = $acp -> TTrestricoes_vlr;
 		$this -> restricoesACP = $acp->restricoesSPC;
+		$this -> informantesACP = $acp->informantesSPC;
 		$this->restricoesACP();
+		$this->informantesACP();
 		return (1);
 	}
 	
 	function restricoesACP(){
 		$sx = '<table class="left radius5 margin5 pad5 border1 orange_light" width="100%">';
-		$sx .= '<tr><th align="center">Data</th>
-					<th align="center">Valor</th>
-					<th align="center">Informante</th></tr>';
+		$sx .= '<tr><th width="20%" align="center">Data</th>
+					<th width="20%" align="center">Valor</th>
+					<th width="60%" align="left">Informante</th></tr>';
 		foreach ($this -> restricoesACP as $key => $value) {
 			$sx .= '<tr><td align="center">'.stodbr($value[0]).'</td>
 						<td align="center">'.$value[1].'</td>
-						<td align="center">'.$value[2].'</td></tr>';	
+						<td align="left">'.$value[2].'</td></tr>';	
 		}
 		$sx .= '</table>';
 		$this -> restricoes = $sx;
 		return($sx);
 	}
+	
+	function informantesACP(){
+		$sx = '<table class="left radius5 margin5 pad5 border1 orange_light" width="100%">';
+		$sx .= '<tr><th width="20%" align="center">Tipo</th>
+					<th width="20%" align="center">Data</th>
+					<th width="60%" align="left">Consultante</th></tr>';
+		foreach ($this -> informantesACP as $key => $value) {
+			$sx .= '<tr><td align="center">'.$value[0].'</td>
+						<td align="center">'.stodbr($value[1]).'</td>
+						<td align="left">'.$value[2].'</td></tr>';	
+		}
+		$sx .= '</table>';
+		return($sx);
+	}
+	
+	
 
 	/**
 	 * Faz a soma das pontuações .

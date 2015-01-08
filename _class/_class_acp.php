@@ -43,6 +43,7 @@ class acp
 	var $TTrestricoesSCP=0;
 	var $TTrestricoesCHQ=0;
 	var $TTrestricoes_vlr=0;
+	var $informantesSPC;
 	
 	function __construct()
 	{
@@ -95,7 +96,7 @@ class acp
 			$this->tela .= '<HR>';
 			$this->tela .= '<PRE>';
 			$this->tela .= $xml;
-			$this->tela .= '</PRE>';			
+			$this->tela .= '</PRE>';	
 		}
 	
 	function carregar_dados_SPC_125_DEBITO(){
@@ -114,6 +115,23 @@ class acp
 		}	
 		return(1);
 	}
+	
+	function carregar_dados_SPC_126_CONSULTA(){
+		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-SPC'}->{'SPC-126-CONSULTA'}->{'SPC-126-ANTERIORES'};
+		$r = array();
+		if (isset($xml_r)) {
+			foreach ($xml_r as $k) {
+				$tipo = $k->{'SPC-126-TPCREDITO'};
+				$data = $k->{'SPC-126-OCORRENCIA'};
+				$inf = $k->{'SPC-126-INFORMANTE'};
+				array_push($r,array($tipo, $data, $inf)); 
+			}
+			$this -> informantesSPC = $r;
+			
+		}	
+		return(1);
+	}
+	
 
 	function carregar_dados_CHQ_242_CCF_BACEN(){
 		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'};
@@ -139,6 +157,7 @@ class acp
 		$this->mostra_consulta($cpf);
 		$this->carregar_dados_CHQ_242_CCF_BACEN();
 		$this->carregar_dados_SPC_125_DEBITO();
+		$this->carregar_dados_SPC_126_CONSULTA();
 		$this->TTrestricoes = $this->TTrestricoesCHQ + $this->TTrestricoesSCP; 
 		return(1);
 	}

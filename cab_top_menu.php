@@ -25,7 +25,7 @@ for ($r=0;$r < count($menus);$r++)
 	{
 		echo '<li class="submissao-botao"><a href="'.$menus[$r][0].'" class="linka">'.$menus[$r][1].'</a></li>';
 	}				
-echo '<li><span>';
+echo '<li><span id="cab_user">';
 echo $user->mosta_dados_mini();
 echo '</span></li>';
 echo '</ul>';

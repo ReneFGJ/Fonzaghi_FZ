@@ -58,6 +58,8 @@ switch($verb) {
 		$pre -> calcular_pontuacao();
 		echo $pre -> mostra_resumo();
 		echo $pre->restricoesACP();
+		echo $pre->informantesACP();
+		echo '<br><br><br>';
 		break;
 	case 'PONTUACAO' :
 		$pre -> le($dd[0]);

@@ -183,3 +183,19 @@ a.link_bt {
 	color: #FFFFFF;
 	text-decoration: none;
 }
+
+/* min-width & max-width */
+@media screen and (min-width: 0px) and (max-width: 1000px) {
+	#cab_user {
+		display:none;
+	}
+}
+
+@media screen and (min-width: 1001px) and (max-width: 3000px) {
+	#cab_user {
+		display:inline;
+	}
+}
+
+
+

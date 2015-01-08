@@ -1349,16 +1349,16 @@ class cadastro_pre {
 		/*2*/array_push($cp, array('$H8', '', '', False, True));
 		/*3*/array_push($cp, array('$H8', '', '', False, True));
 		/*4*/array_push($cp, array('$S10', 'end_cep', 'CEP', TRUE, True));
-		/*5*/array_push($cp, array('$S100', 'end_rua', 'Endereco', True, False));
+		/*5*/array_push($cp, array('$S100', 'end_rua', 'Endereco', True, True));
 		/*6*/array_push($cp, array('$S10', 'end_numero', 'Numero', True, True));
-		/*7*/array_push($cp, array('$S30', 'end_complemento', 'Complemento', True, True));
-		/*8*/array_push($cp, array('$S30', 'end_bairro', 'Bairro', True, False));
-		/*9*/array_push($cp, array('$S30', 'end_cidade', 'Cidade', True, False));
-		/*10*/array_push($cp, array('$S2  ', 'end_estado', 'Estado', True, False));
+		/*7*/array_push($cp, array('$S30', 'end_complemento', 'Complemento', False, True));
+		/*8*/array_push($cp, array('$S30', 'end_bairro', 'Bairro', True, True));
+		/*9*/array_push($cp, array('$S30', 'end_cidade', 'Cidade', True, True));
+		/*10*/array_push($cp, array('$S2  ', 'end_estado', 'Estado', True, True));
 		/*11*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'end_status', 'Status', True, True));
 		/*12*/array_push($cp, array('$O 0:Não validado&0:Validado', 'end_status', 'Validado', True, True));
-		/*13*/array_push($cp, array('$S20', 'end_latitude', 'Latitude', True, True));
-		/*14*/array_push($cp, array('$S20', 'end_longitude', 'Longitude', True, True));
+		/*13*/array_push($cp, array('$H20', 'end_latitude', 'Latitude', False, True));
+		/*14*/array_push($cp, array('$H20', 'end_longitude', 'Longitude', False, True));
 		
 		return ($cp);
 	}
@@ -1422,29 +1422,33 @@ class cadastro_pre {
 		/*dd3*/array_push($cp, array('$HV', '', '', False, False));
 		/*dd4*/array_push($cp, array('$HV', '', '', False, False));
 		/*dd5*/array_push($cp, array('$HV', '', '', False, False));
+		
+		/*dd6*/array_push($cp, array('$S50', 'cmp_email', 'E-MAIL', false, True));
+		
+		/*dd7*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSÃO', TRUE, True));
+		/*dd8*/array_push($cp, array('$S30', 'cmp_empresa', 'EMPRESA', false, True));
+		/*dd9*/array_push($cp, array('$S8', 'cmp_salario', 'SALÁRIO', TRUE, True));
+		/*dd10*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALÁRIO COMPLEMENTAR', false, True));
+		/*dd11*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELAÇÃO ESTÁVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
+		/*dd12*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
+		
+		/*dd13*/array_push($cp, array('$S100', 'cmp_conjuge_nome', 'NOME CONJUGE', false, True));
+		/*dd14*/array_push($cp, array('$S30', 'cmp_conjuge_profissao', 'PROFISSÃO CONJUGE', false, True));
+		/*dd15*/array_push($cp, array('$S30', 'cmp_conjuge_empresa', 'EMPRESA CONJUGE', false, True));
+		/*dd16*/array_push($cp, array('$S8', 'cmp_conjuge_salario', 'SALÁRIO CONJUGE', false, True));
+		
+		
+		/*dd17*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'TEMPO DE PROFISSÃO (anos)', TRUE, True));
+		/*dd18*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'EXPERIÊNCIA COM VENDAS (anos)', TRUE, True));
+		/*dd19*/array_push($cp, array('$O : &1:NÃO TEM&2:AUTO FIN&3:IMÓVEL FIN + AUTO FIN/QUIT&4:IMÓVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
+		/*dd20*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
+		/*dd21*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMÓVEL', TRUE, True));
+		/*dd22*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
+		/*dd23*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
+		/*dd24*/array_push($cp, array('$B8', '', 'Salvar', False, True));
 
-		/*dd6*/array_push($cp, array('$S30', 'cmp_profissao', 'PROFISSÃO', TRUE, True));
-		/*dd7*/array_push($cp, array('$S8', 'cmp_salario', 'SALÁRIO', TRUE, True));
-		/*dd8*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALÁRIO COMPLEMENTAR', TRUE, True));
-		/*dd9*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELAÇÃO ESTÁVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
-		/*dd10*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
-		
-		/*dd11*/array_push($cp, array('$S100', 'cmp_conjuge_nome', 'NOME CONJUGE', TRUE, True));
-		/*dd12*/array_push($cp, array('$S30', 'cmp_conjuge_profissao', 'PROFISSÃO CONJUGE', TRUE, True));
-		/*dd13*/array_push($cp, array('$S8', 'cmp_conjuge_salario', 'SALÁRIO CONJUGE', TRUE, True));
-		
-		
-		/*dd14*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'TEMPO DE PROFISSÃO (anos)', TRUE, True));
-		/*dd15*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'EXPERIÊNCIA COM VENDAS (anos)', TRUE, True));
-		/*dd16*/array_push($cp, array('$O : &1:NÃO TEM&2:AUTO FIN&3:IMÓVEL FIN + AUTO FIN/QUIT&4:IMÓVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
-		/*dd17*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
-		/*dd18*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMÓVEL', TRUE, True));
-		/*dd19*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
-		/*dd20*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda2', 'PROPAGANDA 2', TRUE, True));
-		/*dd21*/array_push($cp, array('$B8', '', 'Salvar', False, True));
-
-		/*dd22*/array_push($cp, array('$HV', 'cmp_lastupdate_log', $log, False, True));
-		/*dd23*/array_push($cp, array('$HV', 'cmp_lastupdate', date("Ymd"), False, True));
+		/*dd25*/array_push($cp, array('$HV', 'cmp_lastupdate_log', $log, False, True));
+		/*dd26*/array_push($cp, array('$HV', 'cmp_lastupdate', date("Ymd"), False, True));
 		return ($cp);
 
 	}
@@ -2080,6 +2084,7 @@ class cadastro_pre {
 				{
 					$sx .= $aprovar;
 					$sx .= $recusar;
+					$sx .= $retorna_edicao;
 				}
 				if ($perfil->valid('#CA3'))
 				{	
