@@ -1,20 +1,20 @@
 <?php
 require ("cab.php");
-
+require ($include . 'sisdoc_debug.php');
 require ($include . 'sisdoc_data.php');
 require ('../_class/_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
+
+/* Classe de comentarios */
+require("../_class/_class_cadastro_pre_comment.php");
+$cm = new cad_comment;
+
 require ("../_class/_class_acp.php");
 $acp = new acp;
 $pre -> le($dd[0]);
 $pre -> obter_dados($dd[0], '00');
 $pre -> calcular_pontuacao();
-
-
-
-
-
 
 $bt_menu = $pre->regras_de_acesso($dd[0],$pre -> status);
 $onclickR = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
@@ -59,4 +59,16 @@ $tela = '<table  class="cab_status" width="100%"><tr>
 			';
 
 echo $tela;
+echo '<BR><BR>';
+/* Comentarios */
+$cm->codigo = $pre->cliente;
+$cm->protocolo = $pre->cliente;
+$cm->user_login = $_SESSION['nw_user'];
+
+require("../../_db/db_mysql_pre_cad.php");
+
+echo $cm->comment_display();
+
+echo '<BR>.<BR>.<BR>.<BR>';
+echo '.';
 ?>

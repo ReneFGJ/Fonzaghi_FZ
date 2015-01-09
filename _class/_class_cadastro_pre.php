@@ -256,6 +256,10 @@ class cadastro_pre {
 				$sx = '<font color="green">em cadastro</font>';
 				$img = $http . 'img/icone_precad_cadastro.png';
 				break;
+			case 'K' :
+				$sx = '<font color="green">aguardando documentação</font>';
+				$img = $http . 'img/icone_precad_aprovado.png';
+				break;				
 			case 'A' :
 				$sx = '<font color="green">aprovado</font>';
 				$img = $http . 'img/icone_precad_aprovado.png';
@@ -2097,7 +2101,8 @@ class cadastro_pre {
 		}
 		$edicao = '<span class="cursor bt_botao bt_yellow" onclick="window.location = \'pre_cad_selection.php?dd0='.$cliente.'\';">EDITAR</span>';
 		$analise = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'T\' );  progress(\'progress_bar\');" >ENVIO ANALISE</span>';
-		$aprovar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'E\' );  progress(\'progress_bar\');" >APROVAR</span>';
+		$aprovar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'K\' );  progress(\'progress_bar\');" >APROVAR</span>';
+		$aprovar_cadastrar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'E\' );  progress(\'progress_bar\');" >APROVAR PARA LOJA</span>';
 		$comunica_aprovacao = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'A\' );  progress(\'progress_bar\');" >COMUNICAR APROVACAO</span>';
 		$comunica_recusa = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'R\' );  progress(\'progress_bar\');" >COMUNICAR RECUSA</span>';
 		$recusar = '<span class="cursor bt_botao bt_red" onclick="altera_status(\''.$cliente.'\',\'F\' );  progress(\'progress_bar\');" >RECUSAR</span>';
@@ -2113,6 +2118,17 @@ class cadastro_pre {
 				}	
 				$sx .= '</nav>';
 				break;
+			case 'K':
+				$sx  = '<nav>';
+				if ($perfil->valid('#CA1#CA2'))
+				{
+					$sx .= $aprovar_cadastrar;
+					$sx .= $retorna_edicao;
+				}else{
+					$sx .= $retorna_edicao;
+				}	
+				$sx .= '</nav>';
+				break;				
 			case 'T':
 				$sx  = '<nav>';
 				if ($perfil->valid('#CA1#CA2'))
