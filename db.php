@@ -56,7 +56,7 @@
 	//echo '<br><br>'.$conn;
 	/* Leituras das Variaveis dd0 a dd99 (POST/GET) */
 	$vars = array_merge($_GET, $_POST);
-	$acao = troca($vars['acao'],"'",'ï¿½');
+	$acao = troca($vars['acao'],"'",'´');
 	for ($k=0;$k < 100;$k++)
 		{
 		$varf='dd'.$k;

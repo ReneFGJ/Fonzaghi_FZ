@@ -60,6 +60,14 @@ $tela = '<table  class="cab_status" width="100%"><tr>
 
 echo $tela;
 echo '<BR><BR>';
+/* GED - Arquivos de Documentos */
+require("../../_db/db_mysql_pre_cad.php");
+require("_ged_config.php");
+
+$ged->protocol = $pre->cliente;
+echo $ged->filelist();
+echo $ged->upload_botton_with_type($ged->protocol);
+
 /* Comentarios */
 $cm->codigo = $pre->cliente;
 $cm->protocolo = $pre->cliente;
