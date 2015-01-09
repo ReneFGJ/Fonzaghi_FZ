@@ -1,4 +1,5 @@
 <?php
+$nocab = 1;
 require("cab.php");
 
 require($include.'sisdoc_tips.php');
@@ -24,7 +25,7 @@ if ($form -> saved > 0) {
 	$acao = "205 - ATUALIZOU ENDERECO ID ".$id;
 	$acao_cod = '205';
 	$pre->inserir_log($cliente, $login, $acao,$acao_cod, $status);
-	redirecina('pre_enderecos.php');
+	require('../close.php');
 }else{
 	echo $tela;
 }
@@ -50,4 +51,4 @@ if ($form -> saved > 0) {
 		});
 	});	
 	</script>
-				
+	

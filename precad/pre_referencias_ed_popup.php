@@ -1,5 +1,5 @@
 <?php
-$nocab=1;
+$nocab = 1;
 require("cab.php");
 
 require($include.'sisdoc_tips.php');
@@ -11,19 +11,19 @@ $pre = new cadastro_pre;
 $form = new form;
 
 require("../../_db/db_mysql_".$ip.".php");
-$tabela = 'cad_telefone';
-$cp = $pre->cp_telefone();
+$tabela = 'cad_referencia';
+$cp = $pre->cp_referencia();
 
 $tela .=  $form -> editar($cp, $tabela);
 
 $cliente = $dd[1];
-echo '<h3>Alteração de telefones - consultora('.$cliente.')</h3>';
+echo '<h3>Alteração de referência - consultora('.$cliente.')</h3>';
 if ($form -> saved > 0) {
 	$id = $dd[0];
-	$status = 1;
+	$status = $dd[10];
 	$login = $_SESSION['nw_user'];
-	$acao = "215 - ATUALIZOU TELEFONE ID ".$id;
-	$acao_cod = '215';
+	$acao = "210 - ATUALIZOU REFERENCIA ID ".$id;
+	$acao_cod = '210';
 	$pre->inserir_log($cliente, $login, $acao,$acao_cod, $status);
 	require('../close.php');
 }else{

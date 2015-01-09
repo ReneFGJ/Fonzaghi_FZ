@@ -888,10 +888,14 @@ class cadastro_pre {
 		while ($line = db_read($rlt)) {
 			$val = $line['end_validado'];
 			$sta = $line['end_status'];
+			$id = $line['id_end'];
+			
 			$bgcor = $this -> valida_cor($val);
 
 			$sx .= '<div class="left radius5 margin5 pad5 border1 ' . $bgcor . '" style="width: 500px;">';
-			$sx .= '<font class="lt0">endereco</font><BR>';
+			$sx .= '<font class="lt0">endereco</font>';
+			$sx .= '<span onclick="newwin2(\'pre_enderecos_ed_popup.php?dd0='.$id.'&dd90='.checkpost($id).'\',400,400);">  <img src="../img/icone_editar.gif" width="16px"></span>';
+			$sx .= '<BR>';
 			$sx .= $line['end_rua'];
 			$sx .= ', ' . $line['end_numero'];
 			if (strlen(trim($line['end_complemento'])) > 0) {
@@ -902,8 +906,7 @@ class cadastro_pre {
 			$sx .= ' ' . $line['end_bairro'];
 			$sx .= '<BR>' . $line['end_cidade'];
 			$sx .= '-' . $line['end_estado'];
-			//$sx .= $line['tel_validado'];
-			//$sx .= $line['tel_status'];
+			
 			$sx .= '</div>';
 		}
 		return ($sx);
@@ -992,9 +995,10 @@ class cadastro_pre {
 		while ($line = db_read($rlt)) {
 			$val = $line['ref_validado'];
 			$sta = $line['ref_status'];
+			$id = $line['id_ref'];
 			$bgcor = $this -> valida_cor($val);
 
-			$sx .= '<div class="left radius5 margin5 pad5 border1 ' . $bgcor . '" style="width:200px; height: 90px;">';
+			$sx .= '<div class="left radius5 margin5 pad5 border1 ' . $bgcor . '" style="width:300px; height: 100px;">';
 
 			/* Observacao */
 			$obs = $line['ref_observacao'];
@@ -1002,7 +1006,9 @@ class cadastro_pre {
 				$sx .= '<div class="right"><img src="' . $http . 'img/icon_observation.png" height="20" title="' . $obs . '"></div>';
 			}
 
-			$sx .= '<font class="lt0">referencia</font><BR>';
+			$sx .= '<font class="lt0">referencia</font>';
+			$sx .= '<span onclick="newwin2(\'pre_referencias_ed_popup.php?dd0='.$id.'&dd90='.checkpost($id).'\',400,400);">  <img src="../img/icone_editar.gif" width="16px"></span>';
+			$sx .= '<BR>';
 			$sx .= $line['ref_nome'];
 			$sx .= '<BR>';
 			$sx .= '<font class="lt0">' . trim($line['ret_nome']) . '&nbsp;</font>';
@@ -1014,6 +1020,7 @@ class cadastro_pre {
 			if ($comercial == 'C') {
 				$sx .= '<BR><font class="lt1 fnt_blue"><B>** COMERCIAL **</B>';
 			}
+			
 			$sx .= '</div>';
 		}
 		return ($sx);
@@ -1095,11 +1102,12 @@ class cadastro_pre {
 			$bgcor = $this -> valida_cor($val);
 			$id = $line['id_tel'];
 			$sx .= '<div class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
-			$sx .= '<font class="lt0">telefone</font><BR>';
+			$sx .= '<font class="lt0">telefone</font>';
+			$sx .= '<span onclick="newwin2(\'pre_telefones_ed_popup.php?dd0='.$id.'&dd90='.checkpost($id).'\',400,400);">  <img src="../img/icone_editar.gif" width="16px"></span>';
+			$sx .= '<BR>';
 			$sx .= $this -> formata_telefone($line['tel_numero'], $line['tel_ddd']);
 			$sx .= '<BR>';
 			$sx .= $this -> mostra_tipo_telefone(trim($line['tel_tipo']));
-			$sx .= '<span onclick="newwin2(\'pre_telefones_ed_popup.php?dd0='.$id.'&dd90='.checkpost($id).'\',500,500);">X</span>';
 			//$sx .= $line['tel_validado'];
 			//$sx .= $line['tel_status'];
 			$sx .= '</div>';
@@ -1381,8 +1389,8 @@ class cadastro_pre {
 		/*8*/array_push($cp, array('$S30', 'end_bairro', 'Bairro', True, True));
 		/*9*/array_push($cp, array('$S30', 'end_cidade', 'Cidade', True, True));
 		/*10*/array_push($cp, array('$S2  ', 'end_estado', 'Estado', True, True));
-		/*11*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'end_status', 'Status', True, True));
-		/*12*/array_push($cp, array('$O 0:Não validado&0:Validado', 'end_status', 'Validado', True, True));
+		/*11*/array_push($cp, array('$O 0:Não validado&0:Validado', 'end_status', 'Validado', True, True));
+		/*12*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'end_status', 'Status', True, True));
 		/*13*/array_push($cp, array('$H20', 'end_latitude', 'Latitude', False, True));
 		/*14*/array_push($cp, array('$H20', 'end_longitude', 'Longitude', False, True));
 		
@@ -1401,8 +1409,9 @@ class cadastro_pre {
 		/*7*/array_push($cp, array('$S3', 'ref_ddd2', '2.DDD', False, True));
 		/*8*/array_push($cp, array('$S15', 'ref_numero2', '2.Numero', False, True));
 		/*9*/array_push($cp, array('$T 40:5', 'ref_observacao', 'Observacao', False, True));
-		/*10*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'ref_status', 'Status', True, True));
-		/*11*/array_push($cp, array('$O 0:Não validado&0:Validado', 'ref_status', 'Validado', True, True));
+		/*10*/array_push($cp, array('$O 0:Não validado&0:Validado', 'ref_status', 'Validado', True, True));
+		/*11*/array_push($cp, array('$O 1:Ativo&0:Inativo', 'ref_status', 'Status', True, True));
+		
 
 		return ($cp);
 	}
