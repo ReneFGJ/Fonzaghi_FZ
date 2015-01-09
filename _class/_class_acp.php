@@ -71,6 +71,7 @@ class acp
 					$this->xml = $xml;
 				}
 				
+			
 			$this->tela .=  '<HR>';
 			$this->tela .= 'SPC:'.$xml->{'RESPOSTA'}->{'RESPOSTA-RETORNO'}->{'STATUS-RESPOSTA'};
 			
@@ -196,18 +197,21 @@ class acp
 			$log = 'AUTO';
 			
 			$servico = $this->acp_service;
-			$sql = "insert into consulta_acp
-						(
-							c_data, c_cpf, c_texto,
-							c_log, c_ativo, c_hora, 
-							c_servico, c_string, c_resultado
-						) values (
-							$data,'$cpf','$result',
-							'$log',1,'$hora',
-							'$servico','','0'
-						)		
-			";
-			$rlt = db_query($sql);
+			
+			if(strlen(trim($result))>0){
+				$sql = "insert into consulta_acp
+							(
+								c_data, c_cpf, c_texto,
+								c_log, c_ativo, c_hora, 
+								c_servico, c_string, c_resultado
+							) values (
+								$data,'$cpf','$result',
+								'$log',1,'$hora',
+								'$servico','','0'
+							)		
+				";
+				$rlt = db_query($sql);
+			}	
 			return(1);
 		}
 	
@@ -243,6 +247,7 @@ class acp
 			 */
 			$sx .= '</SOLICITACAO>'.$cr;
 			$sx .= '</SPCA-XML>'.$cr;
+			
 			return($sx);
 		}
 		

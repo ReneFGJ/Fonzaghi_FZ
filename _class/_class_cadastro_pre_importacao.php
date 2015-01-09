@@ -49,8 +49,8 @@ class cadastro_pre_importacao extends cadastro_pre{
 			$sqlx = " select * from cadastro where cl_cpf='".$cpf."'";
 			$rltx = db_query($sqlx);
 			if($linex = db_read($rltx)){
-				$this->error = "Já existe este CPF cadastrado, foi reativado!!!";
-				$status = 'A';
+				$this->error = "Já existe este CPF cadastrado, foi enviando para nova analise!!!";
+				$status = 'I';
 				$cliente = $line['pes_cliente'];
 				$sql = " update cadastro set cl_status='$status',cl_last=".date('Ymd')." 
 							where cl_cpf='".$cpf."'
@@ -59,7 +59,7 @@ class cadastro_pre_importacao extends cadastro_pre{
 				return (1);				
 			}else{
 				//não existe
-				$status = 'A';
+				$status = 'I';
 				$cliente = $line['pes_cliente'];
 				$sql .= "
 					 insert into cadastro (
@@ -94,20 +94,7 @@ class cadastro_pre_importacao extends cadastro_pre{
 	 *mask($cep,'#####-###');
 	 *mask($data,'##/##/####');
 	 */
-	function mask($val, $mask) {
-		$maskared = '';
-		$k = 0;
-		for ($i = 0; $i <= strlen($mask) - 1; $i++) {
-			if ($mask[$i] == '#') {
-				if (isset($val[$k]))
-					$maskared .= $val[$k++];
-			} else {
-				if (isset($mask[$i]))
-					$maskared .= $mask[$i];
-			}
-		}
-		return $maskared;
-	}
+	
 
 }
 ?>

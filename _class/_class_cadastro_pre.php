@@ -159,8 +159,8 @@ class cadastro_pre {
 		$sx .= '	<td rowspan="2" width="50%" align="right">Status:'.$this -> mostra_status($this -> line['pes_status']).'<br>
 						<img src="' . $this -> image_status . '" height="60"></td>';
 		$sx .= '</tr>';
-		$sx .= '<tr><td width="33%" class="lt2">Dt. Cadastro: <b>' . stodbr($this -> line['pes_data']) . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Dt. Atualizacao: <b>' . stodbr($this -> line['pes_lastupdate']) . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Dt. Cadastro: <b>' . stodbr($this -> line['pes_data']) .' ('.$this -> line['pes_log']. ')</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Dt. Atualizacao: <b>' . stodbr($this -> line['pes_lastupdate']) .' ('.$this -> line['pes_lastupdate_log']. ')</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Idade: <b>' . $this -> mostra_idade($this -> nasc) . ' anos</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Dt. Nascimento: <b>' . stodbr($this -> nasc) . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Genero: <b>' . $this -> mostra_genero($this -> line['pes_genero']) . '</b></td></tr>';
@@ -231,6 +231,7 @@ class cadastro_pre {
 		}
 		
 		if ($ok == 1) {
+			
 			$rlt = db_query($sql);
 			$id = 0;
 			$sx = '<table class="tabela00 lt3" width="98%" align="center">';
@@ -865,6 +866,7 @@ class cadastro_pre {
 	function lista_telefone_mostra($cliente, $edit = 0) {
 		$this -> cliente = $cliente;
 		$sx .= $this -> lista_telefone_cadastrado();
+		
 		if ($edit == 1) { $sx .= $this -> lista_telefone_adiciona($edit);
 		}
 		return ($sx);
@@ -1091,12 +1093,13 @@ class cadastro_pre {
 			$val = $line['tel_validado'];
 			$sta = $line['tel_status'];
 			$bgcor = $this -> valida_cor($val);
-
+			$id = $line['id_tel'];
 			$sx .= '<div class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
 			$sx .= '<font class="lt0">telefone</font><BR>';
 			$sx .= $this -> formata_telefone($line['tel_numero'], $line['tel_ddd']);
 			$sx .= '<BR>';
 			$sx .= $this -> mostra_tipo_telefone(trim($line['tel_tipo']));
+			$sx .= '<span onclick="newwin2(\'pre_telefones_ed_popup.php?dd0='.$id.'&dd90='.checkpost($id).'\',500,500);">X</span>';
 			//$sx .= $line['tel_validado'];
 			//$sx .= $line['tel_status'];
 			$sx .= '</div>';
@@ -1121,6 +1124,11 @@ class cadastro_pre {
 	function inserir_cpf($cpf = '', $seq = '00') {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn, $user;
 		$date = date('Ymd');
+		
+		if (strlen(trim($this -> cliente)) > 0) { $set1 .= ', pes_cliente';
+			$set2 .= ",'$this->cliente'";
+		};
+		
 		if (strlen(trim($this -> nome)) > 0) { $set1 .= ', pes_nome';
 			$set2 .= ",'$this->nome'";
 		};
@@ -1141,7 +1149,6 @@ class cadastro_pre {
 					)";
 		$rlt = db_query($sql);
 		$this -> updatex();
-		
 		$id = $this -> recupera_codigo_pelo_cpf($cpf);
 		$cliente = $this->cliente;
 		
@@ -1154,6 +1161,25 @@ class cadastro_pre {
 		return ($id);
 
 	}
+
+	function verifica_se_existe_cliente($cpf){
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn,$include_db,$ip;
+		
+		$cpf = sonumero($cpf);
+		$cpf = substr('000000' . $cpf, -11);
+		$cpf = $this -> mask($cpf, '###.###.###-##');
+		
+		echo $sql = " select * from cadastro where cl_cpf='".$cpf."'";
+		$rlt = db_query($sql);
+		if($line = db_read($rlt)){
+			$this->cliente = $line['cl_cliente'];
+			return($this->cliente);
+		}else{
+			unset($this->cliente);
+			return(0);
+		}
+		
+	}	
 
 	function recupera_codigo_pelo_cpf($cpf = '') {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn,$include_db,$ip;
@@ -1298,13 +1324,13 @@ class cadastro_pre {
 	}
 	function updatex() {
 		global $base_name, $base_server, $base_host, $base_user, $base, $conn;
-
 		$c = 'pes';
 		$c1 = 'id_' . $c;
 		$c2 = $c . '_cliente';
 		$c3 = 6;
 		$sql = "update " . $this -> tabela . " set $c2 = concat('7', lpad($c1,$c3,0))  where  ($c2='' or $c2 is null )";
 		$rlt = db_query($sql);
+		
 		return (0);
 	}
 
@@ -2085,9 +2111,7 @@ class cadastro_pre {
 					$sx .= $aprovar;
 					$sx .= $recusar;
 					$sx .= $retorna_edicao;
-				}
-				if ($perfil->valid('#CA3'))
-				{	
+				}else{
 					$sx .= $retorna_edicao;
 				}	
 				$sx .= '</nav>';
@@ -2400,6 +2424,21 @@ class cadastro_pre {
 		}
 		$sx .= '</table>';
 		return($sx);
+	}
+	
+	function mask($val, $mask) {
+		$maskared = '';
+		$k = 0;
+		for ($i = 0; $i <= strlen($mask) - 1; $i++) {
+			if ($mask[$i] == '#') {
+				if (isset($val[$k]))
+					$maskared .= $val[$k++];
+			} else {
+				if (isset($mask[$i]))
+					$maskared .= $mask[$i];
+			}
+		}
+		return $maskared;
 	}
 	
 }
