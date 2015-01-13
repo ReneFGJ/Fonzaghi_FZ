@@ -58,6 +58,8 @@ class ajax
 		function refresh()
 			{
 				global $dd,$editar;
+				$editar = 0;
+				if ($_SESSION['PG1_DD0'] == $dd[1]) { $editar = 1; }
 				$cad = new cadastro_pre;
 				$cad->cliente = $dd[1];
 				$sx = $cad->lista_endereco_mostra($dd[1],$editar);

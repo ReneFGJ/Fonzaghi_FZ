@@ -6,6 +6,12 @@ require ($include . 'sisdoc_debug.php');
 require ("../_class/_class_cadastro_pre.php");
 $pre = new cadastro_pre;
 
+/* Insere PG1_DD) */
+if (strlen($dd[0]) == 7)
+	{
+		$_SESSION['PG1_DD0'] = $dd[0];
+	}
+
 require ('../../_include/_class_form.php');
 $form = new form;
 echo '<link rel="stylesheet" href="' . $include . 'css/calender_data.css" type="text/css" media="screen" />' . chr(13) . chr(10);

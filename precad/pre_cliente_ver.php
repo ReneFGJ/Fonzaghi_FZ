@@ -6,6 +6,7 @@ require ('../js/sisdoc_windows.php');
 require ('../_class/_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
+$_SESSION['PG1_DD0'] = '';
 
 /* Classe de comentarios */
 require("../_class/_class_cadastro_pre_comment.php");
