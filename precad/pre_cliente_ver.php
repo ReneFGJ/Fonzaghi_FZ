@@ -2,6 +2,7 @@
 require ("cab.php");
 //require ($include . 'sisdoc_debug.php');
 require ($include . 'sisdoc_data.php');
+require ('../js/sisdoc_windows.php');
 require ('../_class/_class_form.php');
 require ("../_class/_class_cadastro_pre_analise.php");
 $pre = new cadastro_pre_analise;
@@ -20,14 +21,14 @@ $bt_menu = $pre->regras_de_acesso($dd[0],$pre -> status);
 $onclickR = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
 $onclickP = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
 
-$tela = '<table  class="cab_status" width="100%"><tr>
-			<td colspan="2" align="left" width="30%">
+$tela = '<table  class="cab_status" width="100%"><tr >
+			<td class="noprint" colspan="2" align="left" width="30%">
 				<nav>
 					'.$onclickR.'RESUMO</span>
 					'.$onclickP.'PONTUACAO</span>
 				</nav>
 			</td>
-			<td colspan="2" align="right" width="70%">
+			<td class="noprint" colspan="2" align="right" width="70%">
 			<div id="acoes_status">'.$bt_menu.'</div>
 			</td>
 		</tr>
@@ -57,26 +58,30 @@ $tela = '<table  class="cab_status" width="100%"><tr>
 					});
 			</script>
 			';
+echo '<div class="print_resumo">';
+	echo $tela;
+	
+	echo '<BR><BR>';
+	/* GED - Arquivos de Documentos */
+	require("../../_db/db_mysql_pre_cad.php");
+	require("_ged_config.php");
+	
+	$ged->protocol = $pre->cliente;
+	echo $ged->filelist();
+	echo $ged->upload_botton_with_type($ged->protocol);
+	
+	/* Comentarios */
+	$cm->codigo = $pre->cliente;
+	$cm->protocolo = $pre->cliente;
+	$cm->user_login = $_SESSION['nw_user'];
+	
+	require("../../_db/db_mysql_pre_cad.php");
+	
+	echo $cm->comment_display();
 
-echo $tela;
-echo '<BR><BR>';
-/* GED - Arquivos de Documentos */
-require("../../_db/db_mysql_pre_cad.php");
-require("_ged_config.php");
+echo '</div>';
 
-$ged->protocol = $pre->cliente;
-echo $ged->filelist();
-echo $ged->upload_botton_with_type($ged->protocol);
+echo '<BR>.<BR>.';
 
-/* Comentarios */
-$cm->codigo = $pre->cliente;
-$cm->protocolo = $pre->cliente;
-$cm->user_login = $_SESSION['nw_user'];
 
-require("../../_db/db_mysql_pre_cad.php");
-
-echo $cm->comment_display();
-
-echo '<BR>.<BR>.<BR>.<BR>';
-echo '.';
 ?>

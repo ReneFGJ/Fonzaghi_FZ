@@ -89,7 +89,7 @@ class cad_comment
 				
 				$sx .= '<table width="98%">';
 				$sx .= '<TR><TD>';
-				$sx .= msg('comment_post').'<BR>';
+				$sx .= msg('Dados do comentário').'<BR>';
 				$sx .= '<TR><TD><textarea name="dd1" cols="80" rows="5">';
 				$sx .= $dd[1];
 				$sx .= '</textarea>';
@@ -114,12 +114,12 @@ class cad_comment
 				/** sem avaliacao **/
 				$sx .= '<input type="hidden" value="1" name="dd2" >';
 				/**  **/
-				$sx .= '<BR><input type="submit" value="'.msg('comment_submit').'">';
+				$sx .= '<BR><input type="submit" value="'.msg('Enviar Comentário').'">';
 				$sx .= '</table>';
 				$sx .= '</form>';
 				$sx .= '</div>';
 				/** **/
-				$sx .= '<input id="mst" type="button" value="'.msg('comment_add').'" onclick="mostrar();"  style="'.$disp2.'">';
+				$sx .= '<input id="mst" class="submit_comment" type="button" value="'.msg('Adicionar comentário').'" onclick="mostrar();"  style="'.$disp2.'">';
 				$sx .= chr(13).'<script>
 					      $("#mst").click(function () {
 					      		$("#posted").fadeIn("slow"); 
@@ -139,29 +139,21 @@ class cad_comment
 				
 				$rlt = db_query($sql);
 				$totc = 0;
-				$sx .= '<table class="bdcomment" width="100%" aling="center">';
-				$sx .= '<TR class="bdcomment_hd"><TD colspan=2 class="lt4">'.msg('comments');
+				$sx .= '<h3>Comentários</h3>';
+				$sx .= '<table class="bdcomment left radius5 margin5 pad5 border1 orange_light" width="100%" aling="center">';
+				$sx .= '<TR  class="bdcomment_hd">';
+				$sx .= '<th>Data<th>Login<th>Comentário';
 				while ($line = db_read($rlt))
 					{
 						$totc++;
 						$she = trim($line['us_genero']);
-						$sx .= '<TR valign="top">';
-						$sx .= '<TD width=50 rowspan=2>';
-						if ($she != 'W')
-							{ $sx .= '<img src="img/icone_noimage_he.png" height=80 >'; }
-							else
-							{ $sx .= '<img src="img/icone_noimage_she.png" height=80 >'; }
-							
-						$sx .= '<TD>';
-						$sx .= '<B><I>'.$line['cepc_user'].'</B></I><BR>';
-						$sx .= '<font class="lt1">';
+						$sx .= '<tr  valign="top" >';
+						$sx .= '<td width="10%" align="center" class="radius5 margin5 pad5 border1 orange_light">';
+						$sx .= '<font class="lt0">'.stodate($line['cepc_data']).'<br> '.$line['cepc_hora'];
+						$sx .= '<td width="10%" align="center" class="radius5 margin5 pad5 border1 orange_light"><B><I>'.$line['cepc_user'].'</B></I>';
+						$sx .= '<td width="80%"  class="radius5 margin5 pad5 border1 orange_light"><font class="lt1">';
 						$sx .= $line['cepc_comment'];
-						$sx .= '<TR valign="bottom"><TD>';
-						$ava = $line['cepc_avaliation'];
-						/* if ($ava == '1') { $sx .= '<img src="img/icone_coment_ok.png">'; } */
-						/* if ($ava == '0') { $sx .= '<img src="img/icone_coment_nook.png">'; } */
-						$sx .= '<font class="lt0">&nbsp;'.stodate($line['cepc_data']).' '.$line['cepc_hora'];
-						$sx .= '<TR><TD style="background-color: #FFFFFF" colspan=2>';
+						$sx .= '<tr><td>';
 					}
 				$sx .= $this->comment_form();
 				$sx .= '</table>';

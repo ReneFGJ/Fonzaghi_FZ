@@ -4,37 +4,26 @@
 	 * @author Rene Faustino Gabriel Junior <renefgj@gmail.com> (Analista-Desenvolvedor)
 	 * @copyright Copyright (c) 2011 - sisDOC.com.br
 	 * @access public
-     * @version v0.14.11
+     * @version v0.15.01
 	 * @package Library
 	 * @subpackage Form
     */
-    
+
 if(!isset($LANG) || $LANG == ''){ $LANG = 'pt_BR'; }
-//XXX Idealmente, daria para testar com file_get_contents(filename) para ver se o arquivo de localiza��o do datepicker 
-//	existe antes de puxar ele aqui (e carregando jquery.ui.datepicker-pt-BR.js caso n�o exista)
-if ($form_no_js != 1)
-{
-echo '
-		<script type="text/javascript" src="'.$http.'include/js/jquery-ui.js"></script>
-		<script type="text/javascript" src="'.$http.'include/js/jquery-ui-datepicker-localisation/jquery.ui.datepicker-'.str_replace('_', '-', $LANG).'.js"></script>
-		<script type="text/javascript" src="'.$http.'include/js/jquery.maskedit.js"></script>
-		<script type="text/javascript" src="'.$http.'include/js/jquery.maskmoney.js"></script>
-		<script type="text/javascript" src="'.$http.'include/js/jquery.tagsinput.js"></script>
-		<link rel="stylesheet" href="'.$http.'include/css/calender_data.css" type="text/css" media="screen" />
-		<link rel="stylesheet" href="'.$http.'include/css/style_keyword_form.css" type="text/css" media="screen" />
-	';
 
-/*
- * Depend�ncias do dynatree e do tinymce
- */
 echo '
-		<script type="text/javascript" src="'.$http.'include/js/tinymce/tinymce.min.js"></script>
-		<script type="text/javascript" src="'.$http.'include/js/jquery/jquery.cookie.js"></script>
-		<script type="text/javascript" src="'.$http.'include/js/jquery.dynatree.js"></script> 
+	<!--- Class Form -->
+	
+		<script type="text/javascript" src="'.$include.'js/jquery-ui.js"></script>
+		<script type="text/javascript" src="'.$include.'js/jquery.dynatree.js"></script>
+		<script type="text/javascript" src="'.$include.'js/jquery-calender_'.$LANG.'.js"></script>
+		<script language="JavaScript" type="text/javascript" src="'.$include.'js/jquery.maskedit.js"></script>
+		
+		<link href="'.$include.'css/calender_data.css" rel="stylesheet" type="text/css" id="skinSheet"> 
+		
+		
+		
 	';
-$ajax = 1;
-}
-
 if (!(function_exists("cpf")))
 	{
 	function cpf($cpf)
@@ -60,21 +49,42 @@ if (!(function_exists("cpf")))
 			{ return(false); }
 		}
 	}
+function gets($a1,$a2,$a3,$a4,$a5)
+	{
+		global $form;
+		/*
+		echo '<BR>a1='.$a1;
+		echo '<BR>a2='.$a2;
+		echo '<BR>a3='.$a3;
+		echo '<BR>a4='.$a4;
+		echo '<BR>a5='.$a5;	
+		echo '<BR>a6='.$a6;
+		echo '<BR>a7='.$a7;
+		echo '<HR>';
+		 */
+		if ($a5 == 1) { $a5 = True; } else { $a5 = False; }		
+		$cp = array($a3,'',$a4,$a5,True); 
+		$form->name = $a1;
+		$form->value = $a2;
+		$form->caption = $a4;
+		$sx = $form->process($cp);
+		return($sx);
+	}
 
 class form
 	{
-		var $ajax = 0;
+		/* Standard Fields */
 		var $size=10;
 		var $maxlength = 10;
 		var $name='';
 		var $caption='';
+		var $caption_original='';
 		var $required=0;
 		var $rq = '';
-		var $readonly='';	
+		var $readonly=0;	
 		var $fieldset='';
-		/* Classe */
-		var $class='';
-		var $class_memo;
+		
+		var $form_name = "formulario";
 		
 		/* Valores */
 		var $value='';
@@ -84,37 +94,83 @@ class form
 		var $cols=80;
 		var $rows=5;
 		var $js_valida = '';
+		var $key;
+		var $ajax = '';
+		var $total_cps=0;
 		
 		var $required_message = 1;
 		var $required_message_post = 1;		
 		var $saved = 0;
-		
-		var $total_cps = 0;		
 
-		/**
-		 * �ndice de $cp onde se encontram par�metros (opcionais) de um tipo
-		 *  Usado, e.g., em type_ARV() para receber a �rvore
-		 * @var integer
-		 */
-		var $indiceParams = 5;
+		/* Stlye */
+		var $class_string='';
+		var $class_password='';
+		var $class_textbox = '';
+		var $class_button_submit = '';
+		var $class_memo = '';
+		var $class_select = '';
+		var $class_select_option = '';
+		var $class_textarea = '';
+		var $class_field = '';
 
-		/**
-		 * Framework a ser usado para gerar campo de rich text (ver type_RT())
-		 * @var string
-		 */
-		var $geradorCampoRichText = 'tinymce';
-
-		/**
-		 * Javascript adicional a ser executado no submit (ver type_B(), usado por type_ARV())
-		 * @var string
-		 */
-		var $jsOnSubmit='';
-		
+	/* AJAX */
+	function ajax($id,$protocolo)
+		{
+		return($this->ajax_refresh($id, $protocolo));	
+		}
+	function ajax_refresh($id,$protocolo)
+		{
+			global $http;
+			$js = '
+			var page = \''.$http.'_ajax/ajax_form.php\';
+			$.ajax({
+				type: "POST",
+				url: page,
+				data: { dd1: "'.$protocolo.'", dd91: "'.$id.'", dd2: "REFRESH" }
+			}).fail(function() {
+   					alert( "error - " + page );
+			}).done(function( data ) {
+				$("#'.$id.'_main").html(data);
+			});			
+			';
+			$sx .= '<script>
+					'.$js.'
+					</script>';
+			return($sx);			
+		}
+	
+	function active($id,$protocolo,$verbo)
+		{
+			global $http;
+			$js = '
+			$("#'.$id.'").click(function() {
+				var page = \''.$http.'_ajax/ajax_form.php\';
+				$.ajax({
+					type: "POST",
+					url: page,
+					data: { dd1: "'.$protocolo.'", dd91: "'.$id.'", dd2: "'.$verbo.'" }
+				}).fail(function() {
+    					alert( "error" );
+				}).done(function( data ) {
+					$("#'.$id.'_field").html(data);
+				});			
+			});
+			';
+			
+			$sx .= '<script>
+					'.$js.'
+					</script>';
+			return($sx);
+		}
+		/* Gerador de Token de Session */
 		function keyid()
 			{
 				global $secu;
 				$key = md5(microtime() . $secu . rand());
-				$keysid = trim($_SESSION['token_field']);
+				if (!(empty($_SESSION['token_field'])))
+					{ $keysid = trim($_SESSION['token_field']); } else {
+						{ $keyid = ''; }
+					}
 				$keys = trim($_SESSION['token']);
 				if (strlen($keys) > 0)
 					{
@@ -126,6 +182,7 @@ class form
 				$this->key = $key;
 				return(md5($key));				
 			}
+		/* Gerador de Token de Formulario */
 		function keyid_form()
 			{
 				global $secu;
@@ -136,45 +193,73 @@ class form
 				$this->key_form = $key;
 				$this->key_form_check = strzero(3*$key,$size);
 				return($key);				
-			}		
+			}			
 		
+		/* Editar */
 		function editar($cp,$tabela,$post='')
 			{
 				global $dd,$acao,$path,$http;
-				$bto = 0;
-				echo '--->'.$this->ajax;
+				
+				/* AJAX */
 				if ($this->ajax==1)
 					{
 						if (strlen($this->frame) == 0) { echo 'FRAME NAME NOT FOUND'; exit; }
 						
-						
-						$vars = ''; $data = '';
-						for ($r=0;$r < (count($cp)+3); $r++)
+						/* Mostra campos para o ajax */
+						$vars = ''; $data = ''; $ks = '';
+						for ($r=0;$r < (count($cp)+2); $r++)
 							{
-								$vars .= 'var ddv'.$r.' = $("#dd'.$r.'").val();'.chr(13).chr(10);
+								
+								/* Novo */
+								$op = substr($cp[$r][0],0,2);
+								if ($op != '$O' and $op != '$Q')
+									{
+										$vars .= 'var ddv'.$r.' = $("#dd'.$r.'").val();'.chr(13).chr(10);		
+									} else {
+										$vars .= 'var ddv'.$r.' = $(\'#dd'.$r.' option:selected\').val();'.chr(13).chr(10);
+									}
 								if (strlen($data) > 0) { $data .= ', '; }
 								$data .= 'dd'.$r.': ddv'.$r.' ';								
 							}
-						$data .= ', dd89: \''.$this->frame.'\', acao: \'gravar\' ';
-						$sx = '
+						$data .= ', dd91: \''.$this->frame.'\', dd89: \''.$this->frame.'\', acao: \'gravar\' ';
+						
+						/* Inicia construcao do formulario */
+						
+						$sx = '';
+						$page = $http.'_ajax/ajax_form.php';
+						$sx .= '
 						<script>
+						var dd91 = \''.$this->frame.'\';
 						function enviar_formulario(id)
 							{
 								'.$vars.'
+								/* alert("POST "+id + "'.$data.' - '.$this->frame.'"); */
 								var tela01 = $.ajax({
 										type: "POST",
-										url: "'.page().'",  
+										url: \''.$page.'\',
 										data: { '.$data.'}
 										}) 
-										.done(function(data) { $("'.$this->frame.'_main").html(data); }) 
-										.fail(function() { alert("error"); }) 
-										.always(function(data) { $("'.$this->frame.'_main").html(data); }); 
+										.done(function(data) { $("#'.$this->frame.'_main").html(data); })
+										.fail(function() { alert("error"); });
 							}
 						</script>
 						';
 					}
-				$this->total_cps = count($cp);
 				
+				$this->total_cps = count($cp);
+							
+				/* Local de salvamento dos dados */
+				if (strpos($tabela,':') > 0)
+					{
+						/* Salva em arquivos */
+						$file = 1;
+					} else {
+						/* Salvar em tabela de base de dados */
+						$file = 0;
+					}
+					
+				/* Campos */
+				$bto = 0;
 				for ($r=0;$r < count($cp);$r++)
 					{
 						if (substr($cp[$r][0],0,2)=='$B') { $bto = 1; }
@@ -183,11 +268,13 @@ class form
 					{ array_push($cp,array('$B8','',msg('save'),false,false)); }
 				$this->keyid();
 				array_push($cp,array('$TOKEN','','',True,False));
+				
 				/**
-				 * Recupera informacoes
+				 * Recupera informacoes da tabela do banco de dados
 				 */
 				$recupera = 0;
-				if ((strlen($tabela) > 0) and 
+				if ((strlen($tabela) > 0) and
+						($file == 0) and 
 						(strlen($acao)==0) and 
 						(strlen($dd[0]) > 0) and 
 						(strlen($cp[0][1]) > 0))
@@ -197,47 +284,71 @@ class form
 								if ($line = db_read($rrr)) { $this->line = $line; }
 								$recupera = 1;							
 							}
+
+				/**
+				 * Recupera informacoes do arquivo
+				 */
+				if (empty($filename)) { $filename = ''; }
+				if ((strlen($filename) > 0) and
+						($file == 1) and 
+						(strlen($acao)==0))
+							{
+								echo '#1#'; exit;
+								require($filename);
+								$recupera = 1;							
+							}
+
 				/**
 				 * Processa
 				 */
+	 
 				$this->js_submit = '<script>';
 				if (strlen($post)==0) { $post = page(); }
-				
 				$this->saved = 1;
 				$this->rq = '';
-				$sx .= '<TR><TD><form id="formulario" method="post" action="'.$post.'" >'.chr(13).chr(10);
-				$sh .= '<table class="tabela00" width="100%">'.chr(13);
+				//echo '<BR>'.date("Y-m-d H:i:s");	
+				if (empty($sx)) { $sx = ''; }
+				if (empty($sh)) { $sh = ''; }
+				$sx .= '<form id="'.$this->form_name.'" method="post" action="'.$post.'">'.chr(13);
+				$sh .= '<table class="'.$this->class_form_standard.'" width="100%" border=0 >'.chr(13);
 				
 				for ($r=0;$r < count($cp);$r++)
 					{
 						if ($recupera == 1) 
 							{
-								$fld = $cp[$r][1]; 
-								$dd[$r] = trim($this->line[$fld]);
+								$fld = trim($cp[$r][1]);
+								$vlr = trim($this->line[$fld]);
+								if (strlen($vlr) > 0)
+									{
+										$dd[$r] = trim($this->line[$fld]); 
+									}
 								if (substr($cp[$r][0],0,2)=='$D')
 									{
 										$dd[$r] = stodbr($this->line[$fld]);		
 									} 
 							}
+													
 						$this->name = 'dd'.$r;
 						if (!(is_array($dd))) { $dd = array(); }
 						
 						$this->value = trim($dd[$r]);
+
 						$sx .= $this->process($cp[$r]);
-						
+ 
 						if (($cp[$r][0]=='$TOKEN') and (strlen($acao) > 0))
 							{
 								$keyc = md5($this->key);
 								if ($keyc != $this->value)
 									{
 									//if ($this->required_message_post == 1)
-										{ $sx .= '<TR><TD colspan=2><font color="red">Try CSRF ingected</font><BR>'; }
-									$this->saved = -99;
+										{ $sx .= '<TR><TD colspan=2><font color="red">Try CSRF (ingected)</font><BR>'; }
+									$this->saved = 0;
 									}
 							}
 
 						if (($cp[$r][0]=='$TOKEN') and (strlen($acao) > 0))
 							{
+								
 								$array = $_POST;
 								if (is_array($array))
 									{
@@ -251,19 +362,19 @@ class form
 								
 								$sz = round(count($fld));
 								$fldk = '';
-
+								
 								if ($sz > 0) 
 									{
-										for ($rq=0;$rq < count($fld);$rq++)
+										for ($ry=0;$ry < count($fld);$ry++)
 										{
-										$flda = $fld[$rq];
+										$flda = $fld[$ry];
 										if (!(is_array($flda)))
 											{
-											if (substr($fld[$rq],0,2)=='tk')
-												{ $fldk = $fld[$rq]; }
+											if (substr($fld[$ry],0,2)=='tk')
+												{ $fldk = $fld[$ry]; }
 											}								
 										}
-			
+										//echo '<BR>FIM2-'.$sz.'-'.date("Y-m-d H:i:s"); 
 										if (strlen($fldk) > 0)
 										{
 											$fldk_value = substr($fldk,2,strlen($fldk));
@@ -273,10 +384,10 @@ class form
 										}
 									}
 								
-								if (($fldk_value != $fldk_vlr) and ($this->ajax != 1))
+								if (($fldk_value != $fldk_vlr) and ($this->ajax==0))
 									{
 										$sx .= '<TR><TD colspan=2><font color="red">Try CSRF ingected (2)</font><BR>';
-										$this->saved = -98;
+										$this->saved = 0;
 									}								
 							}	
 													
@@ -290,17 +401,10 @@ class form
 							}
 					}
 				$sx .= '<input type="hidden" name="dd99" id="dd99" value="'.$dd[99].'">'.chr(13);
-				
-				/**** Incorporado - 04/06/2014 ***/
-				$sx .= '<input type="hidden" id="acao" name="acao" value="acao">';
-				
-				/********************/
-				
-				$sx .= '<TR><TD></form>';
 				$sx .= chr(13).'</table>';
-				
+				$sx .= '</form>';
 				$this->js_submit .= chr(13).'</script>';
-				
+
 				$sx .= $this->js;
 				$sx .= $this->js_submit;
 				
@@ -314,23 +418,81 @@ class form
 						$sa .= $sx; 
 						$sx = $sa;
 					}
-
 				if (($this->saved > 0) and (strlen($acao) > 0))
 					{
 						if (strlen($tabela) > 0)
-							{ $this->save_post($cp,$tabela); }
+							{
+								if ($file == 0)
+									{ $this->save_post($cp,$tabela); }
+								else 
+									{ $this->save_file_post($cp,$tabela); }
+							}
 						//$sx = 'SAVED TABLE '.$tabela.' id = '.$dd[0];
 					} else {
 						$this->saved = 0;
 					}
 				return($sh.$sx);
 			}
+
+		function save_file_post($cp,$tabela)
+			{
+				global $dd,$acao,$path;
+				$type = UpperCaseSql(substr($tabela,0,strpos($tabela,':')));
+				$filename = substr($tabela,strpos($tabela,':')+1,strlen($tabela));
+				
+				switch ($type)
+					{
+					case 'PHP':
+							$file_pre = '<?php'.chr(13).chr(10);
+							$file_pos = '?>';
+							break;
+					default:
+							$file_pre = '';
+							$file_pos = '';
+							break;
+					}
+
+					$sx = '';
+					for ($k=1;$k<100;$k++)
+						{
+							if ((strlen($cp[$k][1])>0) and ($cp[$k][4]==True))
+							{
+								
+								$field = trim($cp[$k][1]);
+								$vlr = trim($dd[$k]);
+								if (strlen($field) > 0)
+									{
+										switch ($type)
+										{
+											case 'PHP':
+												$sx .= $field."='".$vlr."';".chr(13).chr(10);
+												break;
+											case 'CVS':
+												break;
+											default:
+												$sx .= $field."='".$vlr."'".chr(13).chr(10);
+												break;
+										}
+									}	
+							}
+						}
+					$sx = $file_pre . $sx . $file_pos;
+					if (strlen($filename) > 0)
+						{
+							$rlt = fopen($filename,'w+');
+							fwrite($rlt,$sx);
+							fclose($rlt);
+						}
+					$acao=null;
+					$saved=1;
+				return(1);				
+			}
+
 		function save_post($cp,$tabela)
 			{
 				global $dd,$acao,$path;
 				if (isset($dd[0]) and (strlen($dd[0]) > 0) and (strlen($cp[0][1]) > 0)) 
 					{
-			//		echo "==gravado";
 					$sql = "update ".$tabela." set ";
 					$cz=0;
 					for ($k=1;$k<100;$k++)
@@ -340,7 +502,6 @@ class form
 								if (($cz++)>0) {$sql = $sql . ', ';}
 								if (substr($cp[$k][0],0,2) == '$D') 
 									{
-										//echo '<BR>===>'.$dd[$k];	
 								 		$dd[$k] = brtos($dd[$k]); 
 									}
 								$sql = $sql . $cp[$k][1].'='.chr(39).$dd[$k].chr(39).' ';
@@ -348,7 +509,7 @@ class form
 						}
 						$sql = $sql .' where '.$cp[0][1]."='".$dd[0]."'";
 					if (strlen($tabela) >0)
-						{ $result = db_query($sql) or die("<P><FONT COLOR=RED>ERR 002:Query failed : " . db_error()); }
+						{ $result = db_query($sql) or die("<P><FONT COLOR=RED>ERR 002:Query failed<HR>".$sql); }
 					$acao=null;
 					$saved=1;
 					}
@@ -385,21 +546,35 @@ class form
 			{
 				global $dd,$acao,$ged,$http;
 				
+				/* Caixa Alta */
 				$i = UpperCaseSql(substr($cp[0],1,5));
 				if (strpos($i,' ') > 0) { $i = substr($i,0,strpos($i,' ')); }
+				
+				/* Transfere parametros */
 				$this->required = $cp[3];
 				$this->caption = $cp[2];
+				$this->caption_original = $cp[2];
+				$placeholder = troca($cp[2],'"','');
+				if (strpos($placeholder,'<') > 0)
+					{
+						$placeholder = substr($placeholder,0,strpos($placeholder,'<'));
+					}
+					
+				$this->caption_placeholder = $placeholder;
 				$this->fieldset = $cp[1];
 				$size = sonumero($cp[0]);
 				$this->maxlength = $size;
 				$this->caption = $cp[2];
-				if (($cp[4]==True) or ($cp[4]==1))
+				$ro = UpperCaseSql($cp[4]);
+				
+				/* Read Only */
+				if (($ro=='FALSE') or ($ro == '0')  or (strlen($ro) == '0'))
 					{
-						$this->readonly = '';
+						$this->readonly = ' READONLY ';		
 					} else {
-						$this->readonly = ' readonly ';
-						
+						$this->readonly = '';
 					}
+				
 				
 				if ((strlen(trim($acao)) > 0) 
 						and ($this->required==1) 
@@ -416,9 +591,18 @@ class form
 				if ((substr($i,0,1)=='T') and ($i != 'TOKEN')) { $i = 'T'; }
 				if (substr($i,0,1)=='[') { $i = '['; }
 				
-				$sx .= chr(13).'<TR valign="top"><TD align="right">';
-				$sh .= $this->caption.'<TD>';
-
+				if (empty($sx)) { $sx = ''; }
+				$sx .= chr(13).'<TR valign="top">';
+							
+				$sh = '<TD align="right" width="10%">'.$this->caption.'<TD>';
+				if (strlen(trim($this->caption_original)) == 0)
+					{ $sh = '<TD colspan=2 align="left">'; }
+				if (substr($i,0,1)=='T')
+					{
+						//$sh = '<TD colspan=2 align="right">';
+						$sh .= $this->caption; 
+					}
+				
 				switch ($i) 
 				{
 					/* Field Sets */
@@ -429,25 +613,31 @@ class form
 					case '[':
 						$this->par = substr($cp[0],2,strlen($cp[0]));  
 						$sx .= $sh. $this->type_seq(); break;	
-
+					case 'AJAX':  $sx .= '<TR><TD colspan=2>'.$this->type_ajax(); break;
+					
 					case 'AUTOR':  $sx .= '<TR><TD colspan=2>'.$this->type_Autor(); break;	
 					/* Caption */
 					case 'A':  $sx .= '<TR><TD colspan=2>'.$this->type_A(); break;	
 					/* Alert */
 					case 'ALERT':  $sx .= '<TR><TD><TD colspan=1>'.$this->type_ALERT(); break;
 					/* Button */	
-					case 'B':  $sx .= '<TD>'.$this->type_B(); break;	
-					/* Checkbox */	
-					case 'C':  $sx .= '<TD>'.$this->type_C(); break;	
+					case 'B':  $sx .= '<TD colspan=2 >'.$this->type_B(); break;	
 					/* City, State, Country */
 					case 'CITY':  $sx .= $sh. $this->type_City(); break;
 					
-					/* Date */
+					/* Declaracao */
 					case 'DECLA':  $sx .= $this->type_DECLA(); break;
+					
+					/* Checkbox */
+					case 'C':  $sx .= '<TR><TD colspan=2>'.$this->type_C() . $this->caption; break;					
 										
 					/* Date */
-					case 'D':  $sx .= $sh. $this->type_D(); break;
-					/* Date */
+					case 'D':  
+						$sx .= $sh. $this->type_D(); break;
+					/* EAN13 */
+					case 'EAN':  $sx .= $sh. $this->type_EAN(0); break;
+										
+					/* EMAIL */
 					case 'EMAIL':  $sx .= $sh. $this->type_EMAIL(0); break;					
 					case 'EMAIL_UNIQUE':  $sx .= $sh. $this->type_EMAIL(1); break;
 					/* Funcoes adicionais */
@@ -459,7 +649,12 @@ class form
 						if ($this->par == '003') { $sx .= function_003(); }
 						if ($this->par == '004') { $sx .= function_004(); }
 						if ($this->par == '005') { $sx .= function_005(); }
-						if ($this->par == '006') { $sx .= function_006(); } 
+						if ($this->par == '006') { $sx .= function_006(); }
+						if ($this->par == '007') { $sx .= function_007(); }
+						if ($this->par == '008') { $sx .= function_008(); }
+						if ($this->par == '009') { $sx .= function_009(); }
+						if ($this->par == '010') { $sx .= function_010(); }
+						if ($this->par == '011') { $sx .= function_011(); } 
 						
 						break;		
 					/* Files */
@@ -484,7 +679,7 @@ class form
 					/* Options */
 					case 'O':  
 						$this->par = substr($cp[0],2,strlen($cp[0]));
-						$sx .= $sh. $this->type_O(); break;					
+						$sx .= $sh . $this->type_O(); break;					
 					/* String Simple */
 					case 'P':  $sx .= $sh. $this->type_P(); break;					
 					/* Query */
@@ -492,18 +687,23 @@ class form
 						$this->par = splitx(':',substr($cp[0],2,strlen($cp[0])));  
 						$sx .= $sh. $this->type_Q(); 
 						break;										
+					/* Radio box */
+					case 'R': 
+							$this->par = substr($cp[0],2,strlen($cp[0]));
+							$sx .= '<TD colspan=2 >' . $this->caption.': '. $this->type_R(); break;
+
 					/* String Simple */
 					case 'S':  $sx .= $sh. $this->type_S(); break;
-					/* String Simple */
+					/* Text area */
 					case 'T':
 						$this->cols = sonumero(substr($cp[0],0,strpos($cp[0],':')));
 						$this->rows = sonumero(substr($cp[0],strpos($cp[0],':'),100));
-						$sx .= $sh. $this->type_T(); 
+						$sx .= '<TD align="right">'.$this->caption.'<TD>'. $this->type_T(); 
 						break;
-					/* Token */
+					/* String Simple */
 					case 'TOKEN':
 						$sx .= $this->type_TOKEN(); 
-						break;						
+						break;
 					/* String Ajax */
 					case 'SA': $sx .= $sh. $this->type_SA(); break;
 					/* Update */
@@ -512,7 +712,7 @@ class form
 					case 'UF': $sx .= $sh. $this->type_UF(); break;
 					
 					case 'RT': /* Editor de texto rico (Rich Text) */
-					case 'ARV': /* �rvore com checkboxes */
+					case 'ARV': /* Arvore com checkboxes */
 					case 'ATAGS': /* Textarea com autocomplete de tags */
 						$params  = $this->_cp_get_params($cp);
 						$sx .= $sh.call_user_func_array(array(&$this, 'type_'.$i), $params);
@@ -531,11 +731,44 @@ class form
 					{ 
 					$vcol = 0;
 					$sx .= '<TR><TD colspan="2">';
-					$sx .= '<fieldset '.$this->class.'>';
+					$sx .= '<fieldset '.$this->fieldset.'>';
 					$sx .= '<legend><font class="lt1"><b>'.$this->caption.'</b></legend>';
 					$sx .= '<table cellpadding="0" cellspacing="0" class="lt2" width="100%">';
 					$sx .= '<TR valign="top">';
 					}
+				return($sx);
+		 	}
+		/**
+		 * AJAX
+		 */
+		 function type_ajax()
+		 	{
+		 		global $dd;
+		 		$sx = '';
+				$s = $this->ajax;
+				$sp = strpos($s,':');
+				if ($sp > 0)
+					{
+					$page = trim(substr($s,$sp+1,strlen($s)).'.php');
+						
+		 			$sx .= '<div id="'.$this->name.'">loading...</div>'.chr(13).chr(10);
+		 			$sx .='<script>
+		 				var id = "'.$dd[0].'";
+						var name = "'.$this->name.'";
+						var acao = "ver";
+												
+		 				$.ajax({
+						type: "POST",
+						url: "'.$page.'",
+						data: { dd0:id, dd1: acao, dd2: name }
+						}).done(function( data ) {$("#'.$this->name.'").html( data ); })
+						.fail(function() { alert("ERRO LOAD PAGE '.$page.'"); });
+					  </script>
+					';
+					} else {
+						$sx .= 'Erro Ajax: page not found';
+					}
+				
 				return($sx);
 		 	}
 		/**
@@ -561,24 +794,24 @@ class form
 				$par = splitx('-',$par);
 				$txt = round($this->value);
 				$sx = '
-				<select name="'.$this->name.'" id="'.$this->name.'" size="1" '.$this->class.'>
+				<select name="'.$this->name.'" id="'.$this->name.'" size="1" class="'.$this->class_select.'">
 					'.$this->class.' 
 					id="'.$this->name.'" >';
-				$sx .= '<option value="">'.msg('select_option').'</option>';
+				$sx .= '<option value="" class="'.$this->class_select_option.'">'.msg('select_option').'</option>';
 				if ($dec==0)
 					{									
 						for ($nnk=round($par[0]);$nnk <= round($par[1]);$nnk++)
 						{
 							$sel = '';
 							if ($nnk==$txt) {$sel="selected";}
-							$sx= $sx . "<option value=\"".$nnk."\" ".$sel.">".$nnk."</OPTION>";
+							$sx= $sx . "<option value=\"".$nnk."\" ".$sel.' class="'.$this->class_select_option.'">'.$nnk."</OPTION>";
 						}
 					} else {
 						for ($nnk=round($par[1]);$nnk >= round($par[0]);$nnk--)
 						{
 							$sel = '';
 							if ($nnk==$txt) {$sel="selected";}
-							$sx= $sx . "<option value=\"".$nnk."\" ".$sel.">".$nnk."</OPTION>";
+							$sx= $sx . "<option value=\"".$nnk."\" ".$sel.' class="'.$this->class_select_option.'">'.$nnk."</OPTION>";
 						} 
 					}
 				$sx = $sx . "</select>" ;
@@ -608,12 +841,11 @@ class form
 				return($sx);
 			}
 		/**
-		 * Hidden
+		 * Header
 		 */	
 		function type_A()
 			{
 				$sx = '
-				<HR>
 				<h2>'.$this->caption.'</h2>				
 				';
 				return($sx);
@@ -639,35 +871,20 @@ class form
 				global $dd, $cp;
 				if ($this->ajax == 0)
 				{
-					$sx = '
-					<input 
-						type="submit" value="'.$this->caption.'" 
-						name="acao"
-						id="'.$this->name.'" class="bottom_submit" />';
+				$sx = '
+				<input 
+					type="submit" name="acao" value="'.strip_tags($this->caption_original).'" 
+					id="'.$this->name.'" class="'.$this->class_button_submit.'" />
+					';
 				} else {
 					$sx = '
 					<input type="button"
-						value="'.$this->caption.'" 
+						value="'.$this->caption_original.'" 
 						name="acao"
+						class="'.$this->class_button_submit.'"
 						id="acao" onclick="enviar_formulario(\''.$this->total_cps.'\')" />';
 				} 
-				return($sx);
-			}
-		/***
-		 * Checkbox
-		 */	
-		function type_C()
-			{
-				global $dd, $cp;
-					$checked = '';
-					if (trim($this->value)=='1') { $checked = ' checked ';}
-					$sx = '
-					<input 
-						type="checkbox" value="1" 
-						name="'.$this->name.'"
-						id="'.$this->name.'" '.$checked.' />';
-					$sx .= '&nbsp;'.$this->caption;						
-				return($sx);
+				return($sx);				
 			}
 		/***
 		 * City
@@ -678,7 +895,7 @@ class form
 
 				$sql = "Select * from ajax_pais where pais_ativo > 0 order by pais_prefe desc, pais_ativo desc, pais_nome ";
 				$rrr = db_query($sql); 
-				$opt = '<option value="">'.msg('select_your_country').'</option>';
+				$opt = '<option value="" class="'.$this->class_select_option.'">'.msg('select_your_country').'</option>';
 				while ($line = db_read($rrr))
 				{
 					$check = '';
@@ -686,14 +903,14 @@ class form
 					$opd = trim($line['pais_nome']);
 					if (trim($this->value)==$opv) { $check = 'selected'; }
 					$opt .= chr(13);
-					$opt .= '			<option value="'.$opv.'" '.$check.'>';
+					$opt .= '			<option value="'.$opv.'" '.$check.' class="'.$this->class_select_option.'">';
 					$opt .= $opd;
 					$opt .= '</option>';
 				}
 				/* Script dos estados */
 				$js = '';
 				$sx = '
-				<select name="'.$this->name.'" id="'.$this->name.'" size="1" '.$this->class.'>
+				<select name="'.$this->name.'" id="'.$this->name.'" size="1" 
 					'.$this->class.' 
 					id="'.$this->name.'" >';
 				$sx .= $opt.chr(13);
@@ -701,6 +918,24 @@ class form
 				return($sx);
 
 			}
+		/*********************************
+		 * Checkbox
+		 */
+		function type_C()
+			{
+				global $include,$acao,$http;
+				$sx = '
+				<input 
+					type="checkbox" name="'.$this->name.'" 
+					value = "1"
+					maxlength="10"  
+					id="'.$this->name.'"
+					'.$checked.' />&nbsp;';
+				$sx .= '&nbsp;';
+				
+				return($sx);				
+			}
+			
 			
 		/*********************************
 		 * Data
@@ -712,7 +947,7 @@ class form
 				<input 
 					type="text" name="'.$this->name.'" size="13"
 					value = "'.$this->value.'"
-					maxlength="10" '.$this->class.' 
+					maxlength="10" class="'.$this->class_string.'" 
 					id="'.$this->name.'"
 					'.$msk.' />&nbsp;';
 				$sx .= $this->requerido();
@@ -723,7 +958,7 @@ class form
 					$("#'.$this->name.'").mask("99/99/9999");
 					$("#'.$this->name.'").datepicker({
 							showOn: "button",
-							buttonImage: "'.$http.'include/img/icone_calender.gif",
+							buttonImage: "'.$include.'img/icone_calender.gif",
 							buttonImageOnly: true,
 							showAnim: "slideDown"	 
 					});
@@ -742,15 +977,45 @@ class form
 				$sx .= '<BR><BR>';
 				$sx .= '
 				<select name="'.$this->name.'" >
-					<option value=""></option>
-					<option value="SIM">SIM</option>
+					<option value="" class="'.$this->class_select_option.'"></option>
+					<option value="SIM" class="'.$this->class_select_option.'">SIM</option>
 				</select>
 				, concordo.
 				';
 				$sx .= $this->requerido();
 				return($sx);				
 			}
-
+		/***
+		 * EAN13
+		 */			
+		function type_EAN()
+			{
+				$style = ' size="13" ';
+				$sx = '
+				<input 
+					type="text" name="'.$this->name.'" 
+					value = ""
+					maxlength="'.$this->maxlength.'" 
+					class="'.$this->class_string.'" 
+					id="'.$this->name.'"
+					placeholder="'.$this->caption_placeholder.'"
+					'.$this->readonly.' '.$style.'
+					 /> (CODE)'.chr(13);
+				$sx .= $this->requerido();
+				$sx .= '
+				<script>
+					$(\'#'.$this->name.'\').focus();
+					$(\'#'.$this->name.'\').keyup(function(e) {
+    				var enterKey = 13;
+    				if (e.which == enterKey){
+        				enviar_formulario(\''.$this->total_cps.'\');
+     				}
+ 					});
+				</script>				
+				';
+				
+				return($sx);
+			}
 		/***
 		 * String
 		 */			
@@ -786,7 +1051,7 @@ class form
 				$sx = '
 				<input 
 					type="hidden" name="'.$this->name.'" 
-					value="'.$this->caption.'" id="'.$this->name.'" />';
+					value="'.$this->caption_original.'" id="'.$this->name.'" />';
 				return($sx);
 			}
 
@@ -820,10 +1085,9 @@ class form
 					type="text" name="'.$this->name.'" size="18"
 					value = "'.$this->value.'"
 					maxlength="15" '.$this->class.' 
+					class="'.$this->class_string.'"
 					id="'.$this->name.'"
-					'.$msk.'
-					'.$this->readonly.'
-					 />&nbsp;';
+					'.$msk.' />&nbsp;';
 				
 				/* SCRIPT */
 				$gets = '
@@ -840,7 +1104,7 @@ class form
 		function type_M()
 			{
 				global $include,$acao;
-				$sx ='<TR><TD colspan=2 '.$this->class_memo.'>';
+				$sx ='<TR><TD colspan=2 class="'.$this->class_memo.'">';
 				$sx .= $this->caption;
 				return($sx);				
 			}			
@@ -857,8 +1121,7 @@ class form
 					value = "'.$this->value.'"
 					maxlength="15" '.$this->class.' 
 					id="'.$this->name.'"
-					'.$msk.' 
-					'.$this->readonly.' />&nbsp;';
+					'.$msk.' />&nbsp;';
 				
 				/* SCRIPT */
 				$gets = '
@@ -878,7 +1141,7 @@ class form
 			{
 				$sql = $this->par[2];
 				$rrr = db_query($sql);
-				$opt = '<option value="">'.msg('select_an_option').'</option>';
+				$opt = '<option value="" class="'.$this->class_select_option.'">'.msg('select_an_option').'</option>';
 				while ($line = db_read($rrr))
 				{
 					$check = '';
@@ -886,20 +1149,21 @@ class form
 					$opv = trim($line[$this->par[1]]);
 					if ($this->value==$opv) { $check = 'selected'; }
 					$opt .= chr(13);
-					$opt .= '			<option value="'.$opv.'" '.$check.'>';
+					$opt .= '			<option value="'.$opv.'" '.$check.' class="'.$this->class_select_option.'">';
 					$opt .= $opd;
 					$opt .= '</option>';
 				}
 				$sx = '
-				<select name="'.$this->name.'" size="1" '.$this->class.'>
-					'.$this->class.' 
-					id="'.$this->name.'" >';
+				<select id="'.$this->name.'" name="'.$this->name.'" size="1" 
+					class="'.$this->class_select.'">';
 				$sx .= $opt.chr(13);
 				$sx .= '</select>';
 				return($sx);
 			}
-			
 		
+		
+			
+
 		/***
 		 * String
 		 */			
@@ -911,9 +1175,12 @@ class form
 				<input 
 					type="text" name="'.$this->name.'" 
 					value = "'.$this->value.'"
-					maxlength="'.$this->maxlength.'" '.$this->class.' '.$style.' 
+					maxlength="'.$this->maxlength.'" 
+					class="'.$this->class_string.'" 
 					id="'.$this->name.'"
-					'.$this->readonly.' />'.chr(13);
+					placeholder="'.$this->caption_placeholder.'"
+					'.$this->readonly.' '.$style.'
+					 />'.chr(13);
 				$sx .= $this->requerido();
 				return($sx);
 			}
@@ -925,10 +1192,9 @@ class form
 				$ops = splitx('&',$this->par);
 				
 				$sx = '
-				<select name="'.$this->name.'"
-					'.$this->class.' '.$style.' 
+				<select name="'.$this->name.'" 
+					class="'.$this->class_select.'"
 					id="'.$this->name.'" >'.chr(13);
-					
 				for ($r=0;$r < count($ops);$r++)
 					{
 						$so = $ops[$r];
@@ -936,8 +1202,17 @@ class form
 						
 						$vl = substr($so,0,strpos($so,':'));
 						if ($this->value==$vl) { $check = 'selected'; }
-						$sx .= '<option value="'.$vl.'" '.$check.'>';
-						$sx .= trim(substr($so,strpos($so,':')+1,strlen($so)));
+						$sx .= '<option value="'.$vl.'" '.$check.' ';
+						if (strlen(trim($this->class_select_option)) > 0) 
+							{ $sx .= ' class="'.$this->class_select_option.'"'; }
+						$sx .= '>';
+						$tx = trim(substr($so,strpos($so,':')+1,strlen($so)));
+						
+						if (substr($tx,0,1) == '#')
+							{
+								$tx = msg($tx);
+							} 
+						$sx .= $tx;
 						$sx .= '</option>'.chr(13);
 					}
 				$sx .= '</select>';
@@ -954,7 +1229,9 @@ class form
 				<input 
 					type="password" name="'.$this->name.'" 
 					value = "'.$this->value.'"
-					maxlength="'.$this->maxlength.'" '.$this->class.' '.$style.' 
+					maxlength="'.$this->maxlength.'" class="'.$this->class_password.'" '.$style.'
+					placeholder="'.$this->caption_placeholder.'" 
+					autocomplete="off"
 					id="'.$this->name.'" />'.chr(13);
 				$sx .= $this->requerido();
 				return($sx);
@@ -977,7 +1254,7 @@ class form
 				$gets = '
 				<script>
 					$("#'.$this->name.'").autocomplete({
-						source: "/reol/pb/ajax_instituicao.php",
+						source: "_form_ajax.php",
    						minLength: 1,
    						matchContains: true,
         				selectFirst: false
@@ -995,15 +1272,18 @@ class form
 				if (round($this->rows)==0) { $this->rows = 5; }
 				$sx = '
 				<TEXTAREA 
-					type="text" name="'.$this->name.'" size="'.$this->size.'"
+					name="'.$this->name.'" 
+					class="'.$this->class_textarea.'"
 					cols="'.$this->cols.'"
-					rows="'.$this->rows.'" '.$this->class.' 
+					rows="'.$this->rows.'" 
+					 
 					id="'.$this->name.'" />';
 				$sx .= $this->value;
 				$sx .= '</textarea>';
 				$sx .= $this->requerido();
 				return($sx);
 			}
+
 		/***
 		 * TOKEN
 		 */	
@@ -1042,12 +1322,12 @@ class form
 				global $LANG;
 
 				$estados = array("99"=>"Outside Brazil","AC"=>"Acre","AL"=>"Alagoas","AM"=>"Amazonas","AP"=>"Amap�",
-					"BA"=>"Bahia","CE"=>"Cear�","DF"=>"Distrito Federal","ES"=>"Esp�rito Santo",
-					"GO"=>"Goi�s","MA"=>"Maranh�o","MT"=>"Mato Grosso","MS"=>"Mato Grosso do Sul",
-					"MG"=>"Minas Gerais","PA"=>"Par�","PB"=>"Para�ba","PR"=>"Paran�",
-					"PE"=>"Pernambuco","PI"=>"Piau�","RJ"=>"Rio de Janeiro","RN"=>"Rio Grande do Norte",
-					"RO"=>"Rond�nia","RS"=>"Rio Grande do Sul","RR"=>"Roraima","SC"=>"Santa Catarina",
-					"SE"=>"Sergipe","SP"=>"S�o Paulo","TO"=>"Tocantins");
+					"BA"=>"Bahia","CE"=>"Ceara","DF"=>"Distrito Federal","ES"=>"Espirito Santo",
+					"GO"=>"Goias","MA"=>"Maranh�o","MT"=>"Mato Grosso","MS"=>"Mato Grosso do Sul",
+					"MG"=>"Minas Gerais","PA"=>"Par�","PB"=>"Paraiba","PR"=>"Parana",
+					"PE"=>"Pernambuco","PI"=>"Piaui","RJ"=>"Rio de Janeiro","RN"=>"Rio Grande do Norte",
+					"RO"=>"Rondonia","RS"=>"Rio Grande do Sul","RR"=>"Roraima","SC"=>"Santa Catarina",
+					"SE"=>"Sergipe","SP"=>"Sao Paulo","TO"=>"Tocantins");
 
 				$opt = '<option value="">'.msg('select_state').'</option>';
 				foreach (array_keys($estados) as $key=>$value) {
@@ -1073,7 +1353,7 @@ class form
 		function requerido()
 			{
 				$sx = '';
-				if ($this->required == 1)
+				if (($this->required == 1) and ($this->required_message == 1))
 					{
 						if (strlen($this->value) == 0 )
 						{ 
@@ -1101,30 +1381,30 @@ class form
 				if(!$arvore) { return ''; }
 				list($chv, $nome, $filhos) = $arvore;
 				if(strpos($chv, $tokenSepFormArvore) !== false){
-					die("ERRO: Chave inv�lida por cont�m separador de chaves: $chv");
+					die("ERRO: Chave invalida por contem separador de chaves: $chv");
 				}
 				if(!is_array($filhos) && !$filhos) { $filhos = array(); }
 				$strFilhos = "children: [";
 				foreach($filhos as $filho){
-					$strFilhos .= "\t".$this->_type_ARV_expande_arvore($filho, $tokenSepFormArvore, false)." ";
+					$strFilhos .= "\t".$this->_type_ARV_expande_arvore($filho, $tokenSepFormArvore, false)."\n";
 				}
 				$strFilhos .= "]";
 				$strExpandir = $expandirRaiz ? 'true' : 'false';
-				$saida = "{title: '$nome', key: '$chv', expand: $strExpandir, isFolder: ".($filhos ? "true, $strFilhos" : "false")."}, ";
+				$saida = "{title: '$nome', key: '$chv', expand: $strExpandir, isFolder: ".($filhos ? "true, $strFilhos" : "false")."},\n";
 				return $saida;
 			}
 		/**
-		 * �rvore com checkboxes para sele��o
+		 * arvore com checkboxes para sele��o
 		 * Aqui usando o dynatree: http://code.google.com/p/dynatree/
-		 * @param  array $arvore uma �rvore no formato ($chv, $nome, $filhos)
-		 * @return string        html/js de uma �rvore com checkboxes selecion�veis
+		 * @param  array $arvore uma arvore no formato ($chv, $nome, $filhos)
+		 * @return string  html/js de uma �rvore com checkboxes selecion�veis
 		 */
 		function type_ARV($arvore, $tokenSepFormArvore='%%')
 			{
 				assert($arvore);
 				$arvoreExemplo = array('chaveRaiz', 'Natureza', array(
 									array(0,'Aranha',false),
-									array(1,'Mam�feros', array(
+									array(1,'Mamiferos', array(
 											array(0, 'Coala', false),
 											array(1, 'Le�o', false),
 										)),
@@ -1188,6 +1468,37 @@ class form
 		 * TinyMCE: http://www.tinymce.com
 		 * @return string html/js de um campo com controles de texto rico
 		 */
+		function type_R()
+			{
+				$ops = splitx('&',$this->par);
+				for ($r=0;$r < count($ops);$r++)
+					{
+						$so = $ops[$r];
+						$check = '';
+						
+						$vl = substr($so,0,strpos($so,':'));
+						if (trim($this->value)==trim($vl) ) { $check = 'checked'; }
+						$sx .= '<input type="radio" value="'.$vl.'" '.$check.' ';
+						$sx .= ' id="'.$this->name.'" name="'.$this->name.'" ';
+						if (strlen(trim($this->class_select_option)) > 0) 
+							{ $sx .= ' class="'.$this->class_select_option.'"'; }
+						$sx .= '>';
+						//$sx .= $ops[$r];
+						$txt = trim(substr($so,strpos($so,':')+1,strlen($so)));
+						if (substr($txt,0,1) == '#')
+							{ $txt = msg($txt).'&nbsp;&nbsp;'; }
+						$sx .= $txt;
+					}
+				return($sx);
+				
+			}
+
+
+		/**
+		 * Campo de Rich Text
+		 * TinyMCE: http://www.tinymce.com
+		 * @return string html/js de um campo com controles de texto rico
+		 */
 		function type_RT()
 			{
 				$conteudo = $this->value;
@@ -1227,102 +1538,51 @@ class form
 					';
 				}
 
-				die('Tipo de gerador de campo n�o suportado: '.$this->geradorCampoRichText);
+				die('Tipo de gerador de campo nao suportado: '.$this->geradorCampoRichText);
 			}
 
 		/**
 		 * Campo de sele��o de tags com autocomplete
 		 * http://jqueryui.com/autocomplete/#multiple-remote
-		 * @param  string $fonteDados    -Se for uma string come�ada com 'http', � tratada como uma URL que retorna uma lista de dados
+		 * @param  string $fonteDados    -Se for uma string, � tradada como uma URL que retorna uma lista de dados
 		 *                                 no formato JSON (objetos com atributos 'label' e 'value')
-		 *                               -Se for uma string come�ada com 'function', � tratada como fun��o de autocomplete segundo documenta��o em http://api.jqueryui.com/autocomplete/
 		 *                               -Se for um array, � tratada como uma lista de tags 
-		 * @param  string $jsTermFun     Se especificado, a fun��o javascript f(request.term) � chamada na inser��o de um termo no campo (ver jsAutocompleteSource)
 		 * @return string                Um campo com autocomplete
 		 */
-		function type_ATAGS($fonteDados, $jsTermFun='')
+		function type_ATAGS($fonteDados)
 			{
-
-				$jsTermFun = 'var termFun = '.($jsTermFun !== '' ? $jsTermFun : 'function(term){}').';' ;
-				//Formata fonte de dados
 				if(is_array($fonteDados)){
-					$jsTags = "[";
 					foreach($fonteDados as $tag){
-						if(is_array($tag) && count($tag) === 2){ list($label, $value) = $tag; }
-						elseif(is_string($tag)){ list($label, $value) = array($tag, $tag); }
-						else{ die("ERRO type_ATAGS(): Tipo de tag inv�lido."); }
-
-						if(!preg_match('/^[#_a-z][_a-z0-9]*$/', $label)){
-							var_dump($tag);
-							var_dump(debug_backtrace(false));
+						if(!preg_match('/^[#_a-z][_a-z0-9]*$/', $tag)){
 							die('ERRO type_ATAGS(): Apenas tags alfanum�ricas min�sculas (sem acentos) come�adas com uma letra ou cerquilha (#) s�o suportadas.');
 						}
-						if(preg_match('/\'/',$value)){
-							die("ERRO type_ATAGS(): valor de tag possui caracter inv�lido: \'.");
-						}
-						$jsTags .= "{label:'$label', value:'$value'}, ";
 					}
-					$jsTags .= "]";
+					if(count($fonteDados) == 0){ $jsTags = '[]'; }
+					else{ $jsTags = '["'.implode('", "', $fonteDados).'"]'; }
 
 					$jsAutocompleteSource = '
 						function( request, response ) {
 							var availableTags = '.$jsTags.';
-							'.$jsTermFun.'
-							termFun(request.term);
 							// delegate back to autocomplete, but extract the last term
 							response( $.ui.autocomplete.filter(
 								availableTags, extractLast( request.term ) ) );
 						}
 					';
 				}
-				elseif(is_string($fonteDados) && preg_match('/^http[^ ]+$/', strtolower($fonteDados))){
+				elseif(is_string($fonteDados) && preg_match('/^[^ ]+$/', strtolower($fonteDados))){
 					//XXX n�o testado!
 					$jsAutocompleteSource = '
 						function( request, response ) {
-							termFun(request.term);
 							$.getJSON( "'.$fonteDados.'", {
 								term: extractLast( request.term )
 							}, response );
 						}
 					';
 				}
-				elseif(is_string($fonteDados) && preg_match("/^\s*function/", $fonteDados)){
-					$jsAutocompleteSource = $fonteDados;
-				}
 				else{
 					var_dump($fonteDados);	
 					die('ERRO type_ATAGS(): Fonte de dados inv�lida, vazia ou n�o suportada.');
 				}
-
-				
-				$jsSearchFun = '
-					function() {
-						// custom minLength
-						var term = extractLast( this.value );
-						'.$jsTermFun.'
-						termFun(this.value);
-						if ( term.length < 2 ) {
-							return false;
-						}
-					}	
-				';
-
-				$jsSelectFun = '
-					function( event, ui ) {
-							var terms = split( this.value );
-							// remove the current input
-							terms.pop();
-							// add the selected item
-							terms.push( ui.item.value );
-							'.$jsTermFun.'
-							termFun(ui.item.value);
-							// add placeholder to get the comma-and-space at the end
-							terms.push( "" );
-							this.value = terms.join( ", " );
-							return false;
-						}
-					}
-				';
 
 				return '
 					  <script>
@@ -1346,14 +1606,29 @@ class form
 								.autocomplete({
 									source: '.$jsAutocompleteSource.'
 									,
-									search: '.$jsSearchFun.'
-									,
+									search: function() {
+										// custom minLength
+										var term = extractLast( this.value );
+										if ( term.length < 2 ) {
+											return false;
+										}
+									},
 									focus: function() {
 										// prevent value inserted on focus
 										return false;
 									},
-									select: '.$jsSelectFun.'
-									);
+									select: function( event, ui ) {
+										var terms = split( this.value );
+										// remove the current input
+										terms.pop();
+										// add the selected item
+										terms.push( ui.item.value );
+										// add placeholder to get the comma-and-space at the end
+										terms.push( "" );
+										this.value = terms.join( ", " );
+										return false;
+									}
+								});
 						});	
 					  </script>
 					<input 

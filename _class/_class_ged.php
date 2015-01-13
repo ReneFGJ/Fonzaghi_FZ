@@ -42,7 +42,7 @@ class ged
 				{				
 					$sx = '
 					<select id="filetype_1">
-						<option>::'.msg('document_type').'::</option>
+						<option>::'.msg('Tipo do documento').'::</option>
 					';
 					$sql= "select * from ".$this->tabela.'_tipo where doct_ativo = 1 order by doct_nome';
 					$rlt = db_query($sql);
@@ -60,7 +60,7 @@ class ged
 					$sx .= '<input type="hidden" value="'.$tp.'" id="filetype_1">';
 				}
 				$sx .= '
-				<input type="button" value="'.msg('upload').'" id="fileup">
+				<input type="button" value="'.msg('Adicionar').'" id="fileup">
 				<input type="hidden" id="filetype_2" value="">
 				<input type="hidden" id="filetype_3" value="">
 				<script>
@@ -81,7 +81,7 @@ class ged
 						
 		function upload_botton($tp='',$bt='')
 			{
-				if (strlen($bt)==0) { $bt=msg('upload'); }
+				if (strlen($bt)==0) { $bt=msg('Adicionar'); }
 				$link = "javascript:newxy2('ged_upload.php?dd1=".$this->protocol."&dd2=".$tp."',400,400);";
 				$link = '<A HREF="'.$link.'">';
 				$link .= $bt;
@@ -202,12 +202,12 @@ class ged
 		function filelist_download()
 			{
 				global $messa,$secu,$ged_del,$dd,$LANG;
-				
-				$sx = '<table width=100% class="'.$this->table_class.'">';
+				$sx .= '<h3>Documentos anexados</h3>';
+				$sx .= '<table width=100% class="'.$this->table_class.'">';
 				$sx .= '<TR>';
-				$sx .= '<TH width="30%">'.msg('file_name');
-				$sx .= '<TH width="60%">'.msg('file_filename');
-				$sx .= '<TH width="10%">'.msg('file_size');
+				$sx .= '<TH width="30%">'.msg('Título do arquivo');
+				$sx .= '<TH width="60%">'.msg('Nome do arquivo');
+				$sx .= '<TH width="10%">'.msg('Tamanho do arquivo');
 			
 				$sql = "select * from ".$this->tabela;
 				$sql .= " left join ".$this->tabela."_tipo on doc_tipo = doct_codigo ";
@@ -242,12 +242,13 @@ class ged
 			{
 				global $messa,$secu,$ged_del,$dd,$LANG;
 				
-				$sx = '<table width=100% cellpadding=2 cellspacing=0 border=1 class="lt1">';
+				$sx .= '<h3>Documentos anexados</h3>';
+				$sx .= '<table width=100% cellpadding=2 cellspacing=0 border=0 class="lt1 left radius5 margin5 pad5 border1 orange_light">';
 				$sx .= '<TR>';
-				$sx .= '<TH>'.msg('file_name');
-				$sx .= '<TH>'.msg('file_filename');
-				$sx .= '<TH>'.msg('file_size');
-				$sx .= '<TH>'.msg('file_data');
+				$sx .= '<TH align="left">'.msg('Título do arquivo');
+				$sx .= '<TH align="left">'.msg('Nome do arquivo');
+				$sx .= '<TH>'.msg('Tamanho do arquivo');
+				$sx .= '<TH>'.msg('Data do arquivo');
 				$sql = "select * from ".$this->tabela;
 				$sql .= " left join ".$this->tabela."_tipo on doc_tipo = doct_codigo ";
 				$sql .= " where doc_dd0 = '".$this->protocol."' and doc_ativo=1 ";
@@ -466,7 +467,7 @@ class ged
 							$compl = $dd[1].'-'.substr(md5($nome.date("His")),0,5).'-';
 							$compl = troca($compl,'/','-');
         					if (!move_uploaded_file($temp, $path .$compl.$nome))
-            					{ $erro = msg('erro_save'); } else 
+            					{ $erro = msg('Erro ao salvar'); } else 
             					{
             						$this->file_saved = $path.$compl.$nome;
             						$this->file_name = $nome;
@@ -498,7 +499,7 @@ class ged
     				<select name="dd2" size=1>'.$options.'</select>
     				</fieldset>
     				<BR>
-	    			<nobr><fieldset><legend>'.msg('upload_submit').'</legend> 
+	    			<nobr><fieldset><legend>'.msg('Enviar arquivo').'</legend> 
     				<span id="post"><input type="file" name="arquivo" id="arquivo" /></span>
     				<input type="hidden" name="dd0" value="'.$dd[0].'"> 
     				<input type="hidden" name="dd1" value="'.$dd[1].'">
@@ -507,7 +508,7 @@ class ged
     				<input type="submit" value="enviar arquivo" name="acao" id="idbotao" />
     				</fieldset>  
     				<BR>
-    				<fieldset><legend>'.msg('file_tipo').'</legend>
+    				<fieldset><legend>'.msg('Tipo do arquivo').'</legend>
     				MaxSize: <B>'.numberformat($this->up_maxsize / (1024 * 1024),0,',','.').'MByte</B>
     				&nbsp;&nbsp;&nbsp;
 					Extension Valid: <B>'.$this->display_extension().'</B>';

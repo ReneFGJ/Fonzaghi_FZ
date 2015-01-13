@@ -1,6 +1,6 @@
 <?php
 $style_add = array('fz_stytecab_top.css', 'fz_style_cad_pre.css', 'fz_style_cpf.css');
-
+echo '<div class="noprint">';
 $menus = array();
 array_push($menus, array('index.php', 'HOME'));
 array_push($menus, array('pre_cadastro.php', 'PRÉ-CADASTRO'));
@@ -11,5 +11,10 @@ array_push($menus, array('#" onclick="newxy2(\'../mensagens.php\',700,600);', 'M
 array_push($menus, array('#" onclick="newxy2(\'../agendamento.php\',700,600);', 'AGENDAMENTO'));
 require ("../cab.php");
 require ($include . 'sisdoc_windows.php');
+echo '</div>';
+
+echo '<div class="print_resumo">';
+echo  date('dmY').' - '.$user->user_log;
+echo '<h1>Pré-Cadastro </h1>';
+echo '</div>';
 ?>
-<h1>Pré-Cadastro</h1>

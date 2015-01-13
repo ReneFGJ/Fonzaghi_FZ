@@ -364,6 +364,17 @@ a.link_bt {
 .submissao-botao{
 	background-color: #497c32;
 	height: 140px;
+	width:auto;
+}
+
+.submissao-botao:hover{
+	background-color:#4A7E10; 	
+}
+
+.linka{
+	font-size: 10px;
+	padding: 0px;
+	margin: 0px;
 }
 
 
@@ -374,7 +385,7 @@ a.link_bt {
 	clear: both;
 }
 
-.programacao-horario{
+.programacao-horario{		
 	width: 33%;
 	float: left;
 }

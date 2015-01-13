@@ -6,6 +6,70 @@ div {
 	font-family: 'CICPG', 'EBGaramondRegular', 'Tahoma', 'Arial';
 }
 
+@media screen {
+    .noprint {display: inline;}
+    
+}
+
+@media print {
+	
+	body{font-size: 10px;}
+	.noprint {display: none;}
+    .break {page-break-after: always;}
+    .print_resumo{
+    	font-size: 10px;
+    	}
+    	
+    .print_resumo h1{
+	font-size: 14px;
+	}	
+    	
+	.print_resumo h3{
+	font-size: 12px;
+	}
+	
+	.print_resumo .lt0{
+	font-size: 10px;
+	}
+	
+	.print_resumo .lt2{
+	font-size: 10px;
+	}
+	
+	.print_resumo .lt3{
+	font-size: 10px;
+	}
+	
+	.print_resumo .cab_statusB{
+	font-size: 12px;
+	}
+	
+	.print_resumo .cab_statusA{
+	font-size: 12px;
+	}
+	
+	.print_resumo .bdcomment{
+	font-size: 10px;
+	}
+	
+	.print_resumo input{
+	display: none;
+	}
+	
+	.print_resumo select{
+	display: none;
+	}
+	
+	.print_resumo .submit_comment{
+	display: none;
+	}
+	
+	.print_resumo img{
+	display: none;
+	}
+    
+}
+
 #logout
     {
         color: white;

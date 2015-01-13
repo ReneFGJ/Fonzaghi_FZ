@@ -179,13 +179,13 @@ class cadastro_pre_analise extends cadastro_pre {
 	
 	function restricoesACP(){
 		$sx = '<table class="left radius5 margin5 pad5 border1 orange_light" width="100%">';
-		$sx .= '<tr><th width="20%" align="center">Data</th>
-					<th width="20%" align="center">Valor</th>
-					<th width="60%" align="left">Informante</th></tr>';
+		$sx .= '<tr><th width="10%" align="center">Data</th>
+					<th width="10%" align="center">Valor</th>
+					<th width="80%" align="left">Informante</th></tr>';
 		foreach ($this -> restricoesACP as $key => $value) {
-			$sx .= '<tr><td align="center">'.stodbr($value[0]).'</td>
-						<td align="center">'.$value[1].'</td>
-						<td align="left">'.$value[2].'</td></tr>';	
+			$sx .= '<tr><td align="center" class="left radius5 margin5 pad5 border1 orange_light">'.stodbr($value[0]).'</td>
+						<td align="center" class="left radius5 margin5 pad5 border1 orange_light">'.$value[1].'</td>
+						<td align="left" class="left radius5 margin5 pad5 border1 orange_light">'.$value[2].'</td></tr>';	
 		}
 		$sx .= '</table>';
 		$this -> restricoes = $sx;
@@ -194,13 +194,13 @@ class cadastro_pre_analise extends cadastro_pre {
 	
 	function informantesACP(){
 		$sx = '<table class="left radius5 margin5 pad5 border1 orange_light" width="100%">';
-		$sx .= '<tr><th width="20%" align="center">Tipo</th>
-					<th width="20%" align="center">Data</th>
-					<th width="60%" align="left">Consultante</th></tr>';
+		$sx .= '<tr><th width="10%" align="center">Tipo</th>
+					<th width="10%" align="center">Data</th>
+					<th width="80%" align="left">Consultante</th></tr>';
 		foreach ($this -> informantesACP as $key => $value) {
-			$sx .= '<tr><td align="center">'.$value[0].'</td>
-						<td align="center">'.stodbr($value[1]).'</td>
-						<td align="left">'.$value[2].'</td></tr>';	
+			$sx .= '<tr><td align="center" class="left radius5 margin5 pad5 border1 orange_light">'.$value[0].'</td>
+						<td align="center" class="left radius5 margin5 pad5 border1 orange_light">'.stodbr($value[1]).'</td>
+						<td align="left" class="left radius5 margin5 pad5 border1 orange_light">'.$value[2].'</td></tr>';	
 		}
 		$sx .= '</table>';
 		return($sx);

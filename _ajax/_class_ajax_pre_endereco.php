@@ -57,10 +57,12 @@ class ajax
 			}
 		function refresh()
 			{
-				global $dd;
+				global $dd,$editar;
 				$cad = new cadastro_pre;
 				$cad->cliente = $dd[1];
-				$sx = $cad->lista_endereco_mostra($dd[1],1);
+				$sx = $cad->lista_endereco_mostra($dd[1],$editar);
+				
+				
 				return($sx);
 			}
 	}

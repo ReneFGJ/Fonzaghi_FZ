@@ -56,9 +56,11 @@ switch($verb) {
 		$pre -> le($dd[0]);
 		$pre -> obter_dados($dd[0], '00');
 		$pre -> calcular_pontuacao();
+		
 		echo $pre -> mostra_resumo();
 		echo $pre->restricoesACP();
 		echo $pre->informantesACP();
+		
 		echo '<br><br><br>';
 		break;
 	case 'PONTUACAO' :
@@ -116,7 +118,7 @@ switch($verb) {
 		echo $pre->buscar_por_cep($aux);
 		break;	
 	case 'ALTERAR_STATUS' :
-		if($aux2<>'E'){
+		if($aux2<>'A'){
 			require ($include_db."db_mysql_" . $ip . ".php");
 			$pre->salvar_status($aux,$aux2);
 			/*redireciona com delay de 5 segundos*/
@@ -179,17 +181,20 @@ function redirecionar($link,$delay){
 }
 
 function tela_1() {
+	global $editar;
+	
+	$editar =0;
 	$pre -> le($dd[0]);
 	$pre -> obter_dados($dd[0], '00');
 	$pre -> calcular_pontuacao();
 
 	$telax = $pre -> mostra();
 	$telax .= '<h3>Contatos Pessoal</h3>';
-	$telax .= $pre -> lista_telefone(0);
+	$telax .= $pre -> lista_telefone();
 	$telax .= '<h3>Endereço</h3>';
-	$telax .= $pre -> lista_endereco(0);
+	$telax .= $pre -> lista_endereco();
 	$telax .= '<h3>Referências</h3>';
-	$telax .= $pre -> lista_referencia(0);
+	$telax .= $pre -> lista_referencia();
 	$telax .= $pre -> mostrar_relatorio();
 	$sty = ' style="background:#000000;
 					   font-size:20px;

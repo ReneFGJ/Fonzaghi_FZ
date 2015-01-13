@@ -50,16 +50,16 @@ class cadastro_pre_importacao extends cadastro_pre{
 			$rltx = db_query($sqlx);
 			if($linex = db_read($rltx)){
 				$this->error = "Já existe este CPF cadastrado, foi enviando para nova analise!!!";
-				$status = 'I';
+				$status = 'A';
 				$cliente = $line['pes_cliente'];
-				$sql = " update cadastro set cl_status='$status',cl_last=".date('Ymd')." 
+				$sql = " update cadastro set cl_status='$status',cl_dtcadastro=".date('Ymd')." ,cl_last=".date('Ymd')." 
 							where cl_cpf='".$cpf."'
 						";
 				$rlt = db_query($sql);
 				return (1);				
 			}else{
 				//não existe
-				$status = 'I';
+				$status = 'A';
 				$cliente = $line['pes_cliente'];
 				$sql .= "
 					 insert into cadastro (
@@ -71,7 +71,7 @@ class cadastro_pre_importacao extends cadastro_pre{
 						  cl_senha_lembrete,cl_senha_status,cl_naturalidade,
 						  cl_search,cl_propaganda
 					) values ('" . $cliente . "','" . $cpf . "',
-						'" . $line['pes_nome'] . "'," . $line['pes_data'] . "," . $line['pes_nasc'] . ",
+						'" . $line['pes_nome'] . "'," . date('Ymd') . "," . $line['pes_nasc'] . ",
 						  '" . $line['pes_pai'] . "','" . $line['pes_mae'] . "','" . $line['pes_rg'] . "',
 						  'T'," . date('Ymd') . ",
 						  '$status','" . $nascmask . "','" . substr(sonumero($line['pes_cpf']), 0, 4) . "',

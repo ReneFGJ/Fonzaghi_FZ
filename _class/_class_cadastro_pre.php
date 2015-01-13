@@ -168,7 +168,8 @@ class cadastro_pre {
 		$sx .= '	<td width="33%" class="lt2">RG: <b>' . $this -> line['pes_rg'] . '</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Mae: <b>' . $this -> line['pes_mae'] . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Pai: <b>' . $this -> line['pes_pai'] . '</b></td></tr>';
-		$sx .= '<tr><td class="lt2">Observações :<br> <b>'. $this->line_cmp['cmp_obs'] . '</b></td></tr>';
+		$sx .= '<tr><td width="100%" colspan="2" class="lt2">E-mail: <b>' . $this -> line['pes_email'] . '</b></td></tr>';
+		$sx .= '<tr><td class="lt2" colspan="4">Observações :<br> <b>'. $this->line_cmp['cmp_obs'] . '</b></td></tr>';
 		$sx .= '</table>';
 		$sx .= '</div>
 		';
@@ -871,7 +872,8 @@ class cadastro_pre {
 		$this -> cliente = $cliente;
 		$sx .= $this -> lista_telefone_cadastrado();
 		
-		if ($edit == 1) { $sx .= $this -> lista_telefone_adiciona($edit);
+		if ($edit == 1) {
+			 $sx .= $this -> lista_telefone_adiciona($edit);
 		}
 		return ($sx);
 	}
@@ -910,7 +912,7 @@ class cadastro_pre {
 			$sx .= ' ' . $line['end_bairro'];
 			$sx .= '<BR>' . $line['end_cidade'];
 			$sx .= '-' . $line['end_estado'];
-			
+			$sx .= '<BR>' . $line['end_complemento'];
 			$sx .= '</div>';
 		}
 		return ($sx);
@@ -935,8 +937,8 @@ class cadastro_pre {
 		
 		return($line);
 	}
-	function lista_endereco_adiciona($edit = 0) {
-		global $http;
+	function lista_endereco_adiciona($edit=0) {
+		global $http,$edit_end;
 		if ($edit == 1) {
 			$id = 'pre_endereco';
 			$sx .= '<div id="' . $id . '_field" class="left radius5 margin5 pad5 border1 ' . $bgcor . '">';
@@ -959,6 +961,7 @@ class cadastro_pre {
 
 	function lista_endereco($edit = 0) {
 		global $editar;
+		$editar = $edit;
 		$id = 'pre_endereco';
 		$sx .= '<div id="' . $id . '_main">';
 		$form = new form;
@@ -970,6 +973,7 @@ class cadastro_pre {
 	/* REFERENCIA */
 	function lista_referencia($edit = 0) {
 		global $editar;
+		$editar = $edit;
 		$id = 'pre_referencia';
 		$sx .= '<div id="' . $id . '_main">';
 		$form = new form;
@@ -1321,16 +1325,19 @@ class cadastro_pre {
 	}
 	
 	function recupera_propaganda($id){
-			
+		global $base_name, $base_server, $base_host, $base_user, $base, $conn;	
+		require('../../_db/db_mysql_pre_cad.php');
+		
 		$sql = "select * from propagandas 
 				where prop_codigo='".trim($id)."' 
 				";
-		//$rlt = db_query($sql);
-		//if($line = db_read($rlt)){
-		//	$sx = $line['prop_descricao'];
-		//}else{
-		//	return('Não localizado');
-		//}
+		$rlt = db_query($sql);
+		
+		if($line = db_read($rlt)){
+			$sx = $line['prop_descricao'];
+		}else{
+			return('Não localizado');
+		}
 
 		return($sx);
 	}
@@ -1976,6 +1983,7 @@ class cadastro_pre {
 	}
 	
 	function mostra_resumo(){
+		$sx .= '<div>';
 		$sx .= '<h3>Dados Pessoais</h3>';
 		$sx .= $this->mostra();
 		$sx .= '<h3>Complemento</h3>';
@@ -1986,8 +1994,12 @@ class cadastro_pre {
 		$sx .= $this->lista_endereco(0);
 		$sx .= '<h3>Referências</h3>';
 		$sx .= $this->lista_referencia(0);
+		
+		/*quebra de pagina*/
+		$sx .= '<div class="break"></div>';
 		$sx .= '<h3>Restrições</h3>';
 		$sx .= $this->lista_restrições();
+		
 		return($sx);
 	}
 	
@@ -2101,9 +2113,9 @@ class cadastro_pre {
 		}
 		$edicao = '<span class="cursor bt_botao bt_yellow" onclick="window.location = \'pre_cad_selection.php?dd0='.$cliente.'\';">EDITAR</span>';
 		$analise = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'T\' );  progress(\'progress_bar\');" >ENVIO ANALISE</span>';
-		$aprovar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'K\' );  progress(\'progress_bar\');" >APROVAR</span>';
-		$aprovar_cadastrar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'E\' );  progress(\'progress_bar\');" >APROVAR PARA LOJA</span>';
-		$comunica_aprovacao = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'A\' );  progress(\'progress_bar\');" >COMUNICAR APROVACAO</span>';
+		$aprovar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'E\' );  progress(\'progress_bar\');" >APROVAR</span>';
+		$aprovar_cadastrar = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'A\' );  progress(\'progress_bar\');" >APROVAR PARA LOJA</span>';
+		$comunica_aprovacao = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'K\' );  progress(\'progress_bar\');" >COMUNICAR APROVACAO</span>';
 		$comunica_recusa = '<span class="cursor bt_botao bt_green" onclick="altera_status(\''.$cliente.'\',\'R\' );  progress(\'progress_bar\');" >COMUNICAR RECUSA</span>';
 		$recusar = '<span class="cursor bt_botao bt_red" onclick="altera_status(\''.$cliente.'\',\'F\' );  progress(\'progress_bar\');" >RECUSAR</span>';
 		$retorna_edicao = '<span class="cursor bt_botao bt_yellow" onclick="altera_status(\''.$cliente.'\',\'@\' );  progress(\'progress_bar\');" >RETORNAR P/ EDICAO</span>';
