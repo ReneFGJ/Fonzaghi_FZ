@@ -80,6 +80,7 @@ div {
 .cab_nome
     {
         text-transform: capitalize;
+        font-size: 10px;
     } 
 
 /* Headers */

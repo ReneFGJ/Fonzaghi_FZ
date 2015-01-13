@@ -168,11 +168,10 @@ class cadastro_pre {
 		$sx .= '	<td width="33%" class="lt2">RG: <b>' . $this -> line['pes_rg'] . '</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Mae: <b>' . $this -> line['pes_mae'] . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Pai: <b>' . $this -> line['pes_pai'] . '</b></td></tr>';
-		$sx .= '<tr><td width="100%" colspan="2" class="lt2">E-mail: <b>' . $this -> line['pes_email'] . '</b></td></tr>';
+		$sx .= '<tr><td width="100%" colspan="2" class="lt2">E-mail: <b>' . $this -> line_cmp['cmp_email'] . '</b></td></tr>';
 		$sx .= '<tr><td class="lt2" colspan="4">Observações :<br> <b>'. $this->line_cmp['cmp_obs'] . '</b></td></tr>';
 		$sx .= '</table>';
-		$sx .= '</div>
-		';
+		$sx .= '</div>';
 		return ($sx);
 	}
 

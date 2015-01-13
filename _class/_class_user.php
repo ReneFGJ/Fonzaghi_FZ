@@ -356,10 +356,8 @@ class user
 			$sx .= '<TD align="right">';
 			$sx .= '<font color="white">';
 			$sx .= '<span class="cab_nome">'.LowerCase($nome).'</span>';
-			$sx .= '<BR>'.$login;
-			$sx .= '<BR>';
+			$sx .= '<br><span class="cab_nome">'.$login.'</span>';
 			$sx .= '</font>';
-			
 			$sx .= '<span id="logout">';
 			$sx .= $this->show_logout();
 			$sx .= '</span>';

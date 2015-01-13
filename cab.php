@@ -60,6 +60,15 @@ if ($nocab==1)
 					});
 		</script>
 		</head>
+		<script>
+		$(document).ajaxStart(function(){
+			$("#ampulheta").dialog("open");
+		});
+		
+		$(document).ajaxStop(function(){
+			$("#ampulheta").dialog("close");
+		});
+				</script>
 		<body>';
 		
 		
@@ -93,6 +102,29 @@ if ($nocab==1)
 		});
 		</script>
 		</head>
+		<div id="ampulheta"
+				style="width: 100%; height: 100%; 
+				position: absolute; 
+				top: 0px; left: 0px;
+				background-color: #FFFFFF;
+				opacity: 0.8;
+				z-index: 100;
+				display: none;
+				"
+		>
+			<img src="/fz/img/ajax_loader_blue_512.gif" height="80"
+			style="left: 45%; top: 30%; position: absolute;">
+		</div>
+		<script>
+			$(document).ajaxStart(function(){
+				$("#ampulheta").fadeIn();
+			});
+			
+			$(document).ajaxStop(function(){
+				$("#ampulheta").fadeOut("close");
+			});
+		</script>
+		
 		<body>';
 		
 		require ("cab_top_menu.php");

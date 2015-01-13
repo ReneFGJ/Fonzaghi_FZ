@@ -194,6 +194,10 @@ a.link_bt {
 @media screen and (min-width: 1101px) and (max-width: 3000px) {
 	#cab_user {
 		display:inline;
+		top:4px;
+		right:4px;
+		position:absolute;
+		float:left;
 	}
 }
 
