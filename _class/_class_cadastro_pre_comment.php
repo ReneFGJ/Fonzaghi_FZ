@@ -59,9 +59,9 @@ class cad_comment
 					{
 						if  (strlen($dd[2])== 0)
 							{
-								$sxf = '<script>'.chr(13);
-								$sxf .=  " alert('".msg('need_comment_type')."');";
-								$sxf .=  '</script>'.chr(13);
+								//$sxf = '<script>'.chr(13);
+								//$sxf .=  " alert('".msg('need_comment_type')."');";
+								//$sxf .=  '</script>'.chr(13);
 							} else {
 								$this->comment = $dd[1];
 								$this->avaliation = $dd[2];
@@ -72,6 +72,7 @@ class cad_comment
 								
 								redirecina(page().'?dd0='.$dd[0].'&dd90='.$dd[90]);
 							}
+					  
 					}
 				
 				$disp1 = 'display: none;';
