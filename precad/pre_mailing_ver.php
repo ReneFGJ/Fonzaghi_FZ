@@ -1,6 +1,7 @@
 <?php
+
 require("cab.php");
-//require($include."sisdoc_debug.php");
+require($include."sisdoc_debug.php");
 require($include.'sisdoc_tips.php');
 require($include.'sisdoc_data.php');
 require($include."sisdoc_colunas.php");
@@ -15,8 +16,10 @@ $include_db = '../../_db/';
 $mail = new cadastro_pre_mailing;
 $mail->include_class = $include_db;
 
+
 $cons = new consultora;
 $cons->include_class = $include_db;
+
 
 $consignado = new consignado;
 $consignado->include_class = $include_db;
@@ -31,6 +34,7 @@ $tab_max='100%';
 
 $cliente = $dd[0];
 $_SESSION['cad_cliente'] = $cliente;
+
 $cons->le($cliente);
 $cons->le_endereco($cliente);
 
@@ -42,9 +46,6 @@ $duplicata->db_cliente = $cliente;
 $consignado->cliente = $cliente;
 $consignado->pecas_quantidades();
 $consignado->nome = $cons->nome;
-
-
-
 
 echo $mail->menu_mailing();
 echo '<table>';

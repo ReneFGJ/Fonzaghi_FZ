@@ -235,12 +235,9 @@ class consultora
 			if (strlen($id) > 0) {$this->codigo = $id; }
 			/* abre banco das consultoras */
 			require($this->include_class."db_fghi_206_cadastro.php");
-			
 				$cp .= '*';			
 				$sql = "select $cp from cadastro where cl_cliente = '".$id."' or id_cl = ".round($id);
-				
 				$rlt = db_query($sql);
-				
 				if ($line = db_read($rlt))
 					{
 						$this->codigo = $line['cl_cliente'];
