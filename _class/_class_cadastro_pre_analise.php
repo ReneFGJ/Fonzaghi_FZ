@@ -67,7 +67,7 @@ class cadastro_pre_analise extends cadastro_pre {
 	 * Construtor seta os pesos a serem utilizados pelos métodos que calculam as pontuações
 	 */
 	function __construct() {
-		$this -> pesos = array(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+		$this -> pesos = array(1,4,2,1,3,3,3,2,1,4,1,4);
 	}
 
 	/**
@@ -92,7 +92,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> avalista_cod = $this -> line['pes_avalista_cod'];
 		$this -> dist_moradia = $this -> calcular_distancia($this->latC,$this->longC);
 		$this -> patrimonio = $this -> line_cmp['cmp_patrimonio'];
-		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar'];
+		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar']+ $this -> line_cmp['cmp_conjuge_salario'];
 		$this -> xp_vendas = $this -> line_cmp['cmp_experiencia_vendas'];
 		$this -> estado_civil = $this -> line_cmp['cmp_estado_civil'];
 		$this -> tempo_uniao = $this -> line_cmp['cmp_estado_civil_tempo'];
@@ -113,7 +113,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$sx .= '<tr><td' . $sty1 . ' colspan="2" >Criterio</td><td></td><td' . $sty1 . ' colspan="2">Dados do Cadastro</td><td' . $sty1 . '>Peso</td><td' . $sty1 . '>P</td><td' . $sty1 . '>Pontos</td></tr>';
 		$sx .= $this -> relatorio;
 		$sx .= '</table></center>';
-
+		$sx .= $this->aluguel_por_renda();
 		//$sx .= '<tr><td '.$sty.'>4 a </td><td '.$sty.'>Veiculo</td><td'.$sty.'>4</td><td></td></tr>';
 		//$sx .= '<tr><td '.$sty.'>4 b</td><td '.$sty.'>Imovel</td><td'.$sty.'></td><td></td></tr>';
 
@@ -287,6 +287,19 @@ class cadastro_pre_analise extends cadastro_pre {
 
 		return ($pt);
 	}
+	/**
+	 * Alguel tem que ser inferior a 30% da renda familiar 
+	 */
+	function aluguel_por_renda(){
+		
+			if(($this->aluguel/$this->renda_familiar)<=0.3){
+				return('');
+			}else{
+				$sx = '<br><a style="color:red;">***Valor do aluguel equivale a mais de 30% da renda familiar!!!</a>';
+				return ($sx);	
+			}
+	}		
+	
 
 	/**
 	 * Calcula pontos pela distancia da consultora em relção a Fonzaghi.
@@ -632,7 +645,7 @@ class cadastro_pre_analise extends cadastro_pre {
 	 * Calcula pontos pelo genero.
 	 */
 	function pontos_genero() {
-		$peso = $this -> pesos[11];
+		$peso = $this -> pesos[3];
 		switch (trim($this -> genero)) {
 			case 'F' :
 				$pt = 3 * $peso;
