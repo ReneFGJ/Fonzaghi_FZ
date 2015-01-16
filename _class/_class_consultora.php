@@ -1,4 +1,5 @@
 <?php
+//require_once('../_class/_class_messagens.php');
 class consultora
 	{
 		
@@ -216,7 +217,7 @@ class consultora
 			global $base_name,$base_server,$base_host,$base_user;
 			if (strlen($id) > 0) {$this->codigo = $id; }
 			/* abre banco das consultoras */
-			require($this->include_class."db_fghi_206_cadastro.php");
+			require("../db_fghi_206_cadastro.php");
 			
 				$cp .= '*';			
 				$sql = "select $cp from cadastro where cl_cliente = '".$id."' ";
@@ -234,7 +235,7 @@ class consultora
 			global $base_name,$base_server,$base_host,$base_user;
 			if (strlen($id) > 0) {$this->codigo = $id; }
 			/* abre banco das consultoras */
-			require($this->include_class."db_fghi_206_cadastro.php");
+			require("../db_fghi_206_cadastro.php");
 			
 				$cp .= '*';			
 				$sql = "select $cp from cadastro where cl_cliente = '".$id."' or id_cl = ".round($id);
@@ -283,7 +284,7 @@ class consultora
 	{
 		global $base_name,$base_server,$base_host,$base_user;
 			
-			require($this->include_class."db_fghi_206_cadastro.php");
+			require("../db_fghi_206_cadastro.php");
 			
 			if (strlen($id) > 0) {$this->codigo = $id; }
 		
@@ -390,7 +391,7 @@ class consultora
 			global $base_name,$base_server,$base_host,$base_user;
 			if (strlen($id) > 0) {$this->codigo = $id; }
 			/* abre banco das consultoras */
-			require($this->include_class."db_fghi_206_cadastro.php");
+			require("../db_fghi_206_cadastro.php");
 			
 				$cp .= '*';			
 				$sql = "select $cp from cadastro_endereco 
@@ -433,7 +434,7 @@ class consultora
 			
 			if (strlen($id) > 0) {$this->codigo = $id; }
 			/* abre banco das consultoras */
-			require($this->include_class."db_fghi_206_cadastro.php");
+			require("../db_fghi_206_cadastro.php");
 			
 				$cp .= '*';			
 				$sql = "select $cp from cadastro_completo where pc_codigo = '".$id."' or pc_codigo = '".round($id)."'";
@@ -657,7 +658,7 @@ class consultora
 	function consultora_debitos()
 		{
 		global $base_name,$base_host,$base_user;		
-		require($this->include_class."db_fghi_210.php");
+		require("../db_fghi_210.php");
 
 		$cp = 'dp_valor as valor, dp_data as emissao, dp_venc as vencimento, dp_content as historico ';
 		$sql = "select 'Joias' as loja, $cp from duplicata_joias where dp_status = 'A' and dp_cliente = '".$this->codigo."' ";
@@ -744,7 +745,7 @@ class consultora
 		{
 		
 			$sx .= '<A HREF="#" ';
-			$sx .= ' onclick="newxy2(\'../cons/email.php?dd1='.$this->codigo.'\',600,400);" class="botao"><img src="../img/plus.png" width="16"></A>';
+			$sx .= ' onclick="newxy2(\'../cons/email.php?dd1='.$this->codigo.'\',600,400);"><img src="../img/plus.png" width="16"></A>';
 			return($sx);
 		}
 
@@ -761,52 +762,21 @@ class consultora
 			';			
 			return($sx);
 		}
-
-	function mostra_dados_pessoais()
+	function mostra_dados_cadastro()
+		{
+			
+		}
+	function mostra_dados_pessoais_novo()
 		{
 			global $tab_max,$rel;
 			
 			$sta = $this->consultora_status($this->cl_status);
-			$sx = '<BR><table  width="'.$tab_max.'" cellpadding="0" cellspacing="0" border="0" align="center"><TR><TD>'.chr(13);
-			$sx .= '<table width="100%" class="lt2" align="center" border=0>'.chr(13);
-			$sx .= '<TR valign="top"><TD rowspan="14" width="84"><div id="foto"><a href="javascript:newxy2(\'../cadastro/fotos/index.php?cpf='.$this->cpf.'\',730,450);"><img src="'.$this->foto().'" width="240"  alt="" border="0"></a></div></TD>'.chr(13);
-			$sx .= '<TD class="lt4" colspan="4">'.$cp3.'<B>'.$this->nome.'</A></B> ('.$this->codigo.')</TD><TD width="1%">'.$link_cp1.'</TD></TR>'.chr(13);
-			
-			$sx .= '<TR class="lt0" width="60%">'.chr(13);
 			/*
-			 *  Mensagens
-			 */
-			$sx .= '<TD width="200" rowspan=8>';
-			$sx .= '		<TD align="right">CPF:</TD>'.chr(13);
-			$sx .= '		<TD width="30%" class="lt1"><B>'.$this->cpf.'</TD>'.chr(13);
-			$sx .= '<TR class="lt0">'.chr(13);
-			$sx .= '		<TD align="right">Cadastrado em:</TD>'.chr(13);
-			$sx .= '		<TD>'.stodbr($this->dtcadastro).'</TD>'.chr(13);
-			
-			$sx .= '<TR class="lt0">'.chr(13);
-			$sx .= '		<TD align="right">Status:</TD>'.chr(13);
-			$sx .= '		<TD><B>'.$sta.'</TD>'.chr(13);
-			
-			$sx .= '<TR class="lt0">'.chr(13);
-			$sx .= '		<TD align="right">Atualizado:</TD>'.chr(13);
-			$sx .= '		<TD><B>'.stodbr($this->cl_update).'</TD>'.chr(13);
-			
-			$sx .= '	<TR class="lt0">'.chr(13);
-			$sx .= '		<TD align="right">RG:</TD>'.chr(13);
-			$sx .= '		<TD><B>'.$this->cl_rg.'</TD>'.chr(13);
-			
-			$sx .= '	<TR class="lt0">'.chr(13);
-			$sx .= '		<TD align="right">Dt Nascimento:</TD>'.chr(13);
-			$sx .= '		<TD><B>'.stodbr($this->nasc).'</TD>'.chr(13);
-						
-			$sx .= '	<TR class="lt0">'.chr(13);			
-			$sx .= '		<TD align="right">Naturalidade:</TD>'.chr(13);			
-			$sx .= '		<TD><B>'.$this->cl_naturalidade.'</TD>'.chr(13);
-		
-			$sx .= '	<TR class="lt0">'.chr(13);
-			$sx .= '		<TD align="right" >Propaganda:</TD>'.chr(13);
-			$sx .= '		<TD ><B>'.$this->cl_propaganda_1.''.chr(13);
-			$sx .= ' / '.$this->cl_propaganda_2.'&nbsp;</TD>'.chr(13);
+			$messa = new message;
+			$messa->cliente = $this->codigo;
+			$messa->mensagens_count();
+			$messa->le_completo($this->codigo);
+				
 			
 			$tel=$this->le_telefones($this->codigo);
 			$mail=$this->le_email();
@@ -814,9 +784,140 @@ class consultora
 			$tips=tips('<img src="../img/phone.png" width="32">','<div style="background-color:#FFFFFF"; height:350px;">'.$tel.'</div>');
 			$tips2=tips('<img src="../img/email2.png" width="32">','<div style="background-color:#FFFFFF"; height:350px;">'.$mail.'</div>');
 			$link1='<a href="javascript:newwin(\'telefone.php?dd1='.$this->codigo.'\',600,800);"><img src="../img/plus.png" width="16"></a>';
+			*/
 			
-			$sx .= '	<TR class="lt0">'.chr(13);
-			$sx .= '	<TD align="left"><b>'.$tips.$link1.' - '.$tips2.$link2.'</TD>'.chr(13);
+			$sx .= '<table width="100%" class="lt0" border=0 >'.chr(13);
+								
+			 $sx .= '
+					<TR align="left"><TD>CPF:</TD>				<TD class="lt2"><B>'.$this->cpf.'</TD></TR>
+					<TR align="left"><TD>RG:</TD>				<TD class="lt2"><B>'.$this->cl_rg.'</TD></TR>
+					
+					<TR align="left"><TD>Cadastrado em:</TD>	<TD class="lt2"><B>'.stodbr($this->dtcadastro).'</TD></tr>			
+					<TR align="left"><TD>Status:</TD>			<TD class="lt2"><B>'.$sta.'</TD></tr>
+					
+					<TR align="left"><TD>Atualizado:</TD>		<TD class="lt2"><B>'.stodbr($this->cl_update).'</TD></tr>			
+					<TR align="left"><TD>Dt Nascimento:</TD>	<TD class="lt2"><B>'.stodbr($this->nasc).'</TD></tr>
+					
+					<TR align="left"><TD>Naturalidade:</TD>		<TD class="lt2"><B>'.$this->cl_naturalidade.'</TD>
+		
+					<TR align="left"><TD>Propaganda:</TD>		<TD class="lt2"><B>'.$this->cl_propaganda_1.' / '.$this->cl_propaganda_2.'</TD></tr>
+					';			
+			$sx .= '</table>'.chr(13);
+			return($sx);			
+		}
+	function mostra_acertos()
+		{
+			$sx = '<table>';
+			$sx .= '<TR valign="top">';
+			$sx .= '<TD style="border-left: 1px solid #E0E0E0; padding: 5px;">
+						<font class="lt5">0</font>
+						<BR>
+						<font class="lt1">Acertos</fonts>
+					</td>';
+			$sx .= '<TD style="border-left: 1px solid #E0E0E0; padding: 5px;">
+						<font class="lt5">1310</font>
+						<BR>
+						<font class="lt1">Bônus</fonts>
+					</td>';	
+			$sx .= '<TD style="border-left: 1px solid #E0E0E0; padding: 5px;">
+						<font class="lt5">154,12</font>
+						<BR>
+						<font class="lt1">Média do Acerto</fonts>';
+			/* Notas Vencidas */
+			$sx .= '<TD style="border-left: 1px solid #E0E0E0; padding: 5px;">
+						<font class="lt5" color="red">154,12</font>
+						<BR>
+						<font class="lt1">Notas vencidas</fonts>						
+					</td>';	
+			/* Notas Abertas */							
+			$sx .= '<TD style="border-left: 1px solid #E0E0E0; padding: 5px;">
+						<font class="lt5" color="blue">432,12</font>
+						<BR>
+						<font class="lt1">Notas abertas</fonts>						
+					</td>';
+					
+			/* Notas "podres" */		
+			$sx .= '<TD style="border-left: 1px solid #E0E0E0; padding: 5px;">
+						<font class="lt5" color="red">432,12</font>
+						<BR>
+						<font class="lt1">Notas no SPC</fonts>						
+					</td>';									
+			$sx .= '</table>';
+			return($sx);
+		}
+
+	function mostra_bairro()
+		{
+			$bairro = trim($this->line['cl_bairro']);
+			$cidade = trim($this->line['pc_cidade']);
+			$estado = trim($this->line['pc_estado']);
+			if (strlen($cidade) > 0)
+				{
+					$sx .= $bairro.', '.$cidade;
+					if (strlen($estado) > 0) { $estado .= ' - '.$estado; }
+				} else {
+					$sx .= $bairro;
+				}
+			return($sx);
+		}
+	function mostra_dados_pessoais()
+		{
+			global $tab_max,$rel;
+			
+			$messa = new message;
+			$messa->cliente = $this->codigo;
+			$messa->mensagens_count();
+			$messa->le_completo($this->codigo);
+				
+			$sta = $this->consultora_status($this->cl_status);
+			$tel=$this->le_telefones($this->codigo);
+			$mail=$this->le_email();
+			$link2=$this->mostrar_email();
+			$tips=tips('<img src="../img/phone.png" width="32">','<div style="background-color:#FFFFFF"; height:350px;">'.$tel.'</div>');
+			$tips2=tips('<img src="../img/email2.png" width="32">','<div style="background-color:#FFFFFF"; height:350px;">'.$mail.'</div>');
+			$link1='<a href="javascript:newwin(\'telefone.php?dd1='.$this->codigo.'\',600,800);"><img src="../img/plus.png" width="16"></a>';
+			
+			
+			$sx = '<table  width="'.$tab_max.'" cellpadding="0" cellspacing="0" border="0" align="center"><TR><TD>'.chr(13);
+			$sx .= '<table width="100%" class="lt2" align="center" border=0>'.chr(13);
+			$sx .= '<TR valign="top"><TD class="lt4" colspan="4">'.$cp3.'<B>'.$this->nome.'</A></B> ('.$this->codigo.')</TD></TR>'.chr(13);
+			$sx .= '<TR valign="top"><TD rowspan="14" width="84"><div id="foto"><a href="javascript:newxy2(\'../cadastro/fotos/index.php?cpf='.$this->cpf.'\',730,450);"><img src="'.$this->foto().'" width="240"  alt="" border="0"></a></div></TD>'.chr(13);
+			$sx .= '<TR class="lt0"><TD valign="top" rowspan="14"align="left"><div>'.$tips.$link1.'</div><div>'.$tips2.$link2.'</div>'.$messa->mini_msg().'</TD>'.chr(13);
+			
+			$sx .= '<TR class="lt0" width="60%">'.chr(13);
+			/*
+			 *  Mensagens
+			 */
+			$sx .= '		<TD align="right">CPF:</TD>'.chr(13);
+			$sx .= '		<TD width="30%" class="lt2"><B>'.$this->cpf.'</TD>'.chr(13);
+			$sx .= '<TR class="lt2">'.chr(13);
+			$sx .= '		<TD align="right">Cadastrado em:</TD>'.chr(13);
+			$sx .= '		<TD>'.stodbr($this->dtcadastro).'</TD>'.chr(13);
+			
+			$sx .= '<TR class="lt2">'.chr(13);
+			$sx .= '		<TD align="right">Status:</TD>'.chr(13);
+			$sx .= '		<TD><B>'.$sta.'</TD>'.chr(13);
+			
+			$sx .= '<TR class="lt2">'.chr(13);
+			$sx .= '		<TD align="right">Atualizado:</TD>'.chr(13);
+			$sx .= '		<TD><B>'.stodbr($this->cl_update).'</TD>'.chr(13);
+			
+			$sx .= '	<TR class="lt2">'.chr(13);
+			$sx .= '		<TD align="right">RG:</TD>'.chr(13);
+			$sx .= '		<TD><B>'.$this->cl_rg.'</TD>'.chr(13);
+			
+			$sx .= '	<TR class="lt2">'.chr(13);
+			$sx .= '		<TD align="right">Dt Nascimento:</TD>'.chr(13);
+			$sx .= '		<TD><B>'.stodbr($this->nasc).'</TD>'.chr(13);
+						
+			$sx .= '	<TR class="lt2">'.chr(13);			
+			$sx .= '		<TD align="right">Naturalidade:</TD>'.chr(13);			
+			$sx .= '		<TD><B>'.$this->cl_naturalidade.'</TD>'.chr(13);
+		
+			$sx .= '	<TR class="lt2">'.chr(13);
+			$sx .= '		<TD align="right" >Propaganda:</TD>'.chr(13);
+			$sx .= '		<TD ><B>'.$this->cl_propaganda_1.''.chr(13);
+			$sx .= ' / '.$this->cl_propaganda_2.'&nbsp;</TD>'.chr(13);
 			
 			$sx .= '	</table>'.chr(13);
 			$sx .= '	</TD></TR>'.chr(13);
@@ -943,7 +1044,7 @@ class consultora
 		{
 			global $base_name,$base_server,$base_host,$base_user;
 			
-			require($this->include_class."db_fghi_206_cadastro.php");
+			require("../db_fghi_206_cadastro.php");
 			
 			if (strlen($id) > 0) {$this->codigo = $id; }
 		
@@ -1083,7 +1184,7 @@ class consultora
 	function atualizar_email_auto($id='',$email='')
 	{
 		global $base_name,$base_server,$base_host,$base_user;
-		require($this->include_class."db_fghi_206_cadastro.php");
+		require("db_fghi_206_cadastro.php");
 		
 		$sql = " select * from email where e_mail='".$email."'";
 		$rlt = db_query($sql);
@@ -1150,7 +1251,6 @@ class consultora
            $msg="<center><font color=red size=5>$msg</font>";
             return($msg);    
 	    }
-	
 
 }
 ?>

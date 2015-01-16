@@ -25,6 +25,12 @@ echo '
 					<li><a href="venda_funcionario/"><img src="img/icone/img_aniversariantes.jpg" alt="aniversariantes"><h3>Aniversariantes do mês</h3></a></li>
 					<li><a href="campanhas/"><img src="img/icone/img_campanhas.jpg" alt="campanhas"><h3>Campanhas Fonzaghi</h3></a></li>
 					';
+					
+	if ($perfil->valid('#MST'))
+		{
+			echo '<li><a href="juridico/"><img src="img/icone/img_juridico.jpg" alt="Cobrança"><h3>Cobrança & Juridoco</h3></a></li>';
+		}
+	
    if ($perfil->valid('#MST#DIR#SSS#CCC#CMK'))
     {					
 		echo '<li><a href="bi/"><img src="img/icone/img_bi.jpg" alt="campanhas"><h3>Indicadores (BI)</h3></a></li>';

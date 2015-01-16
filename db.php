@@ -93,6 +93,8 @@
 		}	
 	}	
 
+	
+$include_class = '../../fonzaghi/_class/';
 function post_security($s)
 	{
 		$s = troca($s,'<','&lt;');
