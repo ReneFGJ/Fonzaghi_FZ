@@ -92,6 +92,7 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> avalista_cod = $this -> line['pes_avalista_cod'];
 		$this -> dist_moradia = $this -> calcular_distancia($this->latC,$this->longC);
 		$this -> patrimonio = $this -> line_cmp['cmp_patrimonio'];
+		$this -> patrimonio2 = $this -> line_cmp['cmp_patrimonio2'];
 		$this -> renda_familiar = $this -> line_cmp['cmp_salario'] + $this -> line_cmp['cmp_salario_complementar']+ $this -> line_cmp['cmp_conjuge_salario'];
 		$this -> xp_vendas = $this -> line_cmp['cmp_experiencia_vendas'];
 		$this -> estado_civil = $this -> line_cmp['cmp_estado_civil'];
@@ -587,55 +588,65 @@ class cadastro_pre_analise extends cadastro_pre {
 	function pontos_patrimonio() {
 		$peso = $this -> pesos[11];
 
-		switch ($this->patrimonio) {
-			case '1' :
-				$ptx = 1;
-				$pt = $ptx * $peso;
-				break;
-			case '2' :
-				$ptx = 2;
-				$pt = $ptx * $peso;
-				break;
-			case '3' :
-				$ptx = 3;
-				$pt = $ptx * $peso;
-				break;
-			case '4' :
-				$ptx = 4;
-				$pt = $ptx * $peso;
-				break;
-			default :
-				break;
+		if($this->patrimonio==1 and $this->patrimonio2==1){
+			$ptx = 1;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==1 and $this->patrimonio2==2){
+			$ptx = 1;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==1 and $this->patrimonio2==3){
+			$ptx = 2;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==2 and $this->patrimonio2==1){
+			$ptx = 2;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==2 and $this->patrimonio2==2){
+			$ptx = 3;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==2 and $this->patrimonio2==3){
+			$ptx = 3;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==3 and $this->patrimonio2==1){
+			$ptx = 4;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==3 and $this->patrimonio2==2){
+			$ptx = 4;
+			$pt = $ptx * $peso;
+		}elseif($this->patrimonio==3 and $this->patrimonio2==3){
+			$ptx = 4;
+			$pt = $ptx * $peso;
+		}else{
+			$ptx = 0;
+			$pt = $ptx * $peso;
 		}
-
+		
 		$sty1 = ' class="pre_tabelaTH"';
 		$sty2 = ' class="pre_tabela01"';
-		$this -> relatorio .= '<tr><td ' . $sty1 . '>4</td>
-									<td ' . $sty1 . '>Tempo de moradia</td>
+		$this -> relatorio .= '<tr><td ' . $sty1 . '>4 a</td>
+									<td ' . $sty1 . '>Imóvel</td>
 									<td></td>
 									<td' . $sty2 . ' colspan="2">' . $this -> sigla_patrimonio($this -> patrimonio) . '</td>
-									<td' . $sty2 . '>' . $peso . '</td>
-									<td' . $sty2 . '>' . $ptx . '</td>
-									<td' . $sty2 . '>' . $pt . '</td></tr>';
+									<td' . $sty2 . ' rowspan="2">' . $peso . '</td>
+									<td' . $sty2 . ' rowspan="2">' . $ptx . '</td>
+									<td' . $sty2 . ' rowspan="2">' . $pt . '</td></tr>
+								<tr><td ' . $sty1 . '>4 b</td>
+									<td ' . $sty1 . '>Veículo</td>
+									<td></td>
+									<td' . $sty2 . ' colspan="2">' . $this -> sigla_patrimonio($this -> patrimonio2) . '</td>
+									';
 		return ($pt);
 	}
 
 	function sigla_patrimonio($sigla) {
 		switch ($sigla) {
 			case '1' :
-				$sig_nome = 'Nao tem';
+				$sig_nome = 'Nao tem/Alugado';
 				break;
 			case '2' :
-				$sig_nome = 'Auto F';
+				$sig_nome = 'Financiado';
 				break;
 			case '3' :
-				$sig_nome = 'Imovel F + Auto F/Q';
-				break;
-			case '4' :
-				$sig_nome = 'Imovel Q + Auto Q';
-				break;
-			default :
-				$sig_nome = 'Verificar com TI, novo patrimonio adicionado';
+				$sig_nome = 'Quitado';
 				break;
 		}
 		return ($sig_nome);

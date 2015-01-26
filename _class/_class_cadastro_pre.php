@@ -242,8 +242,9 @@ class cadastro_pre {
 		$sx  .= '<h3>Dados Outros</h3>';
 		$sx .= '<div class="gray border1 pad5">';
 		$sx .= '<table width="100%">';
-		$sx .= '<tr><td width="33%" class="lt2">Patrimônio : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio']) . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Valor do aluguel :<b> R$ ' . number_format($this -> line_cmp['cmp_valor_aluguel'],2,',','.') . '</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Imóvel : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Veículo : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio2']) . '</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Valor do aluguel :<b> R$ ' . number_format($this -> line_cmp['cmp_valor_aluguel'],2,',','.') . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Tempo do imóvel :<b> ' . $this -> line_cmp['cmp_imovel_tempo'] . ' ano(s)</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Propaganda 1 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda']) . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Propaganda 2 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda2']) . '</b></td></tr>';
@@ -1557,7 +1558,7 @@ class cadastro_pre {
 		/*dd10*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALÁRIO COMPLEMENTAR', false, True));
 		/*dd11*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'TEMPO DE PROFISSÃO (anos)', TRUE, True));
 		/*dd12*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'EXPERIÊNCIA COM VENDAS (anos)', TRUE, True));
-		/*dd13*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELAÇÃO ESTÁVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
+		/*dd13*/array_push($cp, array('$O : &S:SOLTEIRA&C:CASADA&R:RELAÇÃO ESTÁVEL&D:DIVORCIADA', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
 		/*dd14*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
 		
 		/*dd15*/array_push($cp, array('$S100', 'cmp_conjuge_nome', 'NOME CONJUGE', false, True));
@@ -1565,8 +1566,8 @@ class cadastro_pre {
 		/*dd17*/array_push($cp, array('$S30', 'cmp_conjuge_empresa', 'EMPRESA CONJUGE', false, True));
 		/*dd18*/array_push($cp, array('$S8', 'cmp_conjuge_salario', 'SALÁRIO CONJUGE', false, True));
 		
-		
-		/*dd19*/array_push($cp, array('$O : &1:NÃO TEM&2:AUTO FIN&3:IMÓVEL FIN + AUTO FIN/QUIT&4:IMÓVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
+		/*dd19*/array_push($cp, array('$O : &1:NÃO TEM/ALUGADO&2:FINANCIADO&3:QUITADO', 'cmp_patrimonio', 'IMÓVEL', TRUE, True));
+		/*dd19*/array_push($cp, array('$O : &1:NÃO TEM&2:FINANCIADO&3:QUITADO', 'cmp_patrimonio2', 'AUTOMÓVEL', TRUE, True));
 		/*dd20*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
 		/*dd21*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMÓVEL', TRUE, True));
 		/*dd22*/array_push($cp, array('$Q prop_descricao:prop_codigo:select * from propagandas where prop_ativo = \'S\' order by prop_descricao', 'cmp_propaganda', 'PROPAGANDA 1', TRUE, True));
@@ -2224,6 +2225,7 @@ class cadastro_pre {
 				if ($perfil->valid('#CA1#CA2#CA3'))
 				{
 					$sx .= '<a>Aprovado finalizado</a>';
+					$sx .= $retorna_edicao;
 				}	
 				$sx .= '</nav>';
 				break;
