@@ -19,8 +19,8 @@ $pre -> obter_dados($dd[0], '00');
 $pre -> calcular_pontuacao();
 
 $bt_menu = $pre->regras_de_acesso($dd[0],$pre -> status);
-$onclickR = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
-$onclickP = '<span width="200px" class="cursor bt_botao" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
+$onclickR = '<span width="200px" class="cursor bt_botao bt_green_dark" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'RESUMO\' );" >';
+$onclickP = '<span width="200px" class="cursor bt_botao bt_green_dark" onclick="mostra_dados_pre_cad(\''.$dd[0].'\',\'PONTUACAO\' );" >';
 
 $tela = '<table  class="cab_status" width="100%"><tr >
 			<td class="noprint" colspan="2" align="left" width="30%">
@@ -33,9 +33,7 @@ $tela = '<table  class="cab_status" width="100%"><tr >
 			<div id="acoes_status">'.$bt_menu.'</div>
 			</td>
 		</tr>
-		<tr>
-			<td colspan="4"><div id="progress_bar"></div></td>
-		</tr>
+		
 		<tr>
 			<td width="10%">
 				<div class="cab_statusB" align="center">Restrições (' . $pre -> TTrestricoes . ')</div>

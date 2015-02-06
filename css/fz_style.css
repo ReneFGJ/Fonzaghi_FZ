@@ -80,6 +80,7 @@ div {
 .cab_nome
     {
         text-transform: capitalize;
+        font-size: 10px;
     } 
 
 /* Headers */
@@ -296,10 +297,42 @@ h4 {
 	color: #333333;
 	width: 210px;
 	text-align: center;
+	font-weight: 200;
+}
+.bt_green_dark{
+	background:#497c32;
+	color:#FFFFFF;
+	text-decoration: none;
+}
+
+.bt_green_dark a:hover{
+	text-decoration: none;
+	color:#FFFFFF;
+}
+
+.bt_green_dark a:checked{
+	text-decoration: none;
+	color:#FFFFFF;
+}
+
+.bt_green_dark a:visited{
+	text-decoration: none;
+	color:#FFFFFF;
+}
+
+.bt_green_dark a:link{
+	text-decoration: none;
+	color:#FFFFFF;
+}
+
+.bt_green_dark:hover{
+	opacity: 0.8;
+	color:#FFFFFF;
 }
 
 .bt_green {
-	background:#28de1f;
+	background:#4A7E30;
+	color:#FFFFFF;
 }
 
 .bt_green:hover{
@@ -307,7 +340,9 @@ h4 {
 }
 
 .bt_red {
-	 background:#fe0107;
+	 background:#ec0006;
+	 color:#FFFFFF;
+	 
 }
 
 .bt_red:hover {
@@ -315,7 +350,8 @@ h4 {
 }
 
 .bt_yellow {
-	background:#ffff00;
+	background:#e7cc38	;
+	color:#FFFFFF;
 }
 
 .bt_yellow:hover {

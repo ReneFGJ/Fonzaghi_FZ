@@ -168,12 +168,92 @@ class cadastro_pre {
 		$sx .= '	<td width="33%" class="lt2">RG: <b>' . $this -> line['pes_rg'] . '</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Mae: <b>' . $this -> line['pes_mae'] . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Pai: <b>' . $this -> line['pes_pai'] . '</b></td></tr>';
-		$sx .= '<tr><td width="100%" colspan="2" class="lt2">E-mail: <b>' . $this -> line['pes_email'] . '</b></td></tr>';
+		$sx .= '<tr><td width="100%" colspan="2" class="lt2">E-mail: <b>' . $this -> line_cmp['cmp_email'] . '</b></td></tr>';
 		$sx .= '<tr><td class="lt2" colspan="4">Observações :<br> <b>'. $this->line_cmp['cmp_obs'] . '</b></td></tr>';
 		$sx .= '</table>';
+		$sx .= '</div>';
+		return ($sx);
+	}
+
+	function mostra_complemento(){
+		$sx = '<div class="gray border1 pad5">';
+		$sx .= '<table width="100%">';
+		$sx .= '<tr><td width="33%" class="lt2">Profissão : <b>' . $this -> line_cmp['cmp_profissao'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo de profissão :<b> ' . $this -> line_cmp['cmp_emprego_tempo'] . ' ano(s)</b>';
+		$sx .= '	<td width="33%" class="lt2">Experiência com vendas :<b> ' . $this -> line_cmp['cmp_experiencia_vendas'] . ' ano(s)</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Salário :<b> R$ ' . number_format($this -> line_cmp['cmp_salario'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Salário complementar :<b> R$ ' . number_format($this -> line_cmp['cmp_salario_complementar'],2,',','.') . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Estado civil :<b> ' .$this->estado_civil($this -> line_cmp['cmp_estado_civil']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo estado civil :<b> ' . $this -> line_cmp['cmp_estado_civil_tempo'] . ' ano(s)</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Nome conjuge :<b> ' . $this -> line_cmp['cmp_conjuge_nome'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Profissão conjuge : <b>' . $this -> line_cmp['cmp_conjuge_profissao'] . '</b></td></tr>';
+		$sx .= '	<td width="33%" class="lt2">Salário conjuge :<b> R$ ' . number_format($this -> line_cmp['cmp_conjuge_salario'],2,',','.') . '</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Patrimônio : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Valor do aluguel :<b> R$ ' . number_format($this -> line_cmp['cmp_valor_aluguel'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo do imóvel :<b> ' . $this -> line_cmp['cmp_imovel_tempo'] . ' ano(s)</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Propaganda 1 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Propaganda 2 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda2']) . '</b></td></tr>';
+		$sx .= '</table>'; 
 		$sx .= '</div>
 		';
-		return ($sx);
+		
+		return($sx);
+	}
+	
+	function mostra_completo(){
+		$sx  = '<h3>Dados Pessoais</h3>'; 
+		$sx .= '<div  class="gray border1 pad5">';
+		$sx .= '<table width="100%">';
+		$sx .= '<tr><td colspan="2" width="50%" valign="top" class="lt3" >'.$this -> line['pes_cliente'].' - ' . trim($this -> nome) . '</td>';
+		$sx .= '	<td rowspan="2" width="50%" align="right">Status:'.$this -> mostra_status($this -> line['pes_status']).'<br>
+						<img src="' . $this -> image_status . '" height="60"></td>';
+		$sx .= '</tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Dt. Cadastro: <b>' . stodbr($this -> line['pes_data']) .' ('.$this -> line['pes_log']. ')</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Dt. Atualizacao: <b>' . stodbr($this -> line['pes_lastupdate']) .' ('.$this -> line['pes_lastupdate_log']. ')</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Idade: <b>' . $this -> mostra_idade($this -> nasc) . ' anos</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Dt. Nascimento: <b>' . stodbr($this -> nasc) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Genero: <b>' . $this -> mostra_genero($this -> line['pes_genero']) . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">CPF: <b>' . $this -> mostra_cpf($this -> cpf) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">RG: <b>' . $this -> line['pes_rg'] . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Mae: <b>' . $this -> line['pes_mae'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Pai: <b>' . $this -> line['pes_pai'] . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Profissão : <b>' . $this -> line_cmp['cmp_profissao'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo de profissão :<b> ' . $this -> line_cmp['cmp_emprego_tempo'] . ' ano(s)</b>';
+		$sx .= '	<td width="33%" class="lt2">Experiência com vendas :<b> ' . $this -> line_cmp['cmp_experiencia_vendas'] . ' ano(s)</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Salário :<b> R$ ' . number_format($this -> line_cmp['cmp_salario'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Salário complementar :<b> R$ ' . number_format($this -> line_cmp['cmp_salario_complementar'],2,',','.') . '</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Estado civil :<b> ' .$this->estado_civil($this -> line_cmp['cmp_estado_civil']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo estado civil :<b> ' . $this -> line_cmp['cmp_estado_civil_tempo'] . ' ano(s)</b></td></tr>';
+		
+		
+		$sx .= '</table>';
+		$sx .= '</div>';
+		
+		$sx .= '<h3>Dados Conjuge</h3>';
+		$sx .= '<div class="gray border1 pad5">';
+		$sx .= '<table width="100%">';
+		$sx .= '<tr><td width="33%" class="lt2">Nome conjuge :<b> ' . $this -> line_cmp['cmp_conjuge_nome'] . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Profissão conjuge : <b>' . $this -> line_cmp['cmp_conjuge_profissao'] . '</b></td></tr>';
+		$sx .= '	<td width="33%" class="lt2">Salário conjuge :<b> R$ ' . number_format($this -> line_cmp['cmp_conjuge_salario'],2,',','.') . '</b></td>';
+		
+		$sx .= '</table>'; 
+		$sx .= '</div>';
+		
+		$sx  .= '<h3>Dados Outros</h3>';
+		$sx .= '<div class="gray border1 pad5">';
+		$sx .= '<table width="100%">';
+		$sx .= '<tr><td width="33%" class="lt2">Patrimônio : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Valor do aluguel :<b> R$ ' . number_format($this -> line_cmp['cmp_valor_aluguel'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo do imóvel :<b> ' . $this -> line_cmp['cmp_imovel_tempo'] . ' ano(s)</b></td></tr>';
+		$sx .= '<tr><td width="33%" class="lt2">Propaganda 1 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda']) . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Propaganda 2 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda2']) . '</b></td></tr>';
+		$sx .= '<tr><td width="100%" colspan="2" class="lt2">E-mail: <b>' . $this -> line_cmp['cmp_email'] . '</b></td></tr>';
+		$sx .= '<tr><td class="lt2" colspan="4">Observações :<br> <b>'. $this->line_cmp['cmp_obs'] . '</b></td></tr>';
+		$sx .= '</table>'; 
+		$sx .= '</div>';
+		
+		
+		return($sx);
 	}
 
 	function le($id) {
@@ -1475,17 +1555,17 @@ class cadastro_pre {
 		/*dd8*/array_push($cp, array('$S30', 'cmp_empresa', 'EMPRESA', false, True));
 		/*dd9*/array_push($cp, array('$S8', 'cmp_salario', 'SALÁRIO', TRUE, True));
 		/*dd10*/array_push($cp, array('$S8', 'cmp_salario_complementar', 'SALÁRIO COMPLEMENTAR', false, True));
-		/*dd11*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELAÇÃO ESTÁVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
-		/*dd12*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
+		/*dd11*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'TEMPO DE PROFISSÃO (anos)', TRUE, True));
+		/*dd12*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'EXPERIÊNCIA COM VENDAS (anos)', TRUE, True));
+		/*dd13*/array_push($cp, array('$O : &S:SOLTEIRO&C:CASADO&R:RELAÇÃO ESTÁVEL', 'cmp_estado_civil', 'ESTADO CIVIL', TRUE, True));
+		/*dd14*/array_push($cp, array('$S2', 'cmp_estado_civil_tempo', 'TEMPO ESTADO CIVIL', TRUE, True));
 		
-		/*dd13*/array_push($cp, array('$S100', 'cmp_conjuge_nome', 'NOME CONJUGE', false, True));
-		/*dd14*/array_push($cp, array('$S30', 'cmp_conjuge_profissao', 'PROFISSÃO CONJUGE', false, True));
-		/*dd15*/array_push($cp, array('$S30', 'cmp_conjuge_empresa', 'EMPRESA CONJUGE', false, True));
-		/*dd16*/array_push($cp, array('$S8', 'cmp_conjuge_salario', 'SALÁRIO CONJUGE', false, True));
+		/*dd15*/array_push($cp, array('$S100', 'cmp_conjuge_nome', 'NOME CONJUGE', false, True));
+		/*dd16*/array_push($cp, array('$S30', 'cmp_conjuge_profissao', 'PROFISSÃO CONJUGE', false, True));
+		/*dd17*/array_push($cp, array('$S30', 'cmp_conjuge_empresa', 'EMPRESA CONJUGE', false, True));
+		/*dd18*/array_push($cp, array('$S8', 'cmp_conjuge_salario', 'SALÁRIO CONJUGE', false, True));
 		
 		
-		/*dd17*/array_push($cp, array('$[0-50]', 'cmp_emprego_tempo', 'TEMPO DE PROFISSÃO (anos)', TRUE, True));
-		/*dd18*/array_push($cp, array('$[0-50]', 'cmp_experiencia_vendas', 'EXPERIÊNCIA COM VENDAS (anos)', TRUE, True));
 		/*dd19*/array_push($cp, array('$O : &1:NÃO TEM&2:AUTO FIN&3:IMÓVEL FIN + AUTO FIN/QUIT&4:IMÓVEL QUIT + AUTO QUIT', 'cmp_patrimonio', 'PATRIMONIO', TRUE, True));
 		/*dd20*/array_push($cp, array('$S8', 'cmp_valor_aluguel', 'VALOR ALUGUEL', TRUE, True));
 		/*dd21*/array_push($cp, array('$S2', 'cmp_imovel_tempo', 'TEMPO IMÓVEL', TRUE, True));
@@ -1984,10 +2064,11 @@ class cadastro_pre {
 	
 	function mostra_resumo(){
 		$sx .= '<div>';
-		$sx .= '<h3>Dados Pessoais</h3>';
-		$sx .= $this->mostra();
-		$sx .= '<h3>Complemento</h3>';
-		$sx .= $this->mostra_complemento();
+		//$sx .= '<h3>Dados Pessoais</h3>';
+		//$sx .= $this->mostra();
+		//$sx .= '<h3>Complemento</h3>';
+		//$sx .= $this->mostra_complemento();
+		$sx .= $this-> mostra_completo();
 		$sx .= '<h3>Contatos Pessoal</h3>';
 		$sx .= $this->lista_telefone(0);
 		$sx .= '<h3>Endereço</h3>';
@@ -2003,31 +2084,8 @@ class cadastro_pre {
 		return($sx);
 	}
 	
-	function mostra_complemento(){
-		$sx = '<div class="gray border1 pad5">';
-		$sx .= '<table width="100%">';
-		$sx .= '<tr><td width="33%" class="lt2">Profissão : <b>' . $this -> line_cmp['cmp_profissao'] . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Tempo de profissão :<b> ' . $this -> line_cmp['cmp_emprego_tempo'] . ' ano(s)</b>';
-		$sx .= '	<td width="33%" class="lt2">Experiência com vendas :<b> ' . $this -> line_cmp['cmp_experiencia_vendas'] . ' ano(s)</b></td>';
-		$sx .= '<tr><td width="33%" class="lt2">Salário :<b> R$ ' . number_format($this -> line_cmp['cmp_salario'],2,',','.') . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Salário complementar :<b> R$ ' . number_format($this -> line_cmp['cmp_salario_complementar'],2,',','.') . '</b></td></tr>';
-		$sx .= '<tr><td width="33%" class="lt2">Estado civil :<b> ' .$this->estado_civil($this -> line_cmp['cmp_estado_civil']) . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Tempo estado civil :<b> ' . $this -> line_cmp['cmp_estado_civil_tempo'] . ' ano(s)</b></td></tr>';
-		$sx .= '<tr><td width="33%" class="lt2">Nome conjuge :<b> ' . $this -> line_cmp['cmp_conjuge_nome'] . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Profissão conjuge : <b>' . $this -> line_cmp['cmp_conjuge_profissao'] . '</b></td></tr>';
-		$sx .= '	<td width="33%" class="lt2">Salário conjuge :<b> R$ ' . number_format($this -> line_cmp['cmp_conjuge_salario'],2,',','.') . '</b></td>';
-		$sx .= '<tr><td width="33%" class="lt2">Patrimônio : <b>' . $this->sigla_patrimonio($this -> line_cmp['cmp_patrimonio']) . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Valor do aluguel :<b> R$ ' . number_format($this -> line_cmp['cmp_valor_aluguel'],2,',','.') . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Tempo do imóvel :<b> ' . $this -> line_cmp['cmp_imovel_tempo'] . ' ano(s)</b></td></tr>';
-		$sx .= '<tr><td width="33%" class="lt2">Propaganda 1 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda']) . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Propaganda 2 :<b> ' . $this->recupera_propaganda($this -> line_cmp['cmp_propaganda2']) . '</b></td></tr>';
-		$sx .= '</table>'; 
-		$sx .= '</div>
-		';
-		
-		return($sx);
-	}
 
+	
 	function sigla_patrimonio($sigla) {
 		switch ($sigla) {
 			case '1' :
