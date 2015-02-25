@@ -218,10 +218,11 @@ class cadastro_pre {
 		$sx .= '<tr><td width="33%" class="lt2">Mae: <b>' . $this -> line['pes_mae'] . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Pai: <b>' . $this -> line['pes_pai'] . '</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Profissão : <b>' . $this -> line_cmp['cmp_profissao'] . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Tempo de profissão :<b> ' . $this -> line_cmp['cmp_emprego_tempo'] . ' ano(s)</b>';
-		$sx .= '	<td width="33%" class="lt2">Experiência com vendas :<b> ' . $this -> line_cmp['cmp_experiencia_vendas'] . ' ano(s)</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Tempo de profissão :<b> ' . $this -> line_cmp['cmp_emprego_tempo'] . ' ano(s)</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Empresa :<b> ' . $this -> line_cmp['cmp_empresa'] . '</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Salário :<b> R$ ' . number_format($this -> line_cmp['cmp_salario'],2,',','.') . '</b></td>';
-		$sx .= '	<td width="33%" class="lt2">Salário complementar :<b> R$ ' . number_format($this -> line_cmp['cmp_salario_complementar'],2,',','.') . '</b></td></tr>';
+		$sx .= '	<td width="33%" class="lt2">Salário complementar :<b> R$ ' . number_format($this -> line_cmp['cmp_salario_complementar'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Experiência com vendas :<b> ' . $this -> line_cmp['cmp_experiencia_vendas'] . ' ano(s)</b></td></tr>';
 		$sx .= '<tr><td width="33%" class="lt2">Estado civil :<b> ' .$this->estado_civil($this -> line_cmp['cmp_estado_civil']) . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Tempo estado civil :<b> ' . $this -> line_cmp['cmp_estado_civil_tempo'] . ' ano(s)</b></td></tr>';
 		
@@ -234,7 +235,8 @@ class cadastro_pre {
 		$sx .= '<table width="100%">';
 		$sx .= '<tr><td width="33%" class="lt2">Nome conjuge :<b> ' . $this -> line_cmp['cmp_conjuge_nome'] . '</b></td>';
 		$sx .= '	<td width="33%" class="lt2">Profissão conjuge : <b>' . $this -> line_cmp['cmp_conjuge_profissao'] . '</b></td></tr>';
-		$sx .= '	<td width="33%" class="lt2">Salário conjuge :<b> R$ ' . number_format($this -> line_cmp['cmp_conjuge_salario'],2,',','.') . '</b></td>';
+		$sx .= '<tr><td width="33%" class="lt2">Salário conjuge :<b> R$ ' . number_format($this -> line_cmp['cmp_conjuge_salario'],2,',','.') . '</b></td>';
+		$sx .= '	<td width="33%" class="lt2">Empresa conjuge : <b>' . $this -> line_cmp['cmp_conjuge_empresa'] . '</b></td></tr>';
 		
 		$sx .= '</table>'; 
 		$sx .= '</div>';
@@ -456,9 +458,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Geral</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickTT_d. round($this -> statusTT_d['TT']) . '
@@ -472,9 +474,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Aprovados</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickA_d. round($this -> statusTT_d['A']) . '
@@ -488,9 +490,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Analise</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickT_d. round($this -> statusTT_d['T']) . '
@@ -504,9 +506,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Edição</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickY_d. round($this -> statusTT_d['@']) . '</a>
@@ -520,9 +522,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Recusados</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickR_d. round($this -> statusTT_d['R']) . '
@@ -536,9 +538,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Comunicar Aprovação</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickE_d. round($this -> statusTT_d['E']) . '
@@ -552,9 +554,9 @@ class cadastro_pre {
 								<TD class="lt1" colspan=3  align="center"><B>Comunicar Recusa</B></td>
 								</TR>
 								<TR class="lt1" align="center">
-								<TD>no dia
-								<TD>na semana
-								<TD>no mês
+								<TD>30 dias
+								<TD>60 dias
+								<TD>90 dias
 								</TR>
 								<TR class="lt3" align="center">
 								<TD>' .$onclickF_d. round($this -> statusTT_d['F']) . '
@@ -578,7 +580,17 @@ class cadastro_pre {
 	}
 
 	function lista_status_dia($st) {
-		$dt = date('Ymd');
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+
+		/***1º dia da semana*/
+		$dt1 = date('Ymd', mktime(0, 0, 0, $m, ($d-30), $y));
+		/***ultimo dia da semana*/
+		$dt2 = date('Ymd', mktime(0, 0, 0, $m , $d, $y));
 		  
 		if($st!='TT'){ 
 			if (strlen(trim($st))>0) {
@@ -589,8 +601,10 @@ class cadastro_pre {
 		
 		$sql = " select * 
 				from " . $this -> tabela . "
-				where 	pes_lastupdate = " . $dt .$stx. " 
+				where 	pes_lastupdate >= " . $dt1 . " and 
+						pes_lastupdate <= " . $dt2 . $stx."
 		";
+		
 		$rlt = db_query($sql);
 		$sx = '';
 		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
@@ -625,10 +639,17 @@ class cadastro_pre {
 	}
 	
 	function lista_status_mes($st) {
-		/*mes*/
-		$mes = date('Ym');
-		$dt1 = $mes . '01';
-		$dt2 = $mes . '32';
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+
+		/***1º dia da semana*/
+		$dt1 = date('Ymd', mktime(0, 0, 0, $m, ($d-90), $y));
+		/***ultimo dia da semana*/
+		$dt2 = date('Ymd', mktime(0, 0, 0, $m , $d, $y));
 		
 		if($st!='TT'){ 
 			if (strlen(trim($st))>0) {
@@ -677,21 +698,17 @@ class cadastro_pre {
 		}
 
 	function lista_status_semana($st) {
+		$data = date('Ymd');	
+			
 		$d = date('d');
 		$m = date('m');
 		$y = date('Y');
 
-		/*mes*/
-		$mes = date('Ym');
-		$dt1 = $mes . '01';
-		$dt2 = $mes . '32';
 
-		/*semana*/
-		$w = date('w');
 		/***1º dia da semana*/
-		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
+		$dt1 = date('Ymd', mktime(0, 0, 0, $m, ($d-60), $y));
 		/***ultimo dia da semana*/
-		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
+		$dt2 = date('Ymd', mktime(0, 0, 0, $m , $d, $y));
 
 		if($st!='TT'){ 
 			if (strlen(trim($st))>0) {
@@ -701,9 +718,9 @@ class cadastro_pre {
 		
 		$sql = " select * 
 				from " . $this -> tabela . "
-				where 	(pes_data >= " . $dt1 . " and pes_data <= " . $dt2 . ") and
-						(pes_data >= " . $dt1_w . " and pes_data <= " . $dt2_w . ") ".$stx." 
-		";
+				where 	pes_lastupdate >= " . $dt1 . " and 
+				pes_lastupdate <= " . $dt2 . $stx;
+				
 		$rlt = db_query($sql);
 		$sx = '';
 		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
@@ -739,26 +756,21 @@ class cadastro_pre {
 	}
 
 	function obtem_quantidade_por_status_semana() {
+		$data = date('Ymd');	
+			
 		$d = date('d');
 		$m = date('m');
 		$y = date('Y');
 
-		/*mes*/
-		$mes = date('Ym');
-		$dt1 = $mes . '01';
-		$dt2 = $mes . '32';
 
-		/*semana*/
-		$w = date('w');
 		/***1º dia da semana*/
-		$dt1_w = date('Ymd', mktime(0, 0, 0, $m, $d - $w, $y));
+		$dt1 = date('Ymd', mktime(0, 0, 0, $m, ($d-60), $y));
 		/***ultimo dia da semana*/
-		$dt2_w = date('Ymd', mktime(0, 0, 0, $m , ($d - $w)+6, $y));
+		$dt2 = date('Ymd', mktime(0, 0, 0, $m , $d, $y));
 
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
-				where 	(pes_lastupdate >= " . $dt1 . " and pes_lastupdate <= " . $dt2 . ") and
-						(pes_lastupdate >= " . $dt1_w . " and pes_lastupdate <= " . $dt2_w . ") 
+				where 	pes_lastupdate >= " . $dt1 . " and pes_lastupdate <= " . $dt2 . " 
 				group by pes_status		 
 		";
 		$rlt = db_query($sql);
@@ -772,10 +784,21 @@ class cadastro_pre {
 	}
 
 	function obtem_quantidade_por_status_mes() {
-		/*mes*/
-		$mes = date('Ym');
-		$dt1 = $mes . '01';
-		$dt2 = $mes . '32';
+			
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+
+		/***1º dia da semana*/
+		$dt1 = date('Ymd', mktime(0, 0, 0, $m, ($d-90), $y));
+		/***ultimo dia da semana*/
+		$dt2 = date('Ymd', mktime(0, 0, 0, $m , $d, $y));
+		
+		
+
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
 				where 	pes_lastupdate >= " . $dt1 . " and 
@@ -793,10 +816,22 @@ class cadastro_pre {
 	}
 
 	function obtem_quantidade_por_status_dia() {
-		$dt = date('Ymd');
+		$data = date('Ymd');	
+			
+		$d = date('d');
+		$m = date('m');
+		$y = date('Y');
+
+
+		/***1º dia da semana*/
+		$dt1 = date('Ymd', mktime(0, 0, 0, $m, ($d-30), $y));
+		/***ultimo dia da semana*/
+		$dt2 = date('Ymd', mktime(0, 0, 0, $m , $d, $y));
+		
 		$sql = " select pes_status as status, count(pes_status) as total 
 				from " . $this -> tabela . "
-				where 	pes_lastupdate = " . $dt . " 
+				where 	pes_lastupdate >= " . $dt1 . " and 
+						pes_lastupdate <= " . $dt2 . "
 				group by pes_status		 
 		";
 		$rlt = db_query($sql);
@@ -2490,7 +2525,7 @@ class cadastro_pre {
 		$rlt = db_query($sql);
 		
 		$sx .= '<table width=100% class="pad5" style="background-color: #F0F0F0;overflow:scroll;">';
-		$sx .= "<tr><th colspan=6 align=left><h2>Agendamentos do mês.</h2></th>";
+		$sx .= "<tr><th colspan=6 align=left><h2>Agendamentos de mês.</h2></th>";
 		$sx .= '<tr><th width="5%" align="center">Agendado</th>
 					<th width="5%" align="center">Cliente</th>
 					<th width="25%" align="left">Nome</th>
