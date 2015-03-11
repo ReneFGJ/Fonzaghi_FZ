@@ -2340,6 +2340,34 @@ class cadastro_pre {
 		return($sx);
 	}
 	
+	function site($width=100){
+		$sxx = $this->total_site();
+		$sx = '
+		<div class="pad5 radius10" style="background-color: #F0F0F0; width:'.$width.'%;">
+			<table width="100%" border=0 class="tabela00">
+				<tr><td rowspan="8"><img src="../img/imgboxsite.png" width="200"></td>
+				<tr><td align="center" width="200"><a><b>Cadastros pendetes</b></a><br><a class="lt5" href="pre_site.php" >'.$sxx.'</a></td></tr>
+			</table>
+		</div>
+		';
+		return($sx);
+	}
+	
+	function total_site(){
+		
+		$sql = "
+			select count(*) as tt from cad_site
+			where sit_status='@';
+		";
+		
+		$rlt = db_query($sql);
+		if($line = db_read($rlt)){
+			$sx = $line['tt'];		
+		}
+		
+		return($sx);
+	}
+	
 	function total_agendado(){
 		$data = date('Ymd');	
 			
@@ -2571,6 +2599,31 @@ class cadastro_pre {
 			}
 		}
 		return $maskared;
+	}
+
+	function relatorio_log(){
+		$sql = " SELECT * FROM cad_pessoa_log 
+				 where log_cliente='".$this->cliente."'; ";
+		$rlt = db_query($sql);
+		
+		$sx = '<div class="noprint"><h2>Histórico de alterações</h2>';
+		$sx .= '<table class="radius5" width="100%"><tr>';
+		$sx .= '<th align="center">Login</th>';
+		$sx .= '<th align="left">Ação</th>';
+		$sx .= '<th align="center">Data</th>';
+		$sx .= '<th align="center">Hora</th>';
+		$sx .= '</tr>';
+		while($line = db_read($rlt)){
+			$sx .= '<tr>';
+			$sx .= '<td align="center">'.$line['log_login'].'</td>';
+			$sx .= '<td align="left">'.$line['log_acao'].'</td>';
+			$sx .= '<td align="center">'.stodbr($line['log_data']).'</td>';
+			$sx .= '<td align="center">'.$line['log_hora'].'</td>';
+			$sx .= '</tr>';
+		}
+		$sx .= '</table></div>';
+		return($sx);
+		
 	}
 	
 }

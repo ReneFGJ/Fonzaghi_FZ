@@ -77,6 +77,7 @@ echo '<div class="print_resumo">';
 	require("../../_db/db_mysql_pre_cad.php");
 	
 	echo $cm->comment_display();
+	echo $pre->relatorio_log();
 
 echo '</div>';
 
