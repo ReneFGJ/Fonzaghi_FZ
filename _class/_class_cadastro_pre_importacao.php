@@ -52,7 +52,7 @@ class cadastro_pre_importacao extends cadastro_pre{
 				$this->error = "Já existe este CPF cadastrado, foi enviando para nova analise!!!";
 				$status = 'A';
 				$cliente = $line['pes_cliente'];
-				$sql = " update cadastro set cl_status='$status',cl_dtcadastro=".date('Ymd')." ,cl_last=".date('Ymd')." 
+				$sql = " update cadastro set cl_status='$status',cl_last=".date('Ymd')." 
 							where cl_cpf='".$cpf."'
 						";
 				$rlt = db_query($sql);

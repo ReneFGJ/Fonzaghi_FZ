@@ -311,18 +311,20 @@ class acp
      		global $base_name,$base_server,$base_host,$base_user,$base;
 			require($this->include_db.'db_informsystem.php');
      		$sql = "select * from consulta_acp where c_cpf = '".$cpf."' 
-     				order by c_data
+     				order by c_data  desc limit 1
      		";
      		$rlt = db_query($sql);
 			$ok = 0;
-			while ($line = db_read($rlt))
+			if ($line = db_read($rlt))
 				{
-					$ok = 1;
 					$this->result = $line['c_texto'];
 					$this->atualizado = $line['c_data'];
 					$this->registrado = $line['c_resultado'];
+					return(1);
+				}else{
+					return(0);
 				}
-			return($ok);
+			
      	}
     }
 ?>

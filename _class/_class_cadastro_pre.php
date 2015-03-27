@@ -1509,7 +1509,7 @@ class cadastro_pre {
 		/*1*/array_push($cp, array('$H8', 'end_cliente', '', False, True));
 		/*2*/array_push($cp, array('$H8', '', '', False, True));
 		/*3*/array_push($cp, array('$H8', '', '', False, True));
-		/*4*/array_push($cp, array('$S10', 'end_cep', 'CEP', TRUE, True));
+		/*4*/array_push($cp, array('$S8', 'end_cep', 'CEP', TRUE, True));
 		/*5*/array_push($cp, array('$S100', 'end_rua', 'Endereco', True, True));
 		/*6*/array_push($cp, array('$S10', 'end_numero', 'Numero', True, True));
 		/*7*/array_push($cp, array('$S30', 'end_complemento', 'Complemento', False, True));
@@ -2167,7 +2167,7 @@ class cadastro_pre {
 			$geo = new geocode;
 			$geo -> consulta_api_sem_update($cep,$_SESSION['cad_cliente']);
 			$sql = 'select * from (select * from logradouros 
-					where no_logradouro_cep='.$cep.') as tb 
+					where no_logradouro_cep='.$cep.' limit 1) as tb 
 					inner join bairros on bairros.cd_bairro=tb.cd_bairro
 					inner join cidades on cidades.cd_cidade=bairros.cd_cidade 
 					inner join uf on uf.cd_uf=cidades.cd_uf
