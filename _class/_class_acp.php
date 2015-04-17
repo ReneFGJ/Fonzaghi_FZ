@@ -44,6 +44,7 @@ class acp
 	var $TTrestricoesCHQ=0;
 	var $TTrestricoes_vlr=0;
 	var $informantesSPC;
+	var $complementarSPC;
 	
 	function __construct()
 	{
@@ -132,7 +133,7 @@ class acp
 		}	
 		return(1);
 	}
-	
+
 
 	function carregar_dados_CHQ_242_CCF_BACEN(){
 		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-CHQ'};
@@ -154,11 +155,26 @@ class acp
     	return(1);
 	}
 	
+	function carregar_dados_SPC_122_DADOS(){
+		$xml_r = $this->xml->{'RESPOSTA'}->{'REGISTRO-ACSP-SPC'}->{'SPC-122-DADOS'}->{'SPC-124-COMPLEMENTAR'};
+		$r = array();
+		if (isset($xml_r)) {
+			foreach ($xml_r as $k) {
+				$tipo = $k->{'SPC-124-MSG'};
+				array_push($r,array($tipo)); 
+			}
+			$this -> complementarSPC = $r;
+		}	
+		return(1);
+	}
+
+	
 	function calcular_restricoes($cpf){
 		$this->mostra_consulta($cpf);
 		$this->carregar_dados_CHQ_242_CCF_BACEN();
 		$this->carregar_dados_SPC_125_DEBITO();
 		$this->carregar_dados_SPC_126_CONSULTA();
+		$this->carregar_dados_SPC_122_DADOS();
 		$this->TTrestricoes = $this->TTrestricoesCHQ + $this->TTrestricoesSCP; 
 		return(1);
 	}

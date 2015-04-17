@@ -173,8 +173,10 @@ class cadastro_pre_analise extends cadastro_pre {
 		$this -> TTrestricoes_vlr = $acp -> TTrestricoes_vlr;
 		$this -> restricoesACP = $acp->restricoesSPC;
 		$this -> informantesACP = $acp->informantesSPC;
+		$this -> complementarACP = $acp->complementarSPC;
 		$this->restricoesACP();
 		$this->informantesACP();
+		$this->complementarACP();
 		return (1);
 	}
 	
@@ -204,6 +206,17 @@ class cadastro_pre_analise extends cadastro_pre {
 						<td align="left" class="left radius5 margin5 pad5 border1 orange_light">'.$value[2].'</td></tr>';	
 		}
 		$sx .= '</table>';
+		return($sx);
+	}
+	
+	function complementarACP(){
+		$sx = '<table class="left radius5 margin5 pad5 border1 orange_light" width="100%">';
+		$sx .= '<tr><th width="100%" align="left">Complementar</th></tr>';
+		foreach ($this -> complementarACP as $key => $value) {
+			$sx .= '<tr><td align="left" class="pad5  orange_light">'.$value[0].'</td></tr>';	
+		}
+		$sx .= '</table>';
+		 
 		return($sx);
 	}
 	

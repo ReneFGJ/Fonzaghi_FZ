@@ -60,6 +60,8 @@ switch($verb) {
 		echo $pre -> mostra_resumo();
 		echo $pre->restricoesACP();
 		echo $pre->informantesACP();
+		echo $pre->complementarACP();
+		
 		
 		echo '<br><br><br>';
 		break;
@@ -129,7 +131,6 @@ switch($verb) {
 			$pre -> le($cliente);
 			require($include_db.'db_cadastro.php');
 			$vld = $imp->gera_query_insert($pre); 
-			
 			switch ($vld) {
 				case 0:
 						echo '<script>alert("Erro : '.$imp->error.'")</script>';
@@ -158,6 +159,7 @@ switch($verb) {
 					
 					$pre->salvar_status($aux,$aux2);
 					/*redireciona com delay de 5 segundos*/
+					
 					redirecionar("pre_cliente_ver.php?dd0=".$aux,2);
 					break;
 			}	

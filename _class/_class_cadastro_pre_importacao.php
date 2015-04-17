@@ -8,7 +8,7 @@
  * @package _class
  * @subpackage _class_cadastro_pre_importacao.php
  */
-
+require_once ('_class_cadastro_pre.php');
 class cadastro_pre_importacao extends cadastro_pre{
 	var $clientes = array();
 	var $include_db = '../../_db/';
@@ -58,6 +58,7 @@ class cadastro_pre_importacao extends cadastro_pre{
 				$rlt = db_query($sql);
 				return (1);				
 			}else{
+				
 				//não existe
 				$status = 'A';
 				$cliente = $line['pes_cliente'];
@@ -79,7 +80,9 @@ class cadastro_pre_importacao extends cadastro_pre{
 						  '" . $line['pes_nome'].' ' . $cpf . "','".$prop1.$prop2."'
 						  
 						  );" . chr(13) . chr(10);
+				
 				$rlt = db_query($sql);
+				$this->importa_telefones();
 				return (2);
 			}
 		}else{
@@ -88,12 +91,100 @@ class cadastro_pre_importacao extends cadastro_pre{
 		
 	}
 
-	/**exemplo
-	 *mask($cnpj,'##.###.###/####-##');
-	 *mask($cpf,'###.###.###-##');
-	 *mask($cep,'#####-###');
-	 *mask($data,'##/##/####');
+	function importa_telefones(){
+		global $base_name, $base_server, $base_host, $base_user, $base,$base_port, $conn;
+		require($this->include_db.'db_mysql_pre_cad.php');
+		$sql = "
+		select * from 
+			(select * from FGHI.cad_pessoa) as tb 
+		inner join FGHI.cad_telefone on tel_cliente=pes_cliente
+		where tel_status=1 and tel_import=0
+		;
+		";
+		$rlt = db_query($sql);
+		$sx = "<table>";
+		$sx .= "<tr><td>Cliente</td></tr>";
+		while($line = db_read($rlt)){
+			$id_tel = $line['id_tel'];
+			$cliente = $line['tel_cliente'];	
+			$ddd = $line['tel_ddd'];
+			$numero = sonumero($line['tel_numero']);
+			$tipo = $this->tipo_mysql_to_postgres($line['tel_tipo']);
+			$data = $line['tel_data'];
+			$validado = $line['tel_validado'];
+			$log_last = $line['pes_lastupdate_log'];
+			
+			$sx .= "<tr>";			
+			$sx .= "<td>".$cliente."</td>";
+			$sx .= "<td>".$ddd."</td>";
+			$sx .= "<td>".$numero."</td>";
+			$sx .= "<td>".$tipo."</td>";
+			$sx .= "<td>".$data."</td>";
+			$sx .= "<td>".$validado."</td>";
+			$sx .= "</tr>";
+			$this->grava_postgres($ddd,$numero,$data,$cliente,$tipo,$validado,$log_last);
+			$this->atualiza_mysql($id_tel);
+		}
+		$sx .= "</table>";
+		
+		return($sx);
+	}
+
+	function grava_postgres($ddd,$numero,$data,$cliente,$tipo,$validado){
+		global $base_name, $base_server, $base_host, $base_user, $base,$base_port, $conn;
+		require($this->include_db.'db_cadastro.php');
+		$sql = "
+			INSERT INTO telefones_intra(
+	            tel_ddd, tel_fone, tel_data, 
+	            tel_cliente, tel_atualizado, 
+	            tel_tipo, tel_checado, tel_ativo)
+	    	VALUES ('".$ddd."', '".$numero."', '".$data."',
+	    			'".$cliente."', '".date('Ymd')."',
+	    			'".$tipo."', '".$validado."',1
+	    		);
+		";
+		$rlt = db_query($sql);
+		return(1);
+	}
+	
+	function atualiza_mysql($id_tel){
+		global $base_name, $base_server, $base_host, $base_user, $base,$base_port, $conn;
+		require($this->include_db.'db_mysql_pre_cad.php');
+		$sql = "
+				UPDATE cad_telefone
+				SET tel_import = '1'
+				WHERE id_tel = ".$id_tel.";
+			";
+		$rlt = db_query($sql);	
+		
+	}
+
+	/**
+	 *Converte tipo de telefone da base mysql para postgre 
 	 */
+	function tipo_mysql_to_postgres($tipo){
+		switch ($tipo) {
+			case 'M':
+				$tipox = 'C';
+				break;
+			case 'R':
+				$tipox = 'F';
+				break;
+			case 'C':
+				$tipox = 'E';
+				break;
+			case 'E':
+				$tipox = 'R';
+				break;			
+			default:
+				$tipox = '-';
+				break;
+		}
+		return($tipox);
+	}
+	
+	
+
 	
 
 }

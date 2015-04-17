@@ -1150,12 +1150,7 @@ class cadastro_pre {
 		return ($sx);
 	}
 
-	function lista_restrições(){
-		$acp = new acp;
-		$acp = '';
-		return($sx);
-	}
-
+	
 	function insere_referencia($nome, $ddd, $telefone, $obs, $data, $grau) {
 		$cliente = $this -> cliente;
 		$data = date("Ymd");
@@ -2115,7 +2110,7 @@ class cadastro_pre {
 		/*quebra de pagina*/
 		$sx .= '<div class="break"></div>';
 		$sx .= '<h3>Restrições</h3>';
-		$sx .= $this->lista_restrições();
+		//$sx .= $this->lista_restrições();
 		
 		return($sx);
 	}
